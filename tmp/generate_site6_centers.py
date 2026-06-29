@@ -17,7 +17,7 @@ COMMON = ASSETS / "centers" / "common"
 SITE_NAME = "와와센터 학습코칭"
 ORG_NAME = "와와센터 학습코칭"
 PHONE = "010-3957-8283"
-BASE_URL = "https://wawacenter.vercel.app"
+BASE_URL = "https://xn--3e0bz50bxucwzc.com"
 FORM_URL = "https://docs.google.com/forms/d/e/1FAIpQLSdb2oE5Qk5YS0TfYDxyV1w-IOTkhkjOCmmpAKTI9FmqpVj6Yg/viewform"
 SMS_URL = "https://blogsms.net/01039578283"
 
