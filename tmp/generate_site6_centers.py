@@ -452,11 +452,135 @@ def english_math_depth_section(row: dict, title: str, area: str) -> str:
 """
 
 
+def geo_summary_section(row: dict, title: str, area: str, kind: str) -> str:
+    title_e = html.escape(title)
+    area_e = html.escape(area)
+    region_e = html.escape(row["region_name"])
+    district_e = html.escape(row["district_name"])
+    if kind == "english_math":
+        summary = f"이 페이지는 {title_e} 정보를 찾는 {area_e} 학생과 학부모를 위해, 영어 어휘·문법·독해 흐름과 수학 개념·유형·오답 원인을 따로 진단하고 주간 플래너와 시험 전 복습 순서까지 함께 정리한 영어·수학 학습 안내입니다."
+        point_1 = ("핵심 과목", "영어 · 수학")
+        point_2 = ("중점 관리", "어휘·독해 · 개념·유형 · 오답")
+        point_3 = ("추천 대상", "두 과목의 공부 시간이 흔들리는 학생")
+    elif kind == "coaching":
+        summary = f"이 페이지는 {title_e} 정보를 찾는 {area_e} 학생과 학부모를 위해, 현재 공부 습관과 과목별 약점, 오답 반복 원인을 상담에서 확인하고 플래너 실행과 재학습까지 이어지도록 정리한 학습코칭 안내입니다."
+        point_1 = ("핵심 과정", "진단 · 계획 · 실행 확인")
+        point_2 = ("중점 관리", "플래너 · 오답 · 학부모 피드백")
+        point_3 = ("추천 대상", "공부 과정 관리가 필요한 학생")
+    else:
+        summary = f"이 페이지는 {title_e} 정보를 찾는 {region_e} {district_e} {area_e} 학생과 학부모를 위해, 초등·중등·고등 영어·수학·국어 학습 상태 진단과 플래너 관리, 오답 재학습 기준을 한눈에 볼 수 있게 정리한 지역 학습 안내입니다."
+        point_1 = ("대상 지역", f"{region_e} {district_e} {area_e}")
+        point_2 = ("수업 범위", "초등 · 중등 · 고등")
+        point_3 = ("관리 과목", "국어 · 영어 · 수학")
+    return f"""    <section class=\"section geo-summary-section\" aria-labelledby=\"geo-summary-title\">
+      <div class=\"geo-summary-card\">
+        <div>
+          <p class=\"eyebrow\">Key Summary</p>
+          <h2 id=\"geo-summary-title\">{title_e} 핵심 요약</h2>
+          <p>{summary}</p>
+        </div>
+        <dl class=\"geo-summary-facts\">
+          <div><dt>{html.escape(point_1[0])}</dt><dd>{html.escape(point_1[1])}</dd></div>
+          <div><dt>{html.escape(point_2[0])}</dt><dd>{html.escape(point_2[1])}</dd></div>
+          <div><dt>{html.escape(point_3[0])}</dt><dd>{html.escape(point_3[1])}</dd></div>
+        </dl>
+      </div>
+    </section>
+"""
+
+
+def geo_answer_section(row: dict, title: str, area: str, kind: str) -> str:
+    title_e = html.escape(title)
+    area_e = html.escape(area)
+    if kind == "english_math":
+        cards = [
+            ("무엇을 확인하나요?", f"{area_e} 학생의 영어 어휘·문법·독해 흐름과 수학 개념·유형·오답 원인을 나누어 확인합니다."),
+            ("어떻게 관리하나요?", "영어 암기와 독해, 수학 개념 복습과 문제풀이 시간이 한쪽으로 쏠리지 않도록 주간 플래너를 조정합니다."),
+            ("상담 때 필요한 자료", "최근 시험지, 현재 교재, 학교 진도, 수행평가 일정, 평소 숙제 습관을 함께 보면 우선순위를 잡기 쉽습니다."),
+        ]
+    elif kind == "coaching":
+        cards = [
+            ("무엇을 확인하나요?", f"{area_e} 학생의 공부 시간, 숙제 수행, 과목별 약점, 반복되는 오답 유형을 먼저 확인합니다."),
+            ("어떻게 관리하나요?", "진단 결과를 바탕으로 과목·단원·분량이 분명한 플래너를 세우고, 실행 여부와 오답 재학습을 함께 점검합니다."),
+            ("상담 때 필요한 자료", "최근 시험지, 현재 교재, 학교 진도, 평소 공부 시간, 숙제 습관을 알려주면 관리 방향을 더 정확히 잡을 수 있습니다."),
+        ]
+    else:
+        cards = [
+            ("무엇을 확인하나요?", f"{area_e} 학생의 학교 진도, 최근 시험지, 공부 습관, 과목별 약점을 함께 확인합니다."),
+            ("어떻게 관리하나요?", "초등은 습관과 기초, 중등은 내신과 수행평가, 고등은 시험 범위와 취약 유형 보완을 중심으로 관리합니다."),
+            ("상담 때 필요한 자료", "현재 교재와 시험지, 학교 진도, 수행평가 일정, 평소 공부 시간과 숙제 습관을 준비하면 좋습니다."),
+        ]
+    card_html = "\n".join(
+        f"""        <article class=\"geo-proof-card\">
+          <span>{html.escape(label)}</span>
+          <p>{html.escape(body)}</p>
+        </article>"""
+        for label, body in cards
+    )
+    return f"""    <section class=\"section geo-answer-section\">
+      <div class=\"section-head center\">
+        <p class=\"eyebrow\">Answer Ready</p>
+        <h2>{title_e} 한눈에 이해하기</h2>
+        <p class=\"lead\">검색엔진과 생성형 검색이 페이지의 목적을 더 정확히 이해할 수 있도록, 상담 기준과 관리 흐름을 짧은 답변 형태로 정리했습니다.</p>
+      </div>
+      <div class=\"geo-proof-grid\">
+{card_html}
+      </div>
+    </section>
+"""
+
+
+def schema_about(row: dict, title: str, kind: str) -> list[dict]:
+    area = row["title_area"]
+    base = [
+        {"@type": "Thing", "name": title},
+        {"@type": "Place", "name": area},
+        {"@type": "Thing", "name": "학습코칭"},
+        {"@type": "Thing", "name": "플래너 관리"},
+        {"@type": "Thing", "name": "오답 재학습"},
+    ]
+    if kind == "english_math":
+        base.extend([{"@type": "Thing", "name": "영어학원"}, {"@type": "Thing", "name": "수학학원"}])
+    elif kind == "coaching":
+        base.extend([{"@type": "Thing", "name": "학습코칭학원"}, {"@type": "Thing", "name": "학부모 상담"}])
+    else:
+        base.extend([{"@type": "Thing", "name": "초등 학습관리"}, {"@type": "Thing", "name": "중등 내신 관리"}, {"@type": "Thing", "name": "고등 학습관리"}])
+    return base
+
+
+def schema_keywords(row: dict, title: str, kind: str) -> str:
+    area = row["title_area"]
+    common = [title, area, row["region_name"], row["district_name"], "학습코칭", "플래너 관리", "오답 재학습", "학부모 상담"]
+    if kind == "english_math":
+        common.extend(["영어수학학원", "영어학원", "수학학원", "내신 대비"])
+    elif kind == "coaching":
+        common.extend(["와와학습코칭학원", "진단 상담", "초등 중등 고등"])
+    else:
+        common.extend(["와와학습코칭센터", "초등", "중등", "고등", "국어 영어 수학"])
+    return ", ".join(dict.fromkeys(common))
+
+
+def organization_offers(area: str, service_prefix: str = "") -> list[dict]:
+    names = [
+        f"{area} 초등반 학습코칭",
+        f"{area} 중등반 내신 관리",
+        f"{area} 고등반 학습관리",
+    ]
+    if service_prefix:
+        names.insert(0, f"{area} {service_prefix}")
+    return [
+        {"@type": "Offer", "itemOffered": {"@type": "Service", "name": name, "serviceType": "TutoringService"}}
+        for name in names
+    ]
+
+
 def local_schema(row: dict, image_path: str, map_path: str) -> dict:
     title = row["page_title"]
     area = row["title_area"]
     faq = faq_items(title, area)
     reviews = review_items(area)
+    about = schema_about(row, title, "parent")
+    keywords = schema_keywords(row, title, "parent")
     return {
         "@context": "https://schema.org",
         "@graph": [
@@ -469,6 +593,9 @@ def local_schema(row: dict, image_path: str, map_path: str) -> dict:
                 "inLanguage": "ko-KR",
                 "primaryImageOfPage": {"@id": f"/전국센터/{row['slug']}/#primaryimage"},
                 "breadcrumb": {"@id": f"/전국센터/{row['slug']}/#breadcrumb"},
+                "mainEntity": {"@id": f"/전국센터/{row['slug']}/#service"},
+                "about": about,
+                "keywords": keywords,
             },
             {
                 "@type": "ImageObject",
@@ -502,6 +629,7 @@ def local_schema(row: dict, image_path: str, map_path: str) -> dict:
                 },
                 "knowsAbout": ["초등 학습코칭", "중등 내신 관리", "고등 학습관리", "영어 수학 국어 코칭", "오답 재학습"],
                 "contactPoint": {"@type": "ContactPoint", "telephone": "+82-10-3957-8283", "contactType": "학습 상담", "availableLanguage": "Korean"},
+                "makesOffer": organization_offers(area),
                 "aggregateRating": {"@type": "AggregateRating", "ratingValue": "5", "bestRating": "5", "ratingCount": "3", "reviewCount": "3"},
                 "review": [
                     {
@@ -525,6 +653,8 @@ def local_schema(row: dict, image_path: str, map_path: str) -> dict:
                 "author": {"@id": f"/전국센터/{row['slug']}/#organization"},
                 "publisher": {"@type": "Organization", "name": ORG_NAME, "url": "/"},
                 "mainEntityOfPage": {"@id": f"/전국센터/{row['slug']}/#webpage"},
+                "about": about,
+                "keywords": keywords,
             },
             {
                 "@type": "Service",
@@ -535,6 +665,7 @@ def local_schema(row: dict, image_path: str, map_path: str) -> dict:
                 "provider": {"@id": f"/전국센터/{row['slug']}/#organization"},
                 "areaServed": {"@type": "Place", "name": area},
                 "audience": {"@type": "EducationalAudience", "educationalRole": "student"},
+                "about": about,
             },
             {
                 "@type": "ItemList",
@@ -565,6 +696,8 @@ def child_schema(row: dict, image_path: str, map_path: str) -> dict:
     faq = child_faq_items(title, area)
     reviews = child_review_items(area)
     url = f"/전국센터/{row['slug']}/와와학습코칭학원/"
+    about = schema_about(row, title, "coaching")
+    keywords = schema_keywords(row, title, "coaching")
     return {
         "@context": "https://schema.org",
         "@graph": [
@@ -577,6 +710,9 @@ def child_schema(row: dict, image_path: str, map_path: str) -> dict:
                 "inLanguage": "ko-KR",
                 "primaryImageOfPage": {"@id": f"{url}#primaryimage"},
                 "breadcrumb": {"@id": f"{url}#breadcrumb"},
+                "mainEntity": {"@id": f"{url}#service"},
+                "about": about,
+                "keywords": keywords,
             },
             {
                 "@type": "ImageObject",
@@ -611,6 +747,7 @@ def child_schema(row: dict, image_path: str, map_path: str) -> dict:
                 },
                 "knowsAbout": ["학습코칭학원", "초등 학습관리", "중등 내신 관리", "고등 학습관리", "영어 수학 국어 코칭", "오답 재학습"],
                 "contactPoint": {"@type": "ContactPoint", "telephone": "+82-10-3957-8283", "contactType": "학습 상담", "availableLanguage": "Korean"},
+                "makesOffer": organization_offers(area, "진단 상담"),
                 "aggregateRating": {"@type": "AggregateRating", "ratingValue": "5", "bestRating": "5", "ratingCount": "3", "reviewCount": "3"},
                 "review": [
                     {
@@ -634,6 +771,8 @@ def child_schema(row: dict, image_path: str, map_path: str) -> dict:
                 "author": {"@id": f"{url}#organization"},
                 "publisher": {"@type": "Organization", "name": ORG_NAME, "url": "/"},
                 "mainEntityOfPage": {"@id": f"{url}#webpage"},
+                "about": about,
+                "keywords": keywords,
             },
             {
                 "@type": "Service",
@@ -644,6 +783,7 @@ def child_schema(row: dict, image_path: str, map_path: str) -> dict:
                 "provider": {"@id": f"{url}#organization"},
                 "areaServed": {"@type": "Place", "name": area},
                 "audience": {"@type": "EducationalAudience", "educationalRole": "student"},
+                "about": about,
             },
             {
                 "@type": "ItemList",
@@ -674,6 +814,8 @@ def english_math_schema(row: dict, image_path: str, map_path: str) -> dict:
     faq = english_math_faq_items(title, area)
     reviews = english_math_review_items(area)
     url = f"/전국센터/{row['slug']}/영어수학학원/"
+    about = schema_about(row, title, "english_math")
+    keywords = schema_keywords(row, title, "english_math")
     return {
         "@context": "https://schema.org",
         "@graph": [
@@ -686,6 +828,9 @@ def english_math_schema(row: dict, image_path: str, map_path: str) -> dict:
                 "inLanguage": "ko-KR",
                 "primaryImageOfPage": {"@id": f"{url}#primaryimage"},
                 "breadcrumb": {"@id": f"{url}#breadcrumb"},
+                "mainEntity": {"@id": f"{url}#service"},
+                "about": about,
+                "keywords": keywords,
             },
             {
                 "@type": "ImageObject",
@@ -720,6 +865,7 @@ def english_math_schema(row: dict, image_path: str, map_path: str) -> dict:
                 },
                 "knowsAbout": ["영어학원", "수학학원", "영어 수학 학습관리", "초등 영어수학", "중등 내신", "고등 영어수학", "오답 재학습"],
                 "contactPoint": {"@type": "ContactPoint", "telephone": "+82-10-3957-8283", "contactType": "영어수학 학습 상담", "availableLanguage": "Korean"},
+                "makesOffer": organization_offers(area, "영어수학 학습관리"),
                 "aggregateRating": {"@type": "AggregateRating", "ratingValue": "5", "bestRating": "5", "ratingCount": "3", "reviewCount": "3"},
                 "review": [
                     {
@@ -743,6 +889,8 @@ def english_math_schema(row: dict, image_path: str, map_path: str) -> dict:
                 "author": {"@id": f"{url}#organization"},
                 "publisher": {"@type": "Organization", "name": ORG_NAME, "url": "/"},
                 "mainEntityOfPage": {"@id": f"{url}#webpage"},
+                "about": about,
+                "keywords": keywords,
             },
             {
                 "@type": "Service",
@@ -753,6 +901,7 @@ def english_math_schema(row: dict, image_path: str, map_path: str) -> dict:
                 "provider": {"@id": f"{url}#organization"},
                 "areaServed": {"@type": "Place", "name": area},
                 "audience": {"@type": "EducationalAudience", "educationalRole": "student"},
+                "about": about,
             },
             {
                 "@type": "ItemList",
@@ -801,6 +950,8 @@ def local_page(row: dict) -> str:
     )
     related_links = internal_links_section(row, "parent")
     depth_section = parent_depth_section(row, title, area)
+    summary_section = geo_summary_section(row, title, area, "parent")
+    answer_section = geo_answer_section(row, title, area, "parent")
     return f"""<!doctype html>
 <html lang=\"ko\">
 <head>
@@ -835,6 +986,8 @@ def local_page(row: dict) -> str:
         <span>영어·수학·국어</span>
       </div>
     </section>
+
+{summary_section}
 
     <section class=\"local-media-section\">
       <div class=\"local-media-card\">
@@ -875,6 +1028,8 @@ def local_page(row: dict) -> str:
     </section>
 
 {depth_section}
+
+{answer_section}
 
 {related_links}
 
@@ -940,6 +1095,8 @@ def child_page(row: dict) -> str:
     )
     related_links = internal_links_section(row, "child")
     depth_section = coaching_depth_section(row, title, area)
+    summary_section = geo_summary_section(row, title, area, "coaching")
+    answer_section = geo_answer_section(row, title, area, "coaching")
     return f"""<!doctype html>
 <html lang=\"ko\">
 <head>
@@ -974,6 +1131,8 @@ def child_page(row: dict) -> str:
         <span>플래너 · 오답 · 피드백</span>
       </div>
     </section>
+
+{summary_section}
 
     <section class=\"local-media-section\">
       <div class=\"local-media-card\">
@@ -1030,6 +1189,8 @@ def child_page(row: dict) -> str:
     </section>
 
 {depth_section}
+
+{answer_section}
 
 {related_links}
 
@@ -1095,6 +1256,8 @@ def english_math_page(row: dict) -> str:
     )
     related_links = internal_links_section(row, "english_math")
     depth_section = english_math_depth_section(row, title, area)
+    summary_section = geo_summary_section(row, title, area, "english_math")
+    answer_section = geo_answer_section(row, title, area, "english_math")
     return f"""<!doctype html>
 <html lang=\"ko\">
 <head>
@@ -1129,6 +1292,8 @@ def english_math_page(row: dict) -> str:
         <span>내신 · 오답 · 플래너</span>
       </div>
     </section>
+
+{summary_section}
 
     <section class=\"local-media-section\">
       <div class=\"local-media-card\">
@@ -1186,6 +1351,8 @@ def english_math_page(row: dict) -> str:
 
 {depth_section}
 
+{answer_section}
+
 {related_links}
 
     <section class=\"section split\">
@@ -1238,6 +1405,13 @@ def hub_schema(rows: list[dict]) -> dict:
                 "inLanguage": "ko-KR",
                 "breadcrumb": {"@id": "/전국센터/#breadcrumb"},
                 "mainEntity": {"@id": "/전국센터/#itemlist"},
+                "about": [
+                    {"@type": "Thing", "name": "전국학원"},
+                    {"@type": "Thing", "name": "와와학습코칭센터"},
+                    {"@type": "Thing", "name": "초중고 학습코칭"},
+                    {"@type": "Thing", "name": "동네별 학습관리"},
+                ],
+                "keywords": "전국학원, 와와학습코칭센터, 학습코칭, 초등, 중등, 고등, 영어, 수학, 국어, 동네별 학원",
             },
             {
                 "@type": "BreadcrumbList",
@@ -1293,6 +1467,7 @@ def hub_page(rows: list[dict]) -> str:
       </details>"""
         )
     schema = json.dumps(hub_schema(rows), ensure_ascii=False, separators=(",", ":"))
+    canonical = absolute_url("/전국센터/")
     return f"""<!doctype html>
 <html lang=\"ko\">
 <head>
@@ -1304,6 +1479,8 @@ def hub_page(rows: list[dict]) -> str:
   <meta property=\"og:type\" content=\"website\">
   <meta property=\"og:title\" content=\"전국학원 | {SITE_NAME}\">
   <meta property=\"og:description\" content=\"전국 371개 동네별 와와학습코칭센터 학습관리 안내.\">
+  <meta property=\"og:url\" content=\"{html.escape(canonical)}\">
+  <link rel=\"canonical\" href=\"{html.escape(canonical)}\">
   <link rel=\"icon\" href=\"../assets/favicon.png\">
   <link rel=\"stylesheet\" href=\"../assets/site.css\">
   <script type=\"application/ld+json\">{schema}</script>
