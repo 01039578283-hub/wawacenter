@@ -20,6 +20,8 @@ PHONE = "010-3957-8283"
 BASE_URL = "https://xn--3e0bz50bxucwzc.com"
 FORM_URL = "https://docs.google.com/forms/d/e/1FAIpQLSdb2oE5Qk5YS0TfYDxyV1w-IOTkhkjOCmmpAKTI9FmqpVj6Yg/viewform"
 SMS_URL = "https://blogsms.net/01039578283"
+DATE_PUBLISHED = "2026-06-29"
+DATE_MODIFIED = "2026-06-30"
 
 REGION_LABELS = {
     "seoul": "서울",
@@ -130,6 +132,10 @@ def enrich_slugs(rows: list[dict]) -> list[dict]:
 
 def rel_assets(depth: int = 2) -> str:
     return "../" * depth + "assets"
+
+
+def absolute_url(path: str) -> str:
+    return BASE_URL + quote(path, safe="/:#")
 
 
 def nav(active: str, prefix: str = "") -> str:
@@ -326,6 +332,126 @@ def internal_links_section(row: dict, current: str) -> str:
     </section>"""
 
 
+def parent_depth_section(row: dict, title: str, area: str) -> str:
+    region = html.escape(row["region_name"])
+    district = html.escape(row["district_name"])
+    title_e = html.escape(title)
+    area_e = html.escape(area)
+    return f"""    <section class=\"section split local-content seo-depth-section\">
+      <div class=\"section-title\">
+        <p class=\"eyebrow\">Local Study Detail</p>
+        <h2>{title_e} 선택 전 확인할<br>{area_e} 학습관리 포인트</h2>
+        <p class=\"lead\">{region} {district} 생활권 안에서도 학교 진도, 수행평가 일정, 학생별 공부 습관은 다르게 나타납니다. {area_e} 학생에게 필요한 관리는 단순 진도보다 현재 막히는 원인을 정확히 나누는 데서 시작합니다.</p>
+      </div>
+      <div class=\"child-focus-grid\">
+        <article>
+          <span>초</span>
+          <h3>{area_e} 초등 학습 습관</h3>
+          <p>초등반은 숙제 완성도, 교과 개념 이해, 문제를 읽는 순서를 함께 점검해 중등 학습으로 이어질 기초를 잡습니다.</p>
+        </article>
+        <article>
+          <span>중</span>
+          <h3>{area_e} 중등 내신 준비</h3>
+          <p>중등반은 학교 진도와 시험 범위를 기준으로 단원별 오답, 수행평가 일정, 주간 복습량을 나누어 관리합니다.</p>
+        </article>
+        <article>
+          <span>고</span>
+          <h3>{area_e} 고등 학습관리</h3>
+          <p>고등반은 과목별 우선순위와 시험 전 복습 순서를 정리해 부족한 단원과 취약 유형을 반복 확인합니다.</p>
+        </article>
+        <article>
+          <span>상</span>
+          <h3>{title_e} 상담 준비</h3>
+          <p>최근 시험지, 현재 교재, 학교 진도, 평소 공부 시간과 숙제 습관을 함께 보면 상담에서 더 구체적인 관리 기준을 잡을 수 있습니다.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class=\"section local-guide-panel seo-check-section\">
+      <div class=\"section-head center\">
+        <p class=\"eyebrow\">Who Needs Coaching</p>
+        <h2>{title_e} 추천 학생</h2>
+        <p class=\"lead\">점수만 올리는 설명보다, 공부 과정이 흔들리는 이유를 찾고 매주 실행 여부를 확인해야 하는 학생에게 적합합니다.</p>
+      </div>
+      <div class=\"local-info-grid\">
+        <div><b>계획이 자주 밀리는 학생</b><span>분량·마감·완료 기준을 구체적으로 나누어 확인합니다.</span></div>
+        <div><b>오답이 반복되는 학생</b><span>틀린 이유를 개념, 실수, 유형, 시간 문제로 나눠 다시 봅니다.</span></div>
+        <div><b>시험 전 불안한 학생</b><span>시험 범위와 복습 순서를 정리해 마지막 점검 흐름을 만듭니다.</span></div>
+      </div>
+    </section>
+"""
+
+
+def coaching_depth_section(row: dict, title: str, area: str) -> str:
+    title_e = html.escape(title)
+    area_e = html.escape(area)
+    return f"""    <section class=\"section split local-content seo-depth-section\">
+      <div class=\"section-title\">
+        <p class=\"eyebrow\">Coaching Detail</p>
+        <h2>{title_e}에서 보는<br>학년별 관리 기준</h2>
+        <p class=\"lead\">학습코칭은 모든 학생에게 같은 진도를 적용하는 방식이 아니라, {area_e} 학생의 현재 습관과 과목별 약점을 확인한 뒤 필요한 순서를 잡는 과정입니다.</p>
+      </div>
+      <div class=\"child-focus-grid\">
+        <article>
+          <span>01</span>
+          <h3>추천하는 학생</h3>
+          <p>공부 시간은 쓰고 있지만 결과가 불안정하거나, 숙제와 오답 정리가 매주 밀리는 학생에게 도움이 됩니다.</p>
+        </article>
+        <article>
+          <span>02</span>
+          <h3>초등·중등·고등 구분</h3>
+          <p>초등은 습관과 기초, 중등은 내신과 수행평가, 고등은 시험 범위와 취약 단원 보완을 중심으로 확인합니다.</p>
+        </article>
+        <article>
+          <span>03</span>
+          <h3>수업 후 확인</h3>
+          <p>그날 배운 내용이 실제 과제와 오답 재학습으로 이어졌는지 확인하고 다음 계획에 반영합니다.</p>
+        </article>
+        <article>
+          <span>04</span>
+          <h3>{area_e} 상담 포인트</h3>
+          <p>{area_e} 학교 진도와 학생의 현재 교재를 함께 보면 필요한 과목과 단원을 더 빠르게 정리할 수 있습니다.</p>
+        </article>
+      </div>
+    </section>
+"""
+
+
+def english_math_depth_section(row: dict, title: str, area: str) -> str:
+    title_e = html.escape(title)
+    area_e = html.escape(area)
+    return f"""    <section class=\"section split local-content seo-depth-section\">
+      <div class=\"section-title\">
+        <p class=\"eyebrow\">Subject Detail</p>
+        <h2>{title_e} 선택 전<br>영어·수학을 따로 봐야 하는 이유</h2>
+        <p class=\"lead\">영어와 수학은 같은 시간표 안에서 관리하더라도 막히는 원인이 다릅니다. {area_e} 학생의 어휘·문법·독해 흐름과 수학 개념·유형·오답 원인을 나누어 봐야 관리 방향이 선명해집니다.</p>
+      </div>
+      <div class=\"child-focus-grid\">
+        <article>
+          <span>EN</span>
+          <h3>영어 관리 포인트</h3>
+          <p>어휘 누적, 문법 적용, 독해 속도, 학교 시험 유형을 확인해 먼저 보완할 영역을 정리합니다.</p>
+        </article>
+        <article>
+          <span>MA</span>
+          <h3>수학 관리 포인트</h3>
+          <p>개념 이해, 계산 실수, 유형 적용, 시간 배분 문제를 구분해 다시 맞힐 수 있는 기준을 만듭니다.</p>
+        </article>
+        <article>
+          <span>PL</span>
+          <h3>과목별 분량 조정</h3>
+          <p>영어 암기와 독해, 수학 개념과 문제풀이 시간이 한쪽으로 쏠리지 않도록 주간 계획을 조정합니다.</p>
+        </article>
+        <article>
+          <span>EX</span>
+          <h3>{area_e} 내신 대비</h3>
+          <p>시험 기간에는 영어 지문·문법 포인트와 수학 단원별 오답을 시험 범위에 맞춰 다시 확인합니다.</p>
+        </article>
+      </div>
+    </section>
+"""
+
+
 def local_schema(row: dict, image_path: str, map_path: str) -> dict:
     title = row["page_title"]
     area = row["title_area"]
@@ -360,9 +486,10 @@ def local_schema(row: dict, image_path: str, map_path: str) -> dict:
                 ],
             },
             {
-                "@type": "EducationalOrganization",
+                "@type": ["EducationalOrganization", "LocalBusiness"],
                 "@id": f"/전국센터/{row['slug']}/#organization",
                 "name": title,
+                "alternateName": ["와와센터", "와와학습코칭센터"],
                 "url": f"/전국센터/{row['slug']}/",
                 "telephone": PHONE,
                 "openingHours": "Mo-Sa 12:00-24:00",
@@ -393,6 +520,8 @@ def local_schema(row: dict, image_path: str, map_path: str) -> dict:
                 "description": f"{area} 지역 학생을 위한 와와학습코칭센터 학습관리 안내입니다.",
                 "image": [image_path, map_path],
                 "inLanguage": "ko-KR",
+                "datePublished": DATE_PUBLISHED,
+                "dateModified": DATE_MODIFIED,
                 "author": {"@id": f"/전국센터/{row['slug']}/#organization"},
                 "publisher": {"@type": "Organization", "name": ORG_NAME, "url": "/"},
                 "mainEntityOfPage": {"@id": f"/전국센터/{row['slug']}/#webpage"},
@@ -401,9 +530,22 @@ def local_schema(row: dict, image_path: str, map_path: str) -> dict:
                 "@type": "Service",
                 "@id": f"/전국센터/{row['slug']}/#service",
                 "name": f"{area} 초중고 학습코칭",
+                "serviceType": "TutoringService",
                 "description": f"{area} 학생의 영어·수학·국어 학습 상태를 진단하고 플래너, 오답, 시험 대비 흐름을 관리합니다.",
                 "provider": {"@id": f"/전국센터/{row['slug']}/#organization"},
                 "areaServed": {"@type": "Place", "name": area},
+                "audience": {"@type": "EducationalAudience", "educationalRole": "student"},
+            },
+            {
+                "@type": "ItemList",
+                "@id": f"/전국센터/{row['slug']}/#checklist",
+                "name": f"{title} 학습관리 체크리스트",
+                "itemListElement": [
+                    {"@type": "ListItem", "position": 1, "name": f"{area} 학교 진도와 현재 실력 진단"},
+                    {"@type": "ListItem", "position": 2, "name": "초등·중등·고등 학년별 관리 기준 확인"},
+                    {"@type": "ListItem", "position": 3, "name": "플래너 실행 여부와 오답 재학습 점검"},
+                    {"@type": "ListItem", "position": 4, "name": "시험 전 복습 순서와 학부모 피드백 정리"},
+                ],
             },
             {
                 "@type": "FAQPage",
@@ -453,9 +595,10 @@ def child_schema(row: dict, image_path: str, map_path: str) -> dict:
                 ],
             },
             {
-                "@type": "EducationalOrganization",
+                "@type": ["EducationalOrganization", "LocalBusiness"],
                 "@id": f"{url}#organization",
                 "name": title,
+                "alternateName": ["와와센터", "와와학습코칭학원"],
                 "url": url,
                 "telephone": PHONE,
                 "openingHours": "Mo-Sa 12:00-24:00",
@@ -486,6 +629,8 @@ def child_schema(row: dict, image_path: str, map_path: str) -> dict:
                 "description": f"{area} 지역 학생을 위한 와와학습코칭학원 학습관리 안내입니다.",
                 "image": [image_path, map_path],
                 "inLanguage": "ko-KR",
+                "datePublished": DATE_PUBLISHED,
+                "dateModified": DATE_MODIFIED,
                 "author": {"@id": f"{url}#organization"},
                 "publisher": {"@type": "Organization", "name": ORG_NAME, "url": "/"},
                 "mainEntityOfPage": {"@id": f"{url}#webpage"},
@@ -494,9 +639,22 @@ def child_schema(row: dict, image_path: str, map_path: str) -> dict:
                 "@type": "Service",
                 "@id": f"{url}#service",
                 "name": f"{area} 와와학습코칭학원 학습관리",
+                "serviceType": "TutoringService",
                 "description": f"{area} 학생의 영어·수학·국어 학습 상태를 진단하고, 플래너 실행과 오답 재학습이 이어지도록 관리합니다.",
                 "provider": {"@id": f"{url}#organization"},
                 "areaServed": {"@type": "Place", "name": area},
+                "audience": {"@type": "EducationalAudience", "educationalRole": "student"},
+            },
+            {
+                "@type": "ItemList",
+                "@id": f"{url}#checklist",
+                "name": f"{title} 학습코칭 체크리스트",
+                "itemListElement": [
+                    {"@type": "ListItem", "position": 1, "name": f"{area} 학생의 현재 실력과 공부 습관 진단"},
+                    {"@type": "ListItem", "position": 2, "name": "과목·단원·분량이 분명한 플래너 관리"},
+                    {"@type": "ListItem", "position": 3, "name": "틀린 원인을 구분하는 오답 재학습"},
+                    {"@type": "ListItem", "position": 4, "name": "학부모가 확인할 수 있는 학습 피드백"},
+                ],
             },
             {
                 "@type": "FAQPage",
@@ -546,9 +704,10 @@ def english_math_schema(row: dict, image_path: str, map_path: str) -> dict:
                 ],
             },
             {
-                "@type": "EducationalOrganization",
+                "@type": ["EducationalOrganization", "LocalBusiness"],
                 "@id": f"{url}#organization",
                 "name": title,
+                "alternateName": ["와와센터", "와와영어수학학원"],
                 "url": url,
                 "telephone": PHONE,
                 "openingHours": "Mo-Sa 12:00-24:00",
@@ -579,6 +738,8 @@ def english_math_schema(row: dict, image_path: str, map_path: str) -> dict:
                 "description": f"{area} 지역 학생을 위한 영어수학학원 학습관리 안내입니다.",
                 "image": [image_path, map_path],
                 "inLanguage": "ko-KR",
+                "datePublished": DATE_PUBLISHED,
+                "dateModified": DATE_MODIFIED,
                 "author": {"@id": f"{url}#organization"},
                 "publisher": {"@type": "Organization", "name": ORG_NAME, "url": "/"},
                 "mainEntityOfPage": {"@id": f"{url}#webpage"},
@@ -587,9 +748,22 @@ def english_math_schema(row: dict, image_path: str, map_path: str) -> dict:
                 "@type": "Service",
                 "@id": f"{url}#service",
                 "name": f"{area} 영어수학학원 학습관리",
+                "serviceType": "TutoringService",
                 "description": f"{area} 학생의 영어·수학 학습 상태를 진단하고, 과목별 플래너와 오답 재학습이 이어지도록 관리합니다.",
                 "provider": {"@id": f"{url}#organization"},
                 "areaServed": {"@type": "Place", "name": area},
+                "audience": {"@type": "EducationalAudience", "educationalRole": "student"},
+            },
+            {
+                "@type": "ItemList",
+                "@id": f"{url}#checklist",
+                "name": f"{title} 영어수학 관리 체크리스트",
+                "itemListElement": [
+                    {"@type": "ListItem", "position": 1, "name": f"{area} 영어 어휘·문법·독해 진단"},
+                    {"@type": "ListItem", "position": 2, "name": f"{area} 수학 개념·유형·오답 분석"},
+                    {"@type": "ListItem", "position": 3, "name": "영어와 수학 과목별 주간 분량 조정"},
+                    {"@type": "ListItem", "position": 4, "name": "내신 기간 시험 범위와 오답 복습 순서 정리"},
+                ],
             },
             {
                 "@type": "FAQPage",
@@ -611,6 +785,7 @@ def local_page(row: dict) -> str:
     common_src = f"{depth_assets}/centers/common/{common_img}"
     map_src = f"{depth_assets}/maps/{row['map']}"
     schema = json.dumps(local_schema(row, common_src, map_src), ensure_ascii=False, separators=(",", ":"))
+    canonical = absolute_url(f"/전국센터/{row['slug']}/")
     faq = faq_items(title, area)
     reviews = review_items(area)
     faq_html = "\n".join(
@@ -625,6 +800,7 @@ def local_page(row: dict) -> str:
         for rating, body in reviews
     )
     related_links = internal_links_section(row, "parent")
+    depth_section = parent_depth_section(row, title, area)
     return f"""<!doctype html>
 <html lang=\"ko\">
 <head>
@@ -636,7 +812,9 @@ def local_page(row: dict) -> str:
   <meta property=\"og:type\" content=\"website\">
   <meta property=\"og:title\" content=\"{html.escape(title)}\">
   <meta property=\"og:description\" content=\"{html.escape(area)} 학생을 위한 초중고 영어·수학·국어 학습코칭 안내입니다.\">
+  <meta property=\"og:url\" content=\"{html.escape(canonical)}\">
   <meta property=\"og:image\" content=\"{common_src}\">
+  <link rel=\"canonical\" href=\"{html.escape(canonical)}\">
   <link rel=\"icon\" href=\"{depth_assets}/favicon.png\">
   <link rel=\"stylesheet\" href=\"{depth_assets}/site.css\">
   <script type=\"application/ld+json\">{schema}</script>
@@ -696,6 +874,8 @@ def local_page(row: dict) -> str:
       </div>
     </section>
 
+{depth_section}
+
 {related_links}
 
     <section class=\"section split\">
@@ -744,6 +924,7 @@ def child_page(row: dict) -> str:
     common_src = f"{depth_assets}/centers/common/{common_img}"
     map_src = f"{depth_assets}/maps/{row['map']}"
     schema = json.dumps(child_schema(row, common_src, map_src), ensure_ascii=False, separators=(",", ":"))
+    canonical = absolute_url(f"/전국센터/{row['slug']}/와와학습코칭학원/")
     faq = child_faq_items(title, area)
     reviews = child_review_items(area)
     faq_html = "\n".join(
@@ -758,6 +939,7 @@ def child_page(row: dict) -> str:
         for rating, body in reviews
     )
     related_links = internal_links_section(row, "child")
+    depth_section = coaching_depth_section(row, title, area)
     return f"""<!doctype html>
 <html lang=\"ko\">
 <head>
@@ -769,7 +951,9 @@ def child_page(row: dict) -> str:
   <meta property=\"og:type\" content=\"website\">
   <meta property=\"og:title\" content=\"{html.escape(title)}\">
   <meta property=\"og:description\" content=\"{html.escape(area)} 학생을 위한 영어·수학·국어 학습코칭학원 안내입니다.\">
+  <meta property=\"og:url\" content=\"{html.escape(canonical)}\">
   <meta property=\"og:image\" content=\"{common_src}\">
+  <link rel=\"canonical\" href=\"{html.escape(canonical)}\">
   <link rel=\"icon\" href=\"{depth_assets}/favicon.png\">
   <link rel=\"stylesheet\" href=\"{depth_assets}/site.css\">
   <script type=\"application/ld+json\">{schema}</script>
@@ -845,6 +1029,8 @@ def child_page(row: dict) -> str:
       </div>
     </section>
 
+{depth_section}
+
 {related_links}
 
     <section class=\"section split\">
@@ -893,6 +1079,7 @@ def english_math_page(row: dict) -> str:
     common_src = f"{depth_assets}/centers/common/{common_img}"
     map_src = f"{depth_assets}/maps/{row['map']}"
     schema = json.dumps(english_math_schema(row, common_src, map_src), ensure_ascii=False, separators=(",", ":"))
+    canonical = absolute_url(f"/전국센터/{row['slug']}/영어수학학원/")
     faq = english_math_faq_items(title, area)
     reviews = english_math_review_items(area)
     faq_html = "\n".join(
@@ -907,6 +1094,7 @@ def english_math_page(row: dict) -> str:
         for rating, body in reviews
     )
     related_links = internal_links_section(row, "english_math")
+    depth_section = english_math_depth_section(row, title, area)
     return f"""<!doctype html>
 <html lang=\"ko\">
 <head>
@@ -918,7 +1106,9 @@ def english_math_page(row: dict) -> str:
   <meta property=\"og:type\" content=\"website\">
   <meta property=\"og:title\" content=\"{html.escape(title)}\">
   <meta property=\"og:description\" content=\"{html.escape(area)} 학생을 위한 영어·수학 학습관리 안내입니다.\">
+  <meta property=\"og:url\" content=\"{html.escape(canonical)}\">
   <meta property=\"og:image\" content=\"{common_src}\">
+  <link rel=\"canonical\" href=\"{html.escape(canonical)}\">
   <link rel=\"icon\" href=\"{depth_assets}/favicon.png\">
   <link rel=\"stylesheet\" href=\"{depth_assets}/site.css\">
   <script type=\"application/ld+json\">{schema}</script>
@@ -993,6 +1183,8 @@ def english_math_page(row: dict) -> str:
         <div><b>관리 핵심</b><span>과목별 진단 · 플래너 · 오답 · 내신 대비</span></div>
       </div>
     </section>
+
+{depth_section}
 
 {related_links}
 
