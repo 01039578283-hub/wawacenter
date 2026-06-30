@@ -182,7 +182,65 @@ def footer(prefix: str = "") -> str:
   </footer>"""
 
 
-def faq_items(title: str, area: str) -> list[tuple[str, str]]:
+def stable_index(seed: str, size: int) -> int:
+    return sum((i + 1) * ord(ch) for i, ch in enumerate(seed)) % size
+
+
+def stable_pick(seed: str, options: list[str]) -> str:
+    return options[stable_index(seed, len(options))]
+
+
+def student_concern(title: str, kind: str) -> str:
+    pools = {
+        "parent": [
+            "공부 시간은 쓰지만 과목별 우선순위가 자주 흔들리는 학생",
+            "시험 전 복습이 한꺼번에 몰려 평소 관리 기준이 필요한 학생",
+            "숙제는 해오지만 오답 원인을 다시 설명하는 데 어려움이 있는 학생",
+            "초등에서 중등, 중등에서 고등으로 넘어가며 공부 방식 전환이 필요한 학생",
+        ],
+        "coaching": [
+            "플래너를 쓰지만 실제 실행 여부 확인이 부족한 학생",
+            "틀린 문제를 다시 풀어도 같은 유형에서 반복해서 막히는 학생",
+            "학부모가 매번 공부를 챙겨야 해서 관리 기준을 세우고 싶은 학생",
+            "성적보다 먼저 공부 습관과 수업 후 복습 흐름을 정리해야 하는 학생",
+        ],
+        "english_math": [
+            "영어와 수학 중 어느 과목을 먼저 보완해야 할지 기준이 필요한 학생",
+            "영어 암기와 수학 문제풀이 시간이 한쪽으로 쏠리는 학생",
+            "영어 독해와 수학 오답이 함께 쌓여 시험 전 정리가 어려운 학생",
+            "과목별 약점은 다른데 같은 방식으로 공부해 효율이 떨어지는 학생",
+        ],
+    }
+    return stable_pick(f"{title}:{kind}:concern", pools[kind])
+
+
+def management_focus(title: str, kind: str) -> str:
+    pools = {
+        "parent": [
+            "학교 진도와 현재 교재를 함께 보며 시작 단원을 정합니다",
+            "주간 공부량을 과목별로 나누고 완료 기준을 분명히 합니다",
+            "시험 전에는 범위별 복습 순서와 오답 재확인 기준을 잡습니다",
+            "학부모가 확인할 수 있는 변화 지점을 상담 때 함께 정리합니다",
+        ],
+        "coaching": [
+            "진단 결과를 플래너 항목으로 바꾸고 매주 실행 여부를 확인합니다",
+            "오답을 개념 부족, 실수, 유형 미숙, 시간 문제로 나누어 봅니다",
+            "수업 후 과제와 복습이 다음 계획으로 이어지는지 확인합니다",
+            "학생이 혼자 공부할 때 막히는 지점을 상담 기록에 남겨 관리합니다",
+        ],
+        "english_math": [
+            "영어는 어휘·문법·독해, 수학은 개념·유형·오답으로 나누어 봅니다",
+            "영어 암기와 수학 문제풀이 시간이 균형을 이루도록 주간 분량을 조정합니다",
+            "내신 기간에는 영어 지문 복습과 수학 단원별 오답 순서를 함께 잡습니다",
+            "두 과목의 약점이 섞이지 않도록 과목별 완료 기준을 따로 둡니다",
+        ],
+    }
+    return stable_pick(f"{title}:{kind}:focus", pools[kind])
+
+
+def faq_items(row: dict, title: str, area: str) -> list[tuple[str, str]]:
+    concern = student_concern(title, "parent")
+    focus = management_focus(title, "parent")
     return [
         (
             f"{title} 상담에서는 무엇을 먼저 확인하나요?",
@@ -193,12 +251,16 @@ def faq_items(title: str, area: str) -> list[tuple[str, str]]:
             f"{area}에서 학습코칭센터를 비교할 때는 진도보다 학생에게 맞는 시작점, 플래너 점검, 오답 재학습, 학부모 피드백이 실제로 이어지는지 확인하는 것이 좋습니다.",
         ),
         (
+            f"{title} 상담은 어떤 학생에게 특히 도움이 될까요?",
+            f"{title} 상담은 {concern}에게 도움이 될 수 있습니다. 상담에서는 학생의 현재 상황을 먼저 정리하고, 필요한 과목과 관리 순서를 무리 없이 나누어 봅니다.",
+        ),
+        (
             "영어·수학·국어를 함께 상담할 수 있나요?",
             "네. 영어는 어휘·문법·독해 흐름을, 수학은 개념·유형·오답 원인을, 국어는 지문 이해와 근거 찾기를 함께 확인할 수 있습니다.",
         ),
         (
             f"{title} 상담 전에 무엇을 준비하면 좋나요?",
-            "최근 시험지, 현재 교재, 학교 진도, 수행평가 일정, 평소 공부 시간과 숙제 습관을 알려주시면 상담 방향을 더 구체적으로 잡을 수 있습니다.",
+            f"최근 시험지, 현재 교재, 학교 진도, 수행평가 일정, 평소 공부 시간과 숙제 습관을 알려주시면 좋습니다. 상담에서는 {focus}.",
         ),
     ]
 
@@ -215,15 +277,21 @@ def child_title(row: dict) -> str:
     return f"{row['title_area']} 와와학습코칭학원"
 
 
-def child_faq_items(title: str, area: str) -> list[tuple[str, str]]:
+def child_faq_items(row: dict, title: str, area: str) -> list[tuple[str, str]]:
+    concern = student_concern(title, "coaching")
+    focus = management_focus(title, "coaching")
     return [
         (
             f"{title}은 어떤 학생에게 맞나요?",
-            f"{title}은 단순 진도보다 학생의 현재 상태를 먼저 확인하고 싶은 초등·중등·고등 학생에게 적합합니다. 특히 공부 습관, 오답 반복, 시험 준비 흐름이 흔들리는 경우 상담에서 기준을 잡기 좋습니다.",
+            f"{title}은 단순 진도보다 학생의 현재 상태를 먼저 확인하고 싶은 초등·중등·고등 학생에게 적합합니다. 특히 {concern}이라면 상담에서 기준을 잡기 좋습니다.",
         ),
         (
             f"{area} 와와학습코칭학원 상담에서는 어떤 자료를 보면 좋나요?",
             "최근 시험지, 현재 교재, 학교 진도, 수행평가 일정, 평소 공부 시간과 숙제 습관을 함께 보면 학생에게 필요한 관리 방향을 더 구체적으로 정리할 수 있습니다.",
+        ),
+        (
+            f"{title}에서는 상담 후 무엇이 달라지나요?",
+            f"상담 후에는 막연히 더 많이 공부하라는 방향보다, 학생에게 필요한 과목·단원·분량·완료 기준을 정리합니다. 특히 {focus}.",
         ),
         (
             "수업은 영어·수학·국어를 모두 확인하나요?",
@@ -248,7 +316,9 @@ def english_math_title(row: dict) -> str:
     return f"{row['title_area']} 영어수학학원"
 
 
-def english_math_faq_items(title: str, area: str) -> list[tuple[str, str]]:
+def english_math_faq_items(row: dict, title: str, area: str) -> list[tuple[str, str]]:
+    concern = student_concern(title, "english_math")
+    focus = management_focus(title, "english_math")
     return [
         (
             f"{title}에서는 영어와 수학을 어떻게 같이 관리하나요?",
@@ -259,12 +329,16 @@ def english_math_faq_items(title: str, area: str) -> list[tuple[str, str]]:
             "최근 시험지, 현재 교재, 학교 진도, 수행평가 일정, 평소 숙제 습관을 알려주시면 영어와 수학 중 어느 과목을 먼저 보완해야 하는지 더 구체적으로 정리할 수 있습니다.",
         ),
         (
+            f"{title}은 어떤 학생에게 우선적으로 맞나요?",
+            f"{title}은 {concern}에게 우선적으로 도움이 될 수 있습니다. 상담에서는 영어와 수학을 한 덩어리로 보지 않고 과목별 원인을 따로 나누어 확인합니다.",
+        ),
+        (
             "초등·중등·고등 학생 모두 상담 가능한가요?",
             "네. 초등은 학습 습관과 기초 개념, 중등은 내신 대비와 단원별 오답, 고등은 시험 범위 관리와 취약 유형 보완을 중심으로 확인합니다.",
         ),
         (
             f"{title}에서 오답 관리는 어떻게 진행하나요?",
-            "영어는 해석 오류, 문법 적용, 어휘 부족을 나누어 보고, 수학은 개념 부족, 계산 실수, 유형 미숙을 구분합니다. 틀린 문제를 다시 맞히는 기준까지 확인하는 방식입니다.",
+            f"영어는 해석 오류, 문법 적용, 어휘 부족을 나누어 보고, 수학은 개념 부족, 계산 실수, 유형 미숙을 구분합니다. {focus}.",
         ),
     ]
 
@@ -492,23 +566,28 @@ def geo_summary_section(row: dict, title: str, area: str, kind: str) -> str:
 def geo_answer_section(row: dict, title: str, area: str, kind: str) -> str:
     title_e = html.escape(title)
     area_e = html.escape(area)
+    concern = student_concern(title, kind)
+    focus = management_focus(title, kind)
     if kind == "english_math":
         cards = [
             ("무엇을 확인하나요?", f"{area_e} 학생의 영어 어휘·문법·독해 흐름과 수학 개념·유형·오답 원인을 나누어 확인합니다."),
             ("어떻게 관리하나요?", "영어 암기와 독해, 수학 개념 복습과 문제풀이 시간이 한쪽으로 쏠리지 않도록 주간 플래너를 조정합니다."),
             ("상담 때 필요한 자료", "최근 시험지, 현재 교재, 학교 진도, 수행평가 일정, 평소 숙제 습관을 함께 보면 우선순위를 잡기 쉽습니다."),
+            ("추천 학생", f"{concern}이라면 영어와 수학을 분리해서 진단하고, 과목별 완료 기준을 다르게 잡는 것이 좋습니다."),
         ]
     elif kind == "coaching":
         cards = [
             ("무엇을 확인하나요?", f"{area_e} 학생의 공부 시간, 숙제 수행, 과목별 약점, 반복되는 오답 유형을 먼저 확인합니다."),
             ("어떻게 관리하나요?", "진단 결과를 바탕으로 과목·단원·분량이 분명한 플래너를 세우고, 실행 여부와 오답 재학습을 함께 점검합니다."),
             ("상담 때 필요한 자료", "최근 시험지, 현재 교재, 학교 진도, 평소 공부 시간, 숙제 습관을 알려주면 관리 방향을 더 정확히 잡을 수 있습니다."),
+            ("추천 학생", f"{concern}이라면 수업보다 먼저 공부 과정의 기준을 세우고, 실행 확인이 이어지는지 보는 것이 중요합니다."),
         ]
     else:
         cards = [
             ("무엇을 확인하나요?", f"{area_e} 학생의 학교 진도, 최근 시험지, 공부 습관, 과목별 약점을 함께 확인합니다."),
             ("어떻게 관리하나요?", "초등은 습관과 기초, 중등은 내신과 수행평가, 고등은 시험 범위와 취약 유형 보완을 중심으로 관리합니다."),
             ("상담 때 필요한 자료", "현재 교재와 시험지, 학교 진도, 수행평가 일정, 평소 공부 시간과 숙제 습관을 준비하면 좋습니다."),
+            ("추천 학생", f"{concern}이라면 {area_e} 학습 상담에서 과목별 우선순위와 주간 관리 기준을 먼저 정리하는 것이 좋습니다."),
         ]
     card_html = "\n".join(
         f"""        <article class=\"geo-proof-card\">
@@ -521,10 +600,55 @@ def geo_answer_section(row: dict, title: str, area: str, kind: str) -> str:
       <div class=\"section-head center\">
         <p class=\"eyebrow\">Answer Ready</p>
         <h2>{title_e} 한눈에 이해하기</h2>
-        <p class=\"lead\">검색엔진과 생성형 검색이 페이지의 목적을 더 정확히 이해할 수 있도록, 상담 기준과 관리 흐름을 짧은 답변 형태로 정리했습니다.</p>
+        <p class=\"lead\">검색엔진과 생성형 검색이 페이지의 목적을 더 정확히 이해할 수 있도록, 상담 기준과 관리 흐름을 짧은 답변 형태로 정리했습니다. 핵심 관리 방향은 “{html.escape(focus)}”입니다.</p>
       </div>
       <div class=\"geo-proof-grid\">
 {card_html}
+      </div>
+    </section>
+"""
+
+
+def consultation_checklist_section(row: dict, title: str, area: str, kind: str) -> str:
+    title_e = html.escape(title)
+    area_e = html.escape(area)
+    if kind == "english_math":
+        items = [
+            ("영어 자료", "단어장, 문법 교재, 독해 지문, 최근 영어 시험지를 함께 보면 영어의 막힘을 더 정확히 볼 수 있습니다."),
+            ("수학 자료", "현재 단원, 오답노트, 계산 실수 유형, 유형별 풀이 시간을 확인하면 수학 보완 순서가 선명해집니다."),
+            ("시간 배분", "영어 암기와 수학 문제풀이 시간이 한쪽으로 쏠리는지 확인해 주간 분량을 조정합니다."),
+            ("시험 대비", "시험 범위가 나오면 영어 지문·문법 포인트와 수학 단원별 오답을 따로 정리합니다."),
+        ]
+    elif kind == "coaching":
+        items = [
+            ("현재 습관", "공부 시작 시간, 숙제 마감, 복습 여부를 확인해 학생에게 맞는 관리 기준을 잡습니다."),
+            ("플래너 기준", "과목·단원·분량·완료 기준을 구체적으로 적어 실행 여부를 확인할 수 있게 합니다."),
+            ("오답 원인", "틀린 문제를 개념 부족, 실수, 유형 미숙, 시간 문제로 나누어 다시 볼 수 있게 정리합니다."),
+            ("학부모 확인", "상담 후 가정에서 확인할 변화 지점과 다음 점검 기준을 함께 정리합니다."),
+        ]
+    else:
+        items = [
+            ("학교 진도", f"{area_e} 학생의 현재 학교 진도와 교재 진도를 함께 확인해 시작 지점을 정합니다."),
+            ("최근 시험지", "점수보다 틀린 단원과 반복되는 실수 유형을 확인해 보완 순서를 잡습니다."),
+            ("평소 공부 시간", "과목별 공부 시간이 실제로 어떻게 쓰이는지 확인해 주간 계획을 조정합니다."),
+            ("상담 목표", "성적, 습관, 오답, 내신 준비 중 무엇을 먼저 개선할지 우선순위를 정합니다."),
+        ]
+    item_html = "\n".join(
+        f"""        <article>
+          <span>{i:02d}</span>
+          <h3>{html.escape(label)}</h3>
+          <p>{html.escape(body)}</p>
+        </article>"""
+        for i, (label, body) in enumerate(items, 1)
+    )
+    return f"""    <section class=\"section geo-checklist-section\">
+      <div class=\"section-head center\">
+        <p class=\"eyebrow\">Consulting Checklist</p>
+        <h2>{title_e} 상담 전 체크리스트</h2>
+        <p class=\"lead\">실제 학교명이나 생활권을 임의로 넣지 않고도, 상담에서 바로 확인할 수 있는 자료와 질문을 페이지 유형에 맞게 정리했습니다.</p>
+      </div>
+      <div class=\"child-focus-grid\">
+{item_html}
       </div>
     </section>
 """
@@ -546,6 +670,48 @@ def schema_about(row: dict, title: str, kind: str) -> list[dict]:
     else:
         base.extend([{"@type": "Thing", "name": "초등 학습관리"}, {"@type": "Thing", "name": "중등 내신 관리"}, {"@type": "Thing", "name": "고등 학습관리"}])
     return base
+
+
+def schema_mentions(row: dict, title: str, kind: str) -> list[dict]:
+    area = row["title_area"]
+    mentions = [
+        {"@type": "Thing", "name": "진단 상담"},
+        {"@type": "Thing", "name": "주간 플래너"},
+        {"@type": "Thing", "name": "오답 원인 분석"},
+        {"@type": "Thing", "name": "시험 대비 계획"},
+        {"@type": "Thing", "name": "학부모 피드백"},
+        {"@type": "Place", "name": row["region_name"]},
+        {"@type": "Place", "name": row["district_name"]},
+        {"@type": "Place", "name": area},
+    ]
+    if kind == "english_math":
+        mentions.extend([{"@type": "Thing", "name": "영어 독해"}, {"@type": "Thing", "name": "수학 오답"}])
+    elif kind == "coaching":
+        mentions.extend([{"@type": "Thing", "name": "학습 습관"}, {"@type": "Thing", "name": "실행 확인"}])
+    else:
+        mentions.extend([{"@type": "Thing", "name": "초등반"}, {"@type": "Thing", "name": "중등반"}, {"@type": "Thing", "name": "고등반"}])
+    return mentions
+
+
+def schema_has_parts(kind: str) -> list[dict]:
+    names = [
+        "핵심 요약",
+        "수업 안내 이미지",
+        "센터 위치 안내",
+        "학습관리 포인트",
+        "한눈에 이해하기",
+        "상담 전 체크리스트",
+        "관련 페이지 바로가기",
+        "자주 묻는 질문",
+        "학부모 후기",
+    ]
+    if kind == "english_math":
+        names.insert(4, "영어·수학 과목별 관리 기준")
+    elif kind == "coaching":
+        names.insert(4, "학습코칭 관리 기준")
+    else:
+        names.insert(4, "초중고 학년별 관리 기준")
+    return [{"@type": "WebPageElement", "name": name} for name in names]
 
 
 def schema_keywords(row: dict, title: str, kind: str) -> str:
@@ -577,9 +743,11 @@ def organization_offers(area: str, service_prefix: str = "") -> list[dict]:
 def local_schema(row: dict, image_path: str, map_path: str) -> dict:
     title = row["page_title"]
     area = row["title_area"]
-    faq = faq_items(title, area)
+    faq = faq_items(row, title, area)
     reviews = review_items(area)
     about = schema_about(row, title, "parent")
+    mentions = schema_mentions(row, title, "parent")
+    has_parts = schema_has_parts("parent")
     keywords = schema_keywords(row, title, "parent")
     return {
         "@context": "https://schema.org",
@@ -595,6 +763,8 @@ def local_schema(row: dict, image_path: str, map_path: str) -> dict:
                 "breadcrumb": {"@id": f"/전국센터/{row['slug']}/#breadcrumb"},
                 "mainEntity": {"@id": f"/전국센터/{row['slug']}/#service"},
                 "about": about,
+                "mentions": mentions,
+                "hasPart": has_parts,
                 "keywords": keywords,
             },
             {
@@ -654,7 +824,9 @@ def local_schema(row: dict, image_path: str, map_path: str) -> dict:
                 "publisher": {"@type": "Organization", "name": ORG_NAME, "url": "/"},
                 "mainEntityOfPage": {"@id": f"/전국센터/{row['slug']}/#webpage"},
                 "about": about,
+                "mentions": mentions,
                 "keywords": keywords,
+                "articleSection": ["핵심 요약", "학습관리 포인트", "상담 전 체크리스트", "FAQ", "학부모 후기"],
             },
             {
                 "@type": "Service",
@@ -666,6 +838,7 @@ def local_schema(row: dict, image_path: str, map_path: str) -> dict:
                 "areaServed": {"@type": "Place", "name": area},
                 "audience": {"@type": "EducationalAudience", "educationalRole": "student"},
                 "about": about,
+                "mentions": mentions,
             },
             {
                 "@type": "ItemList",
@@ -693,10 +866,12 @@ def local_schema(row: dict, image_path: str, map_path: str) -> dict:
 def child_schema(row: dict, image_path: str, map_path: str) -> dict:
     title = child_title(row)
     area = row["title_area"]
-    faq = child_faq_items(title, area)
+    faq = child_faq_items(row, title, area)
     reviews = child_review_items(area)
     url = f"/전국센터/{row['slug']}/와와학습코칭학원/"
     about = schema_about(row, title, "coaching")
+    mentions = schema_mentions(row, title, "coaching")
+    has_parts = schema_has_parts("coaching")
     keywords = schema_keywords(row, title, "coaching")
     return {
         "@context": "https://schema.org",
@@ -712,6 +887,8 @@ def child_schema(row: dict, image_path: str, map_path: str) -> dict:
                 "breadcrumb": {"@id": f"{url}#breadcrumb"},
                 "mainEntity": {"@id": f"{url}#service"},
                 "about": about,
+                "mentions": mentions,
+                "hasPart": has_parts,
                 "keywords": keywords,
             },
             {
@@ -772,7 +949,9 @@ def child_schema(row: dict, image_path: str, map_path: str) -> dict:
                 "publisher": {"@type": "Organization", "name": ORG_NAME, "url": "/"},
                 "mainEntityOfPage": {"@id": f"{url}#webpage"},
                 "about": about,
+                "mentions": mentions,
                 "keywords": keywords,
+                "articleSection": ["핵심 요약", "학습코칭 관리 기준", "상담 전 체크리스트", "FAQ", "학부모 후기"],
             },
             {
                 "@type": "Service",
@@ -784,6 +963,7 @@ def child_schema(row: dict, image_path: str, map_path: str) -> dict:
                 "areaServed": {"@type": "Place", "name": area},
                 "audience": {"@type": "EducationalAudience", "educationalRole": "student"},
                 "about": about,
+                "mentions": mentions,
             },
             {
                 "@type": "ItemList",
@@ -811,10 +991,12 @@ def child_schema(row: dict, image_path: str, map_path: str) -> dict:
 def english_math_schema(row: dict, image_path: str, map_path: str) -> dict:
     title = english_math_title(row)
     area = row["title_area"]
-    faq = english_math_faq_items(title, area)
+    faq = english_math_faq_items(row, title, area)
     reviews = english_math_review_items(area)
     url = f"/전국센터/{row['slug']}/영어수학학원/"
     about = schema_about(row, title, "english_math")
+    mentions = schema_mentions(row, title, "english_math")
+    has_parts = schema_has_parts("english_math")
     keywords = schema_keywords(row, title, "english_math")
     return {
         "@context": "https://schema.org",
@@ -830,6 +1012,8 @@ def english_math_schema(row: dict, image_path: str, map_path: str) -> dict:
                 "breadcrumb": {"@id": f"{url}#breadcrumb"},
                 "mainEntity": {"@id": f"{url}#service"},
                 "about": about,
+                "mentions": mentions,
+                "hasPart": has_parts,
                 "keywords": keywords,
             },
             {
@@ -890,7 +1074,9 @@ def english_math_schema(row: dict, image_path: str, map_path: str) -> dict:
                 "publisher": {"@type": "Organization", "name": ORG_NAME, "url": "/"},
                 "mainEntityOfPage": {"@id": f"{url}#webpage"},
                 "about": about,
+                "mentions": mentions,
                 "keywords": keywords,
+                "articleSection": ["핵심 요약", "영어·수학 과목별 관리 기준", "상담 전 체크리스트", "FAQ", "학부모 후기"],
             },
             {
                 "@type": "Service",
@@ -902,6 +1088,7 @@ def english_math_schema(row: dict, image_path: str, map_path: str) -> dict:
                 "areaServed": {"@type": "Place", "name": area},
                 "audience": {"@type": "EducationalAudience", "educationalRole": "student"},
                 "about": about,
+                "mentions": mentions,
             },
             {
                 "@type": "ItemList",
@@ -935,7 +1122,7 @@ def local_page(row: dict) -> str:
     map_src = f"{depth_assets}/maps/{row['map']}"
     schema = json.dumps(local_schema(row, common_src, map_src), ensure_ascii=False, separators=(",", ":"))
     canonical = absolute_url(f"/전국센터/{row['slug']}/")
-    faq = faq_items(title, area)
+    faq = faq_items(row, title, area)
     reviews = review_items(area)
     faq_html = "\n".join(
         f"""          <details{' open' if i == 0 else ''}>
@@ -952,6 +1139,7 @@ def local_page(row: dict) -> str:
     depth_section = parent_depth_section(row, title, area)
     summary_section = geo_summary_section(row, title, area, "parent")
     answer_section = geo_answer_section(row, title, area, "parent")
+    checklist_section = consultation_checklist_section(row, title, area, "parent")
     return f"""<!doctype html>
 <html lang=\"ko\">
 <head>
@@ -1031,6 +1219,8 @@ def local_page(row: dict) -> str:
 
 {answer_section}
 
+{checklist_section}
+
 {related_links}
 
     <section class=\"section split\">
@@ -1080,7 +1270,7 @@ def child_page(row: dict) -> str:
     map_src = f"{depth_assets}/maps/{row['map']}"
     schema = json.dumps(child_schema(row, common_src, map_src), ensure_ascii=False, separators=(",", ":"))
     canonical = absolute_url(f"/전국센터/{row['slug']}/와와학습코칭학원/")
-    faq = child_faq_items(title, area)
+    faq = child_faq_items(row, title, area)
     reviews = child_review_items(area)
     faq_html = "\n".join(
         f"""          <details{' open' if i == 0 else ''}>
@@ -1097,6 +1287,7 @@ def child_page(row: dict) -> str:
     depth_section = coaching_depth_section(row, title, area)
     summary_section = geo_summary_section(row, title, area, "coaching")
     answer_section = geo_answer_section(row, title, area, "coaching")
+    checklist_section = consultation_checklist_section(row, title, area, "coaching")
     return f"""<!doctype html>
 <html lang=\"ko\">
 <head>
@@ -1192,6 +1383,8 @@ def child_page(row: dict) -> str:
 
 {answer_section}
 
+{checklist_section}
+
 {related_links}
 
     <section class=\"section split\">
@@ -1241,7 +1434,7 @@ def english_math_page(row: dict) -> str:
     map_src = f"{depth_assets}/maps/{row['map']}"
     schema = json.dumps(english_math_schema(row, common_src, map_src), ensure_ascii=False, separators=(",", ":"))
     canonical = absolute_url(f"/전국센터/{row['slug']}/영어수학학원/")
-    faq = english_math_faq_items(title, area)
+    faq = english_math_faq_items(row, title, area)
     reviews = english_math_review_items(area)
     faq_html = "\n".join(
         f"""          <details{' open' if i == 0 else ''}>
@@ -1258,6 +1451,7 @@ def english_math_page(row: dict) -> str:
     depth_section = english_math_depth_section(row, title, area)
     summary_section = geo_summary_section(row, title, area, "english_math")
     answer_section = geo_answer_section(row, title, area, "english_math")
+    checklist_section = consultation_checklist_section(row, title, area, "english_math")
     return f"""<!doctype html>
 <html lang=\"ko\">
 <head>
@@ -1352,6 +1546,8 @@ def english_math_page(row: dict) -> str:
 {depth_section}
 
 {answer_section}
+
+{checklist_section}
 
 {related_links}
 

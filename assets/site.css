@@ -1111,6 +1111,18 @@ h3 {
   padding-bottom: 54px;
 }
 
+.geo-checklist-section {
+  padding-top: 54px;
+  padding-bottom: 54px;
+}
+
+.geo-checklist-section .child-focus-grid article {
+  min-height: 188px;
+  background:
+    radial-gradient(circle at 88% 12%, rgba(233, 143, 111, 0.12), transparent 34%),
+    rgba(255, 255, 255, 0.86);
+}
+
 .geo-proof-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
