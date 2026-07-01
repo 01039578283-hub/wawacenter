@@ -1,11 +1,14 @@
 from __future__ import annotations
 
 import html
+import hashlib
 import json
 import re
+import xml.etree.ElementTree as ET
 from collections import Counter
 from pathlib import Path
 from urllib.parse import quote
+from zipfile import ZipFile
 
 
 ROOT = Path.cwd()
@@ -22,6 +25,9 @@ FORM_URL = "https://docs.google.com/forms/d/e/1FAIpQLSdb2oE5Qk5YS0TfYDxyV1w-IOTk
 SMS_URL = "https://blogsms.net/01068398283"
 DATE_PUBLISHED = "2026-06-29"
 DATE_MODIFIED = "2026-06-30"
+REPRESENTATIVE_IMAGE_FILE = ROOT.parent / "참고자료" / "공통자료" / "대표 이미지 url.xlsx"
+IMG_SRC_RE = re.compile(r"<img\b[^>]*\bsrc=[\"']([^\"']+)[\"']", re.IGNORECASE)
+_REPRESENTATIVE_IMAGE_URLS: list[str] | None = None
 
 REGION_LABELS = {
     "seoul": "서울",
@@ -43,6 +49,76 @@ REGION_LABELS = {
 def clean_text(value: str) -> str:
     value = re.sub(r"<[^>]+>", "", value or "")
     return re.sub(r"\s+", " ", html.unescape(value)).strip()
+
+
+def representative_image_workbook() -> Path:
+    if REPRESENTATIVE_IMAGE_FILE.exists():
+        return REPRESENTATIVE_IMAGE_FILE
+    candidates = sorted(
+        (p for p in (Path.home() / "Desktop").rglob("*url.xlsx") if p.is_file()),
+        key=lambda p: len(str(p)),
+        reverse=True,
+    )
+    for candidate in candidates:
+        if candidate.name == "대표 이미지 url.xlsx":
+            return candidate
+    raise SystemExit(f"representative image workbook not found: {REPRESENTATIVE_IMAGE_FILE}")
+
+
+def xlsx_values(path: Path) -> list[str]:
+    ns = {"a": "http://schemas.openxmlformats.org/spreadsheetml/2006/main"}
+    values: list[str] = []
+    with ZipFile(path) as workbook:
+        names = workbook.namelist()
+        shared: list[str] = []
+        if "xl/sharedStrings.xml" in names:
+            root = ET.fromstring(workbook.read("xl/sharedStrings.xml"))
+            for si in root.findall("a:si", ns):
+                shared.append("".join(t.text or "" for t in si.findall(".//a:t", ns)))
+        sheets = [name for name in names if name.startswith("xl/worksheets/sheet") and name.endswith(".xml")]
+        for sheet in sheets:
+            root = ET.fromstring(workbook.read(sheet))
+            for cell in root.findall(".//a:c", ns):
+                value_node = cell.find("a:v", ns)
+                value = ""
+                if value_node is not None:
+                    value = value_node.text or ""
+                    if cell.attrib.get("t") == "s":
+                        value = shared[int(value)]
+                elif cell.attrib.get("t") == "inlineStr":
+                    value = "".join(t.text or "" for t in cell.findall(".//a:t", ns))
+                if value.strip():
+                    values.append(value.strip())
+    return values
+
+
+def representative_image_urls() -> list[str]:
+    global _REPRESENTATIVE_IMAGE_URLS
+    if _REPRESENTATIVE_IMAGE_URLS is not None:
+        return _REPRESENTATIVE_IMAGE_URLS
+    urls: list[str] = []
+    seen: set[str] = set()
+    for value in xlsx_values(representative_image_workbook()):
+        match = IMG_SRC_RE.search(value)
+        src = match.group(1).strip() if match else value.strip()
+        if src.startswith("http") and src not in seen:
+            urls.append(src)
+            seen.add(src)
+    if not urls:
+        raise SystemExit("representative image URLs not found in workbook")
+    _REPRESENTATIVE_IMAGE_URLS = urls
+    return urls
+
+
+def representative_image_url(key: str) -> str:
+    urls = representative_image_urls()
+    digest = hashlib.sha256(key.encode("utf-8")).hexdigest()
+    return urls[int(digest[:12], 16) % len(urls)]
+
+
+def hidden_representative_image(title: str, src: str) -> str:
+    alt = f"{title} {SITE_NAME} 대표"
+    return f'<img src="{html.escape(src, quote=True)}" alt="{html.escape(alt, quote=True)}" style="display:none;">'
 
 
 def safe_slug(value: str) -> str:
@@ -771,7 +847,7 @@ def local_schema(row: dict, image_path: str, map_path: str) -> dict:
                 "@type": "ImageObject",
                 "@id": f"/전국센터/{row['slug']}/#primaryimage",
                 "url": image_path,
-                "caption": f"{title} 본문 이미지",
+                "caption": f"{title} 대표 이미지",
             },
             {
                 "@type": "BreadcrumbList",
@@ -895,7 +971,7 @@ def child_schema(row: dict, image_path: str, map_path: str) -> dict:
                 "@type": "ImageObject",
                 "@id": f"{url}#primaryimage",
                 "url": image_path,
-                "caption": f"{title} 본문 이미지",
+                "caption": f"{title} 대표 이미지",
             },
             {
                 "@type": "BreadcrumbList",
@@ -1020,7 +1096,7 @@ def english_math_schema(row: dict, image_path: str, map_path: str) -> dict:
                 "@type": "ImageObject",
                 "@id": f"{url}#primaryimage",
                 "url": image_path,
-                "caption": f"{title} 본문 이미지",
+                "caption": f"{title} 대표 이미지",
             },
             {
                 "@type": "BreadcrumbList",
@@ -1120,8 +1196,10 @@ def local_page(row: dict) -> str:
     common_img = "seoul.jpg" if row["region_slug"] == "seoul" else "local.jpg"
     common_src = f"{depth_assets}/centers/common/{common_img}"
     map_src = f"{depth_assets}/maps/{row['map']}"
-    schema = json.dumps(local_schema(row, common_src, map_src), ensure_ascii=False, separators=(",", ":"))
     canonical = absolute_url(f"/전국센터/{row['slug']}/")
+    representative_src = representative_image_url(canonical)
+    representative_img = hidden_representative_image(title, representative_src)
+    schema = json.dumps(local_schema(row, representative_src, map_src), ensure_ascii=False, separators=(",", ":"))
     faq = faq_items(row, title, area)
     reviews = review_items(area)
     faq_html = "\n".join(
@@ -1152,7 +1230,7 @@ def local_page(row: dict) -> str:
   <meta property=\"og:title\" content=\"{html.escape(title)}\">
   <meta property=\"og:description\" content=\"{html.escape(area)} 학생을 위한 초중고 영어·수학·국어 학습코칭 안내입니다.\">
   <meta property=\"og:url\" content=\"{html.escape(canonical)}\">
-  <meta property=\"og:image\" content=\"{common_src}\">
+  <meta property=\"og:image\" content=\"{html.escape(representative_src, quote=True)}\">
   <link rel=\"canonical\" href=\"{html.escape(canonical)}\">
   <link rel=\"icon\" href=\"{depth_assets}/favicon.png\">
   <link rel=\"stylesheet\" href=\"{depth_assets}/site.css\">
@@ -1179,6 +1257,7 @@ def local_page(row: dict) -> str:
 
     <section class=\"local-media-section\">
       <div class=\"local-media-card\">
+        {representative_img}
         <p class=\"local-media-label\">수업 안내 이미지</p>
         <img src=\"{common_src}\" alt=\"{html.escape(title)} 본문 이미지\">
       </div>
@@ -1268,8 +1347,10 @@ def child_page(row: dict) -> str:
     common_img = "seoul.jpg" if row["region_slug"] == "seoul" else "local.jpg"
     common_src = f"{depth_assets}/centers/common/{common_img}"
     map_src = f"{depth_assets}/maps/{row['map']}"
-    schema = json.dumps(child_schema(row, common_src, map_src), ensure_ascii=False, separators=(",", ":"))
     canonical = absolute_url(f"/전국센터/{row['slug']}/와와학습코칭학원/")
+    representative_src = representative_image_url(canonical)
+    representative_img = hidden_representative_image(title, representative_src)
+    schema = json.dumps(child_schema(row, representative_src, map_src), ensure_ascii=False, separators=(",", ":"))
     faq = child_faq_items(row, title, area)
     reviews = child_review_items(area)
     faq_html = "\n".join(
@@ -1300,7 +1381,7 @@ def child_page(row: dict) -> str:
   <meta property=\"og:title\" content=\"{html.escape(title)}\">
   <meta property=\"og:description\" content=\"{html.escape(area)} 학생을 위한 영어·수학·국어 학습코칭학원 안내입니다.\">
   <meta property=\"og:url\" content=\"{html.escape(canonical)}\">
-  <meta property=\"og:image\" content=\"{common_src}\">
+  <meta property=\"og:image\" content=\"{html.escape(representative_src, quote=True)}\">
   <link rel=\"canonical\" href=\"{html.escape(canonical)}\">
   <link rel=\"icon\" href=\"{depth_assets}/favicon.png\">
   <link rel=\"stylesheet\" href=\"{depth_assets}/site.css\">
@@ -1327,6 +1408,7 @@ def child_page(row: dict) -> str:
 
     <section class=\"local-media-section\">
       <div class=\"local-media-card\">
+        {representative_img}
         <p class=\"local-media-label\">학습코칭 안내 이미지</p>
         <img src=\"{common_src}\" alt=\"{html.escape(title)} 본문 이미지\">
       </div>
@@ -1432,8 +1514,10 @@ def english_math_page(row: dict) -> str:
     common_img = "seoul.jpg" if row["region_slug"] == "seoul" else "local.jpg"
     common_src = f"{depth_assets}/centers/common/{common_img}"
     map_src = f"{depth_assets}/maps/{row['map']}"
-    schema = json.dumps(english_math_schema(row, common_src, map_src), ensure_ascii=False, separators=(",", ":"))
     canonical = absolute_url(f"/전국센터/{row['slug']}/영어수학학원/")
+    representative_src = representative_image_url(canonical)
+    representative_img = hidden_representative_image(title, representative_src)
+    schema = json.dumps(english_math_schema(row, representative_src, map_src), ensure_ascii=False, separators=(",", ":"))
     faq = english_math_faq_items(row, title, area)
     reviews = english_math_review_items(area)
     faq_html = "\n".join(
@@ -1464,7 +1548,7 @@ def english_math_page(row: dict) -> str:
   <meta property=\"og:title\" content=\"{html.escape(title)}\">
   <meta property=\"og:description\" content=\"{html.escape(area)} 학생을 위한 영어·수학 학습관리 안내입니다.\">
   <meta property=\"og:url\" content=\"{html.escape(canonical)}\">
-  <meta property=\"og:image\" content=\"{common_src}\">
+  <meta property=\"og:image\" content=\"{html.escape(representative_src, quote=True)}\">
   <link rel=\"canonical\" href=\"{html.escape(canonical)}\">
   <link rel=\"icon\" href=\"{depth_assets}/favicon.png\">
   <link rel=\"stylesheet\" href=\"{depth_assets}/site.css\">
@@ -1491,6 +1575,7 @@ def english_math_page(row: dict) -> str:
 
     <section class=\"local-media-section\">
       <div class=\"local-media-card\">
+        {representative_img}
         <p class=\"local-media-label\">영어수학 학습 안내 이미지</p>
         <img src=\"{common_src}\" alt=\"{html.escape(title)} 본문 이미지\">
       </div>
