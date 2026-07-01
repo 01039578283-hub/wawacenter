@@ -16,10 +16,10 @@ MAPS = ASSETS / "maps"
 COMMON = ASSETS / "centers" / "common"
 SITE_NAME = "와와센터 학습코칭"
 ORG_NAME = "와와센터 학습코칭"
-PHONE = "010-3957-8283"
+PHONE = "010-6839-8283"
 BASE_URL = "https://xn--3e0bz50bxucwzc.com"
 FORM_URL = "https://docs.google.com/forms/d/e/1FAIpQLSdb2oE5Qk5YS0TfYDxyV1w-IOTkhkjOCmmpAKTI9FmqpVj6Yg/viewform"
-SMS_URL = "https://blogsms.net/01039578283"
+SMS_URL = "https://blogsms.net/01068398283"
 DATE_PUBLISHED = "2026-06-29"
 DATE_MODIFIED = "2026-06-30"
 
@@ -154,7 +154,7 @@ def nav(active: str, prefix: str = "") -> str:
 
 def floating(prefix: str = "") -> str:
     return f"""<aside class=\"floating-actions\" aria-label=\"빠른 상담 버튼\">
-    <a href=\"tel:010-3957-8283\">전화문의</a>
+    <a href=\"tel:010-6839-8283\">전화문의</a>
     <a href=\"{SMS_URL}\" target=\"_blank\" rel=\"noopener\">문자문의</a>
     <a href=\"{FORM_URL}\" target=\"_blank\" rel=\"noopener\">상담신청</a>
   </aside>"""
@@ -177,7 +177,7 @@ def footer(prefix: str = "") -> str:
     return f"""<footer class=\"footer\">
     <div class=\"footer-inner\">
       <div><strong>{SITE_NAME}</strong><br>초중고 영어·수학·국어 학습관리 안내</div>
-      <div>상담 전화 <a href=\"tel:01039578283\">{PHONE}</a></div>
+      <div>상담 전화 <a href=\"tel:01068398283\">{PHONE}</a></div>
     </div>
   </footer>"""
 
@@ -798,7 +798,7 @@ def local_schema(row: dict, image_path: str, map_path: str) -> dict:
                     "addressCountry": "KR",
                 },
                 "knowsAbout": ["초등 학습코칭", "중등 내신 관리", "고등 학습관리", "영어 수학 국어 코칭", "오답 재학습"],
-                "contactPoint": {"@type": "ContactPoint", "telephone": "+82-10-3957-8283", "contactType": "학습 상담", "availableLanguage": "Korean"},
+                "contactPoint": {"@type": "ContactPoint", "telephone": "+82-10-6839-8283", "contactType": "학습 상담", "availableLanguage": "Korean"},
                 "makesOffer": organization_offers(area),
                 "aggregateRating": {"@type": "AggregateRating", "ratingValue": "5", "bestRating": "5", "ratingCount": "3", "reviewCount": "3"},
                 "review": [
@@ -923,7 +923,7 @@ def child_schema(row: dict, image_path: str, map_path: str) -> dict:
                     "addressCountry": "KR",
                 },
                 "knowsAbout": ["학습코칭학원", "초등 학습관리", "중등 내신 관리", "고등 학습관리", "영어 수학 국어 코칭", "오답 재학습"],
-                "contactPoint": {"@type": "ContactPoint", "telephone": "+82-10-3957-8283", "contactType": "학습 상담", "availableLanguage": "Korean"},
+                "contactPoint": {"@type": "ContactPoint", "telephone": "+82-10-6839-8283", "contactType": "학습 상담", "availableLanguage": "Korean"},
                 "makesOffer": organization_offers(area, "진단 상담"),
                 "aggregateRating": {"@type": "AggregateRating", "ratingValue": "5", "bestRating": "5", "ratingCount": "3", "reviewCount": "3"},
                 "review": [
@@ -1048,7 +1048,7 @@ def english_math_schema(row: dict, image_path: str, map_path: str) -> dict:
                     "addressCountry": "KR",
                 },
                 "knowsAbout": ["영어학원", "수학학원", "영어 수학 학습관리", "초등 영어수학", "중등 내신", "고등 영어수학", "오답 재학습"],
-                "contactPoint": {"@type": "ContactPoint", "telephone": "+82-10-3957-8283", "contactType": "영어수학 학습 상담", "availableLanguage": "Korean"},
+                "contactPoint": {"@type": "ContactPoint", "telephone": "+82-10-6839-8283", "contactType": "영어수학 학습 상담", "availableLanguage": "Korean"},
                 "makesOffer": organization_offers(area, "영어수학 학습관리"),
                 "aggregateRating": {"@type": "AggregateRating", "ratingValue": "5", "bestRating": "5", "ratingCount": "3", "reviewCount": "3"},
                 "review": [
@@ -1248,7 +1248,7 @@ def local_page(row: dict) -> str:
         <p class=\"lead\">최근 시험지와 평소 공부 습관을 함께 알려주시면 더 구체적인 학습 방향을 안내받을 수 있습니다.</p>
         <div class=\"actions\" style=\"justify-content:center\">
           <a class=\"btn btn-primary\" href=\"../../상담문의/\">상담문의 보기</a>
-          <a class=\"btn btn-soft\" href=\"tel:01039578283\">전화 문의</a>
+          <a class=\"btn btn-soft\" href=\"tel:01068398283\">전화 문의</a>
         </div>
       </div>
     </section>
