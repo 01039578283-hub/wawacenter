@@ -1,0 +1,8 @@
+tmp
+tmp/**
+__pycache__
+**/__pycache__/**
+*.pyc
+.env.local
+.git
+.git/**
