@@ -386,6 +386,126 @@ h3 {
   background: #fff;
 }
 
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.tuition-table-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+  margin-top: 30px;
+}
+
+.tuition-table-card {
+  overflow: hidden;
+  border: 1px solid #d5e1ef;
+  border-radius: 24px;
+  background: #fff;
+  box-shadow: var(--shadow-soft);
+}
+
+.tuition-table-heading {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 18px;
+  padding: 23px 24px 19px;
+  border-bottom: 1px solid #dfe8f2;
+  background: linear-gradient(135deg, #edf5ff, #fff 72%);
+}
+
+.tuition-table-heading div {
+  min-width: 0;
+}
+
+.tuition-table-heading span {
+  display: block;
+  margin-bottom: 4px;
+  color: #2671d8;
+  font-size: .71rem;
+  font-weight: 950;
+  letter-spacing: .12em;
+}
+
+.tuition-table-heading h3 {
+  font-size: 1.42rem;
+}
+
+.tuition-table-heading p {
+  margin: 0;
+  color: #66768c;
+  font-size: .84rem;
+  font-weight: 750;
+  white-space: nowrap;
+}
+
+.tuition-table {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+  color: #1e3558;
+  font-variant-numeric: tabular-nums;
+}
+
+.tuition-table th,
+.tuition-table td {
+  padding: 17px 12px;
+  border-bottom: 1px solid #e5ecf4;
+  text-align: center;
+  vertical-align: middle;
+}
+
+.tuition-table thead th {
+  color: #607089;
+  background: #f8fafd;
+  font-size: .83rem;
+  font-weight: 900;
+}
+
+.tuition-table tbody th {
+  color: #174ea6;
+  font-size: .94rem;
+  font-weight: 950;
+}
+
+.tuition-table tbody td {
+  font-size: .94rem;
+  font-weight: 850;
+  letter-spacing: -.025em;
+}
+
+.tuition-table tbody tr:last-child th,
+.tuition-table tbody tr:last-child td {
+  border-bottom: 0;
+}
+
+.tuition-table .recommended th,
+.tuition-table .recommended td {
+  background: #edf5ff;
+}
+
+.tuition-table th small {
+  display: inline-flex;
+  align-items: center;
+  min-height: 20px;
+  margin-left: 5px;
+  padding: 0 6px;
+  border-radius: 999px;
+  color: #fff;
+  background: #2563eb;
+  font-size: .63rem;
+  vertical-align: 1px;
+}
+
 .tuition-badge,
 .fee-tier-title,
 .tuition-card.accent .fee-tier-title {
@@ -860,7 +980,7 @@ h3 {
   .nav {
     width: 100%;
     display: grid;
-    grid-template-columns: repeat(4, minmax(0, 1fr));
+    grid-template-columns: repeat(5, minmax(0, 1fr));
     gap: 3px;
     padding: 3px;
     border-radius: 13px;
@@ -871,7 +991,7 @@ h3 {
     min-height: 36px;
     padding: 0 3px;
     border-radius: 10px;
-    font-size: clamp(.69rem, 3.1vw, .79rem);
+    font-size: clamp(.61rem, 2.55vw, .74rem);
     letter-spacing: -.04em;
     white-space: nowrap;
   }
@@ -1166,6 +1286,47 @@ h3 {
     border-radius: 20px;
   }
 
+  .tuition-table-grid {
+    grid-template-columns: 1fr;
+    gap: 13px;
+    margin-top: 23px;
+  }
+
+  .tuition-table-card {
+    border-radius: 18px;
+  }
+
+  .tuition-table-heading {
+    align-items: center;
+    padding: 18px 16px 15px;
+  }
+
+  .tuition-table-heading h3 {
+    font-size: 1.2rem;
+  }
+
+  .tuition-table-heading p {
+    font-size: .74rem;
+  }
+
+  .tuition-table th,
+  .tuition-table td {
+    padding: 14px 5px;
+  }
+
+  .tuition-table thead th {
+    font-size: .73rem;
+  }
+
+  .tuition-table tbody th,
+  .tuition-table tbody td {
+    font-size: clamp(.72rem, 3.15vw, .84rem);
+  }
+
+  .tuition-table th small {
+    display: none;
+  }
+
   .cta-box {
     padding: 36px 18px;
     border-radius: 20px;
@@ -1201,7 +1362,7 @@ h3 {
   }
 
   .nav a {
-    font-size: .67rem;
+    font-size: .59rem;
   }
 
   .center-town-grid {
