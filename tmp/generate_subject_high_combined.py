@@ -41,6 +41,17 @@ CONFIGS = {
         "card_small": "중학생 · 영어와 수학",
         "card_description": "371개 동네별 학교 내신·과제·오답 관리 안내",
     },
+    "elementary": {
+        "zip": "초등 영수학원.zip",
+        "category": "초등영수학원",
+        "display": "초등 영수학원",
+        "level": "초등",
+        "grade_prefix": "초",
+        "audience": "초등학생",
+        "eyebrow": "Elementary English & Math",
+        "card_small": "초등학생 · 영어와 수학",
+        "card_description": "371개 동네별 기초 개념·학습 습관·오답 관리 안내",
+    },
 }
 if LEVEL not in CONFIGS:
     raise ValueError(f"Unsupported SUBJECT_LEVEL: {LEVEL}")
