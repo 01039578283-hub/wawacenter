@@ -552,11 +552,13 @@ def render_hub(pages: list[tuple[dict, dict]]) -> str:
         district_html = []
         for district, entries in districts.items():
             links = "".join(
-                f'<a class="subject-locality-link" href="{escape(center["slug"])}/"><b>{escape(clean_text(page["sections"]["페이지타이틀"]))}</b><span>{escape(center["center"] or center["locality"] + " 학습센터")}</span></a>'
+                f'<a class="subject-locality-link" href="{escape(center["slug"])}/" data-search="{escape(" ".join((region, district, center["locality"], center["center"], clean_text(page["sections"]["페이지타이틀"]))))}" aria-label="{escape(clean_text(page["sections"]["페이지타이틀"]))} 페이지로 이동"><b>{escape(center["locality"])}</b><span>{CATEGORY_DISPLAY}</span><i aria-hidden="true">→</i></a>'
                 for page, center in entries
             )
-            district_html.append(f'<section class="subject-district-block"><h3>{escape(district or region)}</h3><div class="subject-locality-grid">{links}</div></section>')
-        region_html.append(f'<section class="subject-region-block" data-region><div class="subject-region-heading"><span>{escape(region)}</span><strong>{sum(len(v) for v in districts.values())}개 지역</strong></div>{"".join(district_html)}</section>')
+            district_html.append(f'<section class="subject-district-block"><div class="subject-district-heading"><h3>{escape(district or region)}</h3><span>{len(entries)}곳</span></div><div class="subject-locality-grid">{links}</div></section>')
+        opened = " open" if not region_html else ""
+        region_count = sum(len(v) for v in districts.values())
+        region_html.append(f'<details class="subject-region-block" data-region{opened}><summary class="subject-region-heading"><span><small>광역지역</small>{escape(region)}</span><strong>{region_count}개 동네<i aria-hidden="true"></i></strong></summary><div class="subject-region-content">{"".join(district_html)}</div></details>')
     graph = hub_graph(pages)
     return f'''<!doctype html>
 <html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
@@ -566,10 +568,10 @@ def render_hub(pages: list[tuple[dict, dict]]) -> str:
 <body class="subject-hub-page"><header class="site-header"><div class="header-inner"><a class="brand" href="../../" aria-label="{SITE_NAME} 홈"><span class="brand-mark">W</span><span>{SITE_NAME}</span></a><nav class="nav" aria-label="상단 메뉴"><a href="../../">홈</a><a href="../../학습가이드/">학습가이드</a><a href="../../상담문의/">상담문의</a><a href="../" aria-current="page">과목별학원</a><a href="../../전국센터/">전국학원</a></nav><a class="header-cta" href="{FORM_URL}" target="_blank" rel="noopener">상담 신청</a></div></header>
 <main><section class="page-hero subject-hub-hero"><nav class="mini-breadcrumb" aria-label="현재 위치"><a href="../../">홈</a><span>›</span><a href="../">과목별학원</a><span>›</span><strong>{CATEGORY_DISPLAY}</strong></nav><p class="eyebrow">{escape(EYEBROW_LABEL)}</p><h1>동네별 {CATEGORY_DISPLAY}</h1><p class="lead">{LEVEL_LABEL} 영어와 수학은 학습 방식이 다르기 때문에 과목별 진단과 주간 계획을 따로 세우되, 학교 시험 일정과 전체 학습량은 함께 조정해야 합니다. 아래에서 지역을 선택해 개별 원고와 확인된 센터 정보를 살펴보세요.</p><div class="hero-points"><span>371개 동네</span><span>개별 원고</span><span>제공 자료 기반</span></div></section>
 <section class="section subject-hub-intro"><div class="subject-summary-grid"><article class="subject-answer-card"><p class="eyebrow">Selection Guide</p><h2>영어와 수학을 같은 방식으로 관리하지 않습니다</h2><p>영어는 어휘·구문·독해·서술형의 누적 상태를, 수학은 개념 이해·유형 적용·풀이 과정·오답 원인을 나누어 확인합니다. 상담에서는 각 과목의 우선순위와 재점검 날짜가 구체적으로 남는지 살펴보세요.</p></article><aside class="subject-info-card"><h2>페이지 구성</h2><dl><div><dt>지역</dt><dd>13개 광역권 · 371개 동네</dd></div><div><dt>대상</dt><dd>센터별 제공 가능 학년 기준</dd></div><div><dt>내용</dt><dd>개별 원고 · 센터 · 학교 · 주소 정보</dd></div><div><dt>관리</dt><dd>진단 · 내신 · 과제 · 오답 재학습</dd></div></dl></aside></div></section>
-<section class="section subject-directory-section"><div class="section-head center"><p class="eyebrow">Local Directory</p><h2>{CATEGORY_DISPLAY} 지역 선택</h2><p class="lead">지역명 또는 동네명을 입력하면 해당 페이지를 빠르게 찾을 수 있습니다.</p></div><label class="subject-search"><span>지역 검색</span><input id="subject-local-search" type="search" placeholder="예: 서울, 강동구, 명일동" autocomplete="off"></label><p class="subject-search-result" id="subject-search-result" aria-live="polite">전체 371개 지역</p><div class="subject-region-list">{"".join(region_html)}</div></section>
+<section class="section subject-directory-section"><div class="section-head center"><p class="eyebrow">Local Directory</p><h2>{CATEGORY_DISPLAY} 지역 선택</h2><p class="lead">광역지역을 펼쳐 시군구와 동네를 차례로 확인하거나, 검색창에서 바로 찾아보세요.</p></div><div class="subject-directory-overview" aria-label="지역 안내 요약"><div><strong>{len(regions)}</strong><span>광역지역</span></div><div><strong>{len(pages)}</strong><span>동네 안내</span></div><p>처음에는 한 지역만 열어 두어 목록을 간결하게 정리했습니다.</p></div><div class="subject-directory-tools"><label class="subject-search"><span>지역 검색</span><input id="subject-local-search" type="search" placeholder="서울 · 강동구 · 명일동" autocomplete="off"></label><div class="subject-directory-actions"><button type="button" id="subject-expand-all">모두 펼치기</button><button type="button" id="subject-collapse-all">모두 접기</button></div></div><p class="subject-search-result" id="subject-search-result" aria-live="polite">전체 {len(pages)}개 동네</p><div class="subject-region-list">{"".join(region_html)}</div></section>
 <section class="section"><div class="section-head center"><p class="eyebrow">FAQ</p><h2>{CATEGORY_DISPLAY} 자주 묻는 질문</h2></div><div class="faq"><details open><summary>{CATEGORY_DISPLAY}을 비교할 때 무엇을 먼저 확인해야 하나요?</summary><p>영어와 수학을 같은 기준으로 묶지 말고, 영어는 어휘·문법·독해를, 수학은 개념·유형·풀이·오답을 따로 진단하는지 확인해야 합니다.</p></details><details><summary>지역별 페이지에는 어떤 정보가 있나요?</summary><p>제공된 지역·센터·학교·주소 자료와 개별 원고를 바탕으로 수업 대상, 상담 질문, 내신과 오답 관리 기준을 정리했습니다.</p></details></div></section></main>
 <footer class="footer"><div class="footer-inner"><div><strong>{SITE_NAME}</strong><br>초중고 영어·수학·국어 학습관리 안내</div><div>상담 전화 <a href="tel:{PHONE_LINK}">{PHONE}</a></div></div></footer><aside class="floating-actions" aria-label="빠른 상담 버튼"><a href="tel:{PHONE_LINK}">전화문의</a><a href="{SMS_URL}" target="_blank" rel="noopener">문자문의</a><a href="{FORM_URL}" target="_blank" rel="noopener">상담신청</a></aside>
-<script>(function(){{var input=document.getElementById('subject-local-search'),result=document.getElementById('subject-search-result'),links=[].slice.call(document.querySelectorAll('.subject-locality-link'));function update(){{var query=(input.value||'').trim().toLowerCase(),shown=0;links.forEach(function(link){{var match=!query||link.textContent.toLowerCase().indexOf(query)>-1;link.hidden=!match;if(match)shown++;}});document.querySelectorAll('.subject-district-block').forEach(function(block){{block.hidden=!block.querySelector('.subject-locality-link:not([hidden])');}});document.querySelectorAll('[data-region]').forEach(function(block){{block.hidden=!block.querySelector('.subject-locality-link:not([hidden])');}});result.textContent=query?'검색 결과 '+shown+'개':'전체 371개 지역';}}input.addEventListener('input',update);}})();</script></body></html>'''
+<script>(function(){{var input=document.getElementById('subject-local-search'),result=document.getElementById('subject-search-result'),links=[].slice.call(document.querySelectorAll('.subject-locality-link')),regions=[].slice.call(document.querySelectorAll('[data-region]')),expand=document.getElementById('subject-expand-all'),collapse=document.getElementById('subject-collapse-all');function update(){{var query=(input.value||'').trim().toLowerCase(),shown=0;links.forEach(function(link){{var haystack=(link.getAttribute('data-search')||link.textContent).toLowerCase(),match=!query||haystack.indexOf(query)>-1;link.hidden=!match;if(match)shown++;}});document.querySelectorAll('.subject-district-block').forEach(function(block){{block.hidden=!block.querySelector('.subject-locality-link:not([hidden])');}});regions.forEach(function(block){{block.hidden=!block.querySelector('.subject-locality-link:not([hidden])');if(query&&!block.hidden)block.open=true;}});result.textContent=query?'검색 결과 '+shown+'개':'전체 {len(pages)}개 동네';}}input.addEventListener('input',update);expand.addEventListener('click',function(){{regions.forEach(function(block){{if(!block.hidden)block.open=true;}});}});collapse.addEventListener('click',function(){{regions.forEach(function(block){{block.open=false;}});}});}})();</script></body></html>'''
 
 
 def update_subject_root() -> None:
@@ -635,6 +637,7 @@ def update_llms() -> None:
 
 
 def main() -> None:
+    hub_only = os.environ.get("HUB_ONLY") == "1"
     manuscripts = read_zip_entries()
     rows = read_center_rows()
     slugs = make_slugs(rows)
@@ -642,7 +645,7 @@ def main() -> None:
     manuscript_keys = {normalize(page["locality"]) for page in manuscripts}
     if manuscript_keys != set(row_map):
         raise ValueError(f"Manuscript/center mismatch: missing centers={sorted(manuscript_keys-set(row_map))[:10]}, missing manuscripts={sorted(set(row_map)-manuscript_keys)[:10]}")
-    representatives = representative_urls()
+    representatives = [] if hub_only else representative_urls()
     rendered: list[tuple[dict, dict]] = []
     TARGET.mkdir(parents=True, exist_ok=True)
     urls = [absolute_url("과목별학원", CATEGORY)]
@@ -651,19 +654,21 @@ def main() -> None:
         row = row_map[key]
         slug = slugs[key]
         center = center_payload(row, slug)
-        parent = ROOT / "전국센터" / slug / "index.html"
-        if not parent.exists():
-            raise FileNotFoundError(f"Parent page missing: {parent}")
-        representative = choose_representative(representatives, clean_text(page["sections"]["페이지타이틀"]))
-        output = TARGET / slug / "index.html"
-        output.parent.mkdir(parents=True, exist_ok=True)
-        output.write_text(render_page(page, center, representative), encoding="utf-8", newline="\n")
+        if not hub_only:
+            parent = ROOT / "전국센터" / slug / "index.html"
+            if not parent.exists():
+                raise FileNotFoundError(f"Parent page missing: {parent}")
+            representative = choose_representative(representatives, clean_text(page["sections"]["페이지타이틀"]))
+            output = TARGET / slug / "index.html"
+            output.parent.mkdir(parents=True, exist_ok=True)
+            output.write_text(render_page(page, center, representative), encoding="utf-8", newline="\n")
         rendered.append((page, center))
         urls.append(absolute_url("과목별학원", CATEGORY, slug))
     (TARGET / "index.html").write_text(render_hub(rendered), encoding="utf-8", newline="\n")
-    update_subject_root()
-    update_sitemap(urls)
-    update_llms()
+    if not hub_only:
+        update_subject_root()
+        update_sitemap(urls)
+        update_llms()
     print(json.dumps({"category": CATEGORY, "pages": len(rendered), "hub": str(TARGET / 'index.html'), "urls": len(urls)}, ensure_ascii=False, indent=2))
 
 
