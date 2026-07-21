@@ -1,0 +1,1221 @@
+/*
+ * 전국수업.com 2026 mobile-first visual refresh
+ * Existing page copy, URLs and structured data are intentionally untouched.
+ */
+
+:root {
+  --ink: #12213a;
+  --muted: #5f6f86;
+  --line: #dce5f0;
+  --paper: #f5f8fc;
+  --soft: #eef4fb;
+  --sage: #3b82f6;
+  --sage-dark: #174ea6;
+  --peach: #f97360;
+  --gold: #f1b84b;
+  --blue: #2563eb;
+  --blue-dark: #123b7a;
+  --sky: #e8f4ff;
+  --white: #ffffff;
+  --shadow: 0 20px 55px rgba(33, 66, 112, 0.11);
+  --shadow-soft: 0 10px 30px rgba(33, 66, 112, 0.075);
+  --radius: 24px;
+}
+
+html {
+  background: var(--paper);
+  scroll-padding-top: 110px;
+}
+
+body {
+  min-width: 0;
+  color: var(--ink);
+  background:
+    radial-gradient(circle at 8% 2%, rgba(59, 130, 246, 0.10), transparent 28rem),
+    radial-gradient(circle at 92% 12%, rgba(14, 165, 233, 0.08), transparent 30rem),
+    var(--paper);
+  line-height: 1.72;
+  overflow-x: clip;
+  word-break: keep-all;
+}
+
+body::before {
+  display: none;
+}
+
+main,
+section,
+article,
+div,
+nav {
+  min-width: 0;
+}
+
+p,
+li,
+dd,
+span,
+strong,
+em,
+h1,
+h2,
+h3 {
+  overflow-wrap: break-word;
+}
+
+img {
+  height: auto;
+}
+
+/* Header */
+.site-header {
+  background: rgba(255, 255, 255, 0.92);
+  border-bottom: 1px solid rgba(31, 78, 139, 0.10);
+  box-shadow: 0 8px 28px rgba(35, 65, 105, 0.07);
+}
+
+.header-inner {
+  width: min(1180px, calc(100% - 40px));
+  min-height: 76px;
+  gap: 20px;
+}
+
+.brand {
+  color: #10284d;
+  gap: 11px;
+  font-size: 1rem;
+}
+
+.brand-mark {
+  width: 40px;
+  height: 40px;
+  border-radius: 13px;
+  background: linear-gradient(145deg, #1d4ed8, #0ea5e9);
+  box-shadow: 0 10px 22px rgba(37, 99, 235, 0.24);
+}
+
+.nav {
+  gap: 4px;
+  padding: 5px;
+  border: 1px solid #e1e8f1;
+  border-radius: 16px;
+  background: #f7f9fc;
+  box-shadow: none;
+}
+
+.nav a {
+  min-height: 40px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 15px;
+  border-radius: 12px;
+  color: #53637a;
+  font-size: 0.91rem;
+  transition: color .18s ease, background .18s ease, box-shadow .18s ease;
+}
+
+.nav a[aria-current="page"],
+.nav a:hover {
+  color: #fff;
+  background: linear-gradient(135deg, #1d4ed8, #2563eb);
+  box-shadow: 0 8px 18px rgba(37, 99, 235, 0.22);
+}
+
+.header-cta {
+  min-height: 44px;
+  padding: 0 18px;
+  border-radius: 14px;
+  background: linear-gradient(135deg, #f97360, #ef5a45);
+  box-shadow: 0 11px 24px rgba(239, 90, 69, 0.20);
+}
+
+/* Type and shared layout */
+h1,
+h2,
+h3 {
+  color: #102653;
+  letter-spacing: -0.045em;
+}
+
+h1 {
+  font-size: clamp(2.35rem, 4.4vw, 4.05rem);
+  line-height: 1.08;
+}
+
+h2 {
+  font-size: clamp(1.95rem, 3.8vw, 3.15rem);
+  line-height: 1.14;
+}
+
+h3 {
+  line-height: 1.3;
+}
+
+.lead {
+  color: var(--muted);
+  line-height: 1.82;
+}
+
+.eyebrow {
+  margin-bottom: 16px;
+  color: #2563eb;
+  letter-spacing: .12em;
+}
+
+.eyebrow::before,
+.section-head.center .eyebrow::after,
+.local-hero .eyebrow::after {
+  background: #60a5fa;
+}
+
+.section {
+  width: min(1120px, calc(100% - 40px));
+  padding: 80px 0;
+}
+
+.section-head {
+  margin-bottom: 30px;
+}
+
+.section-head.center {
+  max-width: 720px;
+}
+
+.split {
+  grid-template-columns: minmax(230px, .72fr) minmax(0, 1.28fr);
+  gap: clamp(26px, 4vw, 52px);
+}
+
+.section-title {
+  top: 108px;
+}
+
+/* Home hero */
+.hero {
+  width: min(1180px, calc(100% - 40px));
+  padding: 72px 0 58px;
+  grid-template-columns: minmax(0, .88fr) minmax(0, 1.12fr);
+  gap: clamp(30px, 5vw, 64px);
+}
+
+.hero::before {
+  left: -90px;
+  top: 18px;
+  background: linear-gradient(135deg, rgba(59, 130, 246, .17), rgba(14, 165, 233, .05));
+}
+
+.hero-copy .lead {
+  max-width: 620px;
+}
+
+.hero-card {
+  border: 1px solid #dbe6f2;
+  border-radius: 30px;
+  transform: none;
+  background: #fff;
+  box-shadow: 0 30px 70px rgba(27, 61, 109, .16);
+}
+
+.hero-card img {
+  filter: none;
+}
+
+.floating-note {
+  left: 20px;
+  bottom: 20px;
+  border: 1px solid rgba(255,255,255,.95);
+  border-radius: 18px;
+  background: rgba(255,255,255,.94);
+  box-shadow: 0 16px 38px rgba(22, 50, 89, .16);
+}
+
+.hero-points {
+  gap: 7px;
+}
+
+.hero-points span,
+.hub-summary span,
+.tuition-info span,
+.pill {
+  color: #3b526f;
+  background: #f7faff;
+  border-color: #dce7f3;
+}
+
+.btn {
+  min-height: 50px;
+  border-radius: 14px;
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, #1d4ed8, #2563eb);
+  box-shadow: 0 14px 30px rgba(37, 99, 235, .23);
+}
+
+.btn-soft {
+  color: #174ea6;
+  border-color: #cfdded;
+  background: #fff;
+}
+
+.metric-row {
+  width: min(1120px, calc(100% - 40px));
+  gap: 12px;
+  margin-bottom: 34px;
+}
+
+.metric-card {
+  padding: 20px;
+  border: 1px solid #dce5ef;
+  border-radius: 20px;
+  background: #fff;
+  box-shadow: var(--shadow-soft);
+}
+
+.metric-card b {
+  color: #153f83;
+}
+
+/* Cards and content sections */
+.card,
+.panel,
+.faq details,
+.review,
+.guide-link,
+.tuition-card,
+.cta-box,
+.geo-summary-card,
+.geo-summary-facts div,
+.geo-proof-card,
+.child-focus-grid article,
+.local-info-grid div,
+.related-link-card,
+.child-page-link,
+.hub-region-card,
+.center-town-link {
+  border-color: #dce5f0;
+  background: #fff;
+  box-shadow: var(--shadow-soft);
+  backdrop-filter: none;
+}
+
+.card,
+.panel,
+.review {
+  border-radius: 22px;
+}
+
+.card {
+  padding: 24px;
+}
+
+.feature-mosaic .card:first-child {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  grid-template-areas:
+    "num title"
+    "text text";
+  align-items: center;
+  background: linear-gradient(135deg, #edf5ff, #ffffff 66%);
+}
+
+.feature-mosaic .card:first-child .num {
+  grid-area: num;
+  margin-bottom: 0;
+}
+
+.feature-mosaic .card:first-child h3 {
+  grid-area: title;
+  min-width: 0;
+}
+
+.feature-mosaic .card:first-child p {
+  grid-area: text;
+  margin-top: 15px;
+}
+
+.card .num {
+  color: #fff;
+  background: linear-gradient(145deg, #2563eb, #0ea5e9);
+}
+
+.card p,
+.panel p,
+.review p,
+.faq p,
+.child-focus-grid p,
+.geo-proof-card p {
+  color: var(--muted);
+}
+
+.dark-band {
+  margin-top: 50px;
+  padding: 78px 0;
+  background:
+    radial-gradient(circle at 12% 8%, rgba(56, 189, 248, .16), transparent 26rem),
+    linear-gradient(135deg, #0d2448, #153a70);
+}
+
+.process {
+  gap: 12px;
+}
+
+.process-card {
+  border-color: rgba(255,255,255,.14);
+  border-radius: 20px;
+  background: rgba(255,255,255,.07);
+}
+
+.process-card b {
+  color: #8dd9ff;
+}
+
+.guide-link {
+  border-radius: 22px;
+  background: #fff;
+}
+
+/* Tuition, FAQ, reviews */
+.tuition-card {
+  border-radius: 26px;
+  background: #fff;
+}
+
+.tuition-card.accent {
+  background: #fff;
+}
+
+.tuition-badge,
+.fee-tier-title,
+.tuition-card.accent .fee-tier-title {
+  background: linear-gradient(145deg, #1d4ed8, #0ea5e9);
+}
+
+.fee-tier {
+  border-color: #e0e8f1;
+  background: #f7faff;
+}
+
+.fee-tier.highlight {
+  border-color: #c9dcf4;
+  background: #edf5ff;
+}
+
+.fee-prices span {
+  border-color: #e1e9f2;
+  background: #fff;
+}
+
+.faq {
+  gap: 10px;
+}
+
+.faq details {
+  padding: 0;
+  overflow: hidden;
+  border-radius: 18px;
+}
+
+.faq summary {
+  position: relative;
+  list-style: none;
+  padding: 19px 54px 19px 20px;
+  color: #173869;
+  line-height: 1.55;
+}
+
+.faq summary::-webkit-details-marker {
+  display: none;
+}
+
+.faq summary::after {
+  content: "+";
+  position: absolute;
+  right: 18px;
+  top: 50%;
+  width: 28px;
+  height: 28px;
+  display: grid;
+  place-items: center;
+  transform: translateY(-50%);
+  border-radius: 9px;
+  color: #1d4ed8;
+  background: #eaf3ff;
+  font-size: 1.2rem;
+}
+
+.faq details[open] summary::after {
+  content: "−";
+}
+
+.faq details > p {
+  margin: 0;
+  padding: 0 20px 20px;
+}
+
+.reviews {
+  gap: 12px;
+}
+
+.review {
+  padding: 22px;
+  border-radius: 20px;
+}
+
+.stars {
+  color: #e7a72f;
+}
+
+.cta-box {
+  padding: 48px 26px;
+  border-radius: 28px;
+  background: linear-gradient(135deg, #eaf3ff, #fff 55%, #edfaff);
+}
+
+/* Basic pages and national hub */
+.page-hero {
+  width: min(900px, calc(100% - 40px));
+  padding: 70px 0 28px;
+}
+
+.hub-hero {
+  padding-bottom: 24px;
+}
+
+.hub-intro-panel .panel {
+  border-radius: 24px;
+}
+
+.hub-region-list {
+  width: min(1120px, calc(100% - 40px));
+  gap: 16px;
+}
+
+.hub-region-card {
+  padding: clamp(20px, 3vw, 30px);
+  overflow: hidden;
+  border-radius: 24px;
+}
+
+.hub-region-card[open] {
+  border-color: #bcd3ee;
+  background: #fff;
+}
+
+.hub-region-summary::after {
+  color: #fff;
+  background: linear-gradient(145deg, #2563eb, #0ea5e9);
+  box-shadow: 0 8px 18px rgba(37,99,235,.20);
+}
+
+.hub-region-kicker {
+  color: #2563eb;
+  background: #eaf3ff;
+}
+
+.center-town-grid {
+  gap: 10px;
+}
+
+.center-town-link {
+  min-height: 78px;
+  padding: 16px 48px 16px 17px;
+  border-radius: 16px;
+  box-shadow: none;
+}
+
+.center-town-link::before {
+  background: #3b82f6;
+}
+
+.center-town-link::after {
+  color: #1d4ed8;
+  background: #edf5ff;
+}
+
+.center-town-link:hover {
+  border-color: #9fc2ec;
+  background: #f8fbff;
+}
+
+.center-town-link b {
+  color: #15396f;
+}
+
+/* Local and child pages */
+.local-hero {
+  width: min(900px, calc(100% - 40px));
+  padding: 58px 0 30px;
+}
+
+.local-hero.child-hero,
+.local-hero.english-math-hero {
+  width: min(1120px, calc(100% - 40px));
+  margin-top: 26px;
+  padding: 48px clamp(22px, 5vw, 60px);
+  border: 1px solid #d4e3f3;
+  border-radius: 30px;
+  background:
+    radial-gradient(circle at 84% 10%, rgba(14,165,233,.13), transparent 24rem),
+    linear-gradient(135deg, #eaf3ff, #fff 68%);
+}
+
+.mini-breadcrumb {
+  max-width: 100%;
+  margin-bottom: 18px;
+  padding: 8px 12px;
+  border: 1px solid #dce6f1;
+  border-radius: 999px;
+  color: #6a7990;
+  background: rgba(255,255,255,.82);
+}
+
+.mini-breadcrumb a {
+  color: #426183;
+}
+
+.mini-breadcrumb strong {
+  color: #1d4ed8;
+}
+
+.geo-summary-section {
+  padding-bottom: 34px;
+}
+
+.geo-summary-card {
+  grid-template-columns: minmax(0, 1.06fr) minmax(280px, .94fr);
+  padding: clamp(23px, 4vw, 36px);
+  border-radius: 26px;
+  background: linear-gradient(135deg, #ffffff, #f1f7ff);
+}
+
+.geo-summary-card p {
+  color: var(--muted);
+}
+
+.geo-summary-facts div {
+  padding: 17px 18px;
+  border-radius: 17px;
+  box-shadow: none;
+}
+
+.geo-summary-facts dt {
+  color: #2671d8;
+}
+
+.geo-summary-facts dd {
+  color: #143a73;
+}
+
+.local-media-section {
+  width: min(1040px, calc(100% - 40px));
+  gap: 22px;
+  padding: 20px 0 48px;
+}
+
+.local-media-card {
+  border: 1px solid #d5e0ec;
+  border-radius: 24px;
+  background: #fff;
+  box-shadow: var(--shadow);
+}
+
+.local-media-card img:not([style*="display:none"]) {
+  width: 100%;
+  max-height: none;
+  object-fit: contain;
+  background: #fff;
+}
+
+.local-media-label {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 14px 18px;
+  color: #1e5497;
+  border-bottom: 1px solid #e1e8f0;
+  background: #f7faff;
+}
+
+.local-media-label::before {
+  background: #3b82f6;
+  box-shadow: 0 0 0 5px #e3efff;
+}
+
+.local-content {
+  padding-top: 56px;
+}
+
+.local-guide-panel {
+  padding-top: 52px;
+  padding-bottom: 52px;
+}
+
+.local-info-grid {
+  gap: 11px;
+}
+
+.local-info-grid div {
+  padding: 21px;
+  border-radius: 19px;
+  box-shadow: none;
+}
+
+.local-info-grid b {
+  color: #2671d8;
+}
+
+.geo-answer-section,
+.geo-checklist-section,
+.related-links-section {
+  padding-top: 46px;
+  padding-bottom: 46px;
+}
+
+.geo-proof-grid {
+  gap: 11px;
+}
+
+.geo-proof-card,
+.child-focus-grid article {
+  min-height: 0;
+  padding: 22px;
+  border-radius: 20px;
+  box-shadow: none;
+}
+
+.geo-proof-card span,
+.child-focus-grid span {
+  color: #fff;
+  background: linear-gradient(145deg, #2563eb, #0ea5e9);
+}
+
+.child-focus-grid {
+  gap: 12px;
+}
+
+.related-link-grid {
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 11px;
+}
+
+.related-link-card {
+  min-height: 150px;
+  padding: 20px;
+  border-radius: 20px;
+  box-shadow: none;
+}
+
+.related-link-card::after {
+  content: "→";
+  color: #fff;
+  background: linear-gradient(145deg, #2563eb, #0ea5e9);
+  box-shadow: none;
+}
+
+.related-link-card span {
+  color: #1d4ed8;
+  background: #eaf3ff;
+}
+
+.child-page-link {
+  padding: clamp(22px, 3.5vw, 32px);
+  border-radius: 24px;
+  background: linear-gradient(135deg, #edf5ff, #fff 70%);
+}
+
+.child-page-link::before {
+  background: #3b82f6;
+  box-shadow: 22px 0 0 rgba(14,165,233,.34), 44px 0 0 rgba(29,78,216,.18);
+}
+
+.child-page-link::after {
+  content: "자세히 보기 →";
+  color: #fff;
+  background: linear-gradient(135deg, #1d4ed8, #2563eb);
+  box-shadow: none;
+}
+
+/* Footer and floating actions */
+.footer {
+  margin-top: 58px;
+  padding: 44px 0 112px;
+  border-top-color: #dbe4ee;
+  background: #edf3f9;
+}
+
+.footer-inner {
+  width: min(1120px, calc(100% - 40px));
+}
+
+.floating-actions {
+  right: 16px;
+  bottom: 16px;
+  gap: 7px;
+}
+
+.floating-actions a {
+  min-width: 82px;
+  min-height: 39px;
+  border: 1px solid rgba(255,255,255,.72);
+  border-radius: 13px;
+  box-shadow: 0 10px 24px rgba(19, 43, 77, .18);
+}
+
+.floating-actions a:nth-child(1) {
+  background: #164590;
+}
+
+.floating-actions a:nth-child(2) {
+  background: #2769c8;
+}
+
+.floating-actions a:nth-child(3) {
+  background: #f26752;
+}
+
+/* Tablet */
+@media (max-width: 900px) {
+  .header-inner {
+    width: min(100% - 24px, 760px);
+  }
+
+  .hero,
+  .split,
+  .geo-summary-card {
+    grid-template-columns: 1fr;
+  }
+
+  .hero {
+    padding-top: 48px;
+  }
+
+  .section {
+    width: min(100% - 32px, 760px);
+    padding: 58px 0;
+  }
+
+  .page-hero,
+  .local-hero,
+  .local-hero.child-hero,
+  .local-hero.english-math-hero {
+    width: min(100% - 32px, 760px);
+  }
+
+  .local-media-section {
+    width: min(100% - 32px, 760px);
+  }
+
+  .section-title {
+    position: static;
+  }
+
+  .local-info-grid,
+  .geo-proof-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Mobile */
+@media (max-width: 680px) {
+  html {
+    scroll-padding-top: 118px;
+  }
+
+  body {
+    font-size: 15px;
+    line-height: 1.68;
+  }
+
+  .site-header {
+    position: sticky;
+  }
+
+  .header-inner {
+    width: 100%;
+    min-height: 0;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 8px;
+    padding: 10px 12px 9px;
+  }
+
+  .brand {
+    justify-self: start;
+    min-height: 34px;
+    font-size: .94rem;
+  }
+
+  .brand span:last-child {
+    display: inline;
+  }
+
+  .brand-mark {
+    width: 33px;
+    height: 33px;
+    border-radius: 11px;
+  }
+
+  .nav {
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 3px;
+    padding: 3px;
+    border-radius: 13px;
+  }
+
+  .nav a {
+    min-width: 0;
+    min-height: 36px;
+    padding: 0 3px;
+    border-radius: 10px;
+    font-size: clamp(.69rem, 3.1vw, .79rem);
+    letter-spacing: -.04em;
+    white-space: nowrap;
+  }
+
+  .header-cta {
+    display: none;
+  }
+
+  h1 {
+    font-size: clamp(1.95rem, 8.6vw, 2.28rem);
+    line-height: 1.12;
+  }
+
+  h2 {
+    font-size: clamp(1.62rem, 7.4vw, 2.12rem);
+    line-height: 1.2;
+  }
+
+  h3 {
+    font-size: 1.16rem;
+  }
+
+  .lead {
+    margin-top: 17px;
+    font-size: .98rem;
+    line-height: 1.78;
+  }
+
+  .eyebrow {
+    margin-bottom: 13px;
+    font-size: .72rem;
+  }
+
+  .hero {
+    width: calc(100% - 32px);
+    padding: 38px 0 42px;
+    gap: 28px;
+  }
+
+  .hero-copy h1 br {
+    display: none;
+  }
+
+  .hero-actions,
+  .actions {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 9px;
+    margin-top: 24px;
+  }
+
+  .btn {
+    width: 100%;
+    min-height: 48px;
+    border-radius: 13px;
+  }
+
+  .hero-points {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .hero-points span {
+    min-width: 0;
+    justify-content: center;
+    padding: 7px 8px;
+    text-align: center;
+    line-height: 1.35;
+  }
+
+  .hero-card {
+    border-radius: 23px;
+  }
+
+  .floating-note {
+    position: static;
+    width: auto;
+    margin: -2px 12px 12px;
+    border-radius: 15px;
+    box-shadow: none;
+    background: #f3f7fc;
+  }
+
+  .metric-row {
+    width: calc(100% - 32px);
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 9px;
+    margin-bottom: 24px;
+  }
+
+  .metric-card {
+    min-height: 112px;
+    padding: 17px;
+    border-radius: 17px;
+  }
+
+  .metric-card b {
+    font-size: 1.12rem;
+  }
+
+  .section {
+    width: calc(100% - 32px);
+    padding: 48px 0;
+  }
+
+  .section-head {
+    margin-bottom: 24px;
+  }
+
+  .card-grid,
+  .process,
+  .guide-strip,
+  .reviews,
+  .tuition-grid,
+  .child-focus-grid,
+  .related-link-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .card,
+  .panel,
+  .review,
+  .guide-link,
+  .geo-proof-card,
+  .child-focus-grid article,
+  .local-info-grid div {
+    padding: 19px;
+    border-radius: 18px;
+  }
+
+  .feature-mosaic .card:first-child {
+    grid-template-columns: 1fr;
+    grid-template-areas:
+      "num"
+      "title"
+      "text";
+  }
+
+  .dark-band {
+    margin-top: 34px;
+    padding: 54px 0;
+  }
+
+  .page-hero {
+    width: calc(100% - 32px);
+    padding: 42px 0 20px;
+  }
+
+  .hub-summary {
+    gap: 7px;
+  }
+
+  .hub-region-list {
+    width: calc(100% - 24px);
+    padding-top: 44px;
+  }
+
+  .hub-region-card {
+    padding: 16px;
+    border-radius: 19px;
+  }
+
+  .hub-region-summary {
+    padding-right: 45px;
+  }
+
+  .center-town-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
+  }
+
+  .center-town-link {
+    min-height: 88px;
+    padding: 14px 34px 14px 14px;
+    border-radius: 14px;
+  }
+
+  .center-town-link b {
+    font-size: .98rem;
+  }
+
+  .center-town-link span {
+    font-size: .75rem;
+    line-height: 1.4;
+  }
+
+  .local-hero {
+    width: calc(100% - 32px);
+    padding: 38px 0 22px;
+  }
+
+  .local-hero.child-hero,
+  .local-hero.english-math-hero {
+    width: calc(100% - 24px);
+    margin-top: 12px;
+    padding: 28px 17px;
+    border-radius: 20px;
+  }
+
+  .mini-breadcrumb {
+    width: 100%;
+    justify-content: flex-start;
+    padding: 8px 10px;
+    border-radius: 12px;
+    font-size: .78rem;
+    line-height: 1.4;
+  }
+
+  .local-hero .hero-points {
+    margin-top: 18px;
+  }
+
+  .geo-summary-section {
+    width: calc(100% - 24px);
+    padding: 22px 0 28px;
+  }
+
+  .geo-summary-card {
+    gap: 20px;
+    padding: 21px 17px;
+    border-radius: 20px;
+  }
+
+  .geo-summary-card h2 {
+    font-size: 1.6rem;
+  }
+
+  .geo-summary-facts {
+    gap: 8px;
+  }
+
+  .geo-summary-facts div {
+    padding: 14px;
+    border-radius: 14px;
+  }
+
+  .local-media-section {
+    width: 100%;
+    gap: 14px;
+    padding: 8px 0 34px;
+  }
+
+  .local-media-card {
+    border-right: 0;
+    border-left: 0;
+    border-radius: 0;
+    box-shadow: 0 10px 28px rgba(28,61,104,.08);
+  }
+
+  .local-media-label {
+    padding: 12px 16px;
+    font-size: .87rem;
+  }
+
+  .local-content {
+    padding-top: 44px;
+  }
+
+  .local-guide-panel,
+  .geo-answer-section,
+  .geo-checklist-section,
+  .related-links-section {
+    padding-top: 38px;
+    padding-bottom: 38px;
+  }
+
+  .related-link-card {
+    min-height: 126px;
+    padding: 17px;
+    border-radius: 16px;
+  }
+
+  .child-page-link {
+    padding: 20px 17px;
+    border-radius: 18px;
+  }
+
+  .child-page-link b {
+    font-size: 1.35rem;
+  }
+
+  .faq summary {
+    padding: 17px 50px 17px 17px;
+  }
+
+  .faq details > p {
+    padding: 0 17px 17px;
+  }
+
+  .tuition-card {
+    padding: 19px;
+    border-radius: 20px;
+  }
+
+  .cta-box {
+    padding: 36px 18px;
+    border-radius: 20px;
+  }
+
+  .footer {
+    margin-top: 42px;
+    padding: 36px 0 118px;
+  }
+
+  .footer-inner {
+    width: calc(100% - 32px);
+    gap: 12px;
+  }
+
+  .floating-actions {
+    right: 10px;
+    bottom: max(10px, env(safe-area-inset-bottom));
+  }
+
+  .floating-actions a {
+    min-width: 72px;
+    min-height: 36px;
+    padding: 0 10px;
+    border-radius: 11px;
+    font-size: .75rem;
+  }
+}
+
+@media (max-width: 380px) {
+  .brand span:last-child {
+    font-size: .86rem;
+  }
+
+  .nav a {
+    font-size: .67rem;
+  }
+
+  .center-town-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    transition-duration: .01ms !important;
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+  }
+}
