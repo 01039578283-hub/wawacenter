@@ -144,7 +144,7 @@ def main() -> None:
             if not check_link(hub, href):
                 fail(f"hub broken link: {href}")
     root_source = (ROOT / "과목별학원" / "index.html").read_text(encoding="utf-8")
-    if root_source.count("<!-- HIGH-COMBINED-START -->") != 1 or 'href="고등영수학원/"' not in root_source:
+    if root_source.count("<!-- SUBJECT-CATEGORY-CARDS-START -->") != 1 or f'href="{generator.CATEGORY}/"' not in root_source:
         fail("subject root category card missing/duplicated")
     sitemap = ET.fromstring((ROOT / "sitemap.xml").read_text(encoding="utf-8"))
     ns = {"sm": "http://www.sitemaps.org/schemas/sitemap/0.9"}

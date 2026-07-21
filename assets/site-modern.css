@@ -1387,6 +1387,16 @@ h3 {
   padding-bottom: 18px;
 }
 
+.subject-category-grid {
+  margin-top: 28px;
+  display: grid;
+  gap: 14px;
+}
+
+.subject-category-grid .subject-category-card {
+  margin-top: 0;
+}
+
 .subject-category-card {
   width: min(860px, 100%);
   min-height: 132px;

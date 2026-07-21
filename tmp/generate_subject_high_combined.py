@@ -4,6 +4,7 @@ import csv
 import hashlib
 import html
 import json
+import os
 import re
 import xml.etree.ElementTree as ET
 from collections import Counter
@@ -14,11 +15,43 @@ from zipfile import ZipFile
 
 ROOT = Path(__file__).resolve().parents[1]
 COMMON = ROOT.parent / "참고자료" / "공통자료"
-ZIP_PATH = Path.home() / "Desktop" / "전국수업.com 추가 원고" / "고등 영수학원.zip"
 CENTER_INFO = COMMON / "센터정보 정리.csv"
 REPRESENTATIVE_CSV = COMMON / "대표 이미지 url.csv"
-CATEGORY = "고등영수학원"
-CATEGORY_DISPLAY = "고등 영수학원"
+LEVEL = os.environ.get("SUBJECT_LEVEL", "high").strip().lower()
+CONFIGS = {
+    "high": {
+        "zip": "고등 영수학원.zip",
+        "category": "고등영수학원",
+        "display": "고등 영수학원",
+        "level": "고등",
+        "grade_prefix": "고",
+        "audience": "고등학생",
+        "eyebrow": "High School English & Math",
+        "card_small": "고등학생 · 영어와 수학",
+        "card_description": "371개 동네별 학습 진단·내신·오답 관리 안내",
+    },
+    "middle": {
+        "zip": "중등 영수학원.zip",
+        "category": "중등영수학원",
+        "display": "중등 영수학원",
+        "level": "중등",
+        "grade_prefix": "중",
+        "audience": "중학생",
+        "eyebrow": "Middle School English & Math",
+        "card_small": "중학생 · 영어와 수학",
+        "card_description": "371개 동네별 학교 내신·과제·오답 관리 안내",
+    },
+}
+if LEVEL not in CONFIGS:
+    raise ValueError(f"Unsupported SUBJECT_LEVEL: {LEVEL}")
+CONFIG = CONFIGS[LEVEL]
+ZIP_PATH = Path.home() / "Desktop" / "전국수업.com 추가 원고" / CONFIG["zip"]
+CATEGORY = CONFIG["category"]
+CATEGORY_DISPLAY = CONFIG["display"]
+LEVEL_LABEL = CONFIG["level"]
+GRADE_PREFIX = CONFIG["grade_prefix"]
+AUDIENCE_LABEL = CONFIG["audience"]
+EYEBROW_LABEL = CONFIG["eyebrow"]
 TARGET = ROOT / "과목별학원" / CATEGORY
 DOMAIN = "https://xn--3e0bz50bxucwzc.com"
 SITE_NAME = "와와센터 학습코칭"
@@ -111,8 +144,8 @@ def read_zip_entries() -> list[dict]:
             if missing:
                 raise ValueError(f"{info.filename}: missing sections {sorted(missing)}")
             title = clean_text(sections["페이지타이틀"])
-            locality = re.sub(r"\s*고등\s*영수학원\s*$", "", title).strip()
-            if not locality or title != f"{locality} 고등 영수학원":
+            locality = re.sub(rf"\s*{re.escape(CATEGORY_DISPLAY)}\s*$", "", title).strip()
+            if not locality or title != f"{locality} {CATEGORY_DISPLAY}":
                 raise ValueError(f"Unexpected title: {title}")
             pages.append({"filename": info.filename, "locality": locality, "sections": sections})
     if len(pages) != 371:
@@ -186,7 +219,7 @@ def grade_intersection(row: dict[str, str]) -> list[str]:
     english_grades = split_values(field(row, "가능학년(영어)"))
     math_grades = split_values(field(row, "가능학년(수학)"))
     math_set = set(math_grades)
-    return [grade for grade in english_grades if grade in math_set and grade.startswith("고")]
+    return [grade for grade in english_grades if grade in math_set and grade.startswith(GRADE_PREFIX)]
 
 
 def paragraph_html(value: str) -> str:
@@ -232,9 +265,9 @@ def make_graph(page: dict, center: dict, representative: str) -> dict:
     image_id = canonical + "#primaryimage"
     region_names = [value for value in (center["region"], center["district"], center["locality"]) if value]
     about = [
-        {"@type": "Thing", "name": "고등 영어"},
-        {"@type": "Thing", "name": "고등 수학"},
-        {"@type": "Thing", "name": "고등 영수학원"},
+        {"@type": "Thing", "name": f"{LEVEL_LABEL} 영어"},
+        {"@type": "Thing", "name": f"{LEVEL_LABEL} 수학"},
+        {"@type": "Thing", "name": CATEGORY_DISPLAY},
         {"@type": "Thing", "name": "내신 대비"},
         {"@type": "Thing", "name": "오답 관리"},
     ]
@@ -254,7 +287,7 @@ def make_graph(page: dict, center: dict, representative: str) -> dict:
     offer = {
         "@type": "Offer",
         "name": f"{title} 상담 및 학습관리",
-        "itemOffered": {"@type": "Service", "name": title, "serviceType": "고등 영어·수학 학습관리"},
+        "itemOffered": {"@type": "Service", "name": title, "serviceType": f"{LEVEL_LABEL} 영어·수학 학습관리"},
     }
     if center["tuition"]:
         offer["url"] = center["tuition"]
@@ -274,7 +307,7 @@ def make_graph(page: dict, center: dict, representative: str) -> dict:
             "addressCountry": "KR",
         },
         "areaServed": {"@type": "Place", "name": center["locality"]},
-        "knowsAbout": ["고등 영어", "고등 수학", "내신 대비", "학습 진단", "오답 재학습"],
+        "knowsAbout": [f"{LEVEL_LABEL} 영어", f"{LEVEL_LABEL} 수학", "내신 대비", "학습 진단", "오답 재학습"],
         "makesOffer": [offer],
         "contactPoint": {
             "@type": "ContactPoint",
@@ -340,11 +373,11 @@ def make_graph(page: dict, center: dict, representative: str) -> dict:
             "@type": "Service",
             "@id": service_id,
             "name": f"{title} 학습관리",
-            "serviceType": "고등 영어·수학 학습관리",
+            "serviceType": f"{LEVEL_LABEL} 영어·수학 학습관리",
             "description": summary,
             "provider": {"@id": org_id},
             "areaServed": {"@type": "Place", "name": center["locality"]},
-            "audience": {"@type": "EducationalAudience", "educationalRole": "student", "audienceType": "고등학생"},
+            "audience": {"@type": "EducationalAudience", "educationalRole": "student", "audienceType": AUDIENCE_LABEL},
             "about": about,
             "mentions": mentions,
             "makesOffer": [offer],
@@ -443,10 +476,10 @@ def render_page(page: dict, center: dict, representative: str) -> str:
   <main>
     <section class="local-hero subject-local-hero">
       <nav class="mini-breadcrumb" aria-label="현재 위치"><a href="../../../">홈</a><span>›</span><a href="../../">과목별학원</a><span>›</span><a href="../">{CATEGORY_DISPLAY}</a><span>›</span><strong>{escape(locality)}</strong></nav>
-      <p class="eyebrow">High School English &amp; Math</p>
+      <p class="eyebrow">{escape(EYEBROW_LABEL)}</p>
       <h1>{escape(title)}</h1>
       <p class="lead">{escape(description)}</p>
-      <div class="hero-points"><span>{escape(region_line)}</span><span>고등 영어·수학</span><span>진단·내신·오답 관리</span></div>
+      <div class="hero-points"><span>{escape(region_line)}</span><span>{LEVEL_LABEL} 영어·수학</span><span>진단·내신·오답 관리</span></div>
     </section>
 
     <section class="section subject-summary-section">
@@ -476,7 +509,7 @@ def render_page(page: dict, center: dict, representative: str) -> str:
     <section class="section subject-review-section"><div class="subject-review-card"><p class="eyebrow">Parent Perspective</p><h2>{escape(title)} 학부모 상담 관점</h2><p class="subject-review-note">{escape(review_note)}</p><div class="subject-review-list">{review_html}</div></div></section>
 
     <section class="section related-links-section"><div class="section-head center"><p class="eyebrow">Related Pages</p><h2>{escape(locality)} 관련 학습 안내</h2><p class="lead">현재 페이지와 같은 지역의 센터 안내, 과목별 지역 목록, 학습·상담 안내를 연결했습니다.</p></div><div class="related-link-grid">
-      <a class="related-link-card" href="../"><span>전체 지역</span><b>{CATEGORY_DISPLAY}</b><em>371개 동네의 고등 영어·수학 안내를 살펴봅니다.</em></a>
+      <a class="related-link-card" href="../"><span>전체 지역</span><b>{CATEGORY_DISPLAY}</b><em>371개 동네의 {LEVEL_LABEL} 영어·수학 안내를 살펴봅니다.</em></a>
       <a class="related-link-card" href="../../../전국센터/{escape(center['slug'])}/"><span>지역 센터</span><b>{escape(locality)} 전국학원 안내</b><em>해당 동네의 센터 위치와 전체 학습관리 기준을 확인합니다.</em></a>
       <a class="related-link-card" href="../../../학습가이드/"><span>학습관리</span><b>학습가이드</b><em>진단, 플래너, 오답 재학습의 관리 흐름을 확인합니다.</em></a>
       <a class="related-link-card" href="../../../상담문의/"><span>상담 준비</span><b>상담문의</b><em>상담 전에 준비할 자료와 질문을 정리합니다.</em></a>
@@ -498,11 +531,11 @@ def hub_graph(pages: list[tuple[dict, dict]]) -> dict:
     return {
         "@context": "https://schema.org",
         "@graph": [
-            {"@type": "CollectionPage", "@id": canonical + "#webpage", "url": canonical, "name": f"{CATEGORY_DISPLAY} 지역 안내", "description": "371개 동네별 고등 영어·수학 학원 선택 기준과 센터 정보를 확인할 수 있는 지역 허브입니다.", "inLanguage": "ko-KR", "breadcrumb": {"@id": canonical + "#breadcrumb"}, "mainEntity": {"@id": canonical + "#itemlist"}, "about": [{"@type": "Thing", "name": "고등 영어"}, {"@type": "Thing", "name": "고등 수학"}, {"@type": "Thing", "name": "고등 영수학원"}]},
+            {"@type": "CollectionPage", "@id": canonical + "#webpage", "url": canonical, "name": f"{CATEGORY_DISPLAY} 지역 안내", "description": f"371개 동네별 {LEVEL_LABEL} 영어·수학 학원 선택 기준과 센터 정보를 확인할 수 있는 지역 허브입니다.", "inLanguage": "ko-KR", "breadcrumb": {"@id": canonical + "#breadcrumb"}, "mainEntity": {"@id": canonical + "#itemlist"}, "about": [{"@type": "Thing", "name": f"{LEVEL_LABEL} 영어"}, {"@type": "Thing", "name": f"{LEVEL_LABEL} 수학"}, {"@type": "Thing", "name": CATEGORY_DISPLAY}]},
             {"@type": "BreadcrumbList", "@id": canonical + "#breadcrumb", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "홈", "item": DOMAIN + "/"}, {"@type": "ListItem", "position": 2, "name": "과목별학원", "item": absolute_url("과목별학원")}, {"@type": "ListItem", "position": 3, "name": CATEGORY_DISPLAY, "item": canonical}]},
             {"@type": "ItemList", "@id": canonical + "#itemlist", "name": f"동네별 {CATEGORY_DISPLAY} 안내", "numberOfItems": len(items), "itemListElement": items},
             {"@type": "FAQPage", "@id": canonical + "#faq", "mainEntity": [
-                {"@type": "Question", "name": "고등 영수학원을 비교할 때 무엇을 먼저 확인해야 하나요?", "acceptedAnswer": {"@type": "Answer", "text": "영어와 수학을 같은 기준으로 묶지 말고, 영어는 어휘·구문·독해·서술형을, 수학은 개념·유형·풀이·오답을 따로 진단하는지 확인해야 합니다."}},
+                {"@type": "Question", "name": f"{CATEGORY_DISPLAY}을 비교할 때 무엇을 먼저 확인해야 하나요?", "acceptedAnswer": {"@type": "Answer", "text": "영어와 수학을 같은 기준으로 묶지 말고, 영어는 어휘·문법·독해를, 수학은 개념·유형·풀이·오답을 따로 진단하는지 확인해야 합니다."}},
                 {"@type": "Question", "name": "지역별 페이지에는 어떤 정보가 있나요?", "acceptedAnswer": {"@type": "Answer", "text": "제공된 지역·센터·학교·주소 자료와 개별 원고를 바탕으로 수업 대상, 상담 질문, 내신과 오답 관리 기준을 정리했습니다."}},
             ]},
         ],
@@ -528,13 +561,13 @@ def render_hub(pages: list[tuple[dict, dict]]) -> str:
     return f'''<!doctype html>
 <html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
 <title>{CATEGORY_DISPLAY} 지역 찾기 | {PUBLIC_SITE_NAME}</title>
-<meta name="description" content="371개 동네별 고등 영어·수학 학원 선택 기준을 지역과 시군구별로 정리했습니다. 센터 정보, 고등 내신, 과목별 진단과 오답 관리 기준을 확인하세요.">
-<meta name="robots" content="index,follow"><meta property="og:type" content="website"><meta property="og:title" content="{CATEGORY_DISPLAY} 지역 찾기 | {PUBLIC_SITE_NAME}"><meta property="og:description" content="지역별 고등 영어·수학 학원 선택 기준과 상담 정보를 확인하세요."><meta property="og:url" content="{canonical}"><link rel="canonical" href="{canonical}"><link rel="icon" href="../../assets/favicon.png"><link rel="stylesheet" href="../../assets/site.css"><link rel="stylesheet" href="../../assets/site-modern.css"><script type="application/ld+json">{json.dumps(graph, ensure_ascii=False, separators=(",", ":"))}</script></head>
+<meta name="description" content="371개 동네별 {LEVEL_LABEL} 영어·수학 학원 선택 기준을 지역과 시군구별로 정리했습니다. 센터 정보, 학교 내신, 과목별 진단과 오답 관리 기준을 확인하세요.">
+<meta name="robots" content="index,follow"><meta property="og:type" content="website"><meta property="og:title" content="{CATEGORY_DISPLAY} 지역 찾기 | {PUBLIC_SITE_NAME}"><meta property="og:description" content="지역별 {LEVEL_LABEL} 영어·수학 학원 선택 기준과 상담 정보를 확인하세요."><meta property="og:url" content="{canonical}"><link rel="canonical" href="{canonical}"><link rel="icon" href="../../assets/favicon.png"><link rel="stylesheet" href="../../assets/site.css"><link rel="stylesheet" href="../../assets/site-modern.css"><script type="application/ld+json">{json.dumps(graph, ensure_ascii=False, separators=(",", ":"))}</script></head>
 <body class="subject-hub-page"><header class="site-header"><div class="header-inner"><a class="brand" href="../../" aria-label="{SITE_NAME} 홈"><span class="brand-mark">W</span><span>{SITE_NAME}</span></a><nav class="nav" aria-label="상단 메뉴"><a href="../../">홈</a><a href="../../학습가이드/">학습가이드</a><a href="../../상담문의/">상담문의</a><a href="../" aria-current="page">과목별학원</a><a href="../../전국센터/">전국학원</a></nav><a class="header-cta" href="{FORM_URL}" target="_blank" rel="noopener">상담 신청</a></div></header>
-<main><section class="page-hero subject-hub-hero"><nav class="mini-breadcrumb" aria-label="현재 위치"><a href="../../">홈</a><span>›</span><a href="../">과목별학원</a><span>›</span><strong>{CATEGORY_DISPLAY}</strong></nav><p class="eyebrow">High School English &amp; Math</p><h1>동네별 {CATEGORY_DISPLAY}</h1><p class="lead">고등 영어와 수학은 학습 방식이 다르기 때문에 과목별 진단과 주간 계획을 따로 세우되, 시험 일정과 전체 학습량은 함께 조정해야 합니다. 아래에서 지역을 선택해 개별 원고와 확인된 센터 정보를 살펴보세요.</p><div class="hero-points"><span>371개 동네</span><span>개별 원고</span><span>제공 자료 기반</span></div></section>
+<main><section class="page-hero subject-hub-hero"><nav class="mini-breadcrumb" aria-label="현재 위치"><a href="../../">홈</a><span>›</span><a href="../">과목별학원</a><span>›</span><strong>{CATEGORY_DISPLAY}</strong></nav><p class="eyebrow">{escape(EYEBROW_LABEL)}</p><h1>동네별 {CATEGORY_DISPLAY}</h1><p class="lead">{LEVEL_LABEL} 영어와 수학은 학습 방식이 다르기 때문에 과목별 진단과 주간 계획을 따로 세우되, 학교 시험 일정과 전체 학습량은 함께 조정해야 합니다. 아래에서 지역을 선택해 개별 원고와 확인된 센터 정보를 살펴보세요.</p><div class="hero-points"><span>371개 동네</span><span>개별 원고</span><span>제공 자료 기반</span></div></section>
 <section class="section subject-hub-intro"><div class="subject-summary-grid"><article class="subject-answer-card"><p class="eyebrow">Selection Guide</p><h2>영어와 수학을 같은 방식으로 관리하지 않습니다</h2><p>영어는 어휘·구문·독해·서술형의 누적 상태를, 수학은 개념 이해·유형 적용·풀이 과정·오답 원인을 나누어 확인합니다. 상담에서는 각 과목의 우선순위와 재점검 날짜가 구체적으로 남는지 살펴보세요.</p></article><aside class="subject-info-card"><h2>페이지 구성</h2><dl><div><dt>지역</dt><dd>13개 광역권 · 371개 동네</dd></div><div><dt>대상</dt><dd>센터별 제공 가능 학년 기준</dd></div><div><dt>내용</dt><dd>개별 원고 · 센터 · 학교 · 주소 정보</dd></div><div><dt>관리</dt><dd>진단 · 내신 · 과제 · 오답 재학습</dd></div></dl></aside></div></section>
 <section class="section subject-directory-section"><div class="section-head center"><p class="eyebrow">Local Directory</p><h2>{CATEGORY_DISPLAY} 지역 선택</h2><p class="lead">지역명 또는 동네명을 입력하면 해당 페이지를 빠르게 찾을 수 있습니다.</p></div><label class="subject-search"><span>지역 검색</span><input id="subject-local-search" type="search" placeholder="예: 서울, 강동구, 명일동" autocomplete="off"></label><p class="subject-search-result" id="subject-search-result" aria-live="polite">전체 371개 지역</p><div class="subject-region-list">{"".join(region_html)}</div></section>
-<section class="section"><div class="section-head center"><p class="eyebrow">FAQ</p><h2>{CATEGORY_DISPLAY} 자주 묻는 질문</h2></div><div class="faq"><details open><summary>고등 영수학원을 비교할 때 무엇을 먼저 확인해야 하나요?</summary><p>영어와 수학을 같은 기준으로 묶지 말고, 영어는 어휘·구문·독해·서술형을, 수학은 개념·유형·풀이·오답을 따로 진단하는지 확인해야 합니다.</p></details><details><summary>지역별 페이지에는 어떤 정보가 있나요?</summary><p>제공된 지역·센터·학교·주소 자료와 개별 원고를 바탕으로 수업 대상, 상담 질문, 내신과 오답 관리 기준을 정리했습니다.</p></details></div></section></main>
+<section class="section"><div class="section-head center"><p class="eyebrow">FAQ</p><h2>{CATEGORY_DISPLAY} 자주 묻는 질문</h2></div><div class="faq"><details open><summary>{CATEGORY_DISPLAY}을 비교할 때 무엇을 먼저 확인해야 하나요?</summary><p>영어와 수학을 같은 기준으로 묶지 말고, 영어는 어휘·문법·독해를, 수학은 개념·유형·풀이·오답을 따로 진단하는지 확인해야 합니다.</p></details><details><summary>지역별 페이지에는 어떤 정보가 있나요?</summary><p>제공된 지역·센터·학교·주소 자료와 개별 원고를 바탕으로 수업 대상, 상담 질문, 내신과 오답 관리 기준을 정리했습니다.</p></details></div></section></main>
 <footer class="footer"><div class="footer-inner"><div><strong>{SITE_NAME}</strong><br>초중고 영어·수학·국어 학습관리 안내</div><div>상담 전화 <a href="tel:{PHONE_LINK}">{PHONE}</a></div></div></footer><aside class="floating-actions" aria-label="빠른 상담 버튼"><a href="tel:{PHONE_LINK}">전화문의</a><a href="{SMS_URL}" target="_blank" rel="noopener">문자문의</a><a href="{FORM_URL}" target="_blank" rel="noopener">상담신청</a></aside>
 <script>(function(){{var input=document.getElementById('subject-local-search'),result=document.getElementById('subject-search-result'),links=[].slice.call(document.querySelectorAll('.subject-locality-link'));function update(){{var query=(input.value||'').trim().toLowerCase(),shown=0;links.forEach(function(link){{var match=!query||link.textContent.toLowerCase().indexOf(query)>-1;link.hidden=!match;if(match)shown++;}});document.querySelectorAll('.subject-district-block').forEach(function(block){{block.hidden=!block.querySelector('.subject-locality-link:not([hidden])');}});document.querySelectorAll('[data-region]').forEach(function(block){{block.hidden=!block.querySelector('.subject-locality-link:not([hidden])');}});result.textContent=query?'검색 결과 '+shown+'개':'전체 371개 지역';}}input.addEventListener('input',update);}})();</script></body></html>'''
 
@@ -542,19 +575,30 @@ def render_hub(pages: list[tuple[dict, dict]]) -> str:
 def update_subject_root() -> None:
     path = ROOT / "과목별학원" / "index.html"
     source = path.read_text(encoding="utf-8")
-    block = '''<!-- HIGH-COMBINED-START -->
+    cards = []
+    for config in CONFIGS.values():
+        category = config["category"]
+        if not (ROOT / "과목별학원" / category / "index.html").exists():
+            continue
+        cards.append(
+            f'<a class="subject-category-card" href="{category}/"><span class="subject-category-icon">E+M</span><span><small>{config["card_small"]}</small><strong>{config["display"]}</strong><em>{config["card_description"]}</em></span><b aria-hidden="true">→</b></a>'
+        )
+    block = f'''<!-- SUBJECT-CATEGORY-CARDS-START -->
     <section class="section subject-category-section">
       <div class="section-head center"><p class="eyebrow">Published Guide</p><h2>현재 확인할 수 있는 과목별 안내</h2><p class="lead">개별 원고와 확인된 센터 자료를 바탕으로 작성한 지역 페이지입니다.</p></div>
-      <a class="subject-category-card" href="고등영수학원/"><span class="subject-category-icon">E+M</span><span><small>고등학생 · 영어와 수학</small><strong>고등 영수학원</strong><em>371개 동네별 학습 진단·내신·오답 관리 안내</em></span><b aria-hidden="true">→</b></a>
+      <div class="subject-category-grid">{"".join(cards)}</div>
     </section>
-<!-- HIGH-COMBINED-END -->'''
-    pattern = re.compile(r"\s*<!-- HIGH-COMBINED-START -->.*?<!-- HIGH-COMBINED-END -->", re.DOTALL)
+<!-- SUBJECT-CATEGORY-CARDS-END -->'''
+    pattern = re.compile(
+        r"\s*<!-- (?:HIGH-COMBINED|SUBJECT-CATEGORY-CARDS)-START -->.*?<!-- (?:HIGH-COMBINED|SUBJECT-CATEGORY-CARDS)-END -->",
+        re.DOTALL,
+    )
     source = pattern.sub("", source)
     anchor = "    <section class=\"section split\">"
     if anchor not in source:
         raise ValueError("Subject root insertion point not found")
     source = source.replace(anchor, block + "\n\n" + anchor, 1)
-    path.write_text(source, encoding="utf-8")
+    path.write_text(source, encoding="utf-8", newline="\n")
 
 
 def update_sitemap(urls: list[str]) -> None:
@@ -573,13 +617,13 @@ def update_sitemap(urls: list[str]) -> None:
     lines = ['<?xml version="1.0" encoding="UTF-8"?>', '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">']
     lines.extend(f"  <url><loc>{escape(url)}</loc></url>" for url in ordered)
     lines.append("</urlset>")
-    path.write_text("\n".join(lines) + "\n", encoding="utf-8")
+    path.write_text("\n".join(lines) + "\n", encoding="utf-8", newline="\n")
 
 
 def update_llms() -> None:
     path = ROOT / "llms.txt"
     source = path.read_text(encoding="utf-8")
-    line = f"- 고등 영수학원: {absolute_url('과목별학원', CATEGORY)}"
+    line = f"- {CATEGORY_DISPLAY}: {absolute_url('과목별학원', CATEGORY)}"
     if line not in source:
         marker = f"- 과목별학원: {absolute_url('과목별학원')}"
         if marker not in source:
@@ -587,7 +631,7 @@ def update_llms() -> None:
             source = source.replace("- 전국학원:", subject_line + "\n- 전국학원:")
         marker = f"- 과목별학원: {absolute_url('과목별학원')}"
         source = source.replace(marker, marker + "\n" + line)
-        path.write_text(source, encoding="utf-8")
+    path.write_text(source, encoding="utf-8", newline="\n")
 
 
 def main() -> None:
@@ -613,10 +657,10 @@ def main() -> None:
         representative = choose_representative(representatives, clean_text(page["sections"]["페이지타이틀"]))
         output = TARGET / slug / "index.html"
         output.parent.mkdir(parents=True, exist_ok=True)
-        output.write_text(render_page(page, center, representative), encoding="utf-8")
+        output.write_text(render_page(page, center, representative), encoding="utf-8", newline="\n")
         rendered.append((page, center))
         urls.append(absolute_url("과목별학원", CATEGORY, slug))
-    (TARGET / "index.html").write_text(render_hub(rendered), encoding="utf-8")
+    (TARGET / "index.html").write_text(render_hub(rendered), encoding="utf-8", newline="\n")
     update_subject_root()
     update_sitemap(urls)
     update_llms()
