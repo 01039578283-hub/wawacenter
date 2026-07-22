@@ -78,7 +78,7 @@ def main() -> None:
             fail(f"title mismatch: {slug}")
         if len(h1s) != 1 or generator.clean_text(h1s[0]) != title:
             fail(f"H1 mismatch/count: {slug}")
-        if description != generator.clean_text(page["sections"]["메타설명"]):
+        if description != generator.meta_description(page["sections"]["메타설명"], title):
             fail(f"description mismatch: {slug}")
         if canonical != expected_canonical or og_url != expected_canonical:
             fail(f"canonical/og mismatch: {slug}")

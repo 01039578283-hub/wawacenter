@@ -84,6 +84,27 @@ def clean_text(value: str) -> str:
     return re.sub(r"\s+", " ", html.unescape(value)).strip()
 
 
+def meta_description(value: str, title: str) -> str:
+    description = clean_text(value)
+    if len(description) < 70:
+        supplement = f" {title}의 학습 진단, 학교 학습 연결, 과제와 오답 관리 기준을 함께 안내합니다."
+        description = (description + supplement).strip()
+    if len(description) <= 150:
+        return description
+    sentences = re.split(r"(?<=[.!?。])\s+", description)
+    selected: list[str] = []
+    for sentence in sentences:
+        candidate = " ".join([*selected, sentence]).strip()
+        if len(candidate) > 150:
+            break
+        selected.append(sentence)
+    shortened = " ".join(selected).strip()
+    if len(shortened) >= 70:
+        return shortened
+    shortened = description[:147].rsplit(" ", 1)[0].rstrip(" ,·")
+    return shortened + "..."
+
+
 def escape(value: str) -> str:
     return html.escape(value or "", quote=True)
 
@@ -131,13 +152,39 @@ def parse_faq(text: str) -> list[tuple[str, str]]:
 
 
 def parse_review(text: str) -> tuple[str, list[str]]:
-    blocks = [re.sub(r"\s+", " ", block).strip() for block in re.split(r"\n\s*\n", text) if block.strip()]
-    if not blocks:
+    normalized = re.sub(r"\s+", " ", text or "").strip()
+    if not normalized:
         return "", []
-    note = blocks[0] if blocks[0].startswith("※") else ""
-    reviews = blocks[1:] if note else blocks
+    note = ""
+    remainder = normalized
+    if remainder.startswith("※"):
+        boundaries = [position for position in (
+            remainder.find("후기 1."),
+            remainder.find("“"),
+            remainder.find('"'),
+        ) if position > 0]
+        boundary = min(boundaries) if boundaries else len(remainder)
+        note = remainder[:boundary].strip()
+        remainder = remainder[boundary:].strip()
+    numbered = re.findall(r"후기\s*\d+\.\s*(.*?)(?=\s*후기\s*\d+\.|\Z)", remainder, re.DOTALL)
+    quoted = re.findall(r"[“\"](.+?)[”\"]", remainder, re.DOTALL)
+    if numbered:
+        reviews = numbered
+    elif quoted:
+        reviews = quoted
+    elif remainder:
+        reviews = [remainder]
+    else:
+        reviews = []
     reviews = [review.strip().strip("“”\"'") for review in reviews if review.strip()]
     return note, reviews
+
+
+def localized_faq(pairs: list[tuple[str, str]], title: str, locality: str) -> list[tuple[str, str]]:
+    if not pairs or any(locality in question or title in question for question, _ in pairs):
+        return pairs
+    question, answer = pairs[0]
+    return [(f"{locality} {CATEGORY_DISPLAY} 상담에서 {question}", answer), *pairs[1:]]
 
 
 def read_zip_entries() -> list[dict]:
@@ -237,6 +284,80 @@ def paragraph_html(value: str) -> str:
     return f"<p>{escape(re.sub(r'\\s*\\n\\s*', ' ', value.strip()))}</p>"
 
 
+def local_context_html(center: dict, title: str) -> str:
+    seed = int(hashlib.sha256(f"{CATEGORY}|{center['slug']}|context".encode("utf-8")).hexdigest()[:8], 16)
+    headings = [
+        f"{center['locality']}에서 상담 전에 맞춰 볼 실제 조건",
+        f"{center['locality']} 학습 계획을 세울 때 확인할 지역 기준",
+        f"{title} 상담을 구체화하는 정보",
+        f"{center['locality']} 학생에게 맞는 일정을 판단하는 방법",
+        "센터 정보와 학교 자료를 함께 보는 이유",
+        f"{center['locality']} 수업 선택을 서두르지 않는 기준",
+    ]
+    region_line = " ".join(value for value in (center["region"], center["district"], center["locality"]) if value)
+    grade_line = "·".join(center["grades"])
+    school_line = "·".join(center["schools"])
+    address = center["address"] or "상담 시 확인하는 센터 위치"
+    first_variants = [
+        f"{region_line}에서 {title}을 살필 때에는 과목명만 비교하기보다 실제 이동 경로와 가능한 수업 학년을 함께 확인해야 합니다. 제공된 센터 위치는 {address}이며, 영어와 수학을 함께 확인할 수 있는 학년은 {grade_line or '상담 시 개별 확인'}입니다.",
+        f"{title} 상담은 학생의 현재 교재와 최근 오답을 확인한 뒤 현실적인 통원 일정까지 맞추는 과정입니다. {region_line}의 제공 센터 주소는 {address}이고, 자료에 표시된 영어·수학 공통 가능 학년은 {grade_line or '상담 시 개별 확인'}입니다.",
+        f"{region_line}에서 수업을 이어 가려면 계획의 양보다 꾸준히 방문하고 복습할 수 있는지가 중요합니다. {address}를 기준으로 이동 시간을 먼저 살피고, {grade_line or '상담 시 확인하는 학년'} 범위에서 두 과목의 우선순위를 정하는 편이 좋습니다.",
+        f"{title}을 알아보는 단계에서는 주소와 학년 정보를 먼저 맞춰야 상담 내용이 구체적이 됩니다. 이 페이지는 제공 자료에 따라 {address}, 영어·수학 가능 학년 {grade_line or '개별 확인'}을 기준으로 안내합니다.",
+        f"{region_line} 학생의 영어와 수학을 함께 관리하려면 학교 일정, 통원 시간, 복습 가능 시간을 한 흐름으로 봐야 합니다. 센터 위치 {address}와 제공 학년 {grade_line or '상담 시 개별 확인'}을 확인한 뒤 최근 학습 기록을 준비해 상담하는 방식이 적절합니다.",
+        f"{title} 선택에서 먼저 확인할 것은 학생이 실제로 다닐 수 있는 위치와 수업 대상입니다. 제공된 정보는 {address}, 영어·수학 공통 가능 학년 {grade_line or '상담 시 개별 확인'}이며, 최종 시간표는 상담에서 다시 맞춥니다.",
+    ]
+    second_variants = [
+        f"{center['locality']} 학교 학습 연결을 확인할 때 참고할 제공 학교 목록은 {school_line}입니다. 학교명은 수업 가능 여부를 단정하는 기준이 아니라 상담 전에 시험 범위와 사용 교재를 준비하기 위한 참고 정보로 활용합니다.",
+        f"{center['locality']} 제공 자료에는 {school_line}이 학교 참고 목록으로 정리되어 있습니다. 해당 학교 학생이라면 최근 시험지나 주간 과제를 가져와 영어와 수학 중 먼저 조정할 부분을 구체적으로 확인하는 것이 좋습니다.",
+        f"{center['locality']} 학교별 진도와 평가 방식은 같지 않으므로 {school_line} 등 제공 학교 정보는 상담 준비의 출발점으로만 사용합니다. 실제 계획은 학생이 사용하는 교재, 시험 범위, 오답 기록을 확인한 뒤 결정합니다.",
+        f"{center['locality']}의 제공 학교 참고 목록은 {school_line}입니다. 학교 이름을 반복해 홍보하기보다 현재 범위와 학생의 풀이 기록을 함께 확인해야 과목별 학습 순서를 현실적으로 정할 수 있습니다.",
+        f"{school_line}은 {center['locality']} 센터 자료에 포함된 학교 참고 정보입니다. 같은 학교 학생이라도 취약 단원과 공부 시간이 다르므로 학교명만으로 수업 방식을 정하지 않고 개별 자료를 바탕으로 상담합니다.",
+        f"{center['locality']} 학교 학습과의 연결은 제공 목록인 {school_line}을 참고하되, 실제 수업 판단은 최근 시험 범위와 오답 유형을 중심으로 진행합니다. 제공되지 않은 학교나 생활권 정보는 임의로 추가하지 않았습니다.",
+    ]
+    registration = center["registration"] or "상담 시 확인하는 등록 정보"
+    center_name = center["center"] or f"{center['locality']} 학습센터"
+    third_variants = [
+        f"페이지의 센터 기준은 {center_name}이며 제공 등록 정보는 {registration}입니다. {center['locality']} 상담에서는 등록 정보와 교습비 링크가 실제 수업 횟수·교재·보강 조건과 어떻게 연결되는지도 함께 확인합니다.",
+        f"{center_name}의 제공 자료에는 {registration}이 표시되어 있습니다. {center['locality']} 학부모는 이 정보와 교습비 자료를 확인한 뒤 수업 시간뿐 아니라 과제 확인과 재학습 방식까지 질문하는 편이 좋습니다.",
+        f"{center['locality']} 페이지는 {center_name}, {registration}을 센터 판단 자료로 사용합니다. 등록 여부만으로 수업 적합성을 단정하지 않고 학생 기록과 실제 상담 조건을 함께 비교해야 합니다.",
+        f"제공된 센터명은 {center_name}, 등록 정보는 {registration}입니다. {center['locality']}에서 상담할 때에는 표시된 정보가 현재 시간표와 교습비 조건에도 동일하게 적용되는지 다시 확인합니다.",
+        f"{center_name}에 대해 제공된 등록 자료는 {registration}입니다. {center['locality']} 학생의 영어·수학 계획은 이 기본 정보에 더해 최근 시험지와 오답 기록을 확인한 뒤 구체화합니다.",
+        f"{center['locality']} 수업 안내의 기준 센터는 {center_name}이며 자료에 기재된 등록 정보는 {registration}입니다. 상담 전에는 주소·학년·교습비를 함께 대조해 실제 등원 조건을 판단합니다.",
+    ]
+    paragraphs = [first_variants[seed % len(first_variants)]]
+    if school_line:
+        paragraphs.append(second_variants[(seed // len(first_variants)) % len(second_variants)])
+    else:
+        paragraphs.append(f"{center['locality']} 페이지에는 제공된 학교 목록이 없어 학교명을 임의로 만들지 않았습니다. 상담 시 현재 학교의 시험 범위와 교재를 직접 확인해 학습 계획에 반영합니다.")
+    paragraphs.append(third_variants[(seed // (len(first_variants) * len(second_variants))) % len(third_variants)])
+    return (
+        '<section class="subject-prose-section subject-local-context">'
+        f'<h2>{escape(headings[seed % len(headings)])}</h2>'
+        + "".join(paragraph_html(paragraph) for paragraph in paragraphs)
+        + "</section>"
+    )
+
+
+def evidence_html(center: dict, title: str) -> str:
+    region_line = " ".join(value for value in (center["region"], center["district"], center["locality"]) if value)
+    tuition = (
+        f'<a href="{escape(center["tuition"])}" target="_blank" rel="noopener noreferrer">교육지원청 등록 교습비 자료 확인</a>'
+        if center["tuition"] else "제공 링크 없음 · 상담 시 확인"
+    )
+    registration = center["registration"] or "제공 자료 없음"
+    return f'''<section class="section subject-evidence-section">
+      <div class="subject-evidence-card">
+        <div><p class="eyebrow">Information Basis</p><h2>{escape(title)} 정보 확인 기준</h2><p>이 페이지는 제공된 센터 정보와 지역별 원고를 바탕으로 작성했으며, 제공되지 않은 학교명이나 생활권 정보는 임의로 추가하지 않았습니다.</p></div>
+        <dl>
+          <div><dt>지역 기준</dt><dd>{escape(region_line)}</dd></div>
+          <div><dt>센터 등록정보</dt><dd>{escape(registration)}</dd></div>
+          <div><dt>교습비 근거</dt><dd>{tuition}</dd></div>
+          <div><dt>페이지 반영일</dt><dd>{DATE_MODIFIED}</dd></div>
+        </dl>
+      </div>
+    </section>'''
+
+
 def center_payload(row: dict[str, str], slug: str) -> dict:
     return {
         "locality": row["근처 수업가능 동네"],
@@ -258,9 +379,9 @@ def center_payload(row: dict[str, str], slug: str) -> dict:
 def make_graph(page: dict, center: dict, representative: str) -> dict:
     sections = page["sections"]
     title = clean_text(sections["페이지타이틀"])
-    description = clean_text(sections["메타설명"])
+    description = meta_description(sections["메타설명"], title)
     summary = clean_text(sections["JSON-LD 요약"])
-    faq = parse_faq(sections["FAQ"])
+    faq = localized_faq(parse_faq(sections["FAQ"]), title, center["locality"])
     _, body_sections = parse_body(sections["본문"])
     canonical = absolute_url("과목별학원", CATEGORY, center["slug"])
     hub_url = absolute_url("과목별학원", CATEGORY)
@@ -292,6 +413,8 @@ def make_graph(page: dict, center: dict, representative: str) -> dict:
             {"@type": "WebPageElement", "name": "센터 지도"},
             {"@type": "WebPageElement", "name": "자주 묻는 질문"},
             {"@type": "WebPageElement", "name": "학부모 상담 관점"},
+            {"@type": "WebPageElement", "name": f"{center['locality']} 지역 학습 조건"},
+            {"@type": "WebPageElement", "name": "정보 확인 기준"},
             {"@type": "WebPageElement", "name": "관련 학습 안내"},
         ]
     )
@@ -374,11 +497,22 @@ def make_graph(page: dict, center: dict, representative: str) -> dict:
             "dateModified": DATE_MODIFIED,
             "author": {"@id": org_id},
             "publisher": {"@type": "Organization", "name": SITE_NAME, "url": home_url},
+            "sourceOrganization": {"@id": org_id},
             "mainEntityOfPage": {"@id": webpage_id},
             "articleSection": [heading for heading, _ in body_sections],
             "about": about,
             "mentions": mentions,
             "hasPart": has_part,
+            "isBasedOn": {
+                "@type": "CreativeWork",
+                "name": f"{center['locality']} 센터 제공 정보",
+                "dateModified": DATE_MODIFIED,
+            },
+            "citation": ([{
+                "@type": "WebPage",
+                "name": "교육지원청 등록 교습비 자료",
+                "url": center["tuition"],
+            }] if center["tuition"] else []),
         },
         {
             "@type": "Service",
@@ -439,14 +573,14 @@ def render_info_rows(center: dict) -> str:
 def render_page(page: dict, center: dict, representative: str) -> str:
     sections = page["sections"]
     title = clean_text(sections["페이지타이틀"])
-    description = clean_text(sections["메타설명"])
+    description = meta_description(sections["메타설명"], title)
     summary = clean_text(sections["JSON-LD 요약"])
     intro, body_sections = parse_body(sections["본문"])
-    faq = parse_faq(sections["FAQ"])
+    faq = localized_faq(parse_faq(sections["FAQ"]), title, center["locality"])
     review_note, reviews = parse_review(sections["학부모후기"])
     canonical = absolute_url("과목별학원", CATEGORY, center["slug"])
     graph = make_graph(page, center, representative)
-    body_html = "".join(
+    body_html = local_context_html(center, title) + "".join(
         f'<section class="subject-prose-section"><h2>{escape(heading)}</h2>{"".join(paragraph_html(paragraph) for paragraph in paragraphs)}</section>'
         for heading, paragraphs in body_sections
     )
@@ -504,9 +638,9 @@ def render_page(page: dict, center: dict, representative: str) -> str:
       <div class="local-media-card">
         <img src="{escape(representative)}" alt="{escape(alt_base)} 대표" style="display:none;">
         <p class="local-media-label">수업 안내 이미지</p>
-        <img src="../../../assets/centers/common/{center['body_image']}" alt="{escape(alt_base)} 본문">
+        <picture><source media="(max-width: 680px)" srcset="../../../assets/centers/common/{center['body_image'].replace('.webp', '-mobile.webp')}"><img src="../../../assets/centers/common/{center['body_image']}" alt="{escape(alt_base)} 본문" loading="lazy" decoding="async" width="918" height="16116"></picture>
       </div>
-      <div class="local-media-card"><p class="local-media-label">센터 위치 안내</p><img src="../../../assets/maps/{escape(center['map'])}" alt="{escape(alt_base)} 지도" loading="lazy"></div>
+      <div class="local-media-card"><p class="local-media-label">센터 위치 안내</p><img src="../../../assets/maps/{escape(center['map'])}" alt="{escape(alt_base)} 지도" loading="lazy" decoding="async"></div>
     </section>
 
     <section class="section subject-article-section">
@@ -515,6 +649,8 @@ def render_page(page: dict, center: dict, representative: str) -> str:
         <aside class="subject-reading-guide"><p class="eyebrow">Reading Guide</p><h2>상담 전에 확인하세요</h2><ol><li>영어와 수학의 막히는 원인을 따로 기록합니다.</li><li>학교 시험 범위와 현재 교재를 함께 준비합니다.</li><li>수업·과제·오답의 다음 확인일을 묻습니다.</li><li>주소와 교습비는 제공된 최신 자료로 확인합니다.</li></ol></aside>
       </div>
     </section>
+
+    {evidence_html(center, title)}
 
     <section class="section subject-faq-section"><div class="section-head center"><p class="eyebrow">FAQ</p><h2>{escape(title)} 자주 묻는 질문</h2></div><div class="subject-faq-list">{faq_html}</div></section>
     <section class="section subject-review-section"><div class="subject-review-card"><p class="eyebrow">Parent Perspective</p><h2>{escape(title)} 학부모 상담 관점</h2><p class="subject-review-note">{escape(review_note)}</p><div class="subject-review-list">{review_html}</div></div></section>
@@ -542,7 +678,7 @@ def hub_graph(pages: list[tuple[dict, dict]]) -> dict:
     return {
         "@context": "https://schema.org",
         "@graph": [
-            {"@type": "CollectionPage", "@id": canonical + "#webpage", "url": canonical, "name": f"{CATEGORY_DISPLAY} 지역 안내", "description": f"371개 동네별 {LEVEL_LABEL} 영어·수학 학원 선택 기준과 센터 정보를 확인할 수 있는 지역 허브입니다.", "inLanguage": "ko-KR", "breadcrumb": {"@id": canonical + "#breadcrumb"}, "mainEntity": {"@id": canonical + "#itemlist"}, "about": [{"@type": "Thing", "name": f"{LEVEL_LABEL} 영어"}, {"@type": "Thing", "name": f"{LEVEL_LABEL} 수학"}, {"@type": "Thing", "name": CATEGORY_DISPLAY}]},
+            {"@type": "CollectionPage", "@id": canonical + "#webpage", "url": canonical, "name": f"{CATEGORY_DISPLAY} 지역 안내", "description": f"371개 동네별 {LEVEL_LABEL} 영어·수학 학원 선택 기준과 센터 정보를 확인할 수 있는 지역 허브입니다.", "inLanguage": "ko-KR", "dateModified": DATE_MODIFIED, "breadcrumb": {"@id": canonical + "#breadcrumb"}, "mainEntity": {"@id": canonical + "#itemlist"}, "about": [{"@type": "Thing", "name": f"{LEVEL_LABEL} 영어"}, {"@type": "Thing", "name": f"{LEVEL_LABEL} 수학"}, {"@type": "Thing", "name": CATEGORY_DISPLAY}]},
             {"@type": "BreadcrumbList", "@id": canonical + "#breadcrumb", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "홈", "item": DOMAIN + "/"}, {"@type": "ListItem", "position": 2, "name": "과목별학원", "item": absolute_url("과목별학원")}, {"@type": "ListItem", "position": 3, "name": CATEGORY_DISPLAY, "item": canonical}]},
             {"@type": "ItemList", "@id": canonical + "#itemlist", "name": f"동네별 {CATEGORY_DISPLAY} 안내", "numberOfItems": len(items), "itemListElement": items},
             {"@type": "FAQPage", "@id": canonical + "#faq", "mainEntity": [
@@ -618,17 +754,28 @@ def update_sitemap(urls: list[str]) -> None:
     path = ROOT / "sitemap.xml"
     ns = {"sm": "http://www.sitemaps.org/schemas/sitemap/0.9"}
     root = ET.fromstring(path.read_text(encoding="utf-8"))
-    existing = {node.text for node in root.findall("sm:url/sm:loc", ns) if node.text}
+    existing: set[str] = set()
+    last_modified: dict[str, str] = {}
+    for node in root.findall("sm:url", ns):
+        location = node.find("sm:loc", ns)
+        modified = node.find("sm:lastmod", ns)
+        if location is not None and location.text:
+            existing.add(location.text)
+            if modified is not None and modified.text:
+                last_modified[location.text] = modified.text
     all_urls = list(existing)
     for url in urls:
         if url not in existing:
             all_urls.append(url)
             existing.add(url)
+        last_modified[url] = DATE_MODIFIED
     home = DOMAIN + "/"
     ordered = [home] if home in existing else []
     ordered.extend(sorted(url for url in all_urls if url != home))
     lines = ['<?xml version="1.0" encoding="UTF-8"?>', '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">']
-    lines.extend(f"  <url><loc>{escape(url)}</loc></url>" for url in ordered)
+    for url in ordered:
+        modified = f"<lastmod>{last_modified[url]}</lastmod>" if url in last_modified else ""
+        lines.append(f"  <url><loc>{escape(url)}</loc>{modified}</url>")
     lines.append("</urlset>")
     path.write_text("\n".join(lines) + "\n", encoding="utf-8", newline="\n")
 
@@ -659,7 +806,7 @@ def main() -> None:
     representatives = [] if hub_only else representative_urls()
     rendered: list[tuple[dict, dict]] = []
     TARGET.mkdir(parents=True, exist_ok=True)
-    urls = [absolute_url("과목별학원", CATEGORY)]
+    urls = [absolute_url("과목별학원"), absolute_url("과목별학원", CATEGORY)]
     for page in sorted(manuscripts, key=lambda item: item["locality"]):
         key = normalize(page["locality"])
         row = row_map[key]
