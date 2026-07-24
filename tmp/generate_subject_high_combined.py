@@ -482,7 +482,7 @@ def make_graph(page: dict, center: dict, representative: str) -> dict:
                 {"@type": "ListItem", "position": 1, "name": "홈", "item": home_url},
                 {"@type": "ListItem", "position": 2, "name": "과목별학원", "item": subject_url},
                 {"@type": "ListItem", "position": 3, "name": CATEGORY_DISPLAY, "item": hub_url},
-                {"@type": "ListItem", "position": 4, "name": center["locality"], "item": canonical},
+                {"@type": "ListItem", "position": 4, "name": title, "item": canonical},
             ],
         },
         {
@@ -620,7 +620,7 @@ def render_page(page: dict, center: dict, representative: str) -> str:
   </div></header>
   <main>
     <section class="local-hero subject-local-hero">
-      <nav class="mini-breadcrumb" aria-label="현재 위치"><a href="../../../">홈</a><span>›</span><a href="../../">과목별학원</a><span>›</span><a href="../">{CATEGORY_DISPLAY}</a><span>›</span><strong>{escape(locality)}</strong></nav>
+      <nav class="mini-breadcrumb" aria-label="현재 위치"><a href="../../../">홈</a><span>›</span><a href="../../">과목별학원</a><span>›</span><a href="../">{CATEGORY_DISPLAY}</a><span>›</span><strong>{escape(title)}</strong></nav>
       <p class="eyebrow">{escape(EYEBROW_LABEL)}</p>
       <h1>{escape(title)}</h1>
       <p class="lead">{escape(description)}</p>
