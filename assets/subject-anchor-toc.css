@@ -1,0 +1,146 @@
+/* Page-specific anchor navigation for subject academy detail pages */
+.subject-page-toc {
+  padding: 24px 0 12px;
+}
+
+.subject-page-toc-panel {
+  display: grid;
+  grid-template-columns: minmax(180px, .28fr) minmax(0, 1fr);
+  gap: 24px;
+  align-items: start;
+  padding: 24px;
+  border: 1px solid #ead7c3;
+  border-radius: 16px;
+  background:
+    linear-gradient(135deg, rgba(255, 247, 237, .96), rgba(255, 255, 255, .98));
+  box-shadow: 0 14px 38px rgba(78, 58, 40, .07);
+}
+
+.subject-page-toc-heading .eyebrow {
+  margin: 0 0 8px;
+}
+
+.subject-page-toc-heading strong {
+  display: block;
+  color: var(--navy-dark);
+  font-size: 1.28rem;
+  line-height: 1.4;
+  letter-spacing: -.035em;
+}
+
+.subject-page-toc-list {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 9px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.subject-page-toc-list a {
+  display: grid;
+  grid-template-columns: 34px minmax(0, 1fr);
+  align-items: center;
+  gap: 10px;
+  min-height: 58px;
+  padding: 10px 13px;
+  border: 1px solid #ecd7c1;
+  border-radius: 10px;
+  color: #31526d;
+  background: #fff;
+  font-size: .88rem;
+  font-weight: 850;
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+  transition: border-color .15s ease, background-color .15s ease, color .15s ease;
+}
+
+.subject-page-toc-list a:hover {
+  border-color: var(--orange);
+  color: var(--orange-dark);
+  background: #fff7ed;
+}
+
+.subject-page-toc-list a:focus-visible {
+  border-color: var(--orange);
+  outline: 3px solid rgba(239, 118, 0, .28);
+  outline-offset: 2px;
+  color: var(--orange-dark);
+  background: #fff7ed;
+}
+
+.subject-page-toc-number {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  color: #fff;
+  background: var(--orange);
+  font-size: .68rem;
+  font-weight: 950;
+}
+
+#answer-title,
+#learning-guide-title,
+#checklist-title,
+#local-facts-title,
+#faq-title,
+#review-title,
+#related-title {
+  /* Combined with the site's existing 92px/132px scroll-padding. */
+  scroll-margin-top: 16px;
+}
+
+#answer-title:target,
+#learning-guide-title:target,
+#checklist-title:target,
+#local-facts-title:target,
+#faq-title:target,
+#review-title:target,
+#related-title:target {
+  color: var(--orange-dark);
+}
+
+@media (max-width: 900px) {
+  .subject-page-toc-panel {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+}
+
+@media (max-width: 680px) {
+  .subject-page-toc {
+    padding: 22px 0 10px;
+  }
+
+  .subject-page-toc-panel {
+    padding: 20px 16px;
+    border-radius: 14px;
+  }
+
+  .subject-page-toc-heading strong {
+    font-size: 1.18rem;
+  }
+
+  .subject-page-toc-list {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+
+  .subject-page-toc-list a {
+    min-height: 56px;
+    padding: 10px 11px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .subject-page-toc-list a {
+    transition: none;
+  }
+}
