@@ -82,24 +82,55 @@ def main() -> None:
     canonical_values: set[str] = set()
     body_values: set[str] = set()
     faq_values: set[str] = set()
+    faq_question_values: set[str] = set()
+    faq_answer_values: set[str] = set()
+    faq_pair_values: set[tuple[str, str]] = set()
     review_values: set[str] = set()
     meta_values: set[str] = set()
     article_values: set[str] = set()
     shingle_rows: list[tuple[str, set[tuple[str, ...]]]] = []
     center_ids: dict[str, str] = {}
     total_links = 0
+    verified_grade_pages = 0
+    selected_school_pages = 0
+    selected_schools_total = 0
+    dual_balance_pages = 0
     for key, page in manuscript_map.items():
         row = row_map[key]
         slug = slugs[key]
         center = generator.center_payload(row, slug)
+        if generator.CONFIG["kind"] == "dual_subject":
+            english_grades = generator.split_values(generator.field(row, "가능학년(영어)"))
+            math_grades = set(generator.split_values(generator.field(row, "가능학년(수학)")))
+            expected_grades = [grade for grade in english_grades if grade in math_grades]
+            if center["grades"] != expected_grades:
+                fail(f"dual-subject common-grade mismatch: {slug}")
+            expected_school_fields = [
+                field_name for prefix, field_name in (
+                    ("초", "타깃학교(초)"), ("중", "타깃학교(중)"), ("고", "타깃학교(고)"),
+                )
+                if any(grade.startswith(prefix) for grade in expected_grades)
+            ]
+            expected_schools = list(dict.fromkeys(
+                school
+                for field_name in expected_school_fields
+                for school in generator.split_school_names(generator.field(row, field_name))
+            ))
+            if center["schools"] != expected_schools:
+                fail(f"dual-subject school-scope mismatch: {slug}")
+        if generator.is_subject_kind():
+            verified_grade_pages += bool(center["grades"])
+            selected_school_pages += bool(center["schools"])
+            selected_schools_total += len(center["schools"])
         page = generator.sanitize_page(page, center)
         path = TARGET / slug / "index.html"
         if not path.exists():
             fail(f"missing page: {slug}")
             continue
         source = path.read_text(encoding="utf-8")
-        if generator.CONFIG["kind"] == "student":
-            unsafe_output = generator.UNVERIFIED_OPERATION_RE.search(generator.clean_text(source))
+        if generator.CONFIG["kind"] in {"student", "dual_subject"}:
+            operation_pattern = generator.DUAL_OPERATION_RE if generator.CONFIG["kind"] == "dual_subject" else generator.UNVERIFIED_OPERATION_RE
+            unsafe_output = operation_pattern.search(generator.clean_text(source))
             if unsafe_output:
                 fail(f"unverified operation wording remains {unsafe_output.group(0)!r}: {slug}")
             if "검색자의 궁금증은" in source:
@@ -148,10 +179,10 @@ def main() -> None:
                         fail(f"makesOffer missing despite verified grade availability: {slug}")
                 elif service.get("makesOffer") or organization.get("makesOffer"):
                     fail(f"makesOffer present without verified grade availability: {slug}")
-                if generator.CONFIG["kind"] == "subject":
+                if generator.is_subject_kind():
                     if organization.get("educationalLevel", []) != center["grades"]:
                         fail(f"subject educationalLevel mismatch: {slug}")
-                    if generator.SUBJECT_LABEL == "영어":
+                    if generator.SUBJECT_LABEL == "영어" or generator.CONFIG["kind"] == "dual_subject":
                         expected_audience = generator.audience_for_center(center)
                         if service.get("audience", {}).get("audienceType") != expected_audience:
                             fail(f"subject audience mismatch: {slug}")
@@ -197,6 +228,13 @@ def main() -> None:
                 ]
                 if faq_screen != faq_json:
                     fail(f"FAQ screen/schema mismatch: {slug}")
+                if len(faq_screen) != 4 or len(set(faq_screen)) != 4:
+                    fail(f"FAQ count/pair uniqueness: {slug}")
+                if generator.CONFIG["kind"] == "dual_subject" and len({answer for _, answer in faq_screen}) != len(faq_screen):
+                    fail(f"duplicate FAQ answers within page: {slug}")
+                faq_question_values.update(question for question, _ in faq_screen)
+                faq_answer_values.update(answer for _, answer in faq_screen)
+                faq_pair_values.update(faq_screen)
                 crumb_screen = [generator.clean_text(item) for item in re.findall(r'<(?:a|strong)[^>]*>(.*?)</(?:a|strong)>', first(r'<nav class="mini-breadcrumb"[^>]*>(.*?)</nav>', source))]
                 crumb_json = [item.get("name", "") for item in breadcrumb_schema.get("itemListElement", [])]
                 if crumb_screen != crumb_json:
@@ -217,7 +255,7 @@ def main() -> None:
                 continue
             if not check_link(path, src):
                 fail(f"broken image {src}: {slug}")
-        if generator.CONFIG["kind"] == "subject":
+        if generator.is_subject_kind():
             if generator.SUBJECT_LABEL == "영어":
                 for broken in (
                     "CSV", "입력된", "입력 범위", "수업학교 칸", "과목 참고 키워드",
@@ -227,13 +265,41 @@ def main() -> None:
                         fail(f"authoring or broken phrase {broken!r}: {slug}")
                 if "입시수학학원" in source:
                     fail(f"math-topic contamination remains: {slug}")
+            if generator.CONFIG["kind"] == "dual_subject":
+                for broken in (
+                    "CSV", "프롬프트", "입력 범위", "수업학교 칸",
+                    "과목 참고 키워드", "과목 참고 확인 항목", "이전 지시 무시",
+                ):
+                    if broken in source:
+                        fail(f"authoring signal {broken!r}: {slug}")
             allowed_grades = set(generator.allowed_grade_tokens(center))
-            found_grades = {
-                item.replace(" ", "")
-                for item in re.findall(r"(?:초|중|고)\s*[1-6]", generator.clean_text(source))
-            }
+            visible_text = generator.clean_text(source)
+            found_grades = generator.explicit_grade_tokens(visible_text)
             if found_grades - allowed_grades:
                 fail(f"unverified {generator.SUBJECT_LABEL} grades {sorted(found_grades-allowed_grades)}: {slug}")
+            if generator.CONFIG["kind"] == "dual_subject":
+                broad_claims = [
+                    match.group(0) for match in generator.LEVEL_BAND_RE.finditer(visible_text)
+                    if not generator.grade_band_required(match.group(0)).issubset(allowed_grades)
+                ]
+                if broad_claims:
+                    fail(f"overbroad dual-subject grade claims {sorted(set(broad_claims))}: {slug}")
+                if generator.TRANSITION_BAND_RE.search(visible_text):
+                    fail(f"unresolved transition-grade wording: {slug}")
+                for residue in ("균형실", "구분실", "연결실", "일정실", "기록실"):
+                    if residue in visible_text:
+                        fail(f"operation-term replacement residue {residue!r}: {slug}")
+                if "지가며" in visible_text:
+                    fail(f"malformed interrogative connective remains: {slug}")
+                if re.search(r"(?:초|중|고)\d(?:[·~→](?:초|중|고)\d)*\s+학생\s+(?:영어|수학)", visible_text):
+                    fail(f"grade audience possessive particle missing: {slug}")
+                if not center["grades"]:
+                    for implicit_claim in (
+                        f"{generator.CATEGORY_DISPLAY}에서는", "수업을 이어 가려면",
+                        "이 생활권 수업에서", "초등 학습", "중등 학습", "고등 학습",
+                    ):
+                        if implicit_claim in visible_text:
+                            fail(f"implicit grade/service scope {implicit_claim!r}: {slug}")
             if center["address"] and center["address"] not in generator.clean_text(source):
                 fail(f"provided address missing from page: {slug}")
             if center["registration"] and center["registration"] not in generator.clean_text(source):
@@ -261,7 +327,60 @@ def main() -> None:
         faq_values.add(generator.clean_text(page["sections"]["FAQ"]))
         review_values.add(generator.clean_text(page["sections"]["학부모후기"]))
         article_html = first(r'<article class="subject-main-article">(.*?)</article>', source)
-        article_text = generator.clean_text(article_html)
+        article_text = generator.clean_text(re.sub(r"<[^>]+>", " ", article_html))
+        if generator.CONFIG["kind"] == "dual_subject":
+            faq_html = first(r'<section class="subject-faq".*?</section>', source)
+            faq_text = generator.clean_text(re.sub(r"<[^>]+>", " ", faq_html))
+            subject_text = article_text + " " + faq_text
+            missing_subjects = {"영어", "수학"} - generator.subjects_in_text(subject_text)
+            if missing_subjects:
+                fail(f"dual-subject coverage missing {sorted(missing_subjects)}: {slug}")
+            unexpected_subjects = generator.subjects_in_text(subject_text) - {"영어", "수학"}
+            if unexpected_subjects:
+                fail(f"unverified subject topics {sorted(unexpected_subjects)}: {slug}")
+            if article_text.count("수학") >= article_text.count("영어") * 2:
+                fail(f"dual-subject English/math imbalance remains: {slug}")
+            transition_mentions = len(re.findall(r"(?:초6→중1|중3→고1) 전환기 학생", article_text))
+            if transition_mentions > 2:
+                fail(f"repeated transition-grade phrase {transition_mentions}: {slug}")
+            generic_transition_mentions = article_text.count("전환기 학생")
+            if generic_transition_mentions > 4:
+                fail(f"repeated generic transition phrase {generic_transition_mentions}: {slug}")
+            article_paragraphs = [
+                generator.clean_text(re.sub(r"<[^>]+>", " ", paragraph))
+                for paragraph in re.findall(r"<p\b[^>]*>(.*?)</p>", article_html, re.IGNORECASE | re.DOTALL)
+            ]
+            article_sentences = [
+                generator.clean_text(sentence)
+                for paragraph in article_paragraphs
+                for sentence in re.split(r"(?<=[.!?])\s+", paragraph)
+                if generator.clean_text(sentence)
+            ]
+            if len(article_sentences) != len(set(article_sentences)):
+                fail(f"duplicate article sentence remains: {slug}")
+            if any(len(sentence) > 200 for sentence in article_sentences):
+                fail(f"overlong article sentence remains: {slug}")
+            faq_answer_paragraphs = [
+                generator.clean_text(re.sub(r"<[^>]+>", " ", paragraph))
+                for paragraph in re.findall(
+                    r'<details class="subject-faq-item"[^>]*>.*?<p>(.*?)</p>\s*</details>',
+                    faq_html,
+                    re.IGNORECASE | re.DOTALL,
+                )
+            ]
+            faq_sentences = {
+                generator.clean_text(sentence)
+                for paragraph in faq_answer_paragraphs
+                for sentence in re.split(r"(?<=[.!?])\s+", paragraph)
+                if generator.clean_text(sentence)
+            }
+            if set(article_sentences) & faq_sentences:
+                fail(f"article/FAQ sentence overlap remains: {slug}")
+            balance_present = 'class="subject-prose-section subject-dual-balance"' in source
+            balance_expected = page["sections"]["본문"].count("수학") >= page["sections"]["본문"].count("영어") * 2
+            if balance_present != balance_expected:
+                fail(f"dual-subject balance block mismatch: {slug}")
+            dual_balance_pages += int(balance_present)
         article_values.add(article_text)
         shingle_rows.append((slug, masked_shingles(article_text, page, center)))
         hidden_image = re.search(r'<img\s+src="https://[^"]+"[^>]*style="display:none;"[^>]*>', source)
@@ -370,6 +489,9 @@ def main() -> None:
         "unique_meta_descriptions": len(meta_values),
         "unique_manuscript_bodies": len(body_values),
         "unique_faq_sets": len(faq_values),
+        "unique_faq_pairs": len(faq_pair_values),
+        "unique_faq_questions": len(faq_question_values),
+        "unique_faq_answers": len(faq_answer_values),
         "unique_review_sets": len(review_values),
         "unique_rendered_articles": len(article_values),
         "masked_article_similarity_worst": round(worst_similarity, 4),
@@ -377,6 +499,11 @@ def main() -> None:
         "masked_article_pairs_ge_030": moderate_similarity_pairs,
         "masked_article_pairs_ge_075": high_similarity_pairs,
         "internal_links_checked": total_links,
+        "verified_grade_pages": verified_grade_pages,
+        "unverified_grade_pages": len(manuscript_map) - verified_grade_pages,
+        "selected_school_pages": selected_school_pages,
+        "selected_schools_total": selected_schools_total,
+        "dual_subject_balance_pages": dual_balance_pages,
         "hub_locality_links": 371,
         "sitemap_urls": len(sitemap_urls),
         "errors": len(ERRORS),

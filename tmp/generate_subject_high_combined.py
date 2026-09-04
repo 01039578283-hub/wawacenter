@@ -61,6 +61,22 @@ CONFIGS = {
         "school_field": "타깃학교(초)",
         "kind": "combined",
     },
+    "yeongsu": {
+        "zip": "영수학원.zip",
+        "category": "영수학원",
+        "display": "영수학원",
+        "level": "영어·수학",
+        "subject": "영어·수학",
+        "subjects": ("영어", "수학"),
+        "grade_prefix": "",
+        "audience": "학생",
+        "eyebrow": "English & Math Learning Guide",
+        "card_small": "초·중·고 · 영어와 수학",
+        "card_description": "371개 동네별 영어·수학 진단·오답·복습 기준 안내",
+        "school_field": "",
+        "kind": "dual_subject",
+        "icon": "영+수",
+    },
     "math": {
         "zip": "수학학원.zip",
         "category": "수학학원",
@@ -137,7 +153,8 @@ CATEGORY = CONFIG["category"]
 CATEGORY_DISPLAY = CONFIG["display"]
 LEVEL_LABEL = CONFIG["level"]
 SUBJECT_LABEL = CONFIG.get("subject", "")
-SCHOOL_LEVEL_LABEL = "학교" if CONFIG["kind"] == "subject" else {"고등": "고등학교", "중등": "중학교", "초등": "초등학교"}[LEVEL_LABEL]
+SUBJECT_KINDS = {"subject", "dual_subject"}
+SCHOOL_LEVEL_LABEL = "학교" if CONFIG["kind"] in SUBJECT_KINDS else {"고등": "고등학교", "중등": "중학교", "초등": "초등학교"}[LEVEL_LABEL]
 GRADE_PREFIX = CONFIG["grade_prefix"]
 AUDIENCE_LABEL = CONFIG["audience"]
 EYEBROW_LABEL = CONFIG["eyebrow"]
@@ -162,6 +179,16 @@ def clean_text(value: str) -> str:
     return re.sub(r"\s+", " ", html.unescape(value)).strip()
 
 
+def is_subject_kind() -> bool:
+    return CONFIG["kind"] in SUBJECT_KINDS
+
+
+def configured_subjects() -> list[str]:
+    if CONFIG["kind"] == "dual_subject":
+        return list(CONFIG["subjects"])
+    return [SUBJECT_LABEL] if CONFIG["kind"] == "subject" else []
+
+
 SCHOOL_NAME_RE = re.compile(
     r"(?<![가-힣A-Za-z0-9])"
     r"([가-힣A-Za-z0-9]{1,24}(?:초등학교|중학교|고등학교|초|중|고))"
@@ -184,6 +211,19 @@ UNVERIFIED_OPERATION_RE = re.compile(
     r"교재실|자료실|셔틀|차량|특강|설명회|예약\s*관리|전자\s*계약|문자\s*발송|"
     r"미납\s*관리|출결\s*앱|데스크|데이터\s*관리|코디네이터|개인정보\s*관리|"
     r"결제\s*(?:관리|시스템)|수납\s*관리|문서\s*관리|관리\s*(?:앱|프로그램|솔루션)))"
+)
+DUAL_OPERATION_RE = re.compile(
+    UNVERIFIED_OPERATION_RE.pattern
+    + r"|학원(?:상담관리|일정|프로그램|청결관리|분위기|보안관리|정규반|공지|교통|하원|"
+      r"회원관리|행정|운영(?:자)?|숙제|매출관리|출결앱|강의)|"
+      r"(?:입시컨설팅(?:반)?|입시설명회|내신특강|특강수업|예약제수업|학습캠프|방학캠프|"
+      r"집중캠프|자기주도캠프|학습설명회|등록상담|방문상담|전화상담|온라인상담)"
+      r"|(?:녹화수업|수준별수업|개인별수업|정원제수업|보충수업|내신보강수업|자기주도수업|"
+      r"맞춤형수업|그룹수업|일대일수업|평일수업|집중수업|보강수업|밀착관리수업|진도관리수업|"
+      r"플래너관리수업|클리닉수업|오후수업|성적향상수업|학습관리수업|시험대비수업|오답관리수업|"
+      r"참여형수업|야간수업|과제관리수업|오전수업|자기주도반|입시지원상담|성적상담|입시개별상담|"
+      r"내신상담|입시맞춤상담|학습상담|입시정기상담|학습컨설팅|내신컨설팅|학습클리닉|내신클리닉|"
+      r"입시특강|학습특강|입시캠프)"
 )
 SUBJECT_NAMES = ("국어", "영어", "수학", "과학", "사회")
 SUBJECT_CLAIM_RE = re.compile(
@@ -221,7 +261,7 @@ def split_school_names(value: str) -> list[str]:
 
 
 def safe_focus(center: dict, suffix: str) -> str:
-    if CONFIG["kind"] == "subject":
+    if is_subject_kind():
         options = {
             "수학": [
                 "개념 이해와 문제 적용의 연결", "풀이 과정과 계산 오류의 구분", "오답 원인과 재확인 순서",
@@ -230,6 +270,11 @@ def safe_focus(center: dict, suffix: str) -> str:
             "영어": [
                 "어휘 인출과 누적 복습의 연결", "문장 구조 이해와 정확한 해석", "독해 근거와 오답 원인의 구분",
                 "학년별 영어 진도와 복습의 균형", "문법 개념과 서술형 적용", "주간 영어 학습량과 점검 일정",
+            ],
+            "영어·수학": [
+                "영어 이해 과정과 수학 풀이 과정의 구분", "두 과목의 오답 원인과 복습 순서",
+                "영어 어휘·구문과 수학 개념·적용의 연결", "과목별 진도와 누적 복습의 균형",
+                "영어 독해 근거와 수학 풀이 근거의 기록", "주간 영어·수학 학습량과 점검 일정",
             ],
         }[SUBJECT_LABEL]
         return options[seeded_index(CATEGORY, center["slug"], suffix, modulo=len(options))]
@@ -328,6 +373,59 @@ def english_fact_bounded_heading(center: dict, suffix: str) -> str:
     return variants[seeded_index(CATEGORY, center["slug"], suffix, modulo=len(variants))]
 
 
+def dual_fact_bounded_heading(center: dict, suffix: str) -> str:
+    focus = safe_focus(center, f"{suffix}-dual-heading")
+    variants = [
+        f"{center['locality']} 영어·수학 진단을 실제 답안으로 나누는 기준",
+        f"{with_josa(focus, '을', '를')} 두 과목 계획에 반영하는 방법",
+        "영어 이해 과정과 수학 풀이 과정을 따로 확인하는 질문",
+        "과목별 오답 원인과 다음 복습일을 정하는 순서",
+        f"{center['locality']} 학생의 영어·수학 주간 계획을 조정하는 기준",
+        "두 과목의 혼자 할 수 있는 단계와 도움이 필요한 단계",
+    ]
+    return variants[seeded_index(CATEGORY, center["slug"], suffix, modulo=len(variants))]
+
+
+def dual_fact_bounded_sentence(center: dict, suffix: str, index: int) -> str:
+    locality = center["locality"]
+    focus = safe_focus(center, f"{suffix}-dual-sentence-{index}")
+    audience = audience_for_center(center)
+    variants = [
+        f"{locality} 상담에서는 최근 영어 답안과 수학 풀이를 나란히 놓고 {focus}에 관한 단서를 확인합니다.",
+        "영어는 어휘 인출·문장 구조·독해 근거를, 수학은 개념 이해·조건 해석·풀이 과정을 나누어 살펴봅니다.",
+        f"{with_josa(audience, '은', '는')} 두 과목의 과제량을 같게 맞추기보다 혼자 할 수 있는 단계와 도움이 필요한 단계를 먼저 구분해야 합니다.",
+        f"{locality} 영어·수학 계획에는 과목별 시작 자료, 완료 기준과 다음 오답 확인 날짜를 각각 남기는 편이 좋습니다.",
+        f"{with_josa(focus, '이', '가')} 필요한지는 점수 한 줄보다 학생이 영어 근거와 수학 풀이를 말로 다시 설명하는 과정에서 확인합니다.",
+        "상담에서는 확인된 학년 범위와 현재 교재를 기준으로 이번 주에 실행할 분량과 누적 복습 분량을 따로 정합니다.",
+        "영어 오답은 단어·구문·선택 근거로, 수학 오답은 개념·조건·계산·검산으로 나누어 다음 과제에 반영합니다.",
+        f"{locality} 학부모는 프로그램 명칭보다 학생이 배운 내용을 다시 설명하고 같은 오류를 고칠 수 있는지를 비교해야 합니다.",
+    ]
+    return variants[seeded_index(CATEGORY, center["slug"], suffix, str(index), modulo=len(variants))]
+
+
+def dual_operation_section(center: dict, section_index: int) -> tuple[str, list[str]]:
+    suffix = f"operation-section-{section_index}"
+    heading = dual_fact_bounded_heading(center, suffix)
+    paragraphs = [dual_fact_bounded_sentence(center, suffix, index) for index in range(3)]
+    return heading, list(dict.fromkeys(paragraphs))
+
+
+def dual_operation_faq(center: dict, index: int) -> tuple[str, str]:
+    focus = safe_focus(center, f"operation-faq-{index}")
+    questions = [
+        f"{center['locality']} 영어·수학 상담에서 두 과목의 시작점은 어떻게 나누어 확인하나요?",
+        f"{center['locality']} 학생의 영어 오답과 수학 오답은 어떤 자료로 구분하나요?",
+        f"{center['locality']} 영수학원 상담 뒤 과목별 복습 계획은 어떻게 남기나요?",
+        f"{center['locality']} 영어·수학 과제의 우선순위는 무엇으로 정하나요?",
+    ]
+    question = questions[seeded_index(CATEGORY, center["slug"], "operation-faq-question", str(index), modulo=len(questions))]
+    answer = (
+        f"최근 영어 답안에서는 어휘·문장 구조·독해 근거를, 수학 풀이에서는 개념·조건 해석·계산·검산을 따로 표시합니다. "
+        f"{center['locality']} 상담에서는 이 기록을 바탕으로 {with_josa(focus, '을', '를')} 점검하고 과목별 첫 과제와 다음 확인 날짜를 정합니다."
+    )
+    return question, answer
+
+
 def sanitize_subject_authoring(value: str, center: dict, suffix: str) -> str:
     if CONFIG["kind"] != "subject" or SUBJECT_LABEL != "영어":
         return value
@@ -385,14 +483,27 @@ def correct_term_josa(value: str, term: str) -> str:
 
 def subject_scope(center: dict) -> str:
     subjects = center.get("subjects", [])
-    if CONFIG["kind"] == "subject":
+    if is_subject_kind():
         return SUBJECT_LABEL
     return "·".join(subjects) if subjects else "과목별 학습"
 
 
 def audience_for_center(center: dict) -> str:
-    if CONFIG["kind"] != "subject" or SUBJECT_LABEL != "영어":
+    if not is_subject_kind() or SUBJECT_LABEL == "수학":
         return AUDIENCE_LABEL
+    if CONFIG["kind"] == "dual_subject":
+        grades = [grade.replace(" ", "") for grade in center.get("grades", [])]
+        parts: list[str] = []
+        for prefix in ("초", "중", "고"):
+            present = [grade for grade in grades if grade.startswith(prefix)]
+            if not present:
+                continue
+            numbers = [int(grade[1:]) for grade in present]
+            if len(numbers) >= 2 and numbers == list(range(numbers[0], numbers[-1] + 1)):
+                parts.append(f"{prefix}{numbers[0]}~{prefix}{numbers[-1]}")
+            else:
+                parts.append("·".join(present))
+        return ", ".join(parts) + " 학생" if parts else "학생"
     labels = [
         label
         for prefix, label in (("초", "초등학생"), ("중", "중학생"), ("고", "고등학생"))
@@ -404,6 +515,16 @@ def audience_for_center(center: dict) -> str:
 def subject_learning_label(center: dict) -> str:
     scope = subject_scope(center)
     return scope if scope.endswith("학습") else f"{scope} 학습"
+
+
+def grade_info_label() -> str:
+    if CONFIG["kind"] == "student":
+        return "센터 전체 수업 가능 학년"
+    if CONFIG["kind"] == "dual_subject":
+        return "영어·수학 공통 가능 학년"
+    if CONFIG["kind"] == "subject":
+        return f"{SUBJECT_LABEL} 가능 학년"
+    return "영어·수학 공통 가능 학년"
 
 
 def subject_fact_sentence(center: dict) -> str:
@@ -454,7 +575,60 @@ def polish_phrase(value: str, center: dict, suffix: str) -> str:
         compact_reference = reference_term.replace(" ", "")
         if compact_reference != reference_term:
             text = text.replace(compact_reference, focus)
+    if CONFIG["kind"] == "dual_subject" and DUAL_OPERATION_RE.search(text):
+        sentences: list[str] = []
+        replacement_index = 0
+        for sentence in re.split(r"(?<=[.!?])\s+", text):
+            if DUAL_OPERATION_RE.search(sentence):
+                sentence = dual_fact_bounded_sentence(center, suffix, replacement_index)
+                replacement_index += 1
+            if sentence and sentence not in sentences:
+                sentences.append(sentence)
+        text = " ".join(sentences)
     text = UNVERIFIED_OPERATION_RE.sub(focus, text)
+    if CONFIG["kind"] == "dual_subject":
+        # Remove source-authoring narration while keeping references to the
+        # actual website ("홈페이지") intact. This stricter cleanup is scoped
+        # to the new all-level dual-subject source contract so legacy category
+        # output remains reproducible.
+        text = text.replace("이 페이지에서는", "상담에서는")
+        text = text.replace("이 페이지에는", "상담 전에는")
+        text = text.replace("이 페이지의", f"{locality} 상담의")
+        text = re.sub(r"(?<!홈)페이지에서는", "상담에서는", text)
+        text = re.sub(r"(?<!홈)페이지에는", "상담 전에는", text)
+        text = re.sub(r"(?<!홈)페이지에서", "상담에서", text)
+        text = text.replace("본문은", "학습 안내는")
+        text = text.replace("작성했습니다", "정리했습니다")
+        text = text.replace("안내 페이지입니다", "상담 전 확인 자료입니다")
+        text = text.replace("많은 페이지입니다", "확인할 내용이 많습니다")
+        text = text.replace("후기 형식", "상담 상황")
+        text = text.replace("후기형 문장", "상담 상황 문장")
+        text = text.replace("강조할 수 있습니다", "확인해야 합니다")
+        if not center.get("grades"):
+            text = re.sub(r"(?:초등|중등|고등)\s+학습", "학생 학습", text)
+            text = text.replace(
+                f"{CATEGORY_DISPLAY}에서는",
+                f"{CATEGORY_DISPLAY} 상담에서는 수업 가능 여부를 먼저 확인한 뒤",
+            )
+            text = text.replace("수업을 이어 가려면", "수업 가능 여부를 확인한 뒤 학습을 이어 가려면")
+            text = text.replace("이 생활권 수업에서", "이 생활권의 학습 상담에서")
+        text = re.sub(
+            r"(?:구체적으로\s+)?(?:대표 학생|생각해 볼 학생)은\s+학생\s+가운데\s+",
+            "상담에서 살펴볼 학생은 ",
+            text,
+        )
+        text = text.replace("여기서 살펴볼 상담에서 살펴볼 학생은", "상담에서 살펴볼 학생은")
+        text = text.replace("학부모가 살펴볼 대표 유형은 학생 가운데", "학부모가 상담에서 살펴볼 학생은")
+        text = text.replace("이번에 살펴볼 학생 유형은 학생 가운데", "상담에서 살펴볼 학생은")
+        text = text.replace(
+            "중학교 진학을 준비하는 초4·초5·초6 학생",
+            "기초와 다음 학년 준비를 함께 살펴야 하는 초4·초5·초6 학생",
+        )
+        text = re.sub(
+            r"((?:초|중|고)\d(?:[·~→](?:초|중|고)\d)*\s+학생)\s+(?=(?:영어|수학))",
+            r"\1의 ",
+            text,
+        )
     text = re.sub(
         rf"{re.escape(center['locality'])}\s+{re.escape(CATEGORY_DISPLAY)}\s+검색자의\s+궁금증은\s+대개\s+.*?로\s+모입니다\.",
         f"{center['locality']} {CATEGORY_DISPLAY} 상담에서는 현재 교재와 오답 기록, 학교 일정, 주간 학습 시간을 함께 확인하는 것이 좋습니다.",
@@ -599,8 +773,7 @@ def polish_phrase(value: str, center: dict, suffix: str) -> str:
     for term in (
         focus, "순서", "관리", "복기", "절차", "체크", "연결", "조정", "배분",
         "우선순위", "피로도", "문제", "계획", "습관", "기록", "적응", "균형",
-        "과정", "점검", "반복", "표현", "요약", "리딩", "맞는지", "있는지",
-        "이어지는지", "경우",
+        "과정", "점검", "반복", "표현", "요약", "리딩", "경우",
     ):
         text = correct_term_josa(text, term)
     text = text.replace("과목별 학습 학습을", "과목별 학습을")
@@ -610,6 +783,9 @@ def polish_phrase(value: str, center: dict, suffix: str) -> str:
     text = text.replace("연결과 연결되는", "연결을 바탕으로 보는")
     text = text.replace("연결과 연결해 살피면", "연결을 함께 살피면")
     text = text.replace("연결과 연결해", "연결을 함께 살펴")
+    text = text.replace("지가며,", "지이며,")
+    text = text.replace("연습을 활용하고, 수학 자료에서는", "연습을 활용합니다. 수학 자료에서는")
+    text = text.replace("연습을 실제 풀이에 적용할 수 있고,", "연습을 실제 풀이에 적용합니다. 또한")
     text = text.replace("학교 학학교 학습", "학교 학습")
     text = text.replace("기초 기초 개념", "기초 개념")
     text = re.sub(r"([.!?])(?=[가-힣])", r"\1 ", text)
@@ -651,13 +827,19 @@ def school_names_in(value: str, center: dict) -> list[str]:
 
 def sanitize_school_sentences(value: str, center: dict, suffix: str) -> str:
     text = clean_text(value)
-    if not school_names_in(text, center):
+    found_schools = set(school_names_in(text, center))
+    if not found_schools:
         return text
+    replacement_schools = found_schools
+    if CONFIG["kind"] == "dual_subject":
+        replacement_schools -= set(center["schools"])
+        if not replacement_schools:
+            return text
     sentences = re.split(r"(?<=[.!?])\s+", text)
     output: list[str] = []
     replaced = False
     for index, sentence in enumerate(sentences):
-        if school_names_in(sentence, center):
+        if set(school_names_in(sentence, center)) & replacement_schools:
             candidate = verified_school_sentence(center, f"{suffix}-{index}")
             if candidate not in output:
                 output.append(candidate)
@@ -670,25 +852,145 @@ def sanitize_school_sentences(value: str, center: dict, suffix: str) -> str:
 
 
 def allowed_grade_tokens(center: dict) -> list[str]:
-    if CONFIG["kind"] == "subject":
+    if is_subject_kind():
         return [grade.replace(" ", "") for grade in center["grades"]]
     return [grade.replace(" ", "") for grade in center["grades"] if grade.startswith(GRADE_PREFIX)]
 
 
+LONG_GRADE_RE = re.compile(
+    r"(?<![가-힣A-Za-z0-9])"
+    r"(?P<level>초등학교|초등|중학교|중등|고등학교|고등)\s*"
+    r"(?P<number>[1-6])\s*학년(?P<student>\s*학생)?"
+)
+LEVEL_BAND_RE = re.compile(
+    r"(?<![가-힣A-Za-z0-9])(?:"
+    r"초등(?:학교)?\s*(?:저학년|고학년)(?:\s*학생)?|"
+    r"초등학생|중등(?:학교)?\s*학생|중학생|고등(?:학교)?\s*학생|고등학생"
+    r")"
+)
+TRANSITION_BAND_RE = re.compile(r"학년\s*전환기\s*학생")
+
+
+def normalized_grade_token(level: str, number: str) -> str:
+    prefix = "초" if level.startswith("초") else "중" if level.startswith("중") else "고"
+    return prefix + number
+
+
+def expanded_grade_token(token: str, *, student: bool) -> str:
+    prefix, number = token[0], token[1:]
+    level = {"초": "초등학교", "중": "중학교", "고": "고등학교"}[prefix]
+    return f"{level} {number}학년" + (" 학생" if student else "")
+
+
+def preferred_grade(center: dict) -> str:
+    grades = allowed_grade_tokens(center)
+    if not grades:
+        return ""
+    return grades[seeded_index(CATEGORY, center["slug"], "preferred-grade", modulo=len(grades))]
+
+
+def grade_band_candidates(value: str, allowed: set[str]) -> set[str]:
+    if value.startswith("초"):
+        candidates = {grade for grade in allowed if grade.startswith("초")}
+        if "저학년" in value:
+            candidates &= {"초1", "초2", "초3"}
+        elif "고학년" in value:
+            candidates &= {"초4", "초5", "초6"}
+        return candidates
+    if value.startswith("중"):
+        return {grade for grade in allowed if grade.startswith("중")}
+    return {grade for grade in allowed if grade.startswith("고")}
+
+
+def grade_band_required(value: str) -> set[str]:
+    """Return every grade implied by a broad school-level phrase."""
+    if value.startswith("초"):
+        if "저학년" in value:
+            return {"초1", "초2", "초3"}
+        if "고학년" in value:
+            return {"초4", "초5", "초6"}
+        return {f"초{number}" for number in range(1, 7)}
+    if value.startswith("중"):
+        return {"중1", "중2", "중3"}
+    return {"고1", "고2", "고3"}
+
+
+def transition_grade_pair(center: dict) -> tuple[str, str] | tuple[()]:
+    allowed = set(allowed_grade_tokens(center))
+    boundary_pairs = [("초6", "중1"), ("중3", "고1")]
+    available = [pair for pair in boundary_pairs if set(pair).issubset(allowed)]
+    if available:
+        return available[seeded_index(CATEGORY, center["slug"], "transition", modulo=len(available))]
+    ordered = [f"초{number}" for number in range(1, 7)] + [f"중{number}" for number in range(1, 4)] + [f"고{number}" for number in range(1, 4)]
+    adjacent = [(left, right) for left, right in zip(ordered, ordered[1:]) if {left, right}.issubset(allowed)]
+    if adjacent:
+        return adjacent[seeded_index(CATEGORY, center["slug"], "transition-adjacent", modulo=len(adjacent))]
+    return ()
+
+
+def explicit_grade_tokens(value: str) -> set[str]:
+    tokens = {match.group(0).replace(" ", "") for match in re.finditer(r"(?:초|중|고)\s*[1-6]", value or "")}
+    tokens.update(
+        normalized_grade_token(match.group("level"), match.group("number"))
+        for match in LONG_GRADE_RE.finditer(value or "")
+    )
+    return tokens
+
+
+def sanitize_dual_grade_claims(value: str, center: dict) -> str:
+    if CONFIG["kind"] != "dual_subject":
+        return value
+    allowed = set(allowed_grade_tokens(center))
+    preferred = preferred_grade(center)
+
+    def long_replacement(match: re.Match[str]) -> str:
+        token = normalized_grade_token(match.group("level"), match.group("number"))
+        if token in allowed:
+            return match.group(0)
+        if not preferred:
+            return "학생"
+        return expanded_grade_token(preferred, student=bool(match.group("student")))
+
+    text = LONG_GRADE_RE.sub(long_replacement, value)
+
+    def band_replacement(match: re.Match[str]) -> str:
+        original = match.group(0)
+        required = grade_band_required(original)
+        if required.issubset(allowed):
+            return original
+        candidates = [grade for grade in allowed_grade_tokens(center) if grade in required]
+        if candidates:
+            return "·".join(candidates) + " 학생"
+        if not preferred:
+            return "학생"
+        return expanded_grade_token(preferred, student="학생" in original)
+
+    text = LEVEL_BAND_RE.sub(band_replacement, text)
+
+    def transition_replacement(match: re.Match[str]) -> str:
+        pair = transition_grade_pair(center)
+        if pair:
+            return f"{pair[0]}→{pair[1]} 전환기 학생"
+        if preferred:
+            return f"{preferred} 학생"
+        return "학생"
+
+    return TRANSITION_BAND_RE.sub(transition_replacement, text)
+
+
 def sanitize_grade_claims(value: str, center: dict, suffix: str) -> str:
-    text = value
+    text = sanitize_dual_grade_claims(value, center)
     allowed = allowed_grade_tokens(center)
     generic = audience_for_center(center)
-    if CONFIG["kind"] == "subject":
+    if is_subject_kind():
         replacement = "·".join(allowed) if allowed else generic
         grade_pattern = re.compile(r"(?:초|중|고)\s*[1-6]")
         normalized_sentences: list[str] = []
         for sentence in re.split(r"(?<=[.!?])\s+", clean_text(text)):
             listed = {token.replace(" ", "") for token in grade_pattern.findall(sentence)}
             if len(listed) >= 2 and listed - set(allowed):
-                normalized_sentences.append(
-                    f"{replacement} 범위의 {SUBJECT_LABEL} 학습은 현재 교재와 오답 기록을 확인해 우선순위를 정해야 합니다."
-                )
+                prefix = "학생의" if CONFIG["kind"] == "dual_subject" and not allowed else f"{replacement} 범위의"
+                normalized_sentences.append(f"{prefix} {SUBJECT_LABEL} 학습은 현재 교재와 오답 기록을 확인해 우선순위를 정해야 합니다.")
             else:
                 normalized_sentences.append(sentence)
         text = " ".join(dict.fromkeys(normalized_sentences))
@@ -890,6 +1192,12 @@ def build_summary(center: dict, title: str) -> str:
     scope = subject_scope(center)
     address = center["address"] or "상담에서 확인할 센터 위치"
     audience = audience_for_center(center)
+    if CONFIG["kind"] == "dual_subject" and not center["grades"]:
+        return (
+            f"{title}은 {center['locality']}에서 영어·수학 상담을 준비할 때 {with_josa(focus, '을', '를')} "
+            f"현재 교재와 오답 기록으로 확인하도록 돕는 정보입니다. 제공 센터 주소는 {address}입니다. "
+            "영어·수학 공통 가능 학년과 해당 학교 정보는 자료에 기재되지 않아 수업 개설 여부·대상 학년·시간표를 상담 시점에 확인해야 합니다."
+        )
     school_clause = (
         f"제공된 {SCHOOL_LEVEL_LABEL} 참고 정보는 {'·'.join(center['schools'])}이며"
         if center["schools"] else
@@ -963,7 +1271,7 @@ FAQ_QUESTION_BANKS = [
 
 
 def diversified_question(center: dict, index: int, original: str) -> str:
-    if CONFIG["kind"] == "subject":
+    if is_subject_kind():
         # The subject manuscripts already contain page-specific, semantically
         # matched questions. Preserve them instead of replacing them with the
         # legacy combined English-and-math question bank.
@@ -989,6 +1297,132 @@ def diversified_question(center: dict, index: int, original: str) -> str:
     return align_subject_claims(rendered, center)
 
 
+def reduce_dual_grade_repetition(sections: dict[str, str], center: dict) -> dict[str, str]:
+    if CONFIG["kind"] != "dual_subject":
+        return sections
+    transition_pair = transition_grade_pair(center)
+    transition_phrase = f"{transition_pair[0]}→{transition_pair[1]} 전환기 학생" if transition_pair else ""
+    transition_seen = 0
+    grade_seen: dict[str, int] = {}
+    grade_audience = re.compile(r"(?:초|중|고)\d(?:·(?:초|중|고)\d)*\s+학생")
+
+    def reduce_value(value: str) -> str:
+        nonlocal transition_seen
+        if transition_phrase:
+            def transition_repl(match: re.Match[str]) -> str:
+                nonlocal transition_seen
+                transition_seen += 1
+                if transition_seen <= 2:
+                    return match.group(0)
+                if transition_seen <= 4:
+                    return "전환기 학생"
+                return "학생"
+            value = re.sub(re.escape(transition_phrase), transition_repl, value)
+
+        def grade_repl(match: re.Match[str]) -> str:
+            phrase = match.group(0)
+            grade_seen[phrase] = grade_seen.get(phrase, 0) + 1
+            return phrase if grade_seen[phrase] <= 4 else "학생"
+
+        value = grade_audience.sub(grade_repl, value)
+        value = value.replace("해당 학생", "학생")
+        value = value.replace("아이는 학생이며 ", "아이는 ")
+        value = value.replace("아이는 학생인데 ", "아이는 ")
+        value = re.sub(
+            r"저희는 (?:(?:(?:초6→중1|중3→고1) 전환기|기초와 다음 학년 준비를 함께 살펴야 하는) )?학생인 자녀의",
+            "저희는 자녀의",
+            value,
+        )
+        value = re.sub(
+            r"학생 (?=(?:영어|수학|두 과목|상황|기록|자료|계획|과제|학습|보호자|공부|진단|완료|"
+            r"내신|범위|수업|통학|학교|실행|학업|결과|변화|주간표|행동|조건))",
+            "학생의 ",
+            value,
+        )
+        value = value.replace(
+            "두 과목의 오답 원인과 복습 순서를 두 과목 계획에 반영하는 방법",
+            "두 과목의 오답 원인과 복습 순서를 주간 계획에 반영하는 방법",
+        )
+        value = value.replace("자기주도반의 학생의", "자기주도반 설명에서 학생의")
+        value = re.sub(
+            r"이곳에서 학원 (?:(?:초6→중1|중3→고1)\s+)?(?:전환기|해당) 학생을 대상으로 한 상담",
+            "이곳에서 영수학원 상담",
+            value,
+        )
+        value = re.sub(
+            r"학부모가 여러 (?:(?:초6→중1|중3→고1)\s+)?(?:전환기|해당) 학생을 대상으로 한 상담을 받는다면",
+            "학부모가 여러 상담을 비교한다면",
+            value,
+        )
+        return value
+
+    reduced = {name: reduce_value(value) for name, value in sections.items()}
+    intro, body_sections = parse_body(reduced["본문"])
+    seen_sentences: set[str] = set()
+
+    def unique_paragraph(paragraph: str) -> str:
+        sentences = [item.strip() for item in re.split(r"(?<=[.!?])\s+", paragraph) if item.strip()]
+        kept: list[str] = []
+        for sentence in sentences:
+            normalized = clean_text(sentence)
+            if normalized in seen_sentences:
+                continue
+            seen_sentences.add(normalized)
+            kept.append(sentence)
+        return " ".join(kept)
+
+    intro = unique_paragraph(intro)
+    deduplicated_sections: list[tuple[str, list[str]]] = []
+    for section_index, (heading, paragraphs) in enumerate(body_sections):
+        unique_paragraphs = [candidate for paragraph in paragraphs if (candidate := unique_paragraph(paragraph))]
+        if not unique_paragraphs:
+            fallback = (
+                f"{center['locality']} 상담에서는 {with_josa(heading, '을', '를')} 최근 영어 답안과 수학 풀이에 "
+                "대입해 다음 확인 날짜를 정합니다."
+            )
+            seen_sentences.add(clean_text(fallback))
+            unique_paragraphs = [fallback]
+        deduplicated_sections.append((heading, unique_paragraphs))
+    reduced["본문"] = intro + "\n\n" + "\n\n".join(
+        "## " + heading + "\n\n" + "\n\n".join(paragraphs)
+        for heading, paragraphs in deduplicated_sections
+    )
+    body_paragraphs = [intro] + [
+        paragraph
+        for _, paragraphs in deduplicated_sections
+        for paragraph in paragraphs
+    ]
+    body_sentences = {
+        clean_text(sentence)
+        for paragraph in body_paragraphs
+        for sentence in re.split(r"(?<=[.!?])\s+", paragraph)
+        if clean_text(sentence)
+    }
+    faq_items = parse_faq(reduced["FAQ"])
+    deduplicated_faq: list[tuple[str, str]] = []
+    for index, (question, answer) in enumerate(faq_items):
+        answer_sentences = [
+            sentence.strip()
+            for sentence in re.split(r"(?<=[.!?])\s+", answer)
+            if sentence.strip()
+        ]
+        answer_sentences = [
+            (
+                f"{center['locality']} 상담에서는 학교 정보를 추정하지 않고, 학생이 가져온 현재 교재와 "
+                "평가 안내를 기준으로 학습 계획을 조정합니다."
+                if clean_text(sentence) in body_sentences
+                else sentence
+            )
+            for sentence in answer_sentences
+        ]
+        deduplicated_faq.append((question, " ".join(dict.fromkeys(answer_sentences))))
+    reduced["FAQ"] = "\n\n".join(
+        f"Q{index}. {question}\nA{index}. {answer}"
+        for index, (question, answer) in enumerate(deduplicated_faq, 1)
+    )
+    return reduced
+
+
 def sanitize_page(page: dict, center: dict) -> dict:
     sections = dict(page["sections"])
     center["reference_term"] = extract_reference_term(sections["본문"])
@@ -1007,6 +1441,13 @@ def sanitize_page(page: dict, center: dict) -> dict:
         "상담에서 학습 시작점과 다음 목표를 나누는 기준",
     ]
     for section_index, (heading, paragraphs) in enumerate(body_sections):
+        if CONFIG["kind"] == "dual_subject" and DUAL_OPERATION_RE.search(" ".join([heading, *paragraphs])):
+            heading, cleaned = dual_operation_section(center, section_index)
+            if heading in seen_headings:
+                heading = f"{center['locality']} 과목별 진단과 복습을 다시 확인하는 기준"
+            seen_headings.add(heading)
+            cleaned_sections.append((heading, cleaned))
+            continue
         if school_names_in(heading, center):
             heading = [
                 f"{center['locality']} 학교 자료와 현재 학습 범위를 연결하는 방법",
@@ -1034,10 +1475,44 @@ def sanitize_page(page: dict, center: dict) -> dict:
 
     faq_items = parse_faq(sections["FAQ"])
     cleaned_faq: list[tuple[str, str]] = []
+    body_sentence_values = {
+        clean_text(sentence)
+        for sentence in re.split(r"(?<=[.!?])\s+", clean_text(sections["본문"]))
+        if clean_text(sentence)
+    }
     for index, (question, answer) in enumerate(faq_items):
+        if CONFIG["kind"] == "dual_subject" and DUAL_OPERATION_RE.search(question + " " + answer):
+            cleaned_faq.append(dual_operation_faq(center, index))
+            continue
         question_has_school = "학교" in question or bool(school_names_in(question, center))
         question = diversified_question(center, index, question)
-        answer = verified_school_sentence(center, f"faq-{index}") if question_has_school else sanitize_fragment(answer, center, f"faq-{index}")
+        if CONFIG["kind"] == "dual_subject":
+            mentioned_schools = set(school_names_in(question, center))
+            if mentioned_schools - set(center["schools"]):
+                question = f"{center['locality']} 영어·수학 상담에서 학교 자료는 어떻게 활용하나요?"
+            question = sanitize_fragment(question, center, f"faq-question-{index}", school=False)
+        if CONFIG["kind"] == "dual_subject":
+            answer = sanitize_fragment(answer, center, f"faq-{index}")
+            answer_sentences = [
+                sentence.strip()
+                for sentence in re.split(r"(?<=[.!?])\s+", answer)
+                if sentence.strip()
+            ]
+            if any(clean_text(sentence) in body_sentence_values for sentence in answer_sentences):
+                answer_sentences = [
+                    (
+                        f"{center['locality']} 상담에서는 확인된 학교 정보만 사용하고, 재학 학교의 교재·평가 범위는 "
+                        "학부모가 가져온 최신 자료로 다시 확인합니다."
+                        if clean_text(sentence) in body_sentence_values
+                        else sentence
+                    )
+                    for sentence in answer_sentences
+                ]
+                answer = " ".join(dict.fromkeys(answer_sentences))
+        else:
+            answer = verified_school_sentence(center, f"faq-{index}") if question_has_school else sanitize_fragment(answer, center, f"faq-{index}")
+        if CONFIG["kind"] == "dual_subject" and center["locality"] not in question:
+            question = f"{center['locality']} 영수학원 상담에서 {question}"
         cleaned_faq.append((question, answer))
     sections["FAQ"] = "\n\n".join(
         f"Q{index}. {question}\nA{index}. {answer}"
@@ -1051,6 +1526,7 @@ def sanitize_page(page: dict, center: dict) -> dict:
         f"상담 상황 {index}. {review}" for index, review in enumerate(cleaned_reviews or [f"{center['locality']} 학생의 현재 교재와 오답을 확인한 뒤 주간 계획을 조정하는 상황입니다."], 1)
     )
     sections["JSON-LD 요약"] = build_summary(center, title)
+    sections = reduce_dual_grade_repetition(sections, center)
     prepared = {**page, "sections": sections}
     assert_safe_page(prepared, center)
     return prepared
@@ -1064,19 +1540,23 @@ def assert_safe_page(page: dict, center: dict) -> None:
     description = sections["메타설명"]
     if not 70 <= len(description) <= 100:
         raise ValueError(f"Meta length {len(description)} for {title}")
-    # The strict operation/fact wording rules below were introduced for the
-    # student-stage guides.  Keep the legacy English+math generator usable
-    # without retroactively rejecting its already published manuscript style.
-    if CONFIG["kind"] != "student":
+    # Preserve the legacy single-subject output while applying the stricter
+    # fact boundary to the newer student-stage and all-level dual-subject guides.
+    if CONFIG["kind"] not in {"student", "dual_subject"}:
         return
     visible = "\n".join(sections.values())
+    if CONFIG["kind"] == "dual_subject":
+        for signal in ("CSV", "프롬프트", "수업학교 칸", "과목 참고 키워드", "과목 참고 확인 항목", "이전 지시 무시"):
+            if signal in visible:
+                raise ValueError(f"Authoring signal {signal!r} in {title}")
     reference_term = center.get("reference_term", "")
     if LEVEL == "middle_student" and reference_term and any(
         candidate and candidate in visible
         for candidate in (reference_term, reference_term.replace(" ", ""))
     ):
         raise ValueError(f"Reference term remains {reference_term!r} in {title}")
-    unsafe = UNVERIFIED_OPERATION_RE.search(visible)
+    operation_pattern = DUAL_OPERATION_RE if CONFIG["kind"] == "dual_subject" else UNVERIFIED_OPERATION_RE
+    unsafe = operation_pattern.search(visible)
     if unsafe:
         raise ValueError(f"Unverified operation term {unsafe.group(0)!r} in {title}")
     for broken in (
@@ -1100,16 +1580,26 @@ def assert_safe_page(page: dict, center: dict) -> None:
         rf"(?<![가-힣]){re.escape(center['source_region'])}(?=\s)", visible
     ):
         raise ValueError(f"Non-standard region remains in {title}")
-    unverified_subjects = subjects_in_text(visible) - set(center["subjects"])
-    if unverified_subjects:
-        raise ValueError(f"Unverified subject claims in {title}: {sorted(unverified_subjects)}")
+    if CONFIG["kind"] == "student":
+        unverified_subjects = subjects_in_text(visible) - set(center["subjects"])
+        if unverified_subjects:
+            raise ValueError(f"Unverified subject claims in {title}: {sorted(unverified_subjects)}")
     allowed_schools = set(center["schools"])
     found_schools = {school for school in center.get("all_schools", []) if contains_school_name(visible, school)}
     unexpected_schools = found_schools - allowed_schools
     if unexpected_schools:
         raise ValueError(f"Unexpected schools in {title}: {sorted(unexpected_schools)}")
     allowed_grades = set(allowed_grade_tokens(center))
-    found_grades = {item.replace(" ", "") for item in re.findall(rf"{GRADE_PREFIX}\s*[1-6]", visible)}
+    if CONFIG["kind"] == "dual_subject":
+        found_grades = explicit_grade_tokens(visible)
+        unsupported_bands = [
+            match.group(0) for match in LEVEL_BAND_RE.finditer(visible)
+            if not grade_band_required(match.group(0)).issubset(allowed_grades)
+        ]
+        if unsupported_bands:
+            raise ValueError(f"Unexpected grade bands in {title}: {sorted(set(unsupported_bands))}")
+    else:
+        found_grades = {item.replace(" ", "") for item in re.findall(rf"{GRADE_PREFIX}\s*[1-6]", visible)}
     if found_grades - allowed_grades:
         raise ValueError(f"Unexpected grades in {title}: {sorted(found_grades-allowed_grades)}")
 
@@ -1246,6 +1736,12 @@ def official_region(row: dict[str, str]) -> str:
 def grade_intersection(row: dict[str, str]) -> list[str]:
     if CONFIG["kind"] == "subject":
         return split_values(field(row, f"가능학년({SUBJECT_LABEL})"))
+    if CONFIG["kind"] == "dual_subject":
+        grade_lists = [split_values(field(row, f"가능학년({subject})")) for subject in configured_subjects()]
+        if not grade_lists or any(not grades for grades in grade_lists):
+            return []
+        remaining = [set(grades) for grades in grade_lists[1:]]
+        return [grade for grade in grade_lists[0] if all(grade in grades for grades in remaining)]
     if CONFIG["kind"] == "student":
         values: list[str] = []
         for subject in ("국어", "영어", "수학", "과학", "사회"):
@@ -1260,6 +1756,11 @@ def grade_intersection(row: dict[str, str]) -> list[str]:
 def available_subjects(row: dict[str, str]) -> list[str]:
     if CONFIG["kind"] == "subject":
         return [SUBJECT_LABEL] if split_values(field(row, f"가능학년({SUBJECT_LABEL})")) else []
+    if CONFIG["kind"] == "dual_subject":
+        return [
+            subject for subject in configured_subjects()
+            if split_values(field(row, f"가능학년({subject})"))
+        ]
     subjects: list[str] = []
     for subject in ("국어", "영어", "수학", "과학", "사회"):
         if any(grade.startswith(GRADE_PREFIX) for grade in split_values(field(row, f"가능학년({subject})"))):
@@ -1283,11 +1784,7 @@ def local_context_html(center: dict, title: str) -> str:
     ]
     region_line = " ".join(value for value in (center["region"], center["district"], center["locality"]) if value)
     grade_line = "·".join(center["grades"])
-    grade_label = (
-        "센터 전체 수업 가능 학년" if CONFIG["kind"] == "student" else
-        f"{SUBJECT_LABEL} 가능 학년" if CONFIG["kind"] == "subject" else
-        "영어·수학 공통 가능 학년"
-    )
+    grade_label = grade_info_label()
     grade_fact = (
         f"{grade_label}은 {grade_line}입니다."
         if grade_line
@@ -1304,17 +1801,17 @@ def local_context_html(center: dict, title: str) -> str:
     learning_scope = subject_learning_label(center)
     first_variants = [
         f"{region_line}에서 {with_josa(CATEGORY_DISPLAY, '을', '를')} 살필 때에는 과목명만 비교하기보다 실제 이동 경로와 가능한 수업 학년을 함께 확인해야 합니다. 제공된 센터 위치는 {address}입니다. {grade_fact}",
-        f"{title} 상담은 학생의 현재 교재와 최근 오답을 확인한 뒤 현실적인 통원 일정까지 맞추는 과정입니다. {region_line}의 제공 센터 주소는 {address}입니다. {grade_fact}",
+        f"{title} 상담은 학생의 현재 교재와 최근 오답을 확인한 뒤 현실적인 통원 일정까지 맞추는 과정입니다. 제공 자료에 기재된 {region_line} 센터 주소는 {address}입니다. {grade_fact}",
         f"{region_line}에서 수업을 이어 가려면 계획의 양보다 꾸준히 방문하고 복습할 수 있는지가 중요합니다. {with_josa(address, '을', '를')} 기준으로 이동 시간을 먼저 살핍니다. {grade_plan}",
         f"{title}을 알아보는 단계에서는 주소와 학년 정보를 먼저 맞춰야 상담 내용이 구체적이 됩니다. 제공 자료의 센터 위치는 {address}입니다. {grade_fact}",
         f"{region_line} 학생의 {learning_scope}을 관리하려면 학교 일정, 통원 시간, 복습 가능 시간을 한 흐름으로 봐야 합니다. 센터 위치는 {address}입니다. {grade_fact} 최근 학습 기록을 준비해 상담하는 방식이 적절합니다.",
         f"{title} 선택에서 먼저 확인할 것은 학생이 실제로 다닐 수 있는 위치와 수업 대상입니다. 제공된 센터 위치는 {address}입니다. {grade_fact} 최종 시간표는 상담에서 다시 맞춥니다.",
     ]
     second_variants = [
-        f"{center['locality']} 학교 학습 연결을 확인할 때 참고할 제공 학교 목록은 {school_line}입니다. 학교명은 수업 가능 여부를 단정하는 기준이 아니라 상담 전에 시험 범위와 사용 교재를 준비하기 위한 참고 정보로 활용합니다.",
+        f"{center['locality']} 학교 학습 연결을 확인할 때 제공 자료에서 확인한 학교 목록은 {school_line}입니다. 학교명은 수업 가능 여부를 단정하는 기준이 아니라 상담 전에 시험 범위와 사용 교재를 준비하기 위한 참고 정보로 활용합니다.",
         f"{center['locality']} 제공 자료에는 {with_josa(school_line, '이', '가')} 학교 참고 목록으로 정리되어 있습니다. 해당 학교 학생이라면 최근 시험지나 주간 과제를 가져와 {learning_scope}에서 먼저 조정할 부분을 구체적으로 확인하는 것이 좋습니다.",
         f"{center['locality']} 학교별 진도와 평가 방식은 같지 않으므로 {school_line} 등 제공 학교 정보는 상담 준비의 출발점으로만 사용합니다. 실제 계획은 학생이 사용하는 교재, 시험 범위, 오답 기록을 확인한 뒤 결정합니다.",
-        f"{center['locality']}의 제공 학교 참고 목록은 {school_line}입니다. 학교 이름을 반복해 홍보하기보다 현재 범위와 학생의 풀이 기록을 함께 확인해야 과목별 학습 순서를 현실적으로 정할 수 있습니다.",
+        f"{center['locality']}의 학교 참고 목록은 {school_line}입니다. 학교 이름을 반복해 홍보하기보다 현재 범위와 학생의 풀이 기록을 함께 확인해야 과목별 학습 순서를 현실적으로 정할 수 있습니다.",
         f"{with_josa(school_line, '은', '는')} {center['locality']} 센터 자료에 포함된 학교 참고 정보입니다. 같은 학교 학생이라도 취약 단원과 공부 시간이 다르므로 학교명만으로 수업 방식을 정하지 않고 개별 자료를 바탕으로 상담합니다.",
         f"{center['locality']} 학교 학습과의 연결은 제공 목록인 {with_josa(school_line, '을', '를')} 참고하되, 실제 수업 판단은 최근 시험 범위와 오답 유형을 중심으로 진행합니다. 제공되지 않은 학교나 생활권 정보는 임의로 추가하지 않았습니다.",
     ]
@@ -1322,18 +1819,28 @@ def local_context_html(center: dict, title: str) -> str:
     center_name = center["center"] or f"{center['locality']} 학습센터"
     third_variants = [
         f"상담에서 확인할 센터는 {center_name}이며 제공 등록 정보는 {registration}입니다. {center['locality']} 상담에서는 등록 정보와 교습비 링크가 실제 수업 횟수·교재·보강 조건과 어떻게 연결되는지도 함께 확인합니다.",
-        f"{center_name}의 제공 자료에는 {with_josa(registration, '이', '가')} 표시되어 있습니다. {center['locality']} 학부모는 이 정보와 교습비 자료를 확인한 뒤 수업 시간뿐 아니라 과제 확인과 재학습 방식까지 질문하는 편이 좋습니다.",
+        f"제공 자료에는 {center_name}의 등록번호로 {with_josa(registration, '이', '가')} 표시되어 있습니다. {center['locality']} 학부모는 이 정보와 교습비 자료를 확인한 뒤 수업 시간뿐 아니라 과제 확인과 재학습 방식까지 질문하는 편이 좋습니다.",
         f"{center['locality']} 상담에서는 {center_name}, {with_josa(registration, '을', '를')} 센터 확인 자료로 사용합니다. 등록 여부만으로 수업 적합성을 단정하지 않고 학생 기록과 실제 상담 조건을 함께 비교해야 합니다.",
         f"제공된 센터명은 {center_name}, 등록 정보는 {registration}입니다. {center['locality']}에서 상담할 때에는 표시된 정보가 현재 시간표와 교습비 조건에도 동일하게 적용되는지 다시 확인합니다.",
         f"{center_name}에 대해 제공된 등록 자료는 {registration}입니다. {center['locality']} 학생의 {scope} 계획은 이 기본 정보에 더해 최근 시험지와 오답 기록을 확인한 뒤 구체화합니다.",
         f"{center['locality']} 수업 안내의 기준 센터는 {center_name}이며 자료에 기재된 등록 정보는 {registration}입니다. 상담 전에는 주소·학년·교습비를 함께 대조해 실제 등원 조건을 판단합니다.",
     ]
-    paragraphs = [first_variants[seed % len(first_variants)]]
+    if CONFIG["kind"] == "dual_subject" and not center["grades"]:
+        paragraphs = [
+            f"{region_line}에서 {with_josa(CATEGORY_DISPLAY, '을', '를')} 알아볼 때에는 제공 주소인 {address}와 실제 이동 경로를 먼저 확인합니다. 영어·수학 공통 가능 학년은 자료에 기재되지 않아 수업 개설 여부와 대상을 상담에서 확인해야 합니다."
+        ]
+    else:
+        paragraphs = [first_variants[seed % len(first_variants)]]
     if school_line:
         paragraphs.append(second_variants[(seed // len(first_variants)) % len(second_variants)])
     else:
         paragraphs.append(f"제공 자료에 {center['locality']} 학교 목록이 없어 학교명을 임의로 만들지 않았습니다. 상담 시 현재 학교의 시험 범위와 교재를 직접 확인해 학습 계획에 반영합니다.")
-    paragraphs.append(third_variants[(seed // (len(first_variants) * len(second_variants))) % len(third_variants)])
+    if CONFIG["kind"] == "dual_subject" and not center["grades"]:
+        paragraphs.append(
+            f"제공된 센터명은 {center_name}, 등록 정보는 {registration}입니다. 이 정보만으로 수업 가능 여부를 단정하지 않으며, 영어·수학 대상 학년·개설 과목·시간표·교습비 적용 조건을 상담 시점에 다시 확인해야 합니다."
+        )
+    else:
+        paragraphs.append(third_variants[(seed // (len(first_variants) * len(second_variants))) % len(third_variants)])
     return (
         '<section class="subject-prose-section subject-local-context">'
         f'<h2>{escape(headings[seed % len(headings)])}</h2>'
@@ -1511,8 +2018,9 @@ def center_payload(row: dict[str, str], slug: str) -> dict:
     ))
     map_name = map_source(row, slug)
     map_width, map_height = image_dimensions(ROOT / "assets" / "maps" / map_name)
-    subject_grades = split_values(field(row, f"가능학년({SUBJECT_LABEL})")) if CONFIG["kind"] == "subject" else []
-    if CONFIG["kind"] == "subject":
+    grades = grade_intersection(row)
+    subject_grades = grades if is_subject_kind() else []
+    if is_subject_kind():
         grade_school_fields = {
             "초": "타깃학교(초)",
             "중": "타깃학교(중)",
@@ -1543,7 +2051,7 @@ def center_payload(row: dict[str, str], slug: str) -> dict:
         "address": row.get("센터 주소", ""),
         "schools": selected_schools,
         "all_schools": all_schools,
-        "grades": grade_intersection(row),
+        "grades": grades,
         "subjects": available_subjects(row),
         "map": map_name,
         "map_width": map_width,
@@ -1553,8 +2061,8 @@ def center_payload(row: dict[str, str], slug: str) -> dict:
 
 
 def management_scope(center: dict) -> str:
-    if CONFIG["kind"] == "subject":
-        if SUBJECT_LABEL != "영어":
+    if is_subject_kind():
+        if SUBJECT_LABEL == "수학":
             return f"초·중·고 {SUBJECT_LABEL} 학습관리"
         levels = [
             label
@@ -1569,6 +2077,8 @@ def management_scope(center: dict) -> str:
 
 
 def about_topics() -> list[str]:
+    if CONFIG["kind"] == "dual_subject":
+        return [CATEGORY_DISPLAY, "영어 어휘와 문장 구조", "영어 독해 근거", "수학 개념 이해", "수학 풀이 과정", "오답 재학습과 복습 계획"]
     if CONFIG["kind"] == "subject":
         if SUBJECT_LABEL == "영어":
             return [CATEGORY_DISPLAY, "영어 어휘", "문장 구조", "독해 근거", "오답 관리", "복습 계획"]
@@ -1595,7 +2105,28 @@ def related_link_items(center: dict) -> list[dict[str, str]]:
             "description": f"371개 동네의 {CATEGORY_DISPLAY} 안내를 살펴봅니다.",
         }
     ]
-    if CONFIG["kind"] == "student":
+    if CONFIG["kind"] == "dual_subject":
+        for key, label in (("english", "영어 학습"), ("math", "수학 학습")):
+            config = CONFIGS[key]
+            items.append({
+                "name": f"{center['locality']} {config['display']}",
+                "url": absolute_url("과목별학원", config["category"], center["slug"]),
+                "href": f"../../{config['category']}/{center['slug']}/",
+                "label": label,
+                "description": f"같은 지역의 {config['display']} 진단·오답·복습 기준을 따로 확인합니다.",
+            })
+        for key in ("high", "middle", "elementary"):
+            config = CONFIGS[key]
+            if not any(grade.startswith(config["grade_prefix"]) for grade in center["grades"]):
+                continue
+            items.append({
+                "name": f"{center['locality']} {config['display']}",
+                "url": absolute_url("과목별학원", config["category"], center["slug"]),
+                "href": f"../../{config['category']}/{center['slug']}/",
+                "label": f"{config['level']} 영수",
+                "description": f"{config['audience']}의 영어·수학 학습 기준을 확인합니다.",
+            })
+    elif CONFIG["kind"] == "student":
         combined = same_level_combined_config()
         items.append({
             "name": f"{center['locality']} {combined['display']}",
@@ -1775,8 +2306,8 @@ def make_graph(page: dict, center: dict, representative: str) -> dict:
         {
             "@type": "Service",
             "@id": service_id,
-            "name": f"{title} 학습관리" if center["grades"] else f"{center['locality']} {SUBJECT_LABEL + ' ' if CONFIG['kind'] == 'subject' else ''}수업 가능 여부 상담",
-            "serviceType": management_scope(center) if center["grades"] else f"{SUBJECT_LABEL + ' ' if CONFIG['kind'] == 'subject' else '학년별 '}수업 가능 여부 상담",
+            "name": f"{title} 학습관리" if center["grades"] else f"{center['locality']} {SUBJECT_LABEL + ' ' if is_subject_kind() else ''}수업 가능 여부 상담",
+            "serviceType": management_scope(center) if center["grades"] else f"{SUBJECT_LABEL + ' ' if is_subject_kind() else '학년별 '}수업 가능 여부 상담",
             "description": summary,
             "provider": {"@id": org_id},
             "areaServed": {"@type": "Place", "name": center["locality"]},
@@ -1813,7 +2344,7 @@ def render_info_rows(center: dict) -> str:
         f"<div><dt>지역</dt><dd>{escape(' '.join(v for v in (center['region'], center['district'], center['locality']) if v))}</dd></div>",
         f"<div><dt>센터 기준</dt><dd>{escape(center['center'] or center['locality'] + ' 학습센터')}</dd></div>",
         f"<div><dt>제공 주소</dt><dd>{escape(center['address'] or '상담 시 확인')}</dd></div>",
-        f"<div><dt>{'센터 전체 수업 가능 학년' if CONFIG['kind'] == 'student' else f'{SUBJECT_LABEL} 가능 학년' if CONFIG['kind'] == 'subject' else '영어·수학 가능 학년'}</dt><dd><div class=\"subject-tag-list\">{grade_html or '<span>상담 시 확인</span>'}</div></dd></div>",
+        f"<div><dt>{grade_info_label()}</dt><dd><div class=\"subject-tag-list\">{grade_html or '<span>상담 시 확인</span>'}</div></dd></div>",
     ]
     if CONFIG["kind"] == "student" and center["subjects"]:
         subjects_html = "".join(f"<span>{escape(subject)}</span>" for subject in center["subjects"])
@@ -1829,6 +2360,35 @@ def render_info_rows(center: dict) -> str:
     return "".join(rows)
 
 
+def dual_subject_balance_html(center: dict, title: str, body_text: str) -> str:
+    if CONFIG["kind"] != "dual_subject" or body_text.count("수학") < body_text.count("영어") * 2:
+        return ""
+    focus = safe_focus(center, "english-balance")
+    headings = [
+        f"{center['locality']} 영어 진단을 수학 계획과 균형 있게 연결하는 법",
+        "영어 어휘·문장·독해 기록을 따로 확인하는 기준",
+        f"{title} 상담에서 영어 학습 근거를 보완하는 질문",
+        "두 과목 계획에서 영어 복습이 밀리지 않게 확인하는 방법",
+        f"{center['locality']} 학생의 영어 이해 과정을 기록으로 남기는 법",
+        "수학 풀이와 다른 영어 오답의 재확인 순서",
+    ]
+    first = (
+        f"{center['locality']} 상담에서는 수학 풀이 기록과 별도로 최근 영어 답안을 펼쳐 보아야 합니다. "
+        f"영어 어휘를 기억하는지, 영어 문장에서 주어와 동사를 찾는지, 영어 독해 선택의 근거를 설명하는지를 나누면 "
+        f"{with_josa(focus, '을', '를')} 실제 자료로 확인할 수 있습니다."
+    )
+    second = (
+        "영어 복습은 맞힌 개수만 세기보다 틀린 단어를 다시 떠올리고, 문장 구조를 표시하고, 독해 근거를 말한 뒤 같은 오류를 다시 확인하는 순서로 기록합니다. "
+        "영어와 수학의 과제 시간을 똑같이 나누기보다 각 과목에서 혼자 수행할 수 있는 단계와 도움이 필요한 단계를 확인해 다음 점검일을 정하는 편이 좋습니다."
+    )
+    heading = headings[seeded_index(CATEGORY, center["slug"], "english-balance-heading", modulo=len(headings))]
+    return (
+        '<section class="subject-prose-section subject-dual-balance">'
+        f'<h2>{escape(heading)}</h2>{paragraph_html(first)}{paragraph_html(second)}'
+        "</section>"
+    )
+
+
 def render_page(page: dict, center: dict, representative: str) -> str:
     sections = page["sections"]
     title = clean_text(sections["페이지타이틀"])
@@ -1839,7 +2399,7 @@ def render_page(page: dict, center: dict, representative: str) -> str:
     review_note, reviews = parse_review(sections["학부모후기"])
     canonical = absolute_url("과목별학원", CATEGORY, center["slug"])
     graph = make_graph(page, center, representative)
-    body_html = local_context_html(center, title) + student_stage_context_html(center, title) + "".join(
+    body_html = local_context_html(center, title) + student_stage_context_html(center, title) + dual_subject_balance_html(center, title, sections["본문"]) + "".join(
         f'<section class="subject-prose-section"><h2>{escape(heading)}</h2>{"".join(paragraph_html(paragraph) for paragraph in paragraphs)}</section>'
         for heading, paragraphs in body_sections
     )
@@ -1858,11 +2418,14 @@ def render_page(page: dict, center: dict, representative: str) -> str:
     )
     hero_scope = (
         "학년 단계·학교 일정·학습 습관" if CONFIG["kind"] == "student" else
+        "영어·수학 진단·계획·오답 재확인" if CONFIG["kind"] == "dual_subject" else
         ("어휘·구문·독해·복습" if SUBJECT_LABEL == "영어" else "개념·풀이·오답·복습") if CONFIG["kind"] == "subject" else
         "진단·내신·오답 관리"
     )
     audience = audience_for_center(center)
     subject_reading_prompt = (
+        "영어 답안과 수학 풀이에서 막히는 단계를 따로 기록합니다."
+        if CONFIG["kind"] == "dual_subject" else
         "영어에서 막히는 어휘·문장 구조·독해 단서와 최근 오답을 기록합니다."
         if SUBJECT_LABEL == "영어" else
         "수학에서 막히는 풀이 단계와 최근 오답을 기록합니다."
@@ -1921,7 +2484,7 @@ def render_page(page: dict, center: dict, representative: str) -> str:
     <section class="section subject-article-section">
       <div class="subject-article-layout">
         <article class="subject-main-article"><div class="subject-intro-answer"><p>{escape(intro)}</p></div>{body_html}</article>
-        <aside class="subject-reading-guide"><p class="eyebrow">Reading Guide</p><h2>상담 전에 확인하세요</h2><ol><li>{'현재 학년의 학교 일정과 공부 시간을 정리합니다.' if CONFIG['kind'] == 'student' else subject_reading_prompt if CONFIG['kind'] == 'subject' else '영어와 수학의 막히는 원인을 따로 기록합니다.'}</li><li>학교 시험 범위와 현재 교재를 함께 준비합니다.</li><li>수업·과제·오답의 다음 확인일을 묻습니다.</li><li>주소와 교습비는 제공된 최신 자료로 확인합니다.</li></ol></aside>
+        <aside class="subject-reading-guide"><p class="eyebrow">Reading Guide</p><h2>상담 전에 확인하세요</h2><ol><li>{'현재 학년의 학교 일정과 공부 시간을 정리합니다.' if CONFIG['kind'] == 'student' else subject_reading_prompt if is_subject_kind() else '영어와 수학의 막히는 원인을 따로 기록합니다.'}</li><li>학교 시험 범위와 현재 교재를 함께 준비합니다.</li><li>수업·과제·오답의 다음 확인일을 묻습니다.</li><li>주소와 교습비는 제공된 최신 자료로 확인합니다.</li></ol></aside>
       </div>
     </section>
 
@@ -1943,6 +2506,8 @@ def hub_graph(pages: list[tuple[dict, dict]]) -> dict:
     canonical = absolute_url("과목별학원", CATEGORY)
     if CONFIG["kind"] == "student":
         hub_description = f"371개 동네별 {AUDIENCE_LABEL}의 학년 단계, 학교 일정, 공부 시간과 학습 습관 기준을 확인할 수 있는 지역 허브입니다."
+    elif CONFIG["kind"] == "dual_subject":
+        hub_description = "371개 동네별 영수학원 선택 기준과 영어 어휘·문장·독해, 수학 개념·풀이·오답 및 센터 정보를 확인할 수 있는 지역 허브입니다."
     elif CONFIG["kind"] == "subject":
         subject_process = "어휘·문장 구조·독해·복습" if SUBJECT_LABEL == "영어" else "개념 이해·풀이 과정·오답·복습"
         hub_description = f"371개 동네별 {CATEGORY_DISPLAY} 선택 기준과 {subject_process} 및 센터 정보를 확인할 수 있는 지역 허브입니다."
@@ -1956,6 +2521,11 @@ def hub_graph(pages: list[tuple[dict, dict]]) -> dict:
         faq_items = [
             (f"{CATEGORY_DISPLAY}을 비교할 때 무엇을 먼저 확인해야 하나요?", f"{AUDIENCE_LABEL}의 현재 학년과 학교 일정, 과목별 취약 원인, 실제 공부 시간과 복습 습관을 함께 확인해야 합니다."),
             ("지역별 페이지에는 어떤 정보가 있나요?", "제공된 지역·센터·해당 학교급·주소 자료를 바탕으로 학년 단계, 상담 질문, 과제와 오답 관리 기준을 정리했습니다."),
+        ]
+    elif CONFIG["kind"] == "dual_subject":
+        faq_items = [
+            ("영수학원을 비교할 때 무엇을 먼저 확인해야 하나요?", "영어와 수학을 같은 기준으로 묶지 말고, 영어는 어휘·문장 구조·독해 근거를, 수학은 개념·조건 해석·풀이 과정을 따로 진단한 뒤 주간 우선순위를 연결하는지 확인해야 합니다."),
+            ("지역별 페이지에는 어떤 정보가 있나요?", "제공된 지역·센터·영어와 수학의 공통 가능 학년·해당 학교급·주소 자료를 바탕으로 과목별 진단, 상담 질문과 복습 기준을 정리했습니다."),
         ]
     elif CONFIG["kind"] == "subject":
         if SUBJECT_LABEL == "영어":
@@ -1998,6 +2568,16 @@ def render_hub(pages: list[tuple[dict, dict]]) -> str:
         visible_faq = (
             (f"{CATEGORY_DISPLAY}을 비교할 때 무엇을 먼저 확인해야 하나요?", f"{AUDIENCE_LABEL}의 현재 학년과 학교 일정, 과목별 취약 원인, 실제 공부 시간과 복습 습관을 함께 확인해야 합니다."),
             ("지역별 페이지에는 어떤 정보가 있나요?", "제공된 지역·센터·해당 학교급·주소 자료를 바탕으로 학년 단계, 상담 질문, 과제와 오답 관리 기준을 정리했습니다."),
+        )
+    elif CONFIG["kind"] == "dual_subject":
+        meta = "371개 동네별 영수학원 선택 기준을 지역과 시군구별로 정리했습니다. 영어·수학 공통 가능 학년, 과목별 진단·오답·복습과 센터 정보를 확인하세요."
+        lead = "영어와 수학은 막히는 지점과 복습 방식이 다르므로 두 과목을 따로 진단하고, 실제 공부 시간 안에서 우선순위를 연결해야 합니다. 아래에서 지역을 선택해 학생 상황별 안내와 확인된 센터 정보를 살펴보세요."
+        guide_title = "영어와 수학은 진단 기준을 나누고 주간 계획에서 연결합니다"
+        guide_text = "영어는 어휘 인출·문장 구조·독해 근거를, 수학은 개념 이해·조건 해석·풀이 과정을 각각 확인합니다. 상담에서는 두 과목의 공통 가능 학년과 첫 목표, 완료 기준, 다음 점검 날짜가 구체적인지 살펴보세요."
+        guide_rows = (("지역", "13개 광역권 · 371개 동네"), ("대상", "센터별 영어·수학 공통 가능 학년 기준"), ("내용", "지역별 안내 · 센터 · 학교 · 주소 정보"), ("관리", "과목별 진단 · 계획 · 오답 재확인"))
+        visible_faq = (
+            ("영수학원을 비교할 때 무엇을 먼저 확인해야 하나요?", "영어와 수학을 같은 방식으로 묶지 말고, 영어는 어휘·문장 구조·독해 근거를, 수학은 개념·조건 해석·풀이 과정을 따로 확인해야 합니다."),
+            ("지역별 페이지에는 어떤 정보가 있나요?", "제공된 지역·센터·영어와 수학의 공통 가능 학년·해당 학교급·주소 자료를 바탕으로 과목별 진단과 복습 기준을 정리했습니다."),
         )
     elif CONFIG["kind"] == "subject":
         if SUBJECT_LABEL == "영어":
@@ -2068,7 +2648,7 @@ def update_subject_root() -> None:
         category = config["category"]
         if not (ROOT / "과목별학원" / category / "index.html").exists():
             continue
-        icon = "학년" if config["kind"] == "student" else config.get("subject", "과목") if config["kind"] == "subject" else "E+M"
+        icon = config.get("icon") or ("학년" if config["kind"] == "student" else config.get("subject", "과목") if config["kind"] == "subject" else "E+M")
         cards.append(
             f'<a class="subject-category-card" href="{category}/"><span class="subject-category-icon">{icon}</span><span><small>{config["card_small"]}</small><strong>{config["display"]}</strong><em>{config["card_description"]}</em></span><b aria-hidden="true">→</b></a>'
         )
