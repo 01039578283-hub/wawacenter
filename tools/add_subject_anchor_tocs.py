@@ -31,6 +31,7 @@ SUBJECT_CATEGORIES = (
     "중학생학원",
     "초등영수학원",
     "초등학생학원",
+    "수학학원",
 )
 EXPECTED_PER_CATEGORY = 371
 

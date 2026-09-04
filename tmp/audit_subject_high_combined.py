@@ -148,6 +148,15 @@ def main() -> None:
                         fail(f"makesOffer missing despite verified grade availability: {slug}")
                 elif service.get("makesOffer") or organization.get("makesOffer"):
                     fail(f"makesOffer present without verified grade availability: {slug}")
+                if generator.CONFIG["kind"] == "subject":
+                    if organization.get("educationalLevel", []) != center["grades"]:
+                        fail(f"math educationalLevel mismatch: {slug}")
+                    if organization.get("address", {}).get("streetAddress", "") != center["address"]:
+                        fail(f"center address mismatch: {slug}")
+                    expected_registration = center["registration"]
+                    actual_registration = organization.get("identifier", {}).get("value", "")
+                    if actual_registration != expected_registration:
+                        fail(f"registration mismatch: {slug}")
                 if organization.get("openingHours"):
                     fail(f"unverified openingHours present: {slug}")
                 if organization.get("address", {}).get("addressRegion") != center["region"]:
@@ -197,6 +206,21 @@ def main() -> None:
                 continue
             if not check_link(path, src):
                 fail(f"broken image {src}: {slug}")
+        if generator.CONFIG["kind"] == "subject":
+            allowed_grades = set(generator.allowed_grade_tokens(center))
+            found_grades = {
+                item.replace(" ", "")
+                for item in re.findall(r"(?:초|중|고)\s*[1-6]", generator.clean_text(source))
+            }
+            if found_grades - allowed_grades:
+                fail(f"unverified math grades {sorted(found_grades-allowed_grades)}: {slug}")
+            if center["address"] and center["address"] not in generator.clean_text(source):
+                fail(f"provided address missing from page: {slug}")
+            if center["registration"] and center["registration"] not in generator.clean_text(source):
+                fail(f"provided registration missing from page: {slug}")
+            review_note, _ = generator.parse_review(page["sections"]["학부모후기"])
+            if not review_note or "실제 수강 후기" not in review_note or "아닙니다" not in review_note:
+                fail(f"fictional consultation disclosure missing: {slug}")
         intro, body_sections = generator.parse_body(page["sections"]["본문"])
         body_snippets = [intro]
         for heading, paragraphs in body_sections:
@@ -224,6 +248,14 @@ def main() -> None:
         body_picture = source.find('<picture>')
         if not hidden_image or hidden_image.start() > body_picture:
             fail(f"hidden representative image missing/order: {slug}")
+        else:
+            expected_alt_base = f"{title} {generator.PUBLIC_SITE_NAME}"
+            if f'alt="{expected_alt_base} 대표"' not in hidden_image.group(0):
+                fail(f"hidden representative alt mismatch: {slug}")
+            if f'alt="{expected_alt_base} 본문"' not in source:
+                fail(f"body image alt mismatch: {slug}")
+            if f'alt="{expected_alt_base} 지도"' not in source:
+                fail(f"map image alt mismatch: {slug}")
         map_pattern = re.compile(
             rf'<img\s+src="\.\./\.\./\.\./assets/maps/{re.escape(center["map"])}"[^>]*\bwidth="{center["map_width"]}"[^>]*\bheight="{center["map_height"]}"[^>]*>'
         )

@@ -61,6 +61,19 @@ CONFIGS = {
         "school_field": "타깃학교(초)",
         "kind": "combined",
     },
+    "math": {
+        "zip": "수학학원.zip",
+        "category": "수학학원",
+        "display": "수학학원",
+        "level": "수학",
+        "grade_prefix": "",
+        "audience": "초·중·고 학생",
+        "eyebrow": "Math Learning Guide",
+        "card_small": "초·중·고 · 수학",
+        "card_description": "371개 동네별 개념·풀이·오답·복습 기준 안내",
+        "school_field": "",
+        "kind": "subject",
+    },
     "high_student": {
         "zip": "고등학생학원.zip",
         "category": "고등학생학원",
@@ -108,7 +121,7 @@ ZIP_PATH = SOURCE_DIR / CONFIG["zip"]
 CATEGORY = CONFIG["category"]
 CATEGORY_DISPLAY = CONFIG["display"]
 LEVEL_LABEL = CONFIG["level"]
-SCHOOL_LEVEL_LABEL = {"고등": "고등학교", "중등": "중학교", "초등": "초등학교"}[LEVEL_LABEL]
+SCHOOL_LEVEL_LABEL = {"고등": "고등학교", "중등": "중학교", "초등": "초등학교", "수학": "학교"}[LEVEL_LABEL]
 GRADE_PREFIX = CONFIG["grade_prefix"]
 AUDIENCE_LABEL = CONFIG["audience"]
 EYEBROW_LABEL = CONFIG["eyebrow"]
@@ -187,6 +200,12 @@ def split_school_names(value: str) -> list[str]:
 
 
 def safe_focus(center: dict, suffix: str) -> str:
+    if CONFIG["kind"] == "subject":
+        options = [
+            "개념 이해와 문제 적용의 연결", "풀이 과정과 계산 오류의 구분", "오답 원인과 재확인 순서",
+            "학년별 수학 진도와 복습의 균형", "문장제 조건 해석과 식 세우기", "주간 수학 학습량과 점검 일정",
+        ]
+        return options[seeded_index(CATEGORY, center["slug"], suffix, modulo=len(options))]
     banks = {
         "고등": [
             "내신과 모의고사 학습의 시간 배분", "누적 단원과 현재 시험 범위의 연결", "과목별 오답 재현과 주간 계획",
@@ -262,6 +281,8 @@ def correct_term_josa(value: str, term: str) -> str:
 
 def subject_scope(center: dict) -> str:
     subjects = center.get("subjects", [])
+    if CONFIG["kind"] == "subject":
+        return "수학"
     return "·".join(subjects) if subjects else "과목별 학습"
 
 
@@ -533,6 +554,8 @@ def sanitize_school_sentences(value: str, center: dict, suffix: str) -> str:
 
 
 def allowed_grade_tokens(center: dict) -> list[str]:
+    if CONFIG["kind"] == "subject":
+        return [grade.replace(" ", "") for grade in center["grades"]]
     return [grade.replace(" ", "") for grade in center["grades"] if grade.startswith(GRADE_PREFIX)]
 
 
@@ -540,6 +563,31 @@ def sanitize_grade_claims(value: str, center: dict, suffix: str) -> str:
     text = value
     allowed = allowed_grade_tokens(center)
     generic = AUDIENCE_LABEL
+    if CONFIG["kind"] == "subject":
+        replacement = "·".join(allowed) if allowed else generic
+        grade_pattern = re.compile(r"(?:초|중|고)\s*[1-6]")
+        normalized_sentences: list[str] = []
+        for sentence in re.split(r"(?<=[.!?])\s+", clean_text(text)):
+            listed = {token.replace(" ", "") for token in grade_pattern.findall(sentence)}
+            if len(listed) >= 2 and listed - set(allowed):
+                normalized_sentences.append(
+                    f"{replacement} 범위의 수학 학습은 현재 교재와 오답 기록을 확인해 우선순위를 정해야 합니다."
+                )
+            else:
+                normalized_sentences.append(sentence)
+        text = " ".join(dict.fromkeys(normalized_sentences))
+        index = 0
+        def subject_repl(match: re.Match[str]) -> str:
+            nonlocal index
+            token = match.group(0).replace(" ", "")
+            if token in allowed:
+                return token
+            if not allowed:
+                return generic
+            selected = allowed[seeded_index(CATEGORY, center["slug"], suffix, str(index), modulo=len(allowed))]
+            index += 1
+            return selected
+        return grade_pattern.sub(subject_repl, text)
     full_patterns = {
         "고": r"고등\s*전\s*학년",
         "중": r"중등\s*전\s*학년|중학교\s*전\s*학년",
@@ -616,11 +664,16 @@ def absolute_url(*parts: str) -> str:
 
 def parse_sections(text: str) -> dict[str, str]:
     marker = re.compile(r"^\[([^\]]+)\]\s*$", re.MULTILINE)
+    aliases = {
+        "상담 상황 예시": "학부모후기",
+        "구조화 데이터용 요약": "JSON-LD 요약",
+    }
     matches = list(marker.finditer(text))
     sections: dict[str, str] = {}
     for index, match in enumerate(matches):
         end = matches[index + 1].start() if index + 1 < len(matches) else len(text)
-        sections[match.group(1).strip()] = text[match.end():end].strip()
+        name = aliases.get(match.group(1).strip(), match.group(1).strip())
+        sections[name] = text[match.end():end].strip()
     return sections
 
 
@@ -791,6 +844,11 @@ FAQ_QUESTION_BANKS = [
 
 
 def diversified_question(center: dict, index: int, original: str) -> str:
+    if CONFIG["kind"] == "subject":
+        # The math manuscripts already contain page-specific, semantically
+        # matched questions. Preserve them instead of replacing them with the
+        # legacy combined English-and-math question bank.
+        return clean_text(original)
     if "학교" in original or school_names_in(original, center):
         bank_index = 2
     else:
@@ -982,13 +1040,25 @@ def make_slugs(rows: list[dict[str, str]]) -> dict[str, str]:
 
 
 def representative_urls() -> list[str]:
-    source = REPRESENTATIVE_CSV.read_text(encoding="utf-8-sig", errors="ignore")
     values: list[str] = []
     seen: set[str] = set()
-    for url in re.findall(r"https://[^\"',<>\s]+\.(?:jpg|jpeg|png|webp|gif)", source, re.IGNORECASE):
-        if url.startswith("http") and url not in seen:
-            seen.add(url)
-            values.append(url)
+    sources: list[str] = []
+    if REPRESENTATIVE_CSV.exists():
+        sources.append(REPRESENTATIVE_CSV.read_text(encoding="utf-8-sig", errors="ignore"))
+    else:
+        # The original representative URL sheet was later reorganized. Reuse the
+        # already-published remote representative pool so the hidden/OG image
+        # convention remains stable without inventing a new external asset source.
+        for page_path in sorted((ROOT / "과목별학원").glob("*/*/index.html")):
+            source = page_path.read_text(encoding="utf-8", errors="ignore")
+            match = re.search(r'<meta\s+property="og:image"\s+content="([^"]+)"', source, re.IGNORECASE)
+            if match:
+                sources.append(match.group(1))
+    for source in sources:
+        for url in re.findall(r"https://[^\"',<>\s]+\.(?:jpg|jpeg|png|webp|gif)", source, re.IGNORECASE):
+            if url.startswith("http") and url not in seen:
+                seen.add(url)
+                values.append(url)
     if not values:
         raise ValueError("No representative image URLs found")
     return values
@@ -1044,6 +1114,8 @@ def official_region(row: dict[str, str]) -> str:
 
 
 def grade_intersection(row: dict[str, str]) -> list[str]:
+    if CONFIG["kind"] == "subject":
+        return split_values(field(row, "가능학년(수학)"))
     if CONFIG["kind"] == "student":
         values: list[str] = []
         for subject in ("국어", "영어", "수학", "과학", "사회"):
@@ -1056,6 +1128,8 @@ def grade_intersection(row: dict[str, str]) -> list[str]:
 
 
 def available_subjects(row: dict[str, str]) -> list[str]:
+    if CONFIG["kind"] == "subject":
+        return ["수학"] if split_values(field(row, "가능학년(수학)")) else []
     subjects: list[str] = []
     for subject in ("국어", "영어", "수학", "과학", "사회"):
         if any(grade.startswith(GRADE_PREFIX) for grade in split_values(field(row, f"가능학년({subject})"))):
@@ -1079,7 +1153,11 @@ def local_context_html(center: dict, title: str) -> str:
     ]
     region_line = " ".join(value for value in (center["region"], center["district"], center["locality"]) if value)
     grade_line = "·".join(center["grades"])
-    grade_label = "센터 전체 수업 가능 학년" if CONFIG["kind"] == "student" else "영어·수학 공통 가능 학년"
+    grade_label = (
+        "센터 전체 수업 가능 학년" if CONFIG["kind"] == "student" else
+        "수학 가능 학년" if CONFIG["kind"] == "subject" else
+        "영어·수학 공통 가능 학년"
+    )
     grade_fact = (
         f"{grade_label}은 {grade_line}입니다."
         if grade_line
@@ -1303,6 +1381,25 @@ def center_payload(row: dict[str, str], slug: str) -> dict:
     ))
     map_name = map_source(row, slug)
     map_width, map_height = image_dimensions(ROOT / "assets" / "maps" / map_name)
+    math_grades = split_values(field(row, "가능학년(수학)")) if CONFIG["kind"] == "subject" else []
+    if CONFIG["kind"] == "subject":
+        grade_school_fields = {
+            "초": "타깃학교(초)",
+            "중": "타깃학교(중)",
+            "고": "타깃학교(고)",
+        }
+        selected_school_fields = [
+            school_field
+            for prefix, school_field in grade_school_fields.items()
+            if any(grade.startswith(prefix) for grade in math_grades)
+        ]
+        selected_schools = list(dict.fromkeys(
+            school
+            for school_field in selected_school_fields
+            for school in split_school_names(field(row, school_field))
+        ))
+    else:
+        selected_schools = split_school_names(field(row, CONFIG["school_field"]))
     return {
         "locality": row["근처 수업가능 동네"],
         "slug": slug,
@@ -1314,7 +1411,7 @@ def center_payload(row: dict[str, str], slug: str) -> dict:
         "office": row.get("교육지원청명칭", ""),
         "registration": row.get("교육지원청 등록번호", ""),
         "address": row.get("센터 주소", ""),
-        "schools": split_school_names(field(row, CONFIG["school_field"])),
+        "schools": selected_schools,
         "all_schools": all_schools,
         "grades": grade_intersection(row),
         "subjects": available_subjects(row),
@@ -1326,12 +1423,16 @@ def center_payload(row: dict[str, str], slug: str) -> dict:
 
 
 def management_scope() -> str:
+    if CONFIG["kind"] == "subject":
+        return "초·중·고 수학 학습관리"
     if CONFIG["kind"] == "student":
         return f"{LEVEL_LABEL} 학년 단계·학교 일정·학습 습관"
     return f"{LEVEL_LABEL} 영어·수학 학습관리"
 
 
 def about_topics() -> list[str]:
+    if CONFIG["kind"] == "subject":
+        return [CATEGORY_DISPLAY, "수학 개념 이해", "문제 적용", "풀이 과정", "오답 관리", "복습 계획"]
     if CONFIG["kind"] == "student":
         return [CATEGORY_DISPLAY, f"{LEVEL_LABEL} 학년별 계획", "학교 학습 연결", "시간 관리", "학습 습관", "오답 재학습"]
     return [f"{LEVEL_LABEL} 영어", f"{LEVEL_LABEL} 수학", CATEGORY_DISPLAY, "내신 대비", "오답 관리"]
@@ -1572,7 +1673,7 @@ def render_info_rows(center: dict) -> str:
         f"<div><dt>지역</dt><dd>{escape(' '.join(v for v in (center['region'], center['district'], center['locality']) if v))}</dd></div>",
         f"<div><dt>센터 기준</dt><dd>{escape(center['center'] or center['locality'] + ' 학습센터')}</dd></div>",
         f"<div><dt>제공 주소</dt><dd>{escape(center['address'] or '상담 시 확인')}</dd></div>",
-        f"<div><dt>{'센터 전체 수업 가능 학년' if CONFIG['kind'] == 'student' else '영어·수학 가능 학년'}</dt><dd><div class=\"subject-tag-list\">{grade_html or '<span>상담 시 확인</span>'}</div></dd></div>",
+        f"<div><dt>{'센터 전체 수업 가능 학년' if CONFIG['kind'] == 'student' else '수학 가능 학년' if CONFIG['kind'] == 'subject' else '영어·수학 가능 학년'}</dt><dd><div class=\"subject-tag-list\">{grade_html or '<span>상담 시 확인</span>'}</div></dd></div>",
     ]
     if CONFIG["kind"] == "student" and center["subjects"]:
         subjects_html = "".join(f"<span>{escape(subject)}</span>" for subject in center["subjects"])
@@ -1615,7 +1716,11 @@ def render_page(page: dict, center: dict, representative: str) -> str:
         f'<a class="related-link-card" href="{escape(item["href"])}"><span>{escape(item["label"])}</span><b>{escape(item["name"])}</b><em>{escape(item["description"])}</em></a>'
         for item in related_link_items(center)
     )
-    hero_scope = "학년 단계·학교 일정·학습 습관" if CONFIG["kind"] == "student" else "진단·내신·오답 관리"
+    hero_scope = (
+        "학년 단계·학교 일정·학습 습관" if CONFIG["kind"] == "student" else
+        "개념·풀이·오답·복습" if CONFIG["kind"] == "subject" else
+        "진단·내신·오답 관리"
+    )
     return f'''<!doctype html>
 <html lang="ko">
 <head>
@@ -1670,7 +1775,7 @@ def render_page(page: dict, center: dict, representative: str) -> str:
     <section class="section subject-article-section">
       <div class="subject-article-layout">
         <article class="subject-main-article"><div class="subject-intro-answer"><p>{escape(intro)}</p></div>{body_html}</article>
-        <aside class="subject-reading-guide"><p class="eyebrow">Reading Guide</p><h2>상담 전에 확인하세요</h2><ol><li>{'현재 학년의 학교 일정과 공부 시간을 정리합니다.' if CONFIG['kind'] == 'student' else '영어와 수학의 막히는 원인을 따로 기록합니다.'}</li><li>학교 시험 범위와 현재 교재를 함께 준비합니다.</li><li>수업·과제·오답의 다음 확인일을 묻습니다.</li><li>주소와 교습비는 제공된 최신 자료로 확인합니다.</li></ol></aside>
+        <aside class="subject-reading-guide"><p class="eyebrow">Reading Guide</p><h2>상담 전에 확인하세요</h2><ol><li>{'현재 학년의 학교 일정과 공부 시간을 정리합니다.' if CONFIG['kind'] == 'student' else '수학에서 막히는 풀이 단계와 최근 오답을 기록합니다.' if CONFIG['kind'] == 'subject' else '영어와 수학의 막히는 원인을 따로 기록합니다.'}</li><li>학교 시험 범위와 현재 교재를 함께 준비합니다.</li><li>수업·과제·오답의 다음 확인일을 묻습니다.</li><li>주소와 교습비는 제공된 최신 자료로 확인합니다.</li></ol></aside>
       </div>
     </section>
 
@@ -1690,11 +1795,12 @@ def render_page(page: dict, center: dict, representative: str) -> str:
 
 def hub_graph(pages: list[tuple[dict, dict]]) -> dict:
     canonical = absolute_url("과목별학원", CATEGORY)
-    hub_description = (
-        f"371개 동네별 {AUDIENCE_LABEL}의 학년 단계, 학교 일정, 공부 시간과 학습 습관 기준을 확인할 수 있는 지역 허브입니다."
-        if CONFIG["kind"] == "student" else
-        f"371개 동네별 {LEVEL_LABEL} 영어·수학 학원 선택 기준과 센터 정보를 확인할 수 있는 지역 허브입니다."
-    )
+    if CONFIG["kind"] == "student":
+        hub_description = f"371개 동네별 {AUDIENCE_LABEL}의 학년 단계, 학교 일정, 공부 시간과 학습 습관 기준을 확인할 수 있는 지역 허브입니다."
+    elif CONFIG["kind"] == "subject":
+        hub_description = "371개 동네별 수학학원 선택 기준과 개념 이해, 풀이 과정, 오답·복습 및 센터 정보를 확인할 수 있는 지역 허브입니다."
+    else:
+        hub_description = f"371개 동네별 {LEVEL_LABEL} 영어·수학 학원 선택 기준과 센터 정보를 확인할 수 있는 지역 허브입니다."
     items = [
         {"@type": "ListItem", "position": index + 1, "name": clean_text(page["sections"]["페이지타이틀"]), "url": absolute_url("과목별학원", CATEGORY, center["slug"])}
         for index, (page, center) in enumerate(pages)
@@ -1703,6 +1809,11 @@ def hub_graph(pages: list[tuple[dict, dict]]) -> dict:
         faq_items = [
             (f"{CATEGORY_DISPLAY}을 비교할 때 무엇을 먼저 확인해야 하나요?", f"{AUDIENCE_LABEL}의 현재 학년과 학교 일정, 과목별 취약 원인, 실제 공부 시간과 복습 습관을 함께 확인해야 합니다."),
             ("지역별 페이지에는 어떤 정보가 있나요?", "제공된 지역·센터·해당 학교급·주소 자료를 바탕으로 학년 단계, 상담 질문, 과제와 오답 관리 기준을 정리했습니다."),
+        ]
+    elif CONFIG["kind"] == "subject":
+        faq_items = [
+            ("수학학원을 비교할 때 무엇을 먼저 확인해야 하나요?", "현재 학년보다 먼저 개념 설명, 문제 적용, 풀이 과정과 오답 재확인이 어떤 순서로 이어지는지 확인해야 합니다."),
+            ("지역별 페이지에는 어떤 정보가 있나요?", "제공된 지역·센터·수학 가능 학년·학교·주소 자료와 개별 원고를 바탕으로 상담 질문과 복습 기준을 정리했습니다."),
         ]
     else:
         faq_items = [
@@ -1734,6 +1845,16 @@ def render_hub(pages: list[tuple[dict, dict]]) -> str:
         visible_faq = (
             (f"{CATEGORY_DISPLAY}을 비교할 때 무엇을 먼저 확인해야 하나요?", f"{AUDIENCE_LABEL}의 현재 학년과 학교 일정, 과목별 취약 원인, 실제 공부 시간과 복습 습관을 함께 확인해야 합니다."),
             ("지역별 페이지에는 어떤 정보가 있나요?", "제공된 지역·센터·해당 학교급·주소 자료를 바탕으로 학년 단계, 상담 질문, 과제와 오답 관리 기준을 정리했습니다."),
+        )
+    elif CONFIG["kind"] == "subject":
+        meta = "371개 동네별 수학학원 선택 기준을 지역과 시군구별로 정리했습니다. 수학 가능 학년, 개념·풀이·오답·복습과 센터 정보를 확인하세요."
+        lead = "수학은 학년명이나 진도보다 학생이 개념을 설명하고 문제에 적용하는 과정, 풀이 오류를 다시 확인하는 흐름을 함께 보아야 합니다. 아래에서 지역을 선택해 개별 원고와 확인된 센터 정보를 살펴보세요."
+        guide_title = "수학은 정답보다 풀이 과정과 재확인 기준을 봅니다"
+        guide_text = "현재 교재와 최근 오답을 바탕으로 개념 이해, 조건 해석, 식 세우기, 계산과 검산 중 어디에서 막히는지 나눕니다. 상담에서는 첫 목표와 완료 기준, 다음 점검 날짜가 구체적인지 확인하세요."
+        guide_rows = (("지역", "13개 광역권 · 371개 동네"), ("대상", "센터별 수학 가능 학년 기준"), ("내용", "개별 원고 · 센터 · 학교 · 주소 정보"), ("관리", "개념 · 풀이 · 오답 · 복습"))
+        visible_faq = (
+            ("수학학원을 비교할 때 무엇을 먼저 확인해야 하나요?", "현재 학년보다 먼저 개념 설명, 문제 적용, 풀이 과정과 오답 재확인이 어떤 순서로 이어지는지 확인해야 합니다."),
+            ("지역별 페이지에는 어떤 정보가 있나요?", "제공된 지역·센터·수학 가능 학년·학교·주소 자료와 개별 원고를 바탕으로 상담 질문과 복습 기준을 정리했습니다."),
         )
     else:
         meta = f"371개 동네별 {LEVEL_LABEL} 영어·수학 학원 선택 기준을 지역과 시군구별로 정리했습니다. 센터 정보, 학교 내신, 과목별 진단과 오답 관리 기준을 확인하세요."
@@ -1783,7 +1904,7 @@ def update_subject_root() -> None:
         category = config["category"]
         if not (ROOT / "과목별학원" / category / "index.html").exists():
             continue
-        icon = "학년" if config["kind"] == "student" else "E+M"
+        icon = "학년" if config["kind"] == "student" else "수학" if config["kind"] == "subject" else "E+M"
         cards.append(
             f'<a class="subject-category-card" href="{category}/"><span class="subject-category-icon">{icon}</span><span><small>{config["card_small"]}</small><strong>{config["display"]}</strong><em>{config["card_description"]}</em></span><b aria-hidden="true">→</b></a>'
         )
