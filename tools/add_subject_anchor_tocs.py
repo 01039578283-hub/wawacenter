@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Add page-specific anchor navigation to subject academy detail pages.
 
-Only regional detail pages directly below the six ``과목별학원`` category
+Only regional detail pages directly below the configured ``과목별학원`` category
 folders are targeted. The subject hub and category hubs remain untouched.
 The table of contents reuses each page's visible H2 text and adds stable IDs
 without rewriting visible copy, metadata, JSON-LD, or hidden representative
@@ -32,6 +32,7 @@ SUBJECT_CATEGORIES = (
     "초등영수학원",
     "초등학생학원",
     "수학학원",
+    "영어학원",
 )
 EXPECTED_PER_CATEGORY = 371
 
@@ -251,7 +252,7 @@ def detail_pages() -> list[Path]:
     )
     if actual_categories != tuple(sorted(SUBJECT_CATEGORIES)):
         raise ValueError(
-            "Subject category folders differ from the expected six: "
+            "Subject category folders differ from the configured set: "
             f"{actual_categories}"
         )
     result: list[Path] = []

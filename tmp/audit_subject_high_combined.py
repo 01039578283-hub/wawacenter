@@ -150,7 +150,18 @@ def main() -> None:
                     fail(f"makesOffer present without verified grade availability: {slug}")
                 if generator.CONFIG["kind"] == "subject":
                     if organization.get("educationalLevel", []) != center["grades"]:
-                        fail(f"math educationalLevel mismatch: {slug}")
+                        fail(f"subject educationalLevel mismatch: {slug}")
+                    if generator.SUBJECT_LABEL == "영어":
+                        expected_audience = generator.audience_for_center(center)
+                        if service.get("audience", {}).get("audienceType") != expected_audience:
+                            fail(f"subject audience mismatch: {slug}")
+                        expected_service_type = (
+                            generator.management_scope(center)
+                            if center["grades"] else
+                            f"{generator.SUBJECT_LABEL} 수업 가능 여부 상담"
+                        )
+                        if service.get("serviceType") != expected_service_type:
+                            fail(f"subject serviceType mismatch: {slug}")
                     if organization.get("address", {}).get("streetAddress", "") != center["address"]:
                         fail(f"center address mismatch: {slug}")
                     expected_registration = center["registration"]
@@ -207,13 +218,22 @@ def main() -> None:
             if not check_link(path, src):
                 fail(f"broken image {src}: {slug}")
         if generator.CONFIG["kind"] == "subject":
+            if generator.SUBJECT_LABEL == "영어":
+                for broken in (
+                    "CSV", "입력된", "입력 범위", "수업학교 칸", "과목 참고 키워드",
+                    "과목 참고 확인 항목", "참고어", "세부 소재", "확인된 정보과", "학습 학습",
+                ):
+                    if broken in source:
+                        fail(f"authoring or broken phrase {broken!r}: {slug}")
+                if "입시수학학원" in source:
+                    fail(f"math-topic contamination remains: {slug}")
             allowed_grades = set(generator.allowed_grade_tokens(center))
             found_grades = {
                 item.replace(" ", "")
                 for item in re.findall(r"(?:초|중|고)\s*[1-6]", generator.clean_text(source))
             }
             if found_grades - allowed_grades:
-                fail(f"unverified math grades {sorted(found_grades-allowed_grades)}: {slug}")
+                fail(f"unverified {generator.SUBJECT_LABEL} grades {sorted(found_grades-allowed_grades)}: {slug}")
             if center["address"] and center["address"] not in generator.clean_text(source):
                 fail(f"provided address missing from page: {slug}")
             if center["registration"] and center["registration"] not in generator.clean_text(source):
@@ -266,10 +286,16 @@ def main() -> None:
         if unexpected:
             fail(f"unexpected school claims {sorted(unexpected)}: {slug}")
     worst_similarity = 0.0
+    worst_similarity_pair: tuple[str, str] = ("", "")
+    moderate_similarity_pairs = 0
     high_similarity_pairs = 0
     for (left_slug, left), (right_slug, right) in combinations(shingle_rows, 2):
         score = jaccard(left, right)
-        worst_similarity = max(worst_similarity, score)
+        if score > worst_similarity:
+            worst_similarity = score
+            worst_similarity_pair = (left_slug, right_slug)
+        if score >= 0.30:
+            moderate_similarity_pairs += 1
         if score >= 0.75:
             high_similarity_pairs += 1
         if score >= 0.80:
@@ -326,6 +352,18 @@ def main() -> None:
     desired_rss.update(generator.absolute_url("과목별학원", config["category"]) for config in published)
     if not desired_rss.issubset(set(rss_links)) or len(rss_links) != len(set(rss_links)):
         fail("RSS subject hubs missing or duplicated")
+    llms_lines = (ROOT / "llms.txt").read_text(encoding="utf-8").splitlines()
+    llms_parent_index = next(
+        (index for index, line in enumerate(llms_lines) if line.startswith("- 과목별학원:")),
+        -1,
+    )
+    expected_llms_lines = [
+        f"- {config['display']}: {generator.absolute_url('과목별학원', config['category'])}"
+        for config in published
+    ]
+    actual_llms_lines = llms_lines[llms_parent_index + 1:llms_parent_index + 1 + len(published)]
+    if llms_parent_index < 0 or actual_llms_lines != expected_llms_lines:
+        fail("llms subject hubs missing, duplicated, or out of order")
     print(json.dumps({
         "pages": len(manuscript_map),
         "unique_canonicals": len(canonical_values),
@@ -335,6 +373,8 @@ def main() -> None:
         "unique_review_sets": len(review_values),
         "unique_rendered_articles": len(article_values),
         "masked_article_similarity_worst": round(worst_similarity, 4),
+        "masked_article_similarity_worst_pair": list(worst_similarity_pair),
+        "masked_article_pairs_ge_030": moderate_similarity_pairs,
         "masked_article_pairs_ge_075": high_similarity_pairs,
         "internal_links_checked": total_links,
         "hub_locality_links": 371,
