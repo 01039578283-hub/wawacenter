@@ -10,3 +10,6 @@ Thumbs.db
 
 .vercel
 .env*
+tools/reports/title-suffix-plan.json
+tools/reports/title-suffix-public-verification.json
+tools/reports/title-suffix-release.json

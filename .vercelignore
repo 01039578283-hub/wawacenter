@@ -6,3 +6,9 @@ __pycache__
 .env.local
 .git
 .git/**
+tools/personalize_title_suffixes.py
+tools/title_suffix_rules.py
+tools/verify_title_release.py
+tools/test_title_suffixes.py
+tools/reports/
+tools/TITLE_SUFFIX_HANDOFF_*.md
