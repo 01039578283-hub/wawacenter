@@ -3,6 +3,10 @@ import fs from 'node:fs';
 import path from 'node:path';
 import {createHash} from 'node:crypto';
 import {fileURLToPath} from 'node:url';
+import {assertTrustedHtml} from './site-trust-check.mjs';
+import {assertAreaFacts} from './area-facts-check.mjs';
+import {assertImageFlow} from './image-flow-check.mjs';
+import {assertLocalCopy} from './local-copy-check.mjs';
 const root=path.dirname(fileURLToPath(import.meta.url));
 const output=path.join(root,'.public-release');
 const manifest=JSON.parse(fs.readFileSync(path.join(root,'release-public-manifest.json'),'utf8'));
@@ -38,6 +42,13 @@ await Promise.all(Array.from({length:12},async()=>{
     if(fs.lstatSync(input).isSymbolicLink())throw Error('Source symlink '+name);
     const bytes=await fs.promises.readFile(input);
     if(!reviewedBytes(bytes,hash,name))throw Error('Reviewed file changed; refresh release manifest: '+name);
+    if(name.endsWith('.html')) {
+      const html=bytes.toString('utf8');
+      assertTrustedHtml(html,name);
+      assertAreaFacts(html,name);
+      assertImageFlow(html,name);
+      assertLocalCopy(html,name);
+    }
     await fs.promises.mkdir(path.dirname(dest),{recursive:true});
     await fs.promises.writeFile(dest,bytes);
   }

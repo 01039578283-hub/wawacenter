@@ -1,0 +1,17 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import fs from 'node:fs';
+import {assertAreaFacts} from '../area-facts-check.mjs';
+const math='과목별학원/수학학원/명일동/index.html';
+const high='과목별학원/고등영수학원/명일동/index.html';
+const wirye='전국센터/위례/index.html';
+const read=n=>fs.readFileSync(new URL('../'+n,import.meta.url),'utf8');
+test('reviewed math and combined pages pass',()=>{assertAreaFacts(read(math),math);assertAreaFacts(read(high),high);});
+test('old generator output without facts is rejected',()=>{assert.throws(()=>assertAreaFacts(read(math).replace('area-facts-section','obsolete-section'),math),/facts section missing/);});
+test('adding unsupported high-school math grade is rejected',()=>{assert.throws(()=>assertAreaFacts(read(math).replace('data-grades="고1,고2"','data-grades="고1,고2,고3"'),math),/Subject grades/);});
+test('copying English grades into math is rejected',()=>{assert.throws(()=>assertAreaFacts(read(high).replace('data-subject="math" data-grades="고1,고2"','data-subject="math" data-grades="고1,고2,고3"'),high),/Subject grades/);});
+test('old body claims cannot contradict the reviewed facts',()=>{assert.throws(()=>assertAreaFacts(read(math).replace('</main>','<p>수학 가능 학년은 고1·고2·고3입니다.</p></main>'),math),/Outdated body/);});
+test('wrong actual branch is rejected',()=>{assert.throws(()=>assertAreaFacts(read(math).replaceAll('와와학습코칭센터 명일점','와와학습코칭센터 천호점'),math),/Branch identity/);});
+test('old Wirye address is rejected',()=>{assert.throws(()=>assertAreaFacts(read(wirye).replaceAll('위례광장로 300','위례광장로 320'),wirye),/address differs/);});
+test('old Wirye map collage is rejected',()=>{assert.throws(()=>assertAreaFacts(read(wirye).replace('</body>','<img src="/assets/maps/wirye.jpg"></body>'),wirye),/unverified map/);});
+test('missing math data stays visibly unconfirmed',()=>{const file='과목별학원/수학학원/갈현동/index.html';const html=read(file);assertAreaFacts(html,file);assert.ok(html.includes('학년 안내 없음 · 상담 확인'));assert.ok(!html.includes('수업 불가'));});

@@ -3043,9 +3043,11 @@ h3 {
 .hero::before {
   left: auto;
   top: 42px;
-  right: -130px;
-  width: 520px;
-  height: 520px;
+  /* Keep the decorative glow inside the hero on narrow screens. */
+  right: 0;
+  width: min(520px, 100%);
+  height: auto;
+  aspect-ratio: 1;
   border-radius: 50%;
   background: radial-gradient(circle, rgba(239, 118, 0, .09), transparent 68%);
   filter: none;

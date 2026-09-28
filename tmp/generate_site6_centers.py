@@ -341,12 +341,6 @@ def faq_items(row: dict, title: str, area: str) -> list[tuple[str, str]]:
     ]
 
 
-def review_items(area: str) -> list[tuple[str, str]]:
-    return [
-        ("5", f"{area} 안내를 보고 상담했는데, 아이가 어디에서 막히는지 차분히 정리할 수 있었습니다."),
-        ("5", "플래너와 오답을 같이 본다는 점이 좋았습니다. 단순히 문제를 더 푸는 방식과 달라 보여요."),
-        ("5", "시험지와 공부 습관을 함께 확인해 주니 학부모 입장에서도 관리 방향이 더 분명해졌습니다."),
-    ]
 
 
 def child_title(row: dict) -> str:
@@ -380,12 +374,6 @@ def child_faq_items(row: dict, title: str, area: str) -> list[tuple[str, str]]:
     ]
 
 
-def child_review_items(area: str) -> list[tuple[str, str]]:
-    return [
-        ("5", f"{area}에서 학습코칭학원을 찾다가 상담 내용을 확인했는데, 단순 수업보다 관리 기준이 분명해 보여 좋았습니다."),
-        ("5", "아이의 시험지와 공부 습관을 함께 본다는 점이 믿음이 갔고, 오답을 다시 연결하는 방식이 마음에 들었습니다."),
-        ("5", "플래너를 형식적으로 쓰는 것이 아니라 실제 실행 결과를 확인한다는 점이 도움이 될 것 같습니다."),
-    ]
 
 
 def english_math_title(row: dict) -> str:
@@ -419,12 +407,6 @@ def english_math_faq_items(row: dict, title: str, area: str) -> list[tuple[str, 
     ]
 
 
-def english_math_review_items(area: str) -> list[tuple[str, str]]:
-    return [
-        ("5", f"{area}에서 영어와 수학을 같이 볼 수 있는 곳을 찾았는데, 과목별로 막히는 이유를 나눠 설명해줘서 이해하기 쉬웠습니다."),
-        ("5", "영어 단어와 수학 오답을 따로 관리하는 게 아니라 주간 계획 안에서 같이 보니까 아이 공부 흐름이 더 정리되는 느낌이었습니다."),
-        ("5", "시험 전에는 영어 독해와 수학 유형 복습 순서를 같이 잡아준다는 점이 마음에 들었습니다."),
-    ]
 
 
 def internal_links_section(row: dict, current: str) -> str:
@@ -436,7 +418,7 @@ def internal_links_section(row: dict, current: str) -> str:
         headline = f"{area} 관련 학습 페이지"
         description = "현재 페이지와 연결된 동네 안내, 영어수학학원, 전국학원, 학습가이드, 상담문의 페이지를 한 번에 이동할 수 있도록 정리했습니다."
         cards = [
-            ("동네 안내", "../", parent, "센터 위치, 본문 이미지, FAQ와 후기까지 함께 확인합니다."),
+            ("동네 안내", "../", parent, "센터 위치, 본문 이미지, FAQ와 상담 안내를 함께 확인합니다."),
             ("영어수학", "../영어수학학원/", english_math, "영어와 수학을 함께 관리하는 과목별 안내를 확인합니다."),
             ("전국학원", "../../", "전국학원 전체보기", "다른 지역과 동네의 학습코칭 안내 페이지를 찾아봅니다."),
             ("학습가이드", "../../../학습가이드/", "학습가이드", "진단 상담, 플래너, 오답 관리 기준을 더 넓게 확인합니다."),
@@ -446,7 +428,7 @@ def internal_links_section(row: dict, current: str) -> str:
         headline = f"{area} 관련 영어·수학 학습 페이지"
         description = "현재 영어수학학원 페이지와 연결된 동네 안내, 학습코칭학원, 전국학원, 학습가이드, 상담문의 페이지를 정리했습니다."
         cards = [
-            ("동네 안내", "../", parent, "센터 위치, 본문 이미지, FAQ와 후기까지 함께 확인합니다."),
+            ("동네 안내", "../", parent, "센터 위치, 본문 이미지, FAQ와 상담 안내를 함께 확인합니다."),
             ("학습코칭", "../와와학습코칭학원/", child, "진단 상담과 플래너·오답 관리 흐름을 자세히 봅니다."),
             ("전국학원", "../../", "전국학원 전체보기", "다른 지역과 동네의 학습코칭 안내 페이지를 찾아봅니다."),
             ("학습가이드", "../../../학습가이드/", "학습가이드", "진단 상담, 플래너, 오답 관리 기준을 더 넓게 확인합니다."),
@@ -779,7 +761,6 @@ def schema_has_parts(kind: str) -> list[dict]:
         "상담 전 체크리스트",
         "관련 페이지 바로가기",
         "자주 묻는 질문",
-        "학부모 후기",
     ]
     if kind == "english_math":
         names.insert(4, "영어·수학 과목별 관리 기준")
@@ -820,7 +801,6 @@ def local_schema(row: dict, image_path: str, map_path: str) -> dict:
     title = row["page_title"]
     area = row["title_area"]
     faq = faq_items(row, title, area)
-    reviews = review_items(area)
     about = schema_about(row, title, "parent")
     mentions = schema_mentions(row, title, "parent")
     has_parts = schema_has_parts("parent")
@@ -865,7 +845,6 @@ def local_schema(row: dict, image_path: str, map_path: str) -> dict:
                 "alternateName": ["와와센터", "와와학습코칭센터"],
                 "url": f"/전국센터/{row['slug']}/",
                 "telephone": PHONE,
-                "openingHours": "Mo-Sa 12:00-24:00",
                 "areaServed": {"@type": "Place", "name": area},
                 "address": {
                     "@type": "PostalAddress",
@@ -876,16 +855,6 @@ def local_schema(row: dict, image_path: str, map_path: str) -> dict:
                 "knowsAbout": ["초등 학습코칭", "중등 내신 관리", "고등 학습관리", "영어 수학 국어 코칭", "오답 재학습"],
                 "contactPoint": {"@type": "ContactPoint", "telephone": "+82-10-6839-8283", "contactType": "학습 상담", "availableLanguage": "Korean"},
                 "makesOffer": organization_offers(area),
-                "aggregateRating": {"@type": "AggregateRating", "ratingValue": "5", "bestRating": "5", "ratingCount": "3", "reviewCount": "3"},
-                "review": [
-                    {
-                        "@type": "Review",
-                        "author": {"@type": "Person", "name": "학부모"},
-                        "reviewBody": body,
-                        "reviewRating": {"@type": "Rating", "ratingValue": rating, "bestRating": "5"},
-                    }
-                    for rating, body in reviews
-                ],
             },
             {
                 "@type": "Article",
@@ -902,7 +871,7 @@ def local_schema(row: dict, image_path: str, map_path: str) -> dict:
                 "about": about,
                 "mentions": mentions,
                 "keywords": keywords,
-                "articleSection": ["핵심 요약", "학습관리 포인트", "상담 전 체크리스트", "FAQ", "학부모 후기"],
+                "articleSection": ["핵심 요약", "학습관리 포인트", "상담 전 체크리스트", "FAQ"],
             },
             {
                 "@type": "Service",
@@ -943,7 +912,6 @@ def child_schema(row: dict, image_path: str, map_path: str) -> dict:
     title = child_title(row)
     area = row["title_area"]
     faq = child_faq_items(row, title, area)
-    reviews = child_review_items(area)
     url = f"/전국센터/{row['slug']}/와와학습코칭학원/"
     about = schema_about(row, title, "coaching")
     mentions = schema_mentions(row, title, "coaching")
@@ -990,7 +958,6 @@ def child_schema(row: dict, image_path: str, map_path: str) -> dict:
                 "alternateName": ["와와센터", "와와학습코칭학원"],
                 "url": url,
                 "telephone": PHONE,
-                "openingHours": "Mo-Sa 12:00-24:00",
                 "areaServed": {"@type": "Place", "name": area},
                 "address": {
                     "@type": "PostalAddress",
@@ -1001,16 +968,6 @@ def child_schema(row: dict, image_path: str, map_path: str) -> dict:
                 "knowsAbout": ["학습코칭학원", "초등 학습관리", "중등 내신 관리", "고등 학습관리", "영어 수학 국어 코칭", "오답 재학습"],
                 "contactPoint": {"@type": "ContactPoint", "telephone": "+82-10-6839-8283", "contactType": "학습 상담", "availableLanguage": "Korean"},
                 "makesOffer": organization_offers(area, "진단 상담"),
-                "aggregateRating": {"@type": "AggregateRating", "ratingValue": "5", "bestRating": "5", "ratingCount": "3", "reviewCount": "3"},
-                "review": [
-                    {
-                        "@type": "Review",
-                        "author": {"@type": "Person", "name": "학부모"},
-                        "reviewBody": body,
-                        "reviewRating": {"@type": "Rating", "ratingValue": rating, "bestRating": "5"},
-                    }
-                    for rating, body in reviews
-                ],
             },
             {
                 "@type": "Article",
@@ -1027,7 +984,7 @@ def child_schema(row: dict, image_path: str, map_path: str) -> dict:
                 "about": about,
                 "mentions": mentions,
                 "keywords": keywords,
-                "articleSection": ["핵심 요약", "학습코칭 관리 기준", "상담 전 체크리스트", "FAQ", "학부모 후기"],
+                "articleSection": ["핵심 요약", "학습코칭 관리 기준", "상담 전 체크리스트", "FAQ"],
             },
             {
                 "@type": "Service",
@@ -1068,7 +1025,6 @@ def english_math_schema(row: dict, image_path: str, map_path: str) -> dict:
     title = english_math_title(row)
     area = row["title_area"]
     faq = english_math_faq_items(row, title, area)
-    reviews = english_math_review_items(area)
     url = f"/전국센터/{row['slug']}/영어수학학원/"
     about = schema_about(row, title, "english_math")
     mentions = schema_mentions(row, title, "english_math")
@@ -1115,7 +1071,6 @@ def english_math_schema(row: dict, image_path: str, map_path: str) -> dict:
                 "alternateName": ["와와센터", "와와영어수학학원"],
                 "url": url,
                 "telephone": PHONE,
-                "openingHours": "Mo-Sa 12:00-24:00",
                 "areaServed": {"@type": "Place", "name": area},
                 "address": {
                     "@type": "PostalAddress",
@@ -1126,16 +1081,6 @@ def english_math_schema(row: dict, image_path: str, map_path: str) -> dict:
                 "knowsAbout": ["영어학원", "수학학원", "영어 수학 학습관리", "초등 영어수학", "중등 내신", "고등 영어수학", "오답 재학습"],
                 "contactPoint": {"@type": "ContactPoint", "telephone": "+82-10-6839-8283", "contactType": "영어수학 학습 상담", "availableLanguage": "Korean"},
                 "makesOffer": organization_offers(area, "영어수학 학습관리"),
-                "aggregateRating": {"@type": "AggregateRating", "ratingValue": "5", "bestRating": "5", "ratingCount": "3", "reviewCount": "3"},
-                "review": [
-                    {
-                        "@type": "Review",
-                        "author": {"@type": "Person", "name": "학부모"},
-                        "reviewBody": body,
-                        "reviewRating": {"@type": "Rating", "ratingValue": rating, "bestRating": "5"},
-                    }
-                    for rating, body in reviews
-                ],
             },
             {
                 "@type": "Article",
@@ -1152,7 +1097,7 @@ def english_math_schema(row: dict, image_path: str, map_path: str) -> dict:
                 "about": about,
                 "mentions": mentions,
                 "keywords": keywords,
-                "articleSection": ["핵심 요약", "영어·수학 과목별 관리 기준", "상담 전 체크리스트", "FAQ", "학부모 후기"],
+                "articleSection": ["핵심 요약", "영어·수학 과목별 관리 기준", "상담 전 체크리스트", "FAQ"],
             },
             {
                 "@type": "Service",
@@ -1201,17 +1146,12 @@ def local_page(row: dict) -> str:
     representative_img = hidden_representative_image(title, representative_src)
     schema = json.dumps(local_schema(row, representative_src, map_src), ensure_ascii=False, separators=(",", ":"))
     faq = faq_items(row, title, area)
-    reviews = review_items(area)
     faq_html = "\n".join(
         f"""          <details{' open' if i == 0 else ''}>
             <summary>{html.escape(q)}</summary>
             <p>{html.escape(a)}</p>
           </details>"""
         for i, (q, a) in enumerate(faq)
-    )
-    review_html = "\n".join(
-        f"""        <article class=\"review\"><div class=\"stars\">{'★' * int(rating)}</div><p>“{html.escape(body)}”</p></article>"""
-        for rating, body in reviews
     )
     related_links = internal_links_section(row, "parent")
     depth_section = parent_depth_section(row, title, area)
@@ -1313,14 +1253,6 @@ def local_page(row: dict) -> str:
     </section>
 
     <section class=\"section\">
-      <p class=\"eyebrow\">Reviews</p>
-      <h2>{html.escape(area)} 학부모님이 기대하는 변화</h2>
-      <div class=\"reviews\">
-{review_html}
-      </div>
-    </section>
-
-    <section class=\"section\">
       <div class=\"cta-box\">
         <p class=\"eyebrow\">Consulting</p>
         <h2>{html.escape(title)} 상담으로<br>아이에게 필요한 첫 기준을 확인해보세요.</h2>
@@ -1352,17 +1284,12 @@ def child_page(row: dict) -> str:
     representative_img = hidden_representative_image(title, representative_src)
     schema = json.dumps(child_schema(row, representative_src, map_src), ensure_ascii=False, separators=(",", ":"))
     faq = child_faq_items(row, title, area)
-    reviews = child_review_items(area)
     faq_html = "\n".join(
         f"""          <details{' open' if i == 0 else ''}>
             <summary>{html.escape(q)}</summary>
             <p>{html.escape(a)}</p>
           </details>"""
         for i, (q, a) in enumerate(faq)
-    )
-    review_html = "\n".join(
-        f"""        <article class=\"review\"><div class=\"stars\">{'★' * int(rating)}</div><p>“{html.escape(body)}”</p></article>"""
-        for rating, body in reviews
     )
     related_links = internal_links_section(row, "child")
     depth_section = coaching_depth_section(row, title, area)
@@ -1480,14 +1407,6 @@ def child_page(row: dict) -> str:
     </section>
 
     <section class=\"section\">
-      <p class=\"eyebrow\">Reviews</p>
-      <h2>{html.escape(area)} 학부모님이 본 학습코칭 변화</h2>
-      <div class=\"reviews\">
-{review_html}
-      </div>
-    </section>
-
-    <section class=\"section\">
       <div class=\"cta-box\">
         <p class=\"eyebrow\">Next Step</p>
         <h2>{html.escape(title)} 상담 전<br>아이의 현재 학습 흐름부터 확인해보세요.</h2>
@@ -1519,17 +1438,12 @@ def english_math_page(row: dict) -> str:
     representative_img = hidden_representative_image(title, representative_src)
     schema = json.dumps(english_math_schema(row, representative_src, map_src), ensure_ascii=False, separators=(",", ":"))
     faq = english_math_faq_items(row, title, area)
-    reviews = english_math_review_items(area)
     faq_html = "\n".join(
         f"""          <details{' open' if i == 0 else ''}>
             <summary>{html.escape(q)}</summary>
             <p>{html.escape(a)}</p>
           </details>"""
         for i, (q, a) in enumerate(faq)
-    )
-    review_html = "\n".join(
-        f"""        <article class=\"review\"><div class=\"stars\">{'★' * int(rating)}</div><p>“{html.escape(body)}”</p></article>"""
-        for rating, body in reviews
     )
     related_links = internal_links_section(row, "english_math")
     depth_section = english_math_depth_section(row, title, area)
@@ -1643,14 +1557,6 @@ def english_math_page(row: dict) -> str:
       </div>
       <div class=\"faq\">
 {faq_html}
-      </div>
-    </section>
-
-    <section class=\"section\">
-      <p class=\"eyebrow\">Reviews</p>
-      <h2>{html.escape(area)} 학부모님이 본 영어·수학 관리 변화</h2>
-      <div class=\"reviews\">
-{review_html}
       </div>
     </section>
 
@@ -1772,7 +1678,7 @@ def hub_page(rows: list[dict]) -> str:
     <section class=\"page-hero hub-hero\">
       <p class=\"eyebrow\">National Academy</p>
       <h1>전국학원</h1>
-      <p class=\"lead\">지역별 와와학습코칭센터 안내를 한곳에 정리했습니다. 동네 페이지에서는 본문 이미지와 지도, 학습코칭 안내, FAQ와 학부모 후기를 함께 확인할 수 있습니다.</p>
+      <p class=\"lead\">지역별 와와학습코칭센터 안내를 한곳에 정리했습니다. 동네 페이지에서는 본문 이미지와 지도, 학습코칭 안내, FAQ와 상담 안내를 함께 확인할 수 있습니다.</p>
       <div class=\"hub-summary\">
         <span>371개 동네 페이지</span>
         <span>초등·중등·고등</span>

@@ -4,7 +4,7 @@ import json
 import re
 from pathlib import Path
 
-from content_banks_site6 import FAQ_STATIC_BANK, REVIEW_BANK, pick, pick_unique
+from content_banks_site6 import FAQ_STATIC_BANK, pick
 
 ROOT = Path(__file__).resolve().parents[1]
 CENTER_ROOT = ROOT / "전국센터"
@@ -55,10 +55,6 @@ def find_node(graph: list[dict], type_name: str) -> dict | None:
     return None
 
 
-def extract_reviews(text: str) -> list[str]:
-    reviews_m = re.search(r'<div class="reviews">(.*?)</div>\s*</section>', text, re.S)
-    block = reviews_m.group(1)
-    return re.findall(r'<p>[“"](.*?)[”"]</p>', block)
 
 
 def extract_faqs(text: str) -> list[tuple[str, str]]:
@@ -67,12 +63,6 @@ def extract_faqs(text: str) -> list[tuple[str, str]]:
     return re.findall(r"<summary>(.*?)</summary>\s*<p>(.*?)</p>", block, re.S)
 
 
-def render_reviews(reviews: list[str]) -> str:
-    cards = [
-        f'        <article class="review"><div class="stars">★★★★★</div><p>“{r}”</p></article>'
-        for r in reviews
-    ]
-    return "\n" + "\n".join(cards) + "\n      "
 
 
 def render_faqs(faqs: list[tuple[str, str]]) -> str:
@@ -88,13 +78,13 @@ def render_faqs(faqs: list[tuple[str, str]]) -> str:
     return "\n" + "\n".join(items) + "\n      "
 
 
-def process_page(page_dir: Path, kind: str, dong: str, center_info: dict, seen_reviews: dict) -> bool:
+def process_page(page_dir: Path, kind: str, dong: str, center_info: dict) -> bool:
     path = page_dir / "index.html"
     source = path.read_text(encoding="utf-8", errors="ignore")
     page_url = path.as_posix()
     updated = source
 
-    # 1) JSON-LD: add address/identifier if we have real branch data; diversify FAQ+reviews
+    # 1) JSON-LD: add address/identifier if we have real branch data; update FAQ from the existing bank
     m = re.search(r'<script type="application/ld\+json">(.*?)</script>', updated, re.S)
     data = json.loads(m.group(1))
     graph = data["@graph"]
@@ -115,22 +105,6 @@ def process_page(page_dir: Path, kind: str, dong: str, center_info: dict, seen_r
             "value": branch["교육지원청 등록번호"],
         }
 
-    # Reviews: keep slot 0 (dong-specific opener), regenerate slots 1-2 from bank
-    visible_reviews = extract_reviews(updated)
-    opener = visible_reviews[0]
-    picked = pick_unique(REVIEW_BANK, 2, seen_reviews.setdefault(kind, set()), page_url, kind, "review")
-    new_reviews = [opener] + picked
-
-    org["review"] = [
-        {
-            "@type": "Review",
-            "author": {"@type": "Person", "name": "학부모"},
-            "reviewBody": r,
-            "reviewRating": {"@type": "Rating", "ratingValue": "5", "bestRating": "5"},
-        }
-        for r in new_reviews
-    ]
-
     # FAQ: keep slots 0,1,2,4 as-is, regenerate the static slot 3 from the per-kind bank
     visible_faqs = extract_faqs(updated)
     q3, a3 = pick(FAQ_STATIC_BANK[kind], 1, page_url, kind, "faq3")[0]
@@ -147,14 +121,6 @@ def process_page(page_dir: Path, kind: str, dong: str, center_info: dict, seen_r
     updated = updated[: m.start()] + rendered + updated[m.end():]
 
     # 2) Visible HTML
-    new_review_html = render_reviews(new_reviews)
-    updated = re.sub(
-        r'(<div class="reviews">)(.*?)(\s*</div>\s*</section>)',
-        lambda mm: mm.group(1) + new_review_html + mm.group(3),
-        updated,
-        count=1,
-        flags=re.S,
-    )
     new_faq_html = render_faqs(new_faqs)
     updated = re.sub(
         r'(<div class="faq">)(.*?)(\s*</div>\s*</section>)',
@@ -173,13 +139,12 @@ def process_page(page_dir: Path, kind: str, dong: str, center_info: dict, seen_r
 def main() -> None:
     center_info = load_center_info()
     targets = target_dirs()
-    seen_reviews: dict[str, set] = {}
     changed = 0
     errors = 0
     no_branch = 0
     for page_dir, kind, dong in targets:
         try:
-            if process_page(page_dir, kind, dong, center_info, seen_reviews):
+            if process_page(page_dir, kind, dong, center_info):
                 changed += 1
             if dong.replace(" ", "") not in center_info:
                 no_branch += 1

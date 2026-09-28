@@ -215,7 +215,6 @@ def organization() -> dict:
         "url": f"{BASE}/",
         "logo": f"{BASE}/assets/favicon.png",
         "telephone": PHONE,
-        "openingHours": "Mo-Sa 12:00-24:00",
         "areaServed": {"@type": "Country", "name": "대한민국"},
         "knowsAbout": ["학습 진단", "플래너 관리", "오답 재학습", "초등 학습 습관", "중등 내신 관리", "고등 과목별 학습관리"],
         "contactPoint": {"@type": "ContactPoint", "telephone": "+82-10-6839-8283", "contactType": "학습 상담", "availableLanguage": "Korean"},

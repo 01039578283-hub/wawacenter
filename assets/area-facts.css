@@ -1,0 +1,25 @@
+.area-facts-section { padding:clamp(20px,4vw,36px); border:1px solid #dce5ef; border-radius:20px; background:#fff; color:#182c43; }
+.area-facts-heading { max-width:900px; margin-bottom:24px; }
+.area-facts-heading h2 { margin:6px 0 12px; font-size:clamp(22px,3vw,29px); line-height:1.4; }
+.area-facts-heading p { line-height:1.8; overflow-wrap:anywhere; }
+.area-facts-grid { display:grid; grid-template-columns:minmax(0,1.1fr) minmax(0,1fr); gap:32px; }
+.area-facts-grid > div { min-width:0; }
+.area-facts-grid h3 { margin:0 0 12px; font-size:18px; }
+.area-grade-list { margin:0; }
+.area-grade-list > div { display:grid; grid-template-columns:92px minmax(0,1fr); gap:12px; padding:12px 0; border-bottom:1px solid #e8edf3; scroll-margin-top:100px; }
+.area-grade-list dt { font-weight:700; }
+.area-grade-list dd { margin:0; line-height:1.6; overflow-wrap:anywhere; }
+.area-grade-list small,.area-facts-grid small { display:block; font-size:13px; line-height:1.6; color:#596778; }
+.area-facts-note { margin:14px 0 0; font-size:13px; line-height:1.75; color:#536274; }
+.area-branch-name { margin:0 0 8px; font-weight:700; }
+.area-facts-grid [data-branch-address] { margin:0 0 12px; line-height:1.8; overflow-wrap:anywhere; }
+.area-map-link { display:inline-block; padding:10px 14px; background:#edf4fb; border-radius:9px; color:#174b83; font-weight:700; }
+.area-facts-details { margin-top:20px; border-top:1px solid #e8edf3; padding-top:16px; }
+.area-facts-details summary { cursor:pointer; font-size:14px; font-weight:700; line-height:1.7; }
+.area-facts-details p { font-size:14px; line-height:1.8; overflow-wrap:anywhere; }
+.area-facts-details a { color:#174b83; text-decoration:underline; }
+.area-related-links { display:flex; flex-wrap:wrap; gap:8px; margin-top:24px; padding-top:20px; border-top:1px solid #e8edf3; }
+.area-related-links a { padding:9px 12px; border:1px solid #d7e2ef; border-radius:8px; font-size:14px; line-height:1.5; color:#234e7a; overflow-wrap:anywhere; }
+.area-related-links a:hover,.area-related-links a:focus-visible { background:#edf4fb; }
+.area-map-replacement { padding:24px; background:#f0f5fa; font-weight:700; overflow-wrap:anywhere; }
+@media(max-width:640px) { .area-facts-grid { grid-template-columns:minmax(0,1fr); gap:26px; } .area-grade-list > div { grid-template-columns:80px minmax(0,1fr); gap:8px; } .area-related-links a { max-width:100%; } }

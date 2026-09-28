@@ -1,0 +1,101 @@
+/* Keep the complete lesson image prominent; scope changes to regional pages. */
+.image-first-page .local-hero {
+  width: min(1040px, calc(100% - 40px));
+  margin: 0 auto;
+  padding: 24px 0 16px;
+  border: 0;
+  border-radius: 0;
+  background: none;
+  text-align: left;
+}
+.image-first-page .mini-breadcrumb {
+  margin: 0 0 12px;
+  padding: 0;
+  border: 0;
+  background: none;
+  font-size: 12px;
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+}
+.image-first-page .local-hero h1 {
+  margin: 0 0 10px;
+  font-size: clamp(25px, 4vw, 38px);
+  line-height: 1.35;
+  overflow-wrap: anywhere;
+}
+.image-first-page .local-hero .lead {
+  max-width: none;
+  margin: 0 0 8px;
+  font-size: 15px;
+  line-height: 1.65;
+}
+.image-first-brief {
+  margin: 0;
+  color: #536274;
+  font-size: 14px;
+  line-height: 1.65;
+  overflow-wrap: anywhere;
+}
+.image-first-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 14px;
+}
+.image-first-nav a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  padding: 8px 14px;
+  border: 1px solid #e3cbb2;
+  border-radius: 8px;
+  color: #704013;
+  background: #fff8f0;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1.4;
+  text-align: center;
+}
+.image-first-nav a:hover { background: #ffefdc; }
+.image-first-nav a:focus-visible,
+.image-first-contents > summary:focus-visible {
+  outline: 3px solid #ad5500;
+  outline-offset: 3px;
+}
+.image-first-page .image-first-media { padding-top: 0; padding-bottom: 24px; }
+.image-first-media picture { display: block; }
+.image-first-page .image-first-location { padding-top: 24px; padding-bottom: 20px; }
+.image-first-page .area-grade-list > div,
+.image-first-page #geo-summary-title,
+.image-first-page #lesson-image { scroll-margin-top: 16px; }
+.image-first-contents {
+  width: min(1040px, calc(100% - 40px));
+  margin: 0 auto 24px;
+  border: 1px solid #ead7c3;
+  border-radius: 10px;
+  background: #fffaf5;
+}
+.image-first-contents > summary {
+  padding: 14px 18px;
+  color: #704013;
+  font-size: 15px;
+  font-weight: 700;
+  line-height: 1.6;
+  cursor: pointer;
+}
+.image-first-contents .subject-page-toc { width: 100%; padding: 0; }
+.image-first-contents .subject-page-toc-panel { border: 0; box-shadow: none; }
+@media (max-width: 680px) {
+  .image-first-page .local-hero {
+    width: calc(100% - 28px);
+    margin-top: 0;
+    padding: 18px 0 14px;
+  }
+  .image-first-page .mini-breadcrumb { margin-bottom: 10px; }
+  .image-first-page .local-hero h1 { font-size: 25px; }
+  .image-first-nav { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .image-first-nav a { padding: 8px 6px; }
+  .image-first-page .image-first-media { width: 100%; }
+  .image-first-contents { width: calc(100% - 28px); }
+}
