@@ -1,0 +1,68 @@
+{
+  "status": "LOCAL_VERIFIED_READY_TO_DEPLOY",
+  "reviewedAt": "2026-10-01",
+  "baseCommit": "a17607ab62226e5ffcbafd96396710b942a0ab6d",
+  "scope": {
+    "archives": 9,
+    "drafts": 3339,
+    "areas": 371,
+    "gradeDetails": 1113,
+    "neighborhoodHubs": 371,
+    "newPages": 1484,
+    "stages": ["초등학생", "중학생", "고등학생"]
+  },
+  "editorialPolicy": {
+    "draftsPerDetail": 3,
+    "approach": "Consolidate student concerns from all three supplied draft openings into short rewritten learning questions; use reviewed center data for every branch fact.",
+    "excludedClaims": ["constructed parent reviews", "student anecdotes and outcomes", "unverified facilities", "unverified grade availability", "school affiliation"],
+    "sharedPrinciples": "General learning principles may recur; distinguish them from branch services and link to shared learning guides.",
+    "confirmedAndPendingGradesSeparated": true,
+    "commonTuitionExplicitlyQualified": true,
+    "unknownGradeDetails": 15,
+    "addressConflictsRemainVisible": true
+  },
+  "validation": {
+    "testsPassed": 40,
+    "newMobilePagesPassed": 1484,
+    "mobileWidth": 390,
+    "additionalResponsiveCasesPassed": 45,
+    "additionalWidths": [320, 768, 1440],
+    "internalLinksChecked": 253073,
+    "alignedFaqAnswers": 5571,
+    "uniqueNewTitles": 1484,
+    "uniqueNewDescriptions": 1484,
+    "maximumDescriptionCharacters": 80,
+    "exactDetailBodyDuplicates": 0,
+    "nameOnlyDetailBodyDuplicates": 0,
+    "protectedOldHtmlPages": 4680,
+    "protectedImageFiles": 843,
+    "builtPublicFilesMatched": 7024,
+    "builtHtmlPagesMatched": 6167,
+    "descriptionBuildPages": 6167,
+    "descriptionBuildChanges": 0
+  },
+  "canonicalPolicy": {
+    "newDetailsAreRepresentatives": true,
+    "legacyReadableAliases": 1113,
+    "legacyAliasesExcludedFromSitemap": true,
+    "canonicalSitemapPages": 5054,
+    "internalGradeLinksPointToNewDetails": true,
+    "legacySummariesRemainSupportedByOwnBodies": true
+  },
+  "preservation": {
+    "originalDirtyAuthoringCheckoutUntouched": true,
+    "fullConsultationImageRetained": true,
+    "mobileImageHeight": 14044,
+    "desktopImageHeight": 16116,
+    "privateManuscriptsAndSourceWorkbooksExcludedFromPublicBuild": true
+  },
+  "reproduction": {
+    "preparedData": "grade-directory-data.json",
+    "generator": "tools/build_grade_directory.py",
+    "requiredAuditInputs": ["before-manifest.json", "before-source.zip", "generated-pages.json"],
+    "manuscriptPreparationInputs": ["manuscript-records.json", "input-inspection.json"],
+    "buildCommand": "node release-public-build.mjs && node wawa-analytics-build.mjs wawa-07 .public-release && node seo-descriptions.mjs --root=.public-release",
+    "branchGeneratorOrder": "After regenerating the existing branch directory, regenerate grade pages and their hub entry blocks before approving the public manifest. The build guard rejects a missing branch-to-grade entry."
+  },
+  "limits": "Technical publication does not establish search indexing, rank or traffic. Naver Search Advisor account work is excluded."
+}

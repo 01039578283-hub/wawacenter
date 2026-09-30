@@ -13,7 +13,7 @@
         const match=(!region.value||card.dataset.region===region.value)&&words.every(w=>normalize(card.dataset.search).includes(w));
         card.hidden=!match;if(match)count++;
       }
-      status.textContent=`${count}개 지점이 있습니다.`;empty.hidden=count!==0;
+      status.textContent=`검색 결과: ${count}${form.dataset.countLabel||'개 지점'}`;empty.hidden=count!==0;
     };
     form.addEventListener('submit',event=>{event.preventDefault();apply();});
     query.addEventListener('input',apply);region.addEventListener('change',apply);

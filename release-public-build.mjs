@@ -8,6 +8,7 @@ import {assertAreaFacts} from './area-facts-check.mjs';
 import {assertImageFlow} from './image-flow-check.mjs';
 import {assertLocalCopy} from './local-copy-check.mjs';
 import {assertBranchDirectory} from './branch-directory-check.mjs';
+import {assertGradeDirectory} from './grade-directory-check.mjs';
 const root=path.dirname(fileURLToPath(import.meta.url));
 const output=path.join(root,'.public-release');
 const manifest=JSON.parse(fs.readFileSync(path.join(root,'release-public-manifest.json'),'utf8'));
@@ -50,6 +51,7 @@ await Promise.all(Array.from({length:12},async()=>{
       assertImageFlow(html,name);
       assertLocalCopy(html,name);
       assertBranchDirectory(html,name);
+      assertGradeDirectory(html,name);
     }
     await fs.promises.mkdir(path.dirname(dest),{recursive:true});
     await fs.promises.writeFile(dest,bytes);

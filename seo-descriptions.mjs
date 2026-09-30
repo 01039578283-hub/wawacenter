@@ -36,14 +36,22 @@ function protectedHTML(html,canonical){
     return start+JSON.stringify(data)+end;
   });
 }
-export function transform(html){
+export function transform(html,actualPath){
   const head=html.match(/<head\b[^>]*>[\s\S]*?<\/head>/i)?.[0];
   if(!head)return {html,skip:true};
   const tags=[...head.matchAll(/<meta\b[^>]*>/gi)].map(m=>attrs(m[0]));
   if(tags.some(a=>['robots','googlebot','naverbot','yeti'].includes((a.name||'').toLowerCase())&&/noindex/i.test(a.content||'')))return {html,skip:true};
   const canonical=[...head.matchAll(/<link\b[^>]*>/gi)].map(m=>attrs(m[0])).find(a=>a.rel==='canonical')?.href;
   if(!canonical)return {html,skip:true};
-  const key=keyFor(canonical),entry=config.pages[key];
+  let key=keyFor(canonical);
+  const actualKey=actualPath&&keyFor(actualPath);
+  // A reviewed legacy document can point to its enriched representative while
+  // retaining the summary supported by its own unchanged body.
+  if(actualKey&&config.canonicalAliases?.[actualKey]){
+    if(config.canonicalAliases[actualKey]!==key)throw Error(`Reviewed canonical alias changed: ${actualPath}`);
+    key=actualKey;
+  }
+  const entry=config.pages[key];
   if(!entry)return {html,skip:true,key};
   const description=entry.description,old=tags.find(a=>a.name==='description')?.content||'';
   if(!description||[...description].length>80||!/[.!?]$/.test(description))throw Error(`Review complete description (1–80 chars): ${canonical}`);
@@ -75,7 +83,8 @@ if(process.argv[1]&&path.resolve(process.argv[1])===fileURLToPath(import.meta.ur
   const skip=new Set(['node_modules','assets','tools','scripts','tmp','work','reports','outputs','records','dist','public','generated_article_txt','__pycache__']);
   let pages=0,changed=0,skipped=0,nodes=0;const errors=[];
   function processFile(file){try{
-    const before=fs.readFileSync(file,'utf8'),r=transform(before);
+    const actualPath='/'+path.relative(output,file).replaceAll('\\','/').replace(/index\.html$/,'');
+    const before=fs.readFileSync(file,'utf8'),r=transform(before,actualPath);
     if(r.skip){skipped++;return;}pages++;nodes+=r.changedNodes||0;
     if(r.changed){changed++;if(!check)fs.writeFileSync(file,r.html,'utf8');}
   }catch(e){errors.push({file,message:e.message});}}
