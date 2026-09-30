@@ -1,0 +1,41 @@
+{
+  "reviewedAt": "2026-10-01",
+  "baseCommit": "131ad58d78cbc5b15e910ed00ec15f74b50adffb",
+  "staticAudit": {
+    "status": "PASS",
+    "newPages": 209,
+    "totalHtml": 4683,
+    "branchPages": 188,
+    "regions": 16,
+    "connectedRegionalPages": 4452,
+    "internalLinkChecks": 9277,
+    "visibleFaqAnswers": 575,
+    "preservedHtmlAndImages": 4865,
+    "uniqueTitles": 209,
+    "uniqueDescriptions": 209,
+    "branchFeeTables": 36,
+    "approvedPhotos": 226,
+    "branchesWithPhotos": 90,
+    "errors": []
+  },
+  "mobileBranches": 188,
+  "responsiveConditions": 42,
+  "unitTests": 30,
+  "manualInteractions": [
+    "branch name and neighborhood search",
+    "empty result and reset",
+    "region filter",
+    "jump links",
+    "official YouTube click-to-load playback",
+    "responsive full sales image",
+    "fee table and photo gallery"
+  ],
+  "releaseCommand": "node release-public-build.mjs && node wawa-analytics-build.mjs wawa-07 .public-release && node seo-descriptions.mjs --root=.public-release",
+  "builtOutput": {
+    "status": "PASS",
+    "pages": 4683,
+    "files": 5539,
+    "errors": [],
+    "photoBytes": 28607538
+  }
+}

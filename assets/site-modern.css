@@ -1,3 +1,8 @@
+/* Directory navigation adds a sixth destination to the established header. */
+@media (max-width: 680px) {
+  .general-page:not(.bd-page) .nav { grid-template-columns: repeat(3, minmax(0, 1fr)) !important; }
+  .general-page:not(.bd-page) .nav a:nth-child(n) { grid-column: auto !important; }
+}
 /*
  * 전국수업.com 2026 mobile-first visual refresh
  * Existing page copy, URLs and structured data are intentionally untouched.
