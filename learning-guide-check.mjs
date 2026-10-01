@@ -17,15 +17,18 @@ export function assertLearningGuide(html,name){
  if(hub){
   if(graph.some(n=>[n['@type']].flat().includes('Article')))fail('Collection mistaken for article');
   const list=graph.find(n=>n['@type']==='ItemList');
-  if(!list||list.numberOfItems!==40||list.itemListElement.length!==40)fail('Incomplete static guide collection');
+  if(!list||list.numberOfItems!==data.pages.length||list.itemListElement.length!==data.pages.length)fail('Incomplete static guide collection');
   for(const page of data.pages)if(!html.includes(`href="${encodeURI(page.route)}"`))fail('Static guide link missing');
-  if((html.match(/data-guide-card /g)||[]).length!==40)fail('Static guide card missing');
+  if((html.match(/data-guide-card /g)||[]).length!==data.pages.length)fail('Static guide card missing');
+  for(const [key,label] of data.levels)if(!html.includes(`<option value="${key}">${label}</option>`))fail('Reader filter missing');
   return;
  }
  for(const id of ['check','steps','example','record','mistakes','next','faq','sources','related',...(p.legacy?['section-1','section-2','section-3','section-4']:[])])if(!html.includes(`id="${id}"`))fail('Learning section or legacy anchor missing');
  if(!html.includes(esc(p.answer)))fail('Direct answer missing');
  if(!html.includes(`href="${encodeURI(p.record)}" download=`))fail('Blank record download missing');
  if(!html.includes('연습 예시'))fail('Worked example label missing');
+ if(!html.includes('data-guide-record')||!html.includes('data-record-download')||!html.includes('data-record-print'))fail('Local record editor missing');
+ if((html.match(/data-record-field /g)||[]).length!==p.recordFields.length)fail('Record field inventory mismatch');
  const article=graph.find(n=>[n['@type']].flat().includes('Article'));
  if(!article||article.datePublished!==p.datePublished||article.dateModified!==data.updated)fail('Article dates mismatch');
  if(article.headline!==p.title||article.description!==p.description)fail('Article metadata mismatch');

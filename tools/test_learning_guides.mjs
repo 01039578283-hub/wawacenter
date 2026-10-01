@@ -7,7 +7,7 @@ const read=n=>fs.readFileSync(new URL('../'+n,import.meta.url),'utf8');
 const p=data.pages.find(p=>p.slug==='수학오답관리'),name=p.route.slice(1)+'index.html',source=read(name);
 const hubName='학습가이드/index.html',hub=read(hubName);
 test('all guides preserve publication dates, sections, citations and FAQ',()=>{
- assert.equal(data.pages.length,40);assert.equal(data.pages.filter(p=>p.legacy).length,8);
+ assert.equal(data.pages.length,53);assert.equal(data.pages.filter(p=>p.legacy).length,8);assert.equal(data.pages.filter(p=>p.isNew).length,13);
  for(const p of data.pages){const n=p.route.slice(1)+'index.html';assertLearningGuide(read(n),n);}
  assertLearningGuide(hub,hubName);
 });

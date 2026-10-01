@@ -1,5 +1,13 @@
 /* Learning library: static content remains usable without filtering scripts. */
 .lg-page main{max-width:1120px}.lg-article main{max-width:880px}
+.lg-new{display:inline-block;align-self:flex-start;background:#edf4ff;border:1px solid #c8d9f2;color:#174f9d;font-size:12px;padding:4px 9px;border-radius:20px;margin-bottom:8px}
+.lg-search h2{margin:0 0 16px;font-size:22px}.lg-search select{display:block;width:100%;min-height:48px;margin-top:8px;padding:12px;border:1px solid #b9cde7;border-radius:10px;background:#f8faff;font:inherit;color:#203754}
+.lg-search-row label:first-child{flex:0 1 180px}.lg-search[id]{scroll-margin-top:28px}
+.lg-paths{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}.lg-paths ol{padding-left:22px}.lg-paths li{padding:6px 0}.lg-paths a{color:#174f9d;text-underline-offset:3px}
+.lg-editor{margin-top:18px;background:#fff;border:1px solid #cbdcef;border-radius:20px;padding:24px}.lg-editor fieldset{border:0;padding:0;margin:0;min-width:0}.lg-editor legend{font-size:19px;font-weight:750;color:#123f65}.lg-editor-fields{display:grid;gap:16px;margin-top:18px}
+.lg-editor label{display:block;font-size:14px;font-weight:700;color:#234a7b}.lg-editor input,.lg-editor textarea{display:block;width:100%;min-height:46px;border:1px solid #b9cde7;border-radius:10px;margin-top:8px;padding:12px;font:inherit;font-weight:400;color:#203754;background:#f8faff;box-sizing:border-box}.lg-editor input{max-width:230px}.lg-editor textarea{resize:vertical;min-height:90px;line-height:1.65}.lg-editor textarea::placeholder{color:#65768b}.lg-editor button:disabled{opacity:.55;cursor:default}.lg-editor [role=status]{font-size:13px;color:#53677f}.lg-reference-note{color:#53677f;font-size:14px!important}
+@media(max-width:740px){.lg-paths{grid-template-columns:1fr}.lg-search-row{flex-wrap:wrap}.lg-search-row label:first-child,.lg-search-row label{flex:1 1 100%}.lg-editor{padding:18px}.lg-editor .bd-actions{align-items:stretch}.lg-editor .bd-actions button{white-space:normal}}
+@media print{body.lg-printing> :not(main){display:none!important}body.lg-printing main{display:block!important;max-width:none!important;margin:0!important;padding:0!important}body.lg-printing main>article>:not(.lg-print-record){display:none!important}body.lg-printing .lg-print-record[hidden]{display:block!important;color:#000}body.lg-printing .lg-print-record pre{white-space:pre-wrap;overflow-wrap:anywhere;font:12pt/1.7 sans-serif}body.lg-printing .lg-print-record h2{font-size:18pt}}
 .lg-page [hidden]{display:none!important}
 .lg-page .bd-hero h1{font-size:clamp(28px,3.4vw,43px);line-height:1.35}
 .lg-page .lg-audience{font-size:14px;color:#53677f}

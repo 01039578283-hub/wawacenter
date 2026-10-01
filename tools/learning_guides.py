@@ -1,5 +1,5 @@
 """Original practical articles, with verified primary references kept separate."""
-GROUPS=[('grade','학년·시험','학년이 바뀌거나 평가를 준비할 때'),('math','수학','기초·풀이·오답을 연결할 때'),('english','영어','어휘·문장·독해·듣기를 구분할 때'),('literacy','국어·과학','읽은 근거를 설명과 답안으로 옮길 때'),('habits','계획·습관','계획을 실제 공부로 이어갈 때'),('parents','학부모·상담','학생과 함께 수업과 다음 목표를 정할 때')]
+GROUPS=[('grade','학년·시험','학년이 바뀌거나 평가를 준비할 때'),('math','수학','기초·풀이·오답을 연결할 때'),('english','영어','어휘·문장·독해·듣기를 구분할 때'),('literacy','국어·사회·과학','읽은 근거를 설명과 답안으로 옮길 때'),('habits','계획·습관','계획을 실제 공부로 이어갈 때'),('parents','학부모·상담','학생과 함께 수업과 다음 목표를 정할 때')]
 SOURCES={
  'study':('IES','학습 시간·간격 복습·인출 연습 가이드','2007','https://ies.ed.gov/ncee/wwc/PracticeGuide/1','간격을 둔 학습, 답을 꺼내 보는 연습과 설명 질문을 다룹니다.'),
  'meta':('EEF','메타인지와 자기조절학습','2025','https://educationendowmentfoundation.org.uk/education-evidence/guidance-reports/metacognition','과제 안에서 계획·실행 점검·평가를 가르치는 방법을 다룹니다.'),
@@ -16,6 +16,8 @@ SOURCES={
  'feedback':('EEF','학생 학습을 돕는 피드백','2021','https://educationendowmentfoundation.org.uk/education-evidence/guidance-reports/feedback','학생의 학습 목표와 다음 학습에 연결되는 피드백을 다룹니다.'),
  'data':('IES','학습 자료를 활용한 목표와 수업 점검','2009','https://ies.ed.gov/ncee/wwc/practiceguide/12','학생이 자신의 자료를 살펴보고 학습 목표를 정하는 방법을 다룹니다.'),
  'fees':('NEIS','학원·교습소 정보 서비스','현재 정보 조회','https://hakwon.neis.go.kr/nxui/index.html','등록 학원 정보와 교습비를 확인할 때 이용하는 공식 조회 서비스입니다.'),
+ 'digital':('EEF','학습 목표에 맞는 디지털 도구 활용','2019','https://educationendowmentfoundation.org.uk/education-evidence/guidance-reports/digital','디지털 도구를 설명·연습·평가·피드백의 목표와 연결하는 교육 자료입니다.'),
+ 'media':('UNESCO','미디어·정보 리터러시','접속 확인 2026-10-02','https://www.unesco.org/en/media-information-literacy','정보를 찾고 비판적으로 평가하며 책임 있게 활용하는 역량을 안내합니다.'),
 }
 PAGES=[]
 def add(slug,group,title,description,audience,answer,checks,steps,example,record,avoid,next_check,faq,sources,related,tags=''):
@@ -25,5 +27,28 @@ def add(slug,group,title,description,audience,answer,checks,steps,example,record
  PAGES.append(dict(slug=slug,route='/학습가이드/'+slug+'/',group=group,title=title,description=description,audience=audience,answer=answer,checks=checks,steps=steps,example=example,record=record,avoid=avoid,nextCheck=next_check,faq=faq,sources=sources,related=related,tags=tags))
 for module in ['learning_grade_guides','learning_math_guides','learning_english_guides','learning_literacy_guides','learning_habit_guides','learning_parent_guides']:
  __import__(module).extend(add)
-assert len(PAGES)==40 and len({p['slug'] for p in PAGES})==40
+__import__('learning_additional_guides').extend(add)
+assert len(PAGES)==53 and len({p['slug'] for p in PAGES})==53
 assert all(k in {p['slug'] for p in PAGES} for p in PAGES for k in p['related'])
+
+LEVELS=[('elementary','초등학생'),('middle','중학생'),('high','고등학생'),('parent','학부모')]
+# Reading relevance, not a statement of branch availability or a student's ability.
+for p in PAGES:
+ if p['group']=='parents':
+  levels=['elementary','middle','high','parent']
+ elif p['slug'] in ['초등학생공부습관']:
+  levels=['elementary','parent']
+ elif p['slug']=='초등중등학년전환':
+  levels=['elementary','middle','parent']
+ elif p['slug']=='중학생내신공부법':
+  levels=['middle','parent']
+ elif p['slug'] in ['고등학생과목별공부법','고등수학모의고사분석']:
+  levels=['high','parent']
+ elif p['slug']=='중등고등학년전환':
+  levels=['middle','high','parent']
+ elif p['slug'] in ['수학오답관리','수학기초점검','계산실수줄이기','수학문장제읽기','수학선행학습점검','영어단어복습법','독서내용요약'] or p['group']=='habits' or p['slug']=='방학복습계획':
+  levels=['elementary','middle','high']
+ else:
+  levels=['middle','high']
+ if '보호자' in p['audience'] and 'parent' not in levels:levels.append('parent')
+ p['levels']=levels
