@@ -23,7 +23,7 @@ test('rejects losing a branch child page',()=>{
 test('every moved grade URL redirects once to an existing actual branch child',()=>{
  const data=JSON.parse(fs.readFileSync(new URL('../grade-directory-data.json',import.meta.url),'utf8'));
  const config=JSON.parse(fs.readFileSync(new URL('../vercel.json',import.meta.url),'utf8'));
- const mappings=new Map(config.redirects.map(r=>[decodeURI(r.source)+'/',r]));
+ const mappings=new Map(config.redirects.map(r=>[decodeURI(r.source).replace(/\(\/\)\?$/,'')+'/',r]));
  assert.equal(mappings.size,1113);
  for(const p of data.pages){
   assert.equal(p.route,p.branch+p.category+'/');
@@ -31,7 +31,7 @@ test('every moved grade URL redirects once to an existing actual branch child',(
  }
  for(const p of data.areaPages){
   const redirect=mappings.get(p.previousRoute);
-  assert.equal(redirect.source,p.previousRoute.slice(0,-1),'Vercel matches decoded request paths');
+  assert.equal(redirect.source,encodeURI(p.previousRoute.slice(0,-1))+'(/)?','Vercel must match encoded requests with and without a trailing slash');
   assert.equal(redirect.statusCode,301);
   assert.equal(decodeURI(redirect.destination),p.route);
   assert.ok(!mappings.has(p.route));

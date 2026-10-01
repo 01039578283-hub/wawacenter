@@ -196,7 +196,9 @@ def main():
     connect_hubs();migrate_links(original-DELETED)
     for route in [*MOVED,*REMOVED_HUBS]:shared.DESCRIPTIONS['pages'].pop(route.rstrip('/'),None)
     vercel=json.loads((ROOT/'vercel.json').read_text(encoding='utf-8'))
-    vercel['redirects']=[{'source':old.rstrip('/'),'destination':shared.href(new),'statusCode':301} for old,new in sorted(MOVED.items())]
+    # Vercel matches the encoded request path with strict trailing-slash rules.
+    # Explicitly accept both bookmark variants without redirecting removed hubs.
+    vercel['redirects']=[{'source':shared.href(old.rstrip('/'))+'(/)?','destination':shared.href(new),'statusCode':301} for old,new in sorted(MOVED.items())]
     shared.save(ROOT/'vercel.json',vercel)
     shared.DESCRIPTIONS['canonicalAliases']={old.rstrip('/'):new.rstrip('/') for old,new in LEGACY.items()}
     shared.save(ROOT/'seo-descriptions.json',shared.DESCRIPTIONS)

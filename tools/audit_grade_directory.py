@@ -30,7 +30,7 @@ def main():
     assert all(not (ROOT/n).exists() and not (ROOT/'.public-release'/n).exists() for n in removed)
     assert sum(len(p['sources']) for p in data['pages'])==3339
     redirects=json.loads((ROOT/'vercel.json').read_text('utf-8'))['redirects']
-    assert {unquote(r['source'])+'/':unquote(r['destination']) for r in redirects}==generated['movedRoutes']
+    assert {unquote(r['source']).removesuffix('(/)?')+'/':unquote(r['destination']) for r in redirects}==generated['movedRoutes']
     assert all(r['statusCode']==301 for r in redirects)
     failures=[];titles=[];descs=[];linkcount=0;faqcount=0;hashes=collections.defaultdict(list);normalized_hashes=collections.defaultdict(list)
     id_cache={}
