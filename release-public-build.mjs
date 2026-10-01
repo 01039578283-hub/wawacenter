@@ -10,6 +10,7 @@ import {assertLocalCopy} from './local-copy-check.mjs';
 import {assertBranchDirectory} from './branch-directory-check.mjs';
 import {assertGradeDirectory} from './grade-directory-check.mjs';
 import {assertSubjectDirectory} from './subject-directory-check.mjs';
+import {assertLearningGuide} from './learning-guide-check.mjs';
 const root=path.dirname(fileURLToPath(import.meta.url));
 const output=path.join(root,'.public-release');
 const manifest=JSON.parse(fs.readFileSync(path.join(root,'release-public-manifest.json'),'utf8'));
@@ -54,6 +55,7 @@ await Promise.all(Array.from({length:12},async()=>{
       assertBranchDirectory(html,name);
       assertGradeDirectory(html,name);
       assertSubjectDirectory(html,name);
+      assertLearningGuide(html,name);
     }
     await fs.promises.mkdir(path.dirname(dest),{recursive:true});
     await fs.promises.writeFile(dest,bytes);
