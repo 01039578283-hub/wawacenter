@@ -7,7 +7,7 @@ from lxml import etree,html
 import build_branch_upgrade as ui
 ROOT=Path(__file__).resolve().parents[1]
 DAY='2026-10-02'
-NAV=[('홈','/'),('지점안내','/지점안내/'),('학습시스템','/학습시스템/'),('학습가이드','/학습가이드/'),('교재안내','/교재안내/'),('과목별학원','/과목별학원/'),('전국학원','/전국센터/'),('상담문의','/상담문의/')]
+NAV=[('홈','/'),('지점안내','/지점안내/'),('선생님찾기','/선생님찾기/'),('학습시스템','/학습시스템/'),('학습가이드','/학습가이드/'),('교재안내','/교재안내/'),('과목별학원','/과목별학원/'),('전국학원','/전국센터/'),('상담문의','/상담문의/')]
 SOURCE={'와와학습코칭':'https://www.wawacenter.com/brand/wawacenter','개별맞춤관리':'https://www.wawacenter.com/intro/coachingSystem','AI학습':'https://www.wawacenter.com/intro/AISystem'}
 DESCS={
  '/학습시스템/':'와와 공식 소개 영상과 학습코칭·개별 맞춤 관리·AI 프로그램을 살펴보고, 지점별 수업 조건과 상담 자료를 확인합니다.',

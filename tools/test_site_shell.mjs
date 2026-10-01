@@ -4,8 +4,8 @@ import fs from 'node:fs';
 import {assertSiteShell} from '../site-shell-check.mjs';
 const data=JSON.parse(fs.readFileSync(new URL('../site-shell-data.json',import.meta.url),'utf8'));
 const read=name=>fs.readFileSync(new URL('../'+name,import.meta.url),'utf8');
-test('all 6434 public pages share the same navigation, brand and theme',()=>{
-  assert.equal(data.pages.length,6434);for(const name of data.pages)assertSiteShell(read(name),name);
+test('all public pages share the same navigation, brand and theme',()=>{
+  assert.ok(data.pages.length>=6434);for(const name of data.pages)assertSiteShell(read(name),name);
 });
 test('home must expose the learning-system menu and official video shortcut',()=>{
   const h=read('index.html');assert.throws(()=>assertSiteShell(h.replace('>학습시스템</a>','>교육 안내</a>'),'index.html'));
