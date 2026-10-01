@@ -8,7 +8,7 @@ from lxml import etree,html
 import build_branch_upgrade as shared
 from grade_editorial import TOPICS,STAGE_GUIDES
 ROOT=shared.ROOT
-DAY='2026-10-01'
+DAY='2026-10-02'
 DATA=json.loads((ROOT/'grade-directory-data.json').read_text(encoding='utf-8'))
 PAGES=DATA['pages'];BYPATH={p['route']:p for p in PAGES}
 BRANCHES={b['route']:b for b in shared.BRANCHES}
@@ -47,11 +47,11 @@ def photo(b):
 
 def details(p):
     b=BRANCHES[p['branch']];stage=NAMES[p['prefix']];focus=TOPIC[p['topics'][0]]
-    title=b['region']+' '+b['name']+' '+p['category']+' | 과목·교육비와 상담 기준'
-    desc=f'{b["region"]} {b["district"]} {b["name"]}의 {stage} 과목별 안내 학년과 교육비 자료, 연결 동네의 학교 정보와 상담 기준을 확인합니다.'
+    title=b['region']+' '+p['name']+' '+p['category']+' | '+b['name']+' 과목·교육비와 상담 기준'
+    desc=f'{p["name"]} {stage} 학원 선택을 위해 {b["name"]}의 과목별 학년·교육비·학교 자료와 {focus[1]} 상담 기준을 확인합니다.'
     assert len(desc)<=80,(p['area'],desc)
     known=any(c['grades'] for c in p['courses'])
-    intro=f'{b["name"]}에서 {stage} 수업을 알아볼 때는 학생의 학년과 희망 과목을 먼저 맞춰 보세요. 지점 자료를 바탕으로 과목별 개설 학년과 교육비 확인 경로를 정리하고, 연결 동네의 학교 정보와 상담 질문을 한곳에 모았습니다.'
+    intro=f'{p["name"]}에서 {stage} 학원을 알아보는 가정을 위해 {focus[1]}부터 살펴볼 질문을 정리했습니다. 연결 지점은 {b["name"]}입니다. 학생의 학교 자료를 바탕으로 필요한 도움을 정리하고, 과목별 안내 학년과 실제 등원 주소·교육비를 함께 확인해 보세요.'
     hero=f'<section class="bd-hero gd-hero"><p class="bd-kicker">{e(b["region"])} · {e(b["district"])} / {stage} 학습 안내</p><h1>{e(p["name"])} {stage} 학습과<br>수업 선택 안내</h1><p>{e(intro)}</p><p class="gd-answer"><strong>{e(b["displayName"])}</strong><br>{e(b["address"])}</p>'+shared.actions([(shared.FORM,stage+' 학습 상담',True,True),(p['branch'],b['name']+' 종합 안내',False)])+'</section>'
     if not known:hero+='<p class="bd-notice gd-status">'+e(b['name'])+'의 '+stage+' 개설 학년을 제공 자료에서 확인하지 못했습니다. 등록 가능 여부와 과목을 먼저 상담해 주세요.</p>'
     if b['addressPending']:hero+='<p class="bd-notice">주소 자료가 서로 달라 현재 위치를 방문 전에 확인해야 합니다.</p>'
@@ -77,11 +77,11 @@ def details(p):
     body+=section('schools',p['name']+' 학교 정보와 실제 등원 위치',local)
     faq=[(p['name']+' '+stage+' 수업에서 어떤 과목과 학년을 확인할 수 있나요?',b['name']+' 자료의 안내 범위는 '+scope(p)+('입니다. ' if known else ' ')+ '별도 확인 항목과 운영 조건을 읽고 현재 등록 가능 여부를 문의해 주세요.'),(p['name']+' '+stage+' 교육비는 어떻게 확인하나요?',b['name']+' 교습비 자료와 위의 교육비 안내에서 학년, 과목, 수업 시간과 횟수를 함께 확인하세요. 공통 참고 금액은 지점의 확정 수강료가 아니며, 교재와 추가 프로그램 포함 여부도 상담해야 합니다.'),(p['name']+' 상담 전에 어떤 학습 기록을 준비하면 좋나요?',focus[4]+object_particle(focus[4])+' 준비해 보세요. “'+focus[5]+'”라는 질문으로 학생의 막힌 단계와 다음 점검 방법을 구체적으로 확인할 수 있습니다.'),(p['name']+' 페이지의 학교명은 무엇을 기준으로 안내하나요?',(schools+'는 제공 자료에서 확인한 상담 참고 정보입니다. ' if schools else '제공 자료에 이 학년의 학교명이 없습니다. ')+'이 안내는 제휴 학교나 재원 학생, 학교별 수업을 나타내는 자료가 아닙니다. 실제 준비 범위는 학생의 학교 자료로 확인해 주세요.')]
     body+=section('faq',p['name']+' '+stage+' 상담 질문',shared.faqs_markup(faq))
-    body+=section('next-stage',b['name']+'의 다른 학년 안내','<div class="bd-grid">'+''.join(stage_card(x) for x in PAGES if x['branch']==p['branch'] and x['prefix']!=p['prefix'])+'</div><p>'+link(p['branch'],b['name']+' 전체 과목·교육비·사진 안내')+'</p>')
+    body+=section('next-stage',p['name']+'의 다른 학년 안내','<div class="bd-grid">'+''.join(stage_card(x) for x in PAGES if x['area']==p['area'] and x['prefix']!=p['prefix'])+'</div><p>'+link(p['branch']+'#grade-guide',b['name']+'에 연결된 다른 동네·학년 안내')+'</p>')
     body+='<p class="bd-source">자료 반영일: '+DAY+'. 개설 학년과 교육비는 제공 센터 자료를 기준으로 정리했으며 현재 모집 상태의 확인일과 다릅니다.</p>'
-    crumbs=[('지점안내','/지점안내/'),(b['region'],f'/지점안내/{b["region"]}/'),(b['name'],p['branch']),(p['category'],p['route'])]
+    crumbs=[('지점안내','/지점안내/'),(b['region'],f'/지점안내/{b["region"]}/'),(b['name'],p['branch']),(p['name']+' '+p['category'],p['route'])]
     shared.shell(p['route'],title,desc,body,crumbs,faq,branch=True)
-    decorate(p['route'],f'data-grade-branch="{p["branch"]}" data-stage="{p["prefix"]}"')
+    decorate(p['route'],f'data-grade-branch="{p["branch"]}" data-stage="{p["prefix"]}" data-neighborhood="{p["area"]}"')
 
 def decorate(route,attrs):
     file=ROOT/(route.lstrip('/')+'index.html');text=file.read_text(encoding='utf-8')
@@ -96,10 +96,10 @@ def stage_card(p):
 def category_hub(prefix,label):
     route=f'/과목별학원/{label}/';group=[p for p in PAGES if p['prefix']==prefix];stage=NAMES[prefix]
     title=stage+' 학원 선택과 지역별 학습 안내'
-    desc=f'188개 지점의 {stage} 학습 안내에서 과목별 학년과 교육비 자료를 확인하고, 연결 동네의 학교 정보와 상담 질문을 살펴봅니다.'
+    desc=f'371개 동네의 {stage} 학습 안내에서 연결 지점의 과목별 학년·교육비와 학교 자료, 상담 질문을 살펴봅니다.'
     guide=STAGE_GUIDES[prefix]
     body=f'<section class="bd-hero"><p class="bd-kicker">학년별 학습 안내</p><h1>{stage} 학원 선택과<br>지역별 학습 안내</h1><p>{e(guide[2])} 아래 지점별 페이지에는 실제 지점 자료의 과목·학년과 교육비 확인 경로를 함께 정리했습니다.</p>'+shared.actions([('/지점안내/','실제 지점부터 찾기',True),(guide[1],guide[0])])+'</section>'
-    form='<form class="bd-search" data-branch-search data-count-label="개 지점" role="search"><label>동네·지점·학교 검색<input type="search" name="q" placeholder="예: 명일동, 명일점, 명일중" autocomplete="off"></label><label>지역<select name="region"><option value="">전국 전체</option>'+''.join('<option value="'+e(r)+'">'+e(r)+'</option>' for r in shared.REGIONS)+'</select></label><button class="bd-btn" type="reset">검색 초기화</button></form><p class="bd-result" data-search-status role="status" aria-live="polite">188개 지점 안내가 있습니다.</p><div class="bd-empty" data-search-empty hidden><p>검색 결과가 없습니다. 동네 이름이나 지역을 바꾸어 보세요.</p></div>'
+    form='<form class="bd-search" data-branch-search data-count-label="개 동네" role="search"><label>동네·지점·학교 검색<input type="search" name="q" placeholder="예: 명일동, 명일점, 명일중" autocomplete="off"></label><label>지역<select name="region"><option value="">전국 전체</option>'+''.join('<option value="'+e(r)+'">'+e(r)+'</option>' for r in shared.REGIONS)+'</select></label><button class="bd-btn" type="reset">검색 초기화</button></form><p class="bd-result" data-search-status role="status" aria-live="polite">371개 동네 안내가 있습니다.</p><div class="bd-empty" data-search-empty hidden><p>검색 결과가 없습니다. 동네 이름이나 지역을 바꾸어 보세요.</p></div>'
     listing='<div class="bd-grid">'
     for p in group:
         b=BRANCHES[p['branch']];search=' '.join([p['name'],b['name'],b['region'],b['district'],b['address'],*[a['name'] for a in p['areas']],*p['schools']])
@@ -122,8 +122,16 @@ def connect_hubs():
         body='<div class="bd-grid">'+''.join('<article class="bd-card"><h3>'+link(f'/과목별학원/{label}/',NAMES[p]+' 지점별 안내')+'</h3><p>'+e(STAGE_GUIDES[p][2])+'</p></article>' for p,label in LABELS.items())+'</div>'
         insert_block(route.lstrip('/')+'index.html',section('grade-guide',(region+' ' if region else '')+'초·중·고 학년별로 확인하기',body,'실제 지점을 선택한 뒤 초등학생·중학생·고등학생 안내를 살펴보세요.').replace('id="grade-guide"','id="grade-guide" data-grade-entry'))
     for route,b in BRANCHES.items():
-        body='<div class="bd-grid">'+''.join(stage_card(p) for p in PAGES if p['branch']==route)+'</div>'
-        insert_block(route.lstrip('/')+'index.html',section('grade-guide',b['name']+' 학년별 학습 안내',body).replace('id="grade-guide"','id="grade-guide" data-grade-entry'))
+        body='<div class="nd-area-list">'
+        for area in b['areas']:
+            group=[p for p in PAGES if p['branch']==route and p['area']==area['slug']]
+            name=group[0]['name']
+            body+='<article class="bd-card nd-area-card" data-neighborhood-card="'+e(area['slug'])+'"><h3>'+e(name)+' 학년별 안내</h3>'
+            for p in group:
+                body+='<div class="nd-stage-row"><h4>'+link(p['route'],NAMES[p['prefix']]+' 학원 안내')+'</h4><div class="nd-subject-links">'+link(p['route']+'수학/','수학')+link(p['route']+'영어/','영어')+'</div></div>'
+            body+='</article>'
+        body+='</div>'
+        insert_block(route.lstrip('/')+'index.html',section('grade-guide',b['name']+'에 연결된 동네별 학년·과목 안내',body,'학생이 사는 동네의 초·중·고 안내를 선택하고, 필요한 수학·영어 학습 자료를 이어서 살펴보세요.').replace('id="grade-guide"','id="grade-guide" data-grade-entry'))
     for name in ['index.html','전국센터/index.html','과목별학원/index.html']:
         block='<section class="bd-entry" id="grade-discovery" data-grade-entry><p class="bd-kicker">학교 단계에 맞춰 살펴보기</p><h2>초·중·고 학습과 수업 선택</h2><p>실제 지점의 안내 학년과 교육비 자료, 연결 동네의 학교 정보와 상담 기준을 확인하세요.</p><div class="bd-entry-links">'+''.join(link(f'/과목별학원/{label}/',NAMES[p]+' 지점별 안내') for p,label in LABELS.items())+'</div></section>'
         insert_block(name,block)

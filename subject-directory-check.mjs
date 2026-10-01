@@ -11,6 +11,8 @@ export function assertSubjectDirectory(html,name){
  if(parents.has(name))for(const route of parents.get(name))if(!html.includes(`href="${encodeURI(route)}"`))fail('Subject child link missing');
  const p=pages.get(name);if(!p)return;
  const b=branches.get(p.branch),c=p.course;
+ if(p.areas.length!==1||p.areas[0].slug!==p.area)fail('Different neighborhoods consolidated');
+ if(!html.includes(`data-neighborhood="${p.area}"`))fail('Neighborhood identity missing');
  if(!html.includes(`data-subject-branch="${p.branch}" data-stage="${p.stage}" data-subject="${p.subject}"`))fail('Branch/stage/subject mismatch');
  if(!html.includes(`data-subject-course="${p.subject}" data-grades="${c.grades.join(',')}" data-pending="${c.pending.join(',')}"`))fail('Subject-specific grades changed');
  for(const n of [...c.notes,...p.courseNotes])if(!html.includes(esc(n)))fail('Operating condition missing');

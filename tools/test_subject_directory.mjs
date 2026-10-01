@@ -8,8 +8,8 @@ const data=JSON.parse(fs.readFileSync(new URL('../subject-directory-data.json',i
 const read=n=>fs.readFileSync(new URL('../'+n,import.meta.url),'utf8');
 const p=data.pages.find(p=>p.branch.includes('명일점')&&p.stage==='초'&&p.subject==='수학');
 const name=p.route.slice(1)+'index.html',source=read(name);
-test('all 1128 subject children retain source facts and descriptions',()=>{
- assert.equal(data.pages.length,1128);assert.equal(new Set(data.pages.map(p=>p.route)).size,1128);
+test('all 2226 neighborhood subject children retain source facts and descriptions',()=>{
+ assert.equal(data.pages.length,2226);assert.equal(new Set(data.pages.map(p=>p.route)).size,2226);
  for(const p of data.pages){const n=p.route.slice(1)+'index.html',html=read(n);assertSubjectDirectory(html,n);assertBranchDirectory(html,n);assert.equal(transform(html,p.route).html,html);}
 });
 test('math cannot inherit English lower elementary grades',()=>{

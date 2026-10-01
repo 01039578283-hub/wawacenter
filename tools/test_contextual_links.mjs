@@ -8,8 +8,8 @@ const root=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'..');
 const data=JSON.parse(fs.readFileSync(path.join(root,'contextual-links-data.json'),'utf8'));
 const sample=data.pages.find(p=>p.context.kind==='subject' && p.context.stage==='고' && p.context.subject==='수학');
 const name=sample.file,html=fs.readFileSync(path.join(root,name),'utf8');
-test('all 6364 reviewed academic pages have working contextual resource groups',()=>{
-  assert.equal(data.pages.length,6364);
+test('all 8011 reviewed academic pages have working contextual resource groups',()=>{
+  assert.equal(data.pages.length,8011);
   for(const p of data.pages)assertContextualLinks(fs.readFileSync(path.join(root,p.file),'utf8'),p.file);
 });
 test('a math resource cannot be silently replaced by an English resource',()=>{

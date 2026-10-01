@@ -22,7 +22,7 @@ def overview(p):
 
 def child_card(p):
  b=BRANCHES[p['branch']];focus=BY_ID[p['topics'][0]][3]
- return '<article class="bd-card sd-choice"><p class="bd-kicker">'+e(NAMES[p['stage']])+'</p><h3>'+link(p['route'],b['name']+' '+NAMES[p['stage']]+' '+p['subject']+'학원 안내')+'</h3><p>'+e(overview(p))+'</p><p>'+e(focus)+'</p>'+link(p['route'],'학습 점검·교육비·상담 질문 보기 →')+'</article>'
+ return '<article class="bd-card sd-choice"><p class="bd-kicker">'+e(b['name']+' · '+NAMES[p['stage']])+'</p><h3>'+link(p['route'],p['areas'][0]['name']+' '+NAMES[p['stage']]+' '+p['subject']+'학원 안내')+'</h3><p>'+e(overview(p))+'</p><p>'+e(focus)+'</p>'+link(p['route'],'학습 점검·교육비·상담 질문 보기 →')+'</article>'
 
 def child_description(p):
  b=BRANCHES[p['branch']];topic=SUMMARY_TOPICS[p['topics'][0]]
@@ -33,7 +33,7 @@ def child_description(p):
 
 def grade_description(p):
  b=BRANCHES[p['branch']];topic=SUMMARY_TOPICS[p['topics'][0]]
- desc=f'{b["region"]} {b["name"]} {NAMES[p["prefix"]]} 학원의 영어·수학별 학년과 교육비·학교 자료, {topic} 상담 기준을 확인합니다.'
+ desc=f'{p["name"]} {NAMES[p["prefix"]]} 학원 선택을 위해 {b["name"]}의 과목별 학년·교육비·학교 자료와 {topic} 상담 기준을 확인합니다.'
  assert len(desc)<=80,desc
  return desc
 
@@ -42,7 +42,7 @@ def child(p):
  desc=child_description(p)
  title=f'{b["region"]} '+('·'.join(a['name'] for a in p['areas'][:2]))+f' {stage} {subject}학원 | {b["name"]} 학습 점검·교육비'
  areas=' · '.join(a['name'] for a in p['areas'])
- hero=f'<section class="bd-hero"><p class="bd-kicker">{e(b["region"])} · {e(b["district"])} / {stage} {subject}</p><h1>{e(b["name"])} {stage}<br>{subject}학원 선택과 학습 안내</h1><p>{e(areas)}에서 {stage} {subject} 수업을 찾는 가정을 위해, <strong>{e(focus[3])}</strong>부터 살펴볼 질문을 정리했습니다. 학생의 현재 자료와 아래 지점 정보를 함께 비교해 보세요.</p><p class="gd-answer"><strong>{e(b["displayName"])}</strong><br>{e(b["address"])}</p>'+ui.actions([(ui.FORM,stage+' '+subject+' 상담 신청',True,True),(p['parent'],stage+' 과목 전체 안내')])+'</section>'
+ hero=f'<section class="bd-hero"><p class="bd-kicker">{e(b["region"])} · {e(b["district"])} / {stage} {subject}</p><h1>{e(p["name"])} {stage}<br>{subject}학원 선택과 학습 안내</h1><p>{e(areas)}에서 {stage} {subject} 수업을 찾는 가정을 위해, <strong>{e(focus[3])}</strong>부터 살펴볼 질문을 정리했습니다. 연결 지점은 {e(b["name"])}입니다. 학생의 현재 자료와 아래 지점 정보를 함께 비교해 보세요.</p><p class="gd-answer"><strong>{e(b["displayName"])}</strong><br>{e(b["address"])}</p>'+ui.actions([(ui.FORM,stage+' '+subject+' 상담 신청',True,True),(p['parent'],p['name']+' '+stage+' 과목 전체 안내')])+'</section>'
  jump='<nav class="bd-jump" aria-label="과목 안내 바로가기">'+''.join(link('#'+k,n) for k,n in [('lesson-image','상세 이미지'),('subject-course','안내 학년'),('learning','학습 점검'),('local-focus','동네별 질문'),('fees','교육비'),('schools','학교·위치'),('faq','질문')])+'</nav>'
  image=b['bodyImage'];picture=f'<div class="bd-image-panel"><picture><source media="(max-width:800px)" srcset="{ui.href(image["mobile"])}"><img src="{ui.href(image["src"])}" width="918" height="16116" loading="eager" decoding="async" alt="와와 학습코칭의 수업과 학습 관리 상세 안내"></picture></div>'
  body=hero+jump+section('lesson-image','학습코칭 수업을 자세히 살펴보세요',picture,'공통 수업 안내입니다. 이 지점의 과목별 학년과 수강 조건은 아래에서 따로 확인해 주세요.')
@@ -63,7 +63,7 @@ def child(p):
  for a in p['areas']:
   picks=[BY_ID[k] for k in a['topics'][:3]]
   local+='<article class="bd-card sd-area" data-subject-area="'+e(a['slug'])+'"><h3>'+e(a['name'])+'에서 준비하는 '+stage+' '+subject+' 상담</h3><p>학교 참고 정보: '+e(' · '.join(a['schools']) or '제공 자료에 이 학년의 학교명이 없습니다.')+'</p><ul>'+''.join('<li><strong>'+e(t[3])+'</strong><br>'+e(t[7])+'</li>' for t in picks)+'</ul></article>'
- body+=section('local-focus','연결 동네별 학교 자료와 학습 질문',local,'동네별 학습 고민을 지점 하나의 안내로 모았습니다. 학교명은 제휴·재원 학생·학교별 전용반을 나타내지 않습니다.')
+ body+=section('local-focus',p['name']+' 학교 자료와 학습 질문',local,'이 동네의 원고에서 확인한 학습 고민을 상담 준비 항목으로 정리했습니다. 학교명은 제휴·재원 학생·학교별 전용반을 나타내지 않습니다.')
  body+=section('weekly-plan',subject+' 복습과 다른 과목의 일정을 맞추기','<div class="bd-card"><h3>한 주의 실제 시간부터 적어 보세요</h3><p>'+e('초등학생은 학교 활동과 귀가 후 쉬는 시간까지 함께 적고, 짧게 혼자 해 볼 과제를 먼저 골라 보세요.' if p['stage']=='초' else '학교 수업·과제·평가 일정을 먼저 적고, 새 진도와 오답 복습에 쓸 시간을 따로 확보할 수 있는지 확인하세요.')+'</p><p>'+e(subject)+'에서는 '+e('어휘를 떠올리는 시간과 문장을 읽고 쓰는 시간' if subject=='영어' else '개념을 설명하는 시간과 문제를 풀고 검토하는 시간')+'을 나누어 적으면 미완료 이유를 구체적으로 상담하기 좋습니다. 실제 요일과 횟수는 지점에서 확인해 주세요.</p></div>')
  checklist=['현재 교재와 최근에 배운 범위','정답을 지우지 않은 최근 오답과 중간 기록','학교에서 받은 진도·평가·과제 안내','혼자 공부할 수 있는 요일과 과제 부담','희망 과목·학년 및 수업 구성에 관한 질문']
  body+=section('consultation',b['name']+' '+stage+' '+subject+' 상담 준비 목록','<ol class="sd-checklist">'+''.join('<li>'+e(x)+'</li>' for x in checklist)+'</ol><p>점수만 전달하기보다 혼자 한 부분과 도움받은 부분을 표시해 주세요. 진단 결과에 따라 무엇을 먼저 복습할지, 다음 확인 자료는 무엇인지 질문할 수 있습니다.</p>')
@@ -74,10 +74,10 @@ def child(p):
  body+=section('schools','학교 자료와 실제 등원 위치','<div class="bd-grid bd-two">'+schoolcard+location+'</div><p>'+link(b['route']+'#photos',b['name']+' 제공 사진과 공간 안내 확인')+'</p>')
  faq=[(b['name']+'에서 '+stage+' '+subject+' 수업을 등록할 수 있나요?', '제공 자료의 '+subject+' 안내 범위는 '+overview(p)+('입니다. ' if c['grades'] else '입니다. 자료가 비어 있어 수업이 없다고 단정할 수는 없습니다. ')+'현재 모집 여부와 수업 시간, 별도 조건은 지점에서 확인해 주세요.'),(b['name']+' '+subject+' 수업료는 어디서 확인하나요?', '위 교육비 표와 연결된 '+b['name']+' 교습비 자료에서 학년·과목·횟수·시간을 함께 확인하세요. 공통 참고 금액은 지점의 확정 수강료가 아니며, 교재와 추가 프로그램의 포함 여부도 상담해야 합니다.'),(stage+' '+subject+' 상담에는 무엇을 가져가면 좋나요?',focus[6]+' 현재 교재와 최근 오답, 실제 학교 자료를 함께 준비하면 시작 범위와 다음 확인 방법을 구체적으로 상담할 수 있습니다.'),(p['areas'][0]['name']+' 페이지의 학교명은 전용반을 뜻하나요?','학교명은 제공 자료의 상담 참고 정보입니다. 제휴·재원 학생·학교별 전용반을 뜻하지 않습니다. 학교 진도와 준비 범위는 학생이 직접 받은 자료로 확인해 주세요.'),('틀린 문제를 다시 맞히면 복습이 끝난 건가요?','답을 기억해 맞힌 것인지, 조건을 설명하고 풀이를 다시 만든 것인지 구분해 보세요. 새 조건에서도 적용할 수 있는지와 다음 확인 시점은 상담에서 물어볼 기준입니다. 결과나 성적 변화를 보장하는 설명은 아닙니다.'),('학습코칭 이미지의 과정이 모두 '+b['name']+'에서 운영되나요?','이미지는 공통 안내입니다. 이 페이지의 '+subject+' 과목별 학년과 조건을 우선 확인하고, 실제 교재·인원·지도 방식·추가 프로그램 사용 여부는 지점에 문의해 주세요.')]
  body+=section('faq',b['name']+' '+stage+' '+subject+' 자주 묻는 질문',ui.faqs_markup(faq))
- siblings=[x for x in PAGES if x['branch']==p['branch'] and (x['stage']==p['stage'] or x['subject']==subject) and x['route']!=p['route']]
+ siblings=[x for x in PAGES if x['area']==p['area'] and (x['stage']==p['stage'] or x['subject']==subject) and x['route']!=p['route']]
  body+=section('related','같은 지점의 과목과 학년을 이어서 보기','<div class="bd-grid sd-choice-grid">'+''.join(child_card(x) for x in siblings)+'</div><p>'+link(p['parent'],stage+' 전체 과목·학년 안내')+' · '+link(b['route'],b['name']+' 종합 안내')+' · '+link(STAGE_GUIDES[p['stage']][1],STAGE_GUIDES[p['stage']][0])+'</p>')
  body+='<p class="bd-source">자료 반영일: '+ui.DAY+'. 개설 학년과 교육비는 제공 센터 자료의 안내이며 현재 모집·시간표 확인일과 다릅니다.</p>'
- crumbs=[('지점안내','/지점안내/'),(b['region'],'/지점안내/'+b['region']+'/'),(b['name'],b['route']),(LABELS[p['stage']],p['parent']),(subject,p['route'])]
+ crumbs=[('지점안내','/지점안내/'),(b['region'],'/지점안내/'+b['region']+'/'),(b['name'],b['route']),(p['name']+' '+LABELS[p['stage']],p['parent']),(subject,p['route'])]
  nodes=[{'@type':'LearningResource','@id':ui.url(p['route'])+'#learning-guide','name':b['name']+' '+stage+' '+subject+' 학습 점검','description':focus[5],'inLanguage':'ko-KR','educationalLevel':stage,'learningResourceType':'학습 점검과 상담 준비 안내','about':{'@type':'Thing','name':subject},'isPartOf':{'@id':ui.url(p['route'])+'#webpage'}}]
  # Decorate the rendered document before the single final write. This also
  # avoids an intermediate unstyled file while the large collection is built.
@@ -88,7 +88,7 @@ def child(p):
  finally:ui.write=saved_write
  assert len(rendered)==1
  file,text=rendered[0]
- text=text.replace('<body class="general-page bd-page">',f'<body class="general-page bd-page gd-page sd-page" data-subject-branch="{p["branch"]}" data-stage="{p["stage"]}" data-subject="{subject}">')
+ text=text.replace('<body class="general-page bd-page">',f'<body class="general-page bd-page gd-page sd-page" data-subject-branch="{p["branch"]}" data-stage="{p["stage"]}" data-subject="{subject}" data-neighborhood="{p["area"]}">')
  text=text.replace('</head>','<link rel="stylesheet" href="/assets/grade-directory.css"><link rel="stylesheet" href="/assets/subject-directory.css"></head>')
  ui.write(file,text)
 
@@ -106,14 +106,14 @@ def description(text,route,desc):
  return text
 
 def enrich_parents():
- paths=['/지점안내/']+['/지점안내/'+r+'/' for r in ui.REGIONS]+list(BRANCHES)+[p['route'] for p in GRADES]
+ paths=['/지점안내/']+['/지점안내/'+r+'/' for r in ui.REGIONS]+[p['route'] for p in GRADES]
  changed=[];bygrade={p['route']:p for p in GRADES}
  for route in paths:
   file=ROOT/(route.lstrip('/')+'index.html');text=file.read_text(encoding='utf-8');old=text
   grade=bygrade.get(route);branch=BRANCHES.get(route)
   if grade:
    group=[p for p in PAGES if p['parent']==route];b=BRANCHES[grade['branch']];stage=NAMES[grade['prefix']]
-   block=section('subject-choice',b['name']+' '+stage+' 영어·수학 선택 안내','<div class="bd-grid sd-choice-grid">'+''.join(child_card(p) for p in group)+'</div>','과목마다 안내 학년이 다를 수 있습니다. 각 페이지의 학년·조건을 먼저 확인하고 학생 자료에 맞는 학습 질문을 살펴보세요.')
+   block=section('subject-choice',grade['name']+' '+stage+' 영어·수학 선택 안내','<div class="bd-grid sd-choice-grid">'+''.join(child_card(p) for p in group)+'</div>','과목마다 안내 학년이 다를 수 있습니다. 각 페이지의 학년·조건을 먼저 확인하고 학생 자료에 맞는 학습 질문을 살펴보세요.')
    # Separate the original concern cards without altering their factual order.
    text=text.replace('bd-grid gd-topic-grid','sd-grade-topics')
    text=re.sub(r'<article class="bd-card" data-editorial-topic="([^"]+)">(.*?)</article>',lambda m:'<section class="bd-card sd-grade-topic" data-editorial-topic="'+m[1]+'" id="parent-learning-'+m[1]+'">'+m[2]+'</section>',text,flags=re.S)

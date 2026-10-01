@@ -18,11 +18,16 @@ export function assertGradeDirectory(html,name){
     const b=[...branches.values()].find(b=>b.route.slice(1)+'index.html'===name);
     if(b){
       if(!html.includes('data-grade-entry'))fail('Branch grade entry missing');
+      if(!html.includes('href="#grade-guide"')||html.indexOf('href="#grade-guide"')>html.indexOf('id="lesson-image"'))fail('Neighborhood shortcut must precede the long image');
+      if((html.match(/data-neighborhood-card="/g)||[]).length!==b.areas.length)fail('Branch neighborhood choices missing');
       for(const target of data.pages.filter(p=>p.branch===b.route))if(!html.includes(`href="${path(target.route)}"`))fail('Branch grade destination missing');
     }
     return;
   }
   const b=branches.get(p.branch);
+  if(p.areas.length!==1||p.areas[0].area!==p.area)fail('Different neighborhoods consolidated');
+  if(p.route!==p.branch+p.routeName+p.category+'/')fail('Neighborhood hierarchy differs');
+  if(!html.includes(`data-neighborhood="${p.area}"`))fail('Neighborhood identity missing');
   if(!html.includes(`data-grade-branch="${p.branch}" data-stage="${p.prefix}"`))fail('Wrong branch or stage');
   for(const c of p.courses){
     const tag=`data-stage-course="${c.subject}" data-grades="${c.grades.join(',')}" data-pending="${c.pending.join(',')}"`;
