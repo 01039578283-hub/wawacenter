@@ -11,6 +11,7 @@ import {assertBranchDirectory} from './branch-directory-check.mjs';
 import {assertGradeDirectory} from './grade-directory-check.mjs';
 import {assertSubjectDirectory} from './subject-directory-check.mjs';
 import {assertLearningGuide} from './learning-guide-check.mjs';
+import {assertBookLibrary} from './book-library-check.mjs';
 const root=path.dirname(fileURLToPath(import.meta.url));
 const output=path.join(root,'.public-release');
 const manifest=JSON.parse(fs.readFileSync(path.join(root,'release-public-manifest.json'),'utf8'));
@@ -56,6 +57,7 @@ await Promise.all(Array.from({length:12},async()=>{
       assertGradeDirectory(html,name);
       assertSubjectDirectory(html,name);
       assertLearningGuide(html,name);
+      assertBookLibrary(html,name);
     }
     await fs.promises.mkdir(path.dirname(dest),{recursive:true});
     await fs.promises.writeFile(dest,bytes);
