@@ -13,6 +13,7 @@ import {assertSubjectDirectory} from './subject-directory-check.mjs';
 import {assertLearningGuide} from './learning-guide-check.mjs';
 import {assertBookLibrary} from './book-library-check.mjs';
 import {assertContextualLinks} from './contextual-links-check.mjs';
+import {assertSiteShell} from './site-shell-check.mjs';
 const root=path.dirname(fileURLToPath(import.meta.url));
 const output=path.join(root,'.public-release');
 const manifest=JSON.parse(fs.readFileSync(path.join(root,'release-public-manifest.json'),'utf8'));
@@ -60,6 +61,7 @@ await Promise.all(Array.from({length:12},async()=>{
       assertLearningGuide(html,name);
       assertBookLibrary(html,name);
       assertContextualLinks(html,name);
+      assertSiteShell(html,name);
     }
     await fs.promises.mkdir(path.dirname(dest),{recursive:true});
     await fs.promises.writeFile(dest,bytes);
