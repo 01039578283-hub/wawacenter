@@ -1,53 +1,73 @@
 {
   "status": "LOCAL_VERIFIED_READY_TO_DEPLOY",
   "reviewedAt": "2026-10-01",
-  "baseCommit": "a17607ab62226e5ffcbafd96396710b942a0ab6d",
+  "baseCommit": "b1376f813badd60aac5bd0b1fe64a0fdff7734d6",
   "scope": {
     "archives": 9,
     "drafts": 3339,
     "areas": 371,
-    "gradeDetails": 1113,
-    "neighborhoodHubs": 371,
-    "newPages": 1484,
-    "stages": ["초등학생", "중학생", "고등학생"]
+    "gradeDetails": 564,
+    "neighborhoodHubs": 0,
+    "newPages": 564,
+    "stages": [
+      "초등학생",
+      "중학생",
+      "고등학생"
+    ],
+    "branches": 188,
+    "formerGradeUrlsRedirected": 1113,
+    "formerNeighborhoodHubsRemoved": 371
   },
   "editorialPolicy": {
-    "draftsPerDetail": 3,
-    "approach": "Consolidate student concerns from all three supplied draft openings into short rewritten learning questions; use reviewed center data for every branch fact.",
-    "excludedClaims": ["constructed parent reviews", "student anecdotes and outcomes", "unverified facilities", "unverified grade availability", "school affiliation"],
+    "approach": "Consolidate all source-supported area concerns and school references into one page per actual branch and stage; deduplicate repeated concern cards and retain all 3339 source records.",
+    "excludedClaims": [
+      "constructed parent reviews",
+      "student anecdotes and outcomes",
+      "unverified facilities",
+      "unverified grade availability",
+      "school affiliation"
+    ],
     "sharedPrinciples": "General learning principles may recur; distinguish them from branch services and link to shared learning guides.",
     "confirmedAndPendingGradesSeparated": true,
     "commonTuitionExplicitlyQualified": true,
-    "unknownGradeDetails": 15,
-    "addressConflictsRemainVisible": true
+    "unknownGradeDetails": 6,
+    "addressConflictsRemainVisible": true,
+    "draftsPerAreaStage": 3
   },
   "validation": {
-    "testsPassed": 40,
-    "newMobilePagesPassed": 1484,
+    "testsPassed": 42,
+    "newMobilePagesPassed": 564,
     "mobileWidth": 390,
     "additionalResponsiveCasesPassed": 45,
-    "additionalWidths": [320, 768, 1440],
-    "internalLinksChecked": 253073,
-    "alignedFaqAnswers": 5571,
-    "uniqueNewTitles": 1484,
-    "uniqueNewDescriptions": 1484,
+    "additionalWidths": [
+      320,
+      768,
+      1440
+    ],
+    "internalLinksChecked": 218857,
+    "alignedFaqAnswers": 2262,
+    "uniqueNewTitles": 564,
+    "uniqueNewDescriptions": 564,
     "maximumDescriptionCharacters": 80,
     "exactDetailBodyDuplicates": 0,
     "nameOnlyDetailBodyDuplicates": 0,
     "protectedOldHtmlPages": 4680,
     "protectedImageFiles": 843,
-    "builtPublicFilesMatched": 7024,
-    "builtHtmlPagesMatched": 6167,
-    "descriptionBuildPages": 6167,
+    "builtPublicFilesMatched": 6104,
+    "builtHtmlPagesMatched": 5247,
+    "descriptionBuildPages": 5247,
     "descriptionBuildChanges": 0
   },
   "canonicalPolicy": {
     "newDetailsAreRepresentatives": true,
     "legacyReadableAliases": 1113,
     "legacyAliasesExcludedFromSitemap": true,
-    "canonicalSitemapPages": 5054,
+    "canonicalSitemapPages": 4134,
     "internalGradeLinksPointToNewDetails": true,
-    "legacySummariesRemainSupportedByOwnBodies": true
+    "legacySummariesRemainSupportedByOwnBodies": true,
+    "newPathStructure": "/지점안내/{region}/{actualBranch}/{gradeCategory}/",
+    "formerGradeRedirectStatus": 301,
+    "formerNeighborhoodHubStatus": 404
   },
   "preservation": {
     "originalDirtyAuthoringCheckoutUntouched": true,
@@ -59,10 +79,18 @@
   "reproduction": {
     "preparedData": "grade-directory-data.json",
     "generator": "tools/build_grade_directory.py",
-    "requiredAuditInputs": ["before-manifest.json", "before-source.zip", "generated-pages.json"],
-    "manuscriptPreparationInputs": ["manuscript-records.json", "input-inspection.json"],
+    "requiredAuditInputs": [
+      "before-manifest.json",
+      "before-source.zip",
+      "generated-pages.json"
+    ],
+    "manuscriptPreparationInputs": [
+      "manuscript-records.json",
+      "input-inspection.json"
+    ],
     "buildCommand": "node release-public-build.mjs && node wawa-analytics-build.mjs wawa-07 .public-release && node seo-descriptions.mjs --root=.public-release",
-    "branchGeneratorOrder": "After regenerating the existing branch directory, regenerate grade pages and their hub entry blocks before approving the public manifest. The build guard rejects a missing branch-to-grade entry."
+    "branchGeneratorOrder": "After regenerating the existing branch directory, regenerate grade pages and their hub entry blocks before approving the public manifest. The build guard rejects a missing branch-to-grade entry.",
+    "obsoletePageInventory": "generated-pages.json removedPages: exclude from manifest and archive source/build documents outside checkout before running tests."
   },
   "limits": "Technical publication does not establish search indexing, rank or traffic. Naver Search Advisor account work is excluded."
 }

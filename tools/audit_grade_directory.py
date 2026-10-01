@@ -24,7 +24,14 @@ def main():
     branches={b['route']:b for b in json.loads((ROOT/'branch-directory-data.json').read_text(encoding='utf-8'))['branches']}
     areas={a['slug']:a for a in json.loads((ROOT/'area-reference.json').read_text(encoding='utf-8'))['areas']}
     new=set(generated['newPages']);files=set(manifest['files']);pages={p['route'].lstrip('/')+'index.html':p for p in data['pages']};legacy=generated['legacyCanonical'];reverse={v:k for k,v in legacy.items()}
-    assert len(new)==1484 and len(pages)==1113 and len(legacy)==1113
+    assert len(new)==564 and len(pages)==564 and len(legacy)==1113
+    removed=set(generated['removedPages']);destinations={**legacy,**generated['movedRoutes'],**{p['previousHub']:p['branch'] for p in data['areaPages']}}
+    assert len(removed)==1484 and not removed & files
+    assert all(not (ROOT/n).exists() and not (ROOT/'.public-release'/n).exists() for n in removed)
+    assert sum(len(p['sources']) for p in data['pages'])==3339
+    redirects=json.loads((ROOT/'vercel.json').read_text('utf-8'))['redirects']
+    assert {unquote(r['source'])+'/':unquote(r['destination']) for r in redirects}==generated['movedRoutes']
+    assert all(r['statusCode']==301 for r in redirects)
     failures=[];titles=[];descs=[];linkcount=0;faqcount=0;hashes=collections.defaultdict(list);normalized_hashes=collections.defaultdict(list)
     id_cache={}
     def ids(name):
@@ -47,7 +54,7 @@ def main():
         if len(doc.xpath('//@id'))!=len(set(doc.xpath('//@id'))):failures.append([name,'duplicate id'])
         if name in pages:
             p=pages[name];b=branches[p['branch']]
-            assert len(p['sources'])==3 and len({x['archive'] for x in p['sources']})==3
+            assert len(p['sources'])==3*len(p['areas']) and len({x['archive'] for x in p['sources']})==3
             for c in p['courses']:
                 block=doc.xpath('//*[@data-stage-course=$s]',s=c['subject'])
                 true=next(x for x in b['courses'] if x['subject']==c['subject'])
@@ -57,7 +64,11 @@ def main():
                 for note in c['notes']:
                     if note not in plain(block[0]):failures.append([name,'condition'])
             school=doc.xpath('//*[@data-stage-schools]')[0]
-            expected=' · '.join(areas[p['area']]['schools'][p['prefix']]) or '제공 자료에 이 학년의 학교명이 없습니다.'
+            expected=' · '.join(p['schools']) or '제공 자료에 이 학년의 학교명이 없습니다.'
+            for a in p['areas']:
+                assert a['schools']==areas[a['area']]['schools'][p['prefix']]
+                block=doc.xpath('//*[@data-grade-area=$a]/dd',a=a['area'])
+                if len(block)!=1 or plain(block[0])!=(' · '.join(a['schools']) or '제공 자료에 이 학년의 학교명이 없습니다.'):failures.append([name,'area reference'])
             if plain(school)!=expected:failures.append([name,'school stage'])
             image=doc.xpath('//img[contains(@src,"6839.webp")]')
             if len(image)!=1 or image[0].get('height')!='16116' or image[0].get('loading')!='eager':failures.append([name,'image'])
@@ -82,6 +93,7 @@ def main():
     if set(legacy)&set(routes):failures.append(['legacy alias in sitemap'])
     wanted_new={'/'+n.removesuffix('index.html') for n in new}
     if not wanted_new<=set(routes):failures.append(['new URL missing from sitemap'])
+    if set(destinations)-set(legacy) & set(routes):failures.append(['obsolete URL in sitemap'])
     for old,new_route in legacy.items():
         doc=html.fromstring((ROOT/(old.lstrip('/')+'index.html')).read_bytes())
         if unquote(urlsplit(doc.xpath('//link[@rel="canonical"]/@href')[0]).path)!=new_route:failures.append([old,'legacy canonical'])
@@ -102,8 +114,12 @@ def main():
     protected=0;old_html=0;exempt={'과목별학원/'+label+'/index.html' for label in ['초등학생학원','중학생학원','고등학생학원']}
     with zipfile.ZipFile(args.audit/'before-source.zip') as archive:
         for name,digest in before['files'].items():
+            if name in removed:continue
             if name.endswith('.html') and name not in exempt:
                 original=normalized(archive.read(name));current=normalized((ROOT/name).read_bytes())
+                original=re.sub(r'<!-- grade-entry:start -->.*?<!-- grade-entry:end -->','',original,flags=re.S)
+                original=re.sub(r'<p class="gd-legacy-note".*?</p>','',original,flags=re.S)
+                original=original.replace('<link rel="stylesheet" href="/assets/grade-directory.css">','')
                 current=re.sub(r'<!-- grade-entry:start -->.*?<!-- grade-entry:end -->','',current,flags=re.S)
                 current=re.sub(r'<p class="gd-legacy-note".*?</p>','',current,flags=re.S)
                 current=current.replace('<link rel="stylesheet" href="/assets/grade-directory.css">','')
@@ -114,8 +130,8 @@ def main():
                 def approved_link(m):
                     ref=urlsplit(m[2]);route=unquote(ref.path)
                     if ref.netloc and ref.netloc!=urlsplit(DOMAIN).netloc:return m[0]
-                    if route not in legacy:return m[0]
-                    target=quote(legacy[route],safe='/')
+                    if route not in destinations:return m[0]
+                    target=quote(destinations[route],safe='/')
                     valid={'courses','fees','lesson-image','learning','schools','faq','next-stage'}
                     return m[1]+target+(('#'+ref.fragment) if ref.fragment in valid else '')+m[3]
                 # Compare the original after only the approved destination migration;
@@ -128,7 +144,7 @@ def main():
                 else:protected+=1
     for name,expected in data['sourceHashes'].items():
         if hashlib.sha256((args.source/name).read_bytes()).hexdigest()!=expected:failures.append([name,'source changed'])
-    report={'status':'FAIL' if failures else 'PASS','newPages':len(new),'gradePages':len(pages),'neighborhoodHubs':371,'totalHtml':sum(n.endswith('.html') for n in files),'canonicalSitemapPages':len(routes),'legacyRepresentatives':len(legacy),'uniqueTitles':len(set(titles)),'uniqueDescriptions':len(set(descs)),'faqAnswers':faqcount,'internalLinksChecked':linkcount,'preservedOldHtml':old_html,'preservedImageFiles':protected,'sourceDrafts':3339,'topicCombinations':len(set(tuple(p['topics']) for p in data['pages'])),'detailExactDuplicates':sum(len(x)>1 for x in hashes.values()),'detailNameOnlyDuplicates':len(duplicates),'errors':failures}
+    report={'status':'FAIL' if failures else 'PASS','newPages':len(new),'gradePages':len(pages),'neighborhoodHubs':0,'removedPages':len(removed),'redirects':len(redirects),'totalHtml':sum(n.endswith('.html') for n in files),'canonicalSitemapPages':len(routes),'legacyRepresentatives':len(legacy),'uniqueTitles':len(set(titles)),'uniqueDescriptions':len(set(descs)),'faqAnswers':faqcount,'internalLinksChecked':linkcount,'preservedOldHtml':old_html,'preservedImageFiles':protected,'sourceDrafts':3339,'topicCombinations':len(set(tuple(p['topics']) for p in data['pages'])),'detailExactDuplicates':sum(len(x)>1 for x in hashes.values()),'detailNameOnlyDuplicates':len(duplicates),'errors':failures}
     (args.audit/'source-audit.json').write_text(json.dumps(report,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
     print(json.dumps({k:v if k!='errors' else v[:15] for k,v in report.items()},ensure_ascii=False));assert not failures
 if __name__=='__main__':main()

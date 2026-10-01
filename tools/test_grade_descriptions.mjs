@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import {transform} from '../seo-descriptions.mjs';
 const old='/과목별학원/초등학생학원/명일동/';
-const latest='/지점안내/서울/명일동/명일동초등학생학원/';
+const latest='/지점안내/서울/명일점/초등학생학원/';
 const read=route=>fs.readFileSync(new URL('../'+route.slice(1)+'index.html',import.meta.url),'utf8');
 test('legacy summary remains supported by its own body',()=>{
   const html=read(old);assert.equal(transform(html,old).html,html);

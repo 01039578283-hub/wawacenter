@@ -1,4 +1,4 @@
-"""Consolidate three supplied drafts for each of 371 areas and three stages."""
+"""Consolidate all supplied area drafts into one page per actual branch/stage."""
 import argparse,collections,hashlib,json,re,sys
 from pathlib import Path
 from grade_editorial import TOPICS
@@ -53,13 +53,25 @@ def main():
             # A short collection of concrete questions uses all three drafts without
             # reproducing long template paragraphs or claiming real student cases.
             selected=selected[:4]
-            route=f'/지점안내/{b["region"]}/{a["slug"]}/{a["slug"]}{label}/'
+            route=b['route']+label+'/'
             current=[{'subject':c['subject'],'grades':[g for g in c['grades'] if g.startswith(prefix)],'pending':[g for g in c['pending'] if g.startswith(prefix)],'notes':[n for n in c['notes'] if applies(n,prefix)]} for c in b['courses']]
-            pages.append({'area':a['slug'],'name':a['area'],'prefix':prefix,'category':label,'route':route,'hub':f'/지점안내/{b["region"]}/{a["slug"]}/','branch':b['route'],'region':b['region'],'courses':current,'courseNotes':[n for n in b['courseNotes'] if applies(n,prefix)],'schools':a['schools'].get(prefix,[]),'topics':selected,'sources':[{'archive':r['archive'],'file':r['file'],'sha256':r['sha256']} for r in source]})
+            pages.append({'area':a['slug'],'name':a['area'],'prefix':prefix,'category':label,'route':route,'hub':b['route'],'previousRoute':f'/지점안내/{b["region"]}/{a["slug"]}/{a["slug"]}{label}/','previousHub':f'/지점안내/{b["region"]}/{a["slug"]}/','branch':b['route'],'region':b['region'],'courses':current,'courseNotes':[n for n in b['courseNotes'] if applies(n,prefix)],'schools':a['schools'].get(prefix,[]),'topics':selected,'sources':[{'archive':r['archive'],'file':r['file'],'sha256':r['sha256']} for r in source]})
             evidence.append({'route':route,'paragraphsAfterExactDedup':len(segments),'selectedTopics':selected,'openingEvidence':openings,'sources':pages[-1]['sources']})
-    assert len(pages)==1113 and len({p['route'] for p in pages})==1113
-    public={'reviewedAt':'2026-10-01','baseCommit':'a17607ab62226e5ffcbafd96396710b942a0ab6d','sourceHashes':facts['sourceHashes'],'archiveHashes':{x['archive']:x['sha256'] for x in json.loads((args.audit/'input-inspection.json').read_text(encoding='utf-8'))['archives']},'pages':pages}
+    area_pages=pages;pages=[]
+    assert len(area_pages)==1113
+    for b in facts['branches']:
+        for prefix,label in LABELS.items():
+            group=[p for p in area_pages if p['branch']==b['route'] and p['prefix']==prefix]
+            assert len(group)==len(b['areas'])
+            first=group[0]
+            pages.append({**first,'area':b['representative'],'name':b['name'],
+                'areas':[{'area':p['area'],'name':p['name'],'schools':p['schools'],'topics':p['topics']} for p in group],
+                'schools':list(dict.fromkeys(s for p in group for s in p['schools'])),
+                'topics':list(dict.fromkeys(t for p in group for t in p['topics'])),
+                'sources':[s for p in group for s in p['sources']]})
+    assert len(pages)==564 and len({p['route'] for p in pages})==564
+    public={'reviewedAt':'2026-10-01','baseCommit':'b1376f813badd60aac5bd0b1fe64a0fdff7734d6','sourceHashes':facts['sourceHashes'],'archiveHashes':{x['archive']:x['sha256'] for x in json.loads((args.audit/'input-inspection.json').read_text(encoding='utf-8'))['archives']},'areaPages':area_pages,'pages':pages}
     (ROOT/'grade-directory-data.json').write_text(json.dumps(public,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
     (args.audit/'editorial-evidence.json').write_text(json.dumps(evidence,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
-    print(json.dumps({'manuscripts':len(records),'mergedPages':len(pages),'areas':len(areas),'draftsPerPage':3,'exactRepeatedParagraphsRemoved':repeated,'topicCoverage':len(set(t for p in pages for t in p['topics']))},ensure_ascii=False))
+    print(json.dumps({'manuscripts':len(records),'mergedPages':len(pages),'branches':len(facts['branches']),'areas':len(areas),'exactRepeatedParagraphsRemoved':repeated,'topicCoverage':len(set(t for p in pages for t in p['topics']))},ensure_ascii=False))
 if __name__=='__main__':main()
