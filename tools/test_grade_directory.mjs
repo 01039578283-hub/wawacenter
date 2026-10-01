@@ -31,6 +31,7 @@ test('every moved grade URL redirects once to an existing actual branch child',(
  }
  for(const p of data.areaPages){
   const redirect=mappings.get(p.previousRoute);
+  assert.equal(redirect.source,p.previousRoute.slice(0,-1),'Vercel matches decoded request paths');
   assert.equal(redirect.statusCode,301);
   assert.equal(decodeURI(redirect.destination),p.route);
   assert.ok(!mappings.has(p.route));
