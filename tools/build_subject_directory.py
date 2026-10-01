@@ -6,8 +6,8 @@ from urllib.parse import unquote,urlsplit,quote
 from concurrent.futures import ThreadPoolExecutor
 from lxml import etree
 import build_branch_upgrade as ui
-from grade_editorial import TOPICS as GRADE_TOPICS,STAGE_GUIDES
-from subject_editorial import BY_ID,UNITS
+from grade_editorial import STAGE_GUIDES
+from subject_editorial import BY_ID,UNITS,SUMMARY_TOPICS
 ROOT=ui.ROOT
 DATA=json.loads((ROOT/'subject-directory-data.json').read_text(encoding='utf-8'))
 PAGES=DATA['pages'];BRANCHES={b['route']:b for b in ui.BRANCHES}
@@ -24,11 +24,22 @@ def child_card(p):
  b=BRANCHES[p['branch']];focus=BY_ID[p['topics'][0]][3]
  return '<article class="bd-card sd-choice"><p class="bd-kicker">'+e(NAMES[p['stage']])+'</p><h3>'+link(p['route'],b['name']+' '+NAMES[p['stage']]+' '+p['subject']+'학원 안내')+'</h3><p>'+e(overview(p))+'</p><p>'+e(focus)+'</p>'+link(p['route'],'학습 점검·교육비·상담 질문 보기 →')+'</article>'
 
+def child_description(p):
+ b=BRANCHES[p['branch']];topic=SUMMARY_TOPICS[p['topics'][0]]
+ desc=f'{b["region"]} {p["areas"][0]["name"]} {b["name"]} {NAMES[p["stage"]]} {p["subject"]}학원의 안내 학년·교육비와 {topic} 점검 방법을 확인합니다.'
+ if len(desc)>80:desc=f'{p["areas"][0]["name"]} {b["name"]} {NAMES[p["stage"]]} {p["subject"]}학원의 안내 학년·교육비와 {topic} 점검 방법을 확인합니다.'
+ assert len(desc)<=80,desc
+ return desc
+
+def grade_description(p):
+ b=BRANCHES[p['branch']];topic=SUMMARY_TOPICS[p['topics'][0]]
+ desc=f'{b["region"]} {b["name"]} {NAMES[p["prefix"]]} 학원의 영어·수학별 학년과 교육비·학교 자료, {topic} 상담 기준을 확인합니다.'
+ assert len(desc)<=80,desc
+ return desc
+
 def child(p):
  b=BRANCHES[p['branch']];stage=NAMES[p['stage']];subject=p['subject'];c=p['course'];focus=BY_ID[p['topics'][0]]
- desc=f'{b["region"]} {p["areas"][0]["name"]} {b["name"]} {stage} {subject}학원의 {focus[3]} 기준과 안내 학년·교육비를 확인합니다.'
- if len(desc)>80:desc=f'{p["areas"][0]["name"]} {b["name"]} {stage} {subject}학원의 {focus[3]} 기준과 학년·교육비를 확인합니다.'
- assert len(desc)<=80,desc
+ desc=child_description(p)
  title=f'{b["region"]} '+('·'.join(a['name'] for a in p['areas'][:2]))+f' {stage} {subject}학원 | {b["name"]} 학습 점검·교육비'
  areas=' · '.join(a['name'] for a in p['areas'])
  hero=f'<section class="bd-hero"><p class="bd-kicker">{e(b["region"])} · {e(b["district"])} / {stage} {subject}</p><h1>{e(b["name"])} {stage}<br>{subject}학원 선택과 학습 안내</h1><p>{e(areas)}에서 {stage} {subject} 수업을 찾는 가정을 위해, <strong>{e(focus[3])}</strong>부터 살펴볼 질문을 정리했습니다. 학생의 현재 자료와 아래 지점 정보를 함께 비교해 보세요.</p><p class="gd-answer"><strong>{e(b["displayName"])}</strong><br>{e(b["address"])}</p>'+ui.actions([(ui.FORM,stage+' '+subject+' 상담 신청',True,True),(p['parent'],stage+' 과목 전체 안내')])+'</section>'
@@ -96,7 +107,7 @@ def description(text,route,desc):
 
 def enrich_parents():
  paths=['/지점안내/']+['/지점안내/'+r+'/' for r in ui.REGIONS]+list(BRANCHES)+[p['route'] for p in GRADES]
- changed=[];bygrade={p['route']:p for p in GRADES};grade_topics={t[0]:t[1] for t in GRADE_TOPICS}
+ changed=[];bygrade={p['route']:p for p in GRADES}
  for route in paths:
   file=ROOT/(route.lstrip('/')+'index.html');text=file.read_text(encoding='utf-8');old=text
   grade=bygrade.get(route);branch=BRANCHES.get(route)
@@ -106,8 +117,7 @@ def enrich_parents():
    # Separate the original concern cards without altering their factual order.
    text=text.replace('bd-grid gd-topic-grid','sd-grade-topics')
    text=re.sub(r'<article class="bd-card" data-editorial-topic="([^"]+)">(.*?)</article>',lambda m:'<section class="bd-card sd-grade-topic" data-editorial-topic="'+m[1]+'" id="parent-learning-'+m[1]+'">'+m[2]+'</section>',text,flags=re.S)
-   desc=f'{b["region"]} {b["name"]} {stage} 학원의 {grade_topics[grade["topics"][0]]} 기준과 영어·수학별 학년, 교육비·학교 자료를 확인합니다.'
-   if len(desc)>80:desc=f'{b["region"]} {b["name"]} {stage} 학원의 과목별 학년과 학습 점검, 교육비·학교 자료를 확인합니다.'
+   desc=grade_description(grade)
    marker='<section class="bd-section " id="courses"'
   elif branch:
    group=[p for p in PAGES if p['branch']==route];b=branch

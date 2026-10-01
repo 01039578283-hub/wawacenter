@@ -125,6 +125,36 @@ for key,title,pattern,copy,record,question in GENERAL:
  subject='영어' if key in ['word-recall','sound-reading','sentence-order','grammar-transfer','reading-evidence','reading-speed'] else '수학' if key.startswith('math-') else ''
  TOPICS.append((key,subject,'초중고',title,pattern,copy,'준비할 기록: '+record+'.',question))
 BY_ID={t[0]:t for t in TOPICS}
+SUMMARY_TOPICS={
+ 'en-listening':'듣기 단서', 'en-context':'문맥 속 어휘',
+ 'en-phonics':'글자와 소리', 'en-tense':'시제와 동사 형태',
+ 'en-gerund':'동명사의 역할', 'en-reference':'대명사의 지시 대상',
+ 'en-structure':'문장 구조', 'en-order':'문단 순서와 연결',
+ 'en-inference':'빈칸과 지문 근거', 'en-summary':'읽은 내용의 요약',
+ 'en-paraphrase':'같은 뜻의 문장 표현', 'en-speaking':'읽기와 말하기 연결',
+ 'math-place':'자리값과 연산', 'math-fraction':'분수와 소수의 크기',
+ 'math-geometry':'도형의 조건', 'math-variable':'미지수와 식',
+ 'math-negative':'부호와 전개', 'math-inequality':'범위와 부등호',
+ 'math-function':'식과 그래프', 'math-proof':'풀이의 근거',
+ 'math-algebra':'식의 변형', 'math-calculus':'미적분의 조건 해석',
+ 'math-probability':'경우의 분류', 'retry':'학습 재시도',
+ 'return':'일정 변화 후 복습', 'feedback':'피드백 후 실천',
+ 'load':'과제량과 공부 시간', 'materials':'학교 자료와 학습 범위',
+ 'reward':'보상 후 복습', 'word-recall':'어휘 회상',
+ 'sound-reading':'소리와 글자 연결', 'sentence-order':'문장 구성',
+ 'grammar-transfer':'문법의 문장 적용', 'reading-evidence':'독해의 근거',
+ 'reading-speed':'독해 이해와 시간 사용', 'math-start':'문제 조건과 첫 식',
+ 'math-transfer':'새 유형의 개념 적용', 'math-explain':'풀이 순서의 설명',
+ 'math-accuracy':'계산 실수', 'math-foundation':'단원별 기초 연결',
+ 'math-independent':'혼자 다시 풀기', 'error-revisit':'오답 재확인',
+ 'question-delay':'질문 준비', 'start-routine':'공부 시작 시간',
+ 'task-completion':'과제 완료 기준', 'book-focus':'교재별 학습 완료',
+ 'note-recall':'필기와 자기 설명', 'study-dialogue':'학습 관찰 기록',
+ 'exam-cram':'시험 준비 일정', 'school-load':'학교 일정과 공부 시간',
+ 'priority':'과목별 우선순위', 'grade-transition':'학년 전환 준비',
+ 'progress-review':'학습 목표와 다음 점검',
+}
+assert set(SUMMARY_TOPICS)==set(BY_ID)
 
 UNITS={
  ('초','영어'):[('소리·뜻·글자를 연결하기','짧은 단어를 듣고 뜻을 말한 뒤 글자를 보고 읽어 보세요. 잘되는 단계와 설명이 필요한 단계를 나누면 시작 교재를 상담하기 쉽습니다.'),('단어를 문장 안에서 쓰기','익숙한 단어로 짧은 문장을 말하고, 대상이나 상황을 바꿔 다시 표현해 보세요. 외운 문장과 스스로 만든 문장을 구분해 기록합니다.'),('짧은 글의 내용 확인하기','읽은 글에서 누가 무엇을 했는지 자기 말로 설명해 보세요. 단어는 읽지만 내용을 놓치는지, 뜻은 알지만 읽는 데 도움이 필요한지 살펴봅니다.')],
