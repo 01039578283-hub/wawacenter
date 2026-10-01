@@ -1,0 +1,14 @@
+/* Small, readable sections beneath the original full-length consultation image. */
+.sd-editorial{padding:26px 30px;background:#fff;border:1px solid #dce5f0;border-radius:22px;margin-top:22px}
+.sd-editorial h2{font-size:24px;color:#173f76}
+.sd-task{padding:18px 20px;background:#f3f7fc;border-radius:14px;margin:18px 0}
+.sd-task h3{font-size:16px;color:#244e85}.sd-task p{margin:8px 0 0}
+.sd-question{padding-top:16px;border-top:1px solid #e4ebf5}.sd-question strong{color:#174f9d}
+.sd-choice-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+.sd-choice h3 a{text-decoration:none}.sd-choice h3 a:hover{text-decoration:underline}
+.sd-unit-list,.sd-grade-topics{display:grid;grid-template-columns:1fr;gap:18px}
+.sd-grade-topic{margin:0;scroll-margin-top:84px}.sd-area{margin-top:18px}.sd-area li+li{margin-top:16px}
+.sd-checklist{padding:0;list-style:none;counter-reset:check;display:grid;gap:12px}
+.sd-checklist li{counter-increment:check;display:flex;align-items:flex-start;gap:12px;background:#fff;border:1px solid #dce5f0;border-radius:14px;padding:16px}
+.sd-checklist li:before{content:counter(check,decimal-leading-zero);display:inline-flex;align-items:center;justify-content:center;min-width:32px;min-height:32px;background:#e9f1fd;border-radius:50%;color:#225bc1;font-size:13px;font-weight:800}
+@media(max-width:640px){.sd-editorial{padding:22px 18px;border-radius:18px;margin-top:18px}.sd-editorial h2{font-size:22px}.sd-task{padding:15px}.sd-choice-grid{grid-template-columns:1fr}.sd-checklist li{padding:14px}.sd-page .bd-section{margin-top:28px}}

@@ -1,0 +1,28 @@
+{
+  "status": "LOCAL_VERIFIED_READY_TO_DEPLOY",
+  "date": "2026-10-01",
+  "baseCommit": "b653e69b50f54fd33fa357f644dd993564f3a3e3",
+  "branches": 188,
+  "neighborhoods": 371,
+  "sourceDrafts": 4452,
+  "newSubjectPages": 1128,
+  "updatedDirectoryParents": 769,
+  "publicHtmlPages": 6375,
+  "publicFiles": 7233,
+  "sitemapPages": 5262,
+  "internalReferences": 326598,
+  "protectedPublicFiles": 5333,
+  "educationalSectionCountRange": [
+    12,
+    22
+  ],
+  "descriptionsWithin80Chars": 1897,
+  "mobilePagesChecked": 1897,
+  "responsiveChecks": 66,
+  "testsPassed": 50,
+  "canonicalStructure": "/지점안내/지역/실제지점/학년학원/수학·영어/",
+  "originalLongImagesPreserved": true,
+  "subjectGradesAndTuitionVerified": true,
+  "existingRedirectRulesChanged": false,
+  "deployed": false
+}
