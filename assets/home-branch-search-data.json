@@ -1,0 +1,2256 @@
+{
+  "version": 1,
+  "branches": [
+    {
+      "route": "/지점안내/강원/강릉교동점/",
+      "name": "강릉교동점",
+      "region": "강원",
+      "district": "강릉시",
+      "address": "강원특별자치도 강릉시 정원로 44 202호 와와학습코칭학원",
+      "addressPending": false,
+      "areas": [
+        "강릉교동"
+      ]
+    },
+    {
+      "route": "/지점안내/강원/단구점/",
+      "name": "단구점",
+      "region": "강원",
+      "district": "원주시",
+      "address": "강원특별자치도 원주시 서원대로 406 리더스빌딩 402",
+      "addressPending": false,
+      "areas": [
+        "개운동",
+        "단구동",
+        "명륜동"
+      ]
+    },
+    {
+      "route": "/지점안내/강원/원주시청점/",
+      "name": "원주시청점",
+      "region": "강원",
+      "district": "원주시",
+      "address": "강원특별자치도 원주시 시청로 22 2층 201",
+      "addressPending": false,
+      "areas": [
+        "단계동",
+        "무실동"
+      ]
+    },
+    {
+      "route": "/지점안내/강원/혁신점/",
+      "name": "혁신점",
+      "region": "강원",
+      "district": "원주시",
+      "address": "강원특별자치도 원주시 입춘로 110 파라다이스프라자 305호",
+      "addressPending": false,
+      "areas": [
+        "반곡동",
+        "원주혁신도시"
+      ]
+    },
+    {
+      "route": "/지점안내/강원/석사점/",
+      "name": "석사점",
+      "region": "강원",
+      "district": "춘천시",
+      "address": "강원특별자치도 춘천시 지석로 85 703호",
+      "addressPending": false,
+      "areas": [
+        "석사동",
+        "퇴계동"
+      ]
+    },
+    {
+      "route": "/지점안내/강원/후평점/",
+      "name": "후평점",
+      "region": "강원",
+      "district": "춘천시",
+      "address": "강원특별자치도 춘천시 춘천로 316 춘천더샵아파트상가2동 304.305",
+      "addressPending": false,
+      "areas": [
+        "후평동"
+      ]
+    },
+    {
+      "route": "/지점안내/경기/덕이점/",
+      "name": "덕이점",
+      "region": "경기",
+      "district": "고양시",
+      "address": "경기 고양시 일산서구 하이파크2로 40 금문프라자 804호",
+      "addressPending": false,
+      "areas": [
+        "덕이동",
+        "덕이지구"
+      ]
+    },
+    {
+      "route": "/지점안내/경기/마두점/",
+      "name": "마두점",
+      "region": "경기",
+      "district": "고양시",
+      "address": "경기 고양시 일산동구 중앙로 1191 굿모닝법조타운 1 604호",
+      "addressPending": false,
+      "areas": [
+        "마두동",
+        "백석동",
+        "장항동"
+      ]
+    },
+    {
+      "route": "/지점안내/경기/삼송점/",
+      "name": "삼송점",
+      "region": "경기",
+      "district": "고양시",
+      "address": "경기 고양시 덕양구 신원로 36 명승세도나3 701호",
+      "addressPending": false,
+      "areas": [
+        "삼송",
+        "신원동"
+      ]
+    },
+    {
+      "route": "/지점안내/경기/원당점/",
+      "name": "원당점",
+      "region": "경기",
+      "district": "고양시",
+      "address": "경기 고양시 덕양구 고양대로1384번길 7-5 서강프라자 502호",
+      "addressPending": false,
+      "areas": [
+        "성사동",
+        "주교동"
+      ]
+    },
+    {
+      "route": "/지점안내/경기/원흥점/",
+      "name": "원흥점",
+      "region": "경기",
+      "district": "고양시",
+      "address": "경기 고양시 덕양구 권율대로 672 원흥역봄오피스텔 217호",
+      "addressPending": false,
+      "areas": [
+        "삼송동",
+        "원흥동"
+      ]
+    },
+    {
+      "route": "/지점안내/경기/주엽점/",
+      "name": "주엽점",
+      "region": "경기",
+      "district": "고양시",
+      "address": "경기도 고양시 일산서구 주엽동 주화로 88 502호",
+      "addressPending": false,
+      "areas": [
+        "대화동",
+        "주엽동"
+      ]
+    },
+    {
+      "route": "/지점안내/경기/중산점/",
+      "name": "중산점",
+      "region": "경기",
+      "district": "고양시",
+      "address": "경기 고양시 일산동구 중산로 103 거풍프라자 202호",
+      "addressPending": false,
+      "areas": [
+        "정발산동",
+        "중산동"
+      ]
+    },
+    {
+      "route": "/지점안내/경기/탄현점/",
+      "name": "탄현점",
+      "region": "경기",
+      "district": "고양시",
+      "address": "경기 고양시 일산서구 산현로17번길 23 은행프라자 4",
+      "addressPending": false,
+      "areas": [
+        "탄현동"
+      ]
+    },
+    {
+      "route": "/지점안내/경기/풍동점/",
+      "name": "풍동점",
+      "region": "경기",
+      "district": "고양시",
+      "address": "경기 고양시 일산동구 숲속마을로 44 미래타워 6",
+      "addressPending": false,
+      "areas": [
+        "식사동",
+        "풍동"
+      ]
+    },
+    {
+      "route": "/지점안내/경기/행신점/",
+      "name": "행신점",
+      "region": "경기",
+      "district": "고양시",
+      "address": "경기 고양시 덕양구 중앙로 442 아성프라자 305호 와와학습코칭학원",
+      "addressPending": false,
+      "areas": [
+        "행신동"
+      ]
+    },
+    {
+      "route": "/지점안내/경기/화정점/",
+      "name": "화정점",
+      "region": "경기",
+      "district": "고양시",
+      "address": "경기 고양시 덕양구 화신로 263 브릿지타워 213호, 214호 와와학습코칭학원",
+      "addressPending": false,
+      "areas": [
+        "토당동",
+        "화정동"
+      ]
+    },
+    {
+      "route": "/지점안내/경기/후곡점/",
+      "name": "후곡점",
+      "region": "경기",
+      "district": "고양시",
+      "address": "경기 고양시 일산서구 일산로 511 태성상가 2층 201,202",
+      "addressPending": false,
+      "areas": [
+        "일산동",
+        "후곡마을"
+      ]
+    },
+    {
+      "route": "/지점안내/경기/광명점/",
+      "name": "광명점",
+      "region": "경기",
+      "district": "광명시",
+      "address": "경기 광명시 광명로 823 광명현대타운 7층 701호",
+      "addressPending": false,
+      "areas": [
+        "광명동"
+      ]
+    },
+    {
+      "route": "/지점안내/경기/소하점/",
+      "name": "소하점",
+      "region": "경기",
+      "district": "광명시",
+      "address": "경기 광명시 오리로 346 행운드림프라자 4층 405호",
+      "addressPending": false,
+      "areas": [
+        "소하동",
+        "일직동"
+      ]
+    },
+    {
+      "route": "/지점안내/경기/철산점/",
+      "name": "철산점",
+      "region": "경기",
+      "district": "광명시",
+      "address": "경기도 광명시 철산동 도덕공원로 27 삼우빌딩 2층",
+      "addressPending": false,
+      "areas": [
+        "철산동",
+        "하안동"
+      ]
+    },
+    {
+      "route": "/지점안내/경기/탄벌점/",
+      "name": "탄벌점",
+      "region": "경기",
+      "district": "광주시",
+      "address": "경기 광주시 벌원길 61 2층",
+      "addressPending": false,
+      "areas": [
+        "경안동",
+        "탄벌동"
+      ]
+    },
+    {
+      "route": "/지점안내/경기/갈매점/",
+      "name": "갈매점",
+      "region": "경기",
+      "district": "구리시",
+      "address": "경기 구리시 갈매중앙로 79 에스엠타워 602호",
+      "addressPending": false,
+      "areas": [
+        "갈매동"
+      ]
+    },
+    {
+      "route": "/지점안내/경기/인창점/",
+      "name": "인창점",
+      "region": "경기",
+      "district": "구리시",
+      "address": "경기 구리시 건원대로 36 제 407호 와와학습코칭학원",
+      "addressPending": false,
+      "areas": [
+        "교문동",
+        "동구동",
+        "수택동",
+        "인창동"
+      ]
+    },
+    {
+      "route": "/지점안내/경기/산본점/",
+      "name": "산본점",
+      "region": "경기",
+      "district": "군포시",
+      "address": "경기 군포시 산본로 394 대림프라자 제 6층 제602호 와와학습코칭학원",
+      "addressPending": false,
+      "areas": [
+        "금정동",
+        "산본동"
+      ]
+    },
+    {
+      "route": "/지점안내/경기/사우점/",
+      "name": "사우점",
+      "region": "경기",
+      "district": "김포시",
+      "address": "경기 김포시 사우중로 77 삼정사이버프라자 304",
+      "addressPending": false,
+      "areas": [
+        "북변동",
+        "사우동"
+      ]
+    },
+    {
+      "route": "/지점안내/경기/운양점/",
+      "name": "운양점",
+      "region": "경기",
+      "district": "김포시",
+      "address": "경기 김포시 김포한강11로 288-37 헤리움리버테라스 205호",
+      "addressPending": false,
+      "areas": [
+        "운양동"
+      ]
+    },
+    {
+      "route": "/지점안내/경기/장기점/",
+      "name": "장기점",
+      "region": "경기",
+      "district": "김포시",
+      "address": "경기도 김포시 장기동 김포한강4로 162 한강메트로 503호, 504호",
+      "addressPending": false,
+      "areas": [
+        "마산동",
+        "장기동"
+      ]
+    },
+    {
+      "route": "/지점안내/경기/다산도농점/",
+      "name": "다산도농점",
+      "region": "경기",
+      "district": "남양주시",
+      "address": "경기 남양주시 도농로 29 604호 와와학습코칭센터",
+      "addressPending": false,
+      "areas": [
+        "도농동"
+      ]
+    },
+    {
+      "route": "/지점안내/경기/다산점/",
+      "name": "다산점",
+      "region": "경기",
+      "district": "남양주시",
+      "address": "경기 남양주시 다산중앙로146번길 12-14 다산메트로타워 604호",
+      "addressPending": false,
+      "areas": [
+        "다산동",
+        "다산신도시"
+      ]
+    },
+    {
+      "route": "/지점안내/경기/별내점/",
+      "name": "별내점",
+      "region": "경기",
+      "district": "남양주시",
+      "address": "경기 남양주시 순화궁로 349 삼광프라자 501호",
+      "addressPending": false,
+      "areas": [
+        "별내",
+        "별내동",
+        "별내신도시"
+      ]
+    },
+    {
+      "route": "/지점안내/경기/별내중앙점/",
+      "name": "별내중앙점",
+      "region": "경기",
+      "district": "남양주시",
+      "address": "경기도 남양주시 별내3로 66,401호",
+      "addressPending": false,
+      "areas": [
+        "별내중앙"
+      ]
+    },
+    {
+      "route": "/지점안내/경기/진접점/",
+      "name": "진접점",
+      "region": "경기",
+      "district": "남양주시",
+      "address": "경기 남양주시 진접읍 해밀예당1로 171 제일프라자 203호",
+      "addressPending": false,
+      "areas": [
+        "진접읍"
+      ]
+    },
+    {
+      "route": "/지점안내/경기/퇴계원점/",
+      "name": "퇴계원점",
+      "region": "경기",
+      "district": "남양주시",
+      "address": "경기 남양주시 퇴계원읍 퇴계원로 29 202호",
+      "addressPending": false,
+      "areas": [
+        "퇴계원읍"
+      ]
+    },
+    {
+      "route": "/지점안내/경기/평내점/",
+      "name": "평내점",
+      "region": "경기",
+      "district": "남양주시",
+      "address": "경기 남양주시 경춘로 1256번길 9 501호",
+      "addressPending": false,
+      "areas": [
+        "평내동"
+      ]
+    },
+    {
+      "route": "/지점안내/경기/호평점/",
+      "name": "호평점",
+      "region": "경기",
+      "district": "남양주시",
+      "address": "경기 남양주시 늘을3로 65-6 테마프라자 205호",
+      "addressPending": false,
+      "areas": [
+        "호평동"
+      ]
+    },
+    {
+      "route": "/지점안내/경기/반달점/",
+      "name": "반달점",
+      "region": "경기",
+      "district": "부천시",
+      "address": "경기 부천시 원미구 상일로 69 반달마을 제상가동 제 3층 제 304호 와와학습코칭학원",
+      "addressPending": false,
+      "areas": [
+        "반달마을"
+      ]
+    },
+    {
+      "route": "/지점안내/경기/범박점/",
+      "name": "범박점",
+      "region": "경기",
+      "district": "부천시",
+      "address": "경기 부천시 소사구 은성로 132 5층",
+      "addressPending": false,
+      "areas": [
+        "괴안동",
+        "범박동",
+        "소사본동"
+      ]
+    },
+    {
+      "route": "/지점안내/경기/상동점/",
+      "name": "상동점",
+      "region": "경기",
+      "district": "부천시",
+      "address": "경기 부천시 원미구 송내대로265번길 67 월드컵타운 305호 와와학습코칭센터",
+      "addressPending": false,
+      "areas": [
+        "상동"
+      ]
+    },
+    {
+      "route": "/지점안내/경기/신중동점/",
+      "name": "신중동점",
+      "region": "경기",
+      "district": "부천시",
+      "address": "경기 부천시 원미구 조마루로291번길 25 센터프라자 405호, 406호",
+      "addressPending": false,
+      "areas": [
+        "신중동",
+        "심곡동"
+      ]
+    },
+    {
+      "route": "/지점안내/경기/옥길점/",
+      "name": "옥길점",
+      "region": "경기",
+      "district": "부천시",
+      "address": "경기 부천시 소사구 옥길로 116 퀸즈파크 A동 7층 718호~719",
+      "addressPending": false,
+      "areas": [
+        "옥길동"
+      ]
+    },
+    {
+      "route": "/지점안내/경기/중동점/",
+      "name": "중동점",
+      "region": "경기",
+      "district": "부천시",
+      "address": "경기 부천시 원미구 길주로 191 금영프라자 제 4층 401호",
+      "addressPending": false,
+      "areas": [
+        "부천중동",
+        "약대동"
+      ]
+    },
+    {
+      "route": "/지점안내/경기/단대점/",
+      "name": "단대점",
+      "region": "경기",
+      "district": "성남시",
+      "address": "경기 성남시 수정구 산성대로 423 5층",
+      "addressPending": false,
+      "areas": [
+        "금광동",
+        "단대동"
+      ]
+    },
+    {
+      "route": "/지점안내/경기/미금점/",
+      "name": "미금점",
+      "region": "경기",
+      "district": "성남시",
+      "address": "경기도 성남시 분당구 금곡동 돌마로 87 골드프라자 402호",
+      "addressPending": false,
+      "areas": [
+        "구미동",
+        "미금",
+        "성남금곡동"
+      ]
+    },
+    {
+      "route": "/지점안내/경기/수진점/",
+      "name": "수진점",
+      "region": "경기",
+      "district": "성남시",
+      "address": "경기 성남시 중원구 원터로 95 2층",
+      "addressPending": false,
+      "areas": [
+        "상대원동",
+        "성남동",
+        "수진동",
+        "하대원동"
+      ]
+    },
+    {
+      "route": "/지점안내/경기/야탑점/",
+      "name": "야탑점",
+      "region": "경기",
+      "district": "성남시",
+      "address": "경기 성남시 중원구 양현로 461 4층",
+      "addressPending": false,
+      "areas": [
+        "야탑",
+        "야탑동",
+        "여수동"
+      ]
+    },
+    {
+      "route": "/지점안내/경기/위례점/",
+      "name": "위례점",
+      "region": "경기",
+      "district": "성남시",
+      "address": "경기 성남시 수정구 위례광장로 300 중앙타워 11층 1101-1호",
+      "addressPending": false,
+      "areas": [
+        "위례",
+        "위례신도시",
+        "창곡동"
+      ]
+    },
+    {
+      "route": "/지점안내/경기/이매점/",
+      "name": "이매점",
+      "region": "경기",
+      "district": "성남시",
+      "address": "경기도 성남시 분당구 이매동 이매로 49 4층 와와학습코칭센터",
+      "addressPending": false,
+      "areas": [
+        "이매동"
+      ]
+    },
+    {
+      "route": "/지점안내/경기/망포점/",
+      "name": "망포점",
+      "region": "경기",
+      "district": "수원시",
+      "address": "경기도 수원시 영통구 망포동 영통로 127 센터프라자 401호",
+      "addressPending": false,
+      "areas": [
+        "망포동"
+      ]
+    },
+    {
+      "route": "/지점안내/경기/서수원점/",
+      "name": "서수원점",
+      "region": "경기",
+      "district": "수원시",
+      "address": "경기 수원시 권선구 호매실로104번길 90 JD타워 205호",
+      "addressPending": false,
+      "areas": [
+        "수원금곡동",
+        "호매실"
+      ]
+    },
+    {
+      "route": "/지점안내/경기/영통구청점/",
+      "name": "영통구청점",
+      "region": "경기",
+      "district": "수원시",
+      "address": "경기 수원시 영통구 매탄로108번길 10 모닝프라자 602호",
+      "addressPending": false,
+      "areas": [
+        "권선동",
+        "매탄동"
+      ]
+    },
+    {
+      "route": "/지점안내/경기/영통점/",
+      "name": "영통점",
+      "region": "경기",
+      "district": "수원시",
+      "address": "경기도 수원시 영통구 영통동 봉영로 1623 드림피아빌딩 301호, 302호 1/2",
+      "addressPending": false,
+      "areas": [
+        "영통동"
+      ]
+    },
+    {
+      "route": "/지점안내/경기/천천점/",
+      "name": "천천점",
+      "region": "경기",
+      "district": "수원시",
+      "address": "경기 수원시 장안구 덕영대로535번길 34 천천그린프라자 제5층 제 502호 와와학습코칭학원",
+      "addressPending": false,
+      "areas": [
+        "정자동",
+        "천천동"
+      ]
+    },
+    {
+      "route": "/지점안내/경기/호매실점/",
+      "name": "호매실점",
+      "region": "경기",
+      "district": "수원시",
+      "address": "경기 수원시 권선구 금곡로 116 유동빌딩 602호",
+      "addressPending": false,
+      "areas": [
+        "금곡동",
+        "호매실동"
+      ]
+    },
+    {
+      "route": "/지점안내/경기/목감점/",
+      "name": "목감점",
+      "region": "경기",
+      "district": "시흥시",
+      "address": "경기 시흥시 수풀안길 14-23 4층 402호",
+      "addressPending": false,
+      "areas": [
+        "목감",
+        "조남동"
+      ]
+    },
+    {
+      "route": "/지점안내/경기/배곧점/",
+      "name": "배곧점",
+      "region": "경기",
+      "district": "시흥시",
+      "address": "경기 시흥시 배곧4로 22 배곧타운2 217호 와와학습코칭학원",
+      "addressPending": false,
+      "areas": [
+        "배곧",
+        "배곧동",
+        "정왕동"
+      ]
+    },
+    {
+      "route": "/지점안내/경기/시흥대야점/",
+      "name": "시흥대야점",
+      "region": "경기",
+      "district": "시흥시",
+      "address": "경기 시흥시 은행로167번길 7 크리스탈 빌딩 503호,504호",
+      "addressPending": false,
+      "areas": [
+        "대야동",
+        "은계지구",
+        "은행동"
+      ]
+    },
+    {
+      "route": "/지점안내/경기/장곡점/",
+      "name": "장곡점",
+      "region": "경기",
+      "district": "시흥시",
+      "address": "경기 시흥시 진말로 7 중앙프라자 3층 305호, 306호",
+      "addressPending": false,
+      "areas": [
+        "장곡동",
+        "장현동"
+      ]
+    },
+    {
+      "route": "/지점안내/경기/고잔점/",
+      "name": "고잔점",
+      "region": "경기",
+      "district": "안산시",
+      "address": "경기 안산시 단원구 광덕대로 130 폴리타운 B동 513호",
+      "addressPending": false,
+      "areas": [
+        "고잔동",
+        "초지동"
+      ]
+    },
+    {
+      "route": "/지점안내/경기/비산점/",
+      "name": "비산점",
+      "region": "경기",
+      "district": "안양시",
+      "address": "경기 안양시 동안구 관악대로 91 대림타워 1102호 와와학습코칭학원",
+      "addressPending": false,
+      "areas": [
+        "비산동",
+        "안양동"
+      ]
+    },
+    {
+      "route": "/지점안내/경기/옥정점/",
+      "name": "옥정점",
+      "region": "경기",
+      "district": "양주시",
+      "address": "경기 양주시 옥정로 218 신운정튼튼프라자 305호 와와학습코칭학원",
+      "addressPending": false,
+      "areas": [
+        "옥정동",
+        "옥정신도시"
+      ]
+    },
+    {
+      "route": "/지점안내/경기/세교점/",
+      "name": "세교점",
+      "region": "경기",
+      "district": "오산시",
+      "address": "경기 오산시 수청로 193 P&P세교프라자 402호",
+      "addressPending": false,
+      "areas": [
+        "금암동",
+        "세교"
+      ]
+    },
+    {
+      "route": "/지점안내/경기/오산대역점/",
+      "name": "오산대역점",
+      "region": "경기",
+      "district": "오산시",
+      "address": "경기 오산시 내삼미로 85 우정프라자 2",
+      "addressPending": false,
+      "areas": [
+        "내삼미동",
+        "수청동"
+      ]
+    },
+    {
+      "route": "/지점안내/경기/오산점/",
+      "name": "오산점",
+      "region": "경기",
+      "district": "오산시",
+      "address": "경기 오산시 성호대로 121 월드타워 505호",
+      "addressPending": false,
+      "areas": [
+        "부산동",
+        "오산동",
+        "원동"
+      ]
+    },
+    {
+      "route": "/지점안내/경기/기흥구청점/",
+      "name": "기흥구청점",
+      "region": "경기",
+      "district": "용인시",
+      "address": "경기 용인시 기흥구 구갈로60번길 15 경영빌딩 3층 와와학습코칭학원",
+      "addressPending": false,
+      "areas": [
+        "구갈동",
+        "신갈동"
+      ]
+    },
+    {
+      "route": "/지점안내/경기/동백점/",
+      "name": "동백점",
+      "region": "경기",
+      "district": "용인시",
+      "address": "경기도 용인시 기흥구 중동 동백3로11번길 3 2층 201호",
+      "addressPending": false,
+      "areas": [
+        "동백동"
+      ]
+    },
+    {
+      "route": "/지점안내/경기/명지대역점/",
+      "name": "명지대역점",
+      "region": "경기",
+      "district": "용인시",
+      "address": "경기 용인시 처인구 명지로40번길 4 링크 153 502호 와와학습코칭학원",
+      "addressPending": false,
+      "areas": [
+        "김량장동",
+        "역북동"
+      ]
+    },
+    {
+      "route": "/지점안내/경기/보라점/",
+      "name": "보라점",
+      "region": "경기",
+      "district": "용인시",
+      "address": "경기 용인시 기흥구 사은로126번길 6 신원프라자 303호",
+      "addressPending": false,
+      "areas": [
+        "보라동"
+      ]
+    },
+    {
+      "route": "/지점안내/경기/상현점/",
+      "name": "상현점",
+      "region": "경기",
+      "district": "용인시",
+      "address": "경기도 용인시 수지구 상현동 만현로 120 4층 410호 와와학습코칭학원",
+      "addressPending": false,
+      "areas": [
+        "상현동"
+      ]
+    },
+    {
+      "route": "/지점안내/경기/수지점/",
+      "name": "수지점",
+      "region": "경기",
+      "district": "용인시",
+      "address": "경기 용인시 수지구 문정로 13 중수프라자 503호",
+      "addressPending": false,
+      "areas": [
+        "풍덕천동"
+      ]
+    },
+    {
+      "route": "/지점안내/경기/신봉점/",
+      "name": "신봉점",
+      "region": "경기",
+      "district": "용인시",
+      "address": "경기 용인시 수지구 신봉2로 60 웰스톤시티엔웰스톤에비뉴 1동 103호 와와학습코칭학원",
+      "addressPending": false,
+      "areas": [
+        "성복동",
+        "신봉동"
+      ]
+    },
+    {
+      "route": "/지점안내/경기/용인백현점/",
+      "name": "용인백현점",
+      "region": "경기",
+      "district": "용인시",
+      "address": "경기 용인시 기흥구 동백7로 83 백현마을중앙프라자 제 2층 제 208호",
+      "addressPending": false,
+      "areas": [
+        "용인중동"
+      ]
+    },
+    {
+      "route": "/지점안내/경기/흥덕점/",
+      "name": "흥덕점",
+      "region": "경기",
+      "district": "용인시",
+      "address": "경기 용인시 기흥구 흥덕2로 85 우연프라자 201호",
+      "addressPending": false,
+      "areas": [
+        "영덕동",
+        "흥덕마을"
+      ]
+    },
+    {
+      "route": "/지점안내/경기/신곡점/",
+      "name": "신곡점",
+      "region": "경기",
+      "district": "의정부시",
+      "address": "경기도 의정부시 신곡동 장곡로 626 금오종합상가 A동 302,303호",
+      "addressPending": false,
+      "areas": [
+        "금오동",
+        "신곡동"
+      ]
+    },
+    {
+      "route": "/지점안내/경기/갈산점/",
+      "name": "갈산점",
+      "region": "경기",
+      "district": "이천시",
+      "address": "경기도 이천시 갈산동 영창로 314 629-2외 2필지 주공프라자 504호",
+      "addressPending": false,
+      "areas": [
+        "갈산동",
+        "안흥동"
+      ]
+    },
+    {
+      "route": "/지점안내/경기/부발점/",
+      "name": "부발점",
+      "region": "경기",
+      "district": "이천시",
+      "address": "경기 이천시 부발읍 경충대로2092번길 39-19 이천하이클래스 207,208",
+      "addressPending": false,
+      "areas": [
+        "부발읍"
+      ]
+    },
+    {
+      "route": "/지점안내/경기/교하점/",
+      "name": "교하점",
+      "region": "경기",
+      "district": "파주시",
+      "address": "경기 파주시 청석로 272 센타프라자1 제8층 제803",
+      "addressPending": false,
+      "areas": [
+        "교하"
+      ]
+    },
+    {
+      "route": "/지점안내/경기/금릉점/",
+      "name": "금릉점",
+      "region": "경기",
+      "district": "파주시",
+      "address": "경기 파주시 금빛로 24-27 제일메디컬 502",
+      "addressPending": false,
+      "areas": [
+        "금릉",
+        "금촌동"
+      ]
+    },
+    {
+      "route": "/지점안내/경기/산내점/",
+      "name": "산내점",
+      "region": "경기",
+      "district": "파주시",
+      "address": "경기 파주시 청암로17번길 21 월드타워5차 405호",
+      "addressPending": false,
+      "areas": [
+        "목동동",
+        "산내마을"
+      ]
+    },
+    {
+      "route": "/지점안내/경기/운정점/",
+      "name": "운정점",
+      "region": "경기",
+      "district": "파주시",
+      "address": "경기 파주시 동패동 1758-1 삼융프라자2 302호",
+      "addressPending": false,
+      "areas": [
+        "동패동",
+        "운정",
+        "운정신도시"
+      ]
+    },
+    {
+      "route": "/지점안내/경기/운정중앙점/",
+      "name": "운정중앙점",
+      "region": "경기",
+      "district": "파주시",
+      "address": "경기도 파주시 양지로 131, 운정SB타워 509호,510호 (동패동)",
+      "addressPending": false,
+      "areas": [
+        "운정중앙"
+      ]
+    },
+    {
+      "route": "/지점안내/경기/운정호수점/",
+      "name": "운정호수점",
+      "region": "경기",
+      "district": "파주시",
+      "address": "경기 파주시 경의로1240번길 37-1 명품프라자3차 605호",
+      "addressPending": false,
+      "areas": [
+        "야당동",
+        "운정호수"
+      ]
+    },
+    {
+      "route": "/지점안내/경기/비전점/",
+      "name": "비전점",
+      "region": "경기",
+      "district": "평택시",
+      "address": "경기도 평택시 비전동 평남로 937 폴리프라자 602호, 603호",
+      "addressPending": false,
+      "areas": [
+        "동삭동",
+        "비전동",
+        "소사벌",
+        "죽백동"
+      ]
+    },
+    {
+      "route": "/지점안내/경기/이충점/",
+      "name": "이충점",
+      "region": "경기",
+      "district": "평택시",
+      "address": "경기 평택시 이충로 49-31 삼원프라자 201호",
+      "addressPending": false,
+      "areas": [
+        "서정동",
+        "송탄",
+        "이충동"
+      ]
+    },
+    {
+      "route": "/지점안내/경기/미사점/",
+      "name": "미사점",
+      "region": "경기",
+      "district": "하남시",
+      "address": "경기 하남시 미사강변대로 212 미사센트럴프라자 309",
+      "addressPending": false,
+      "areas": [
+        "미사",
+        "미사신도시",
+        "풍산동"
+      ]
+    },
+    {
+      "route": "/지점안내/경기/센트럴점/",
+      "name": "센트럴점",
+      "region": "경기",
+      "district": "하남시",
+      "address": "경기 하남시 미사강변대로 84 미사탑프라자 601호",
+      "addressPending": false,
+      "areas": [
+        "망월동"
+      ]
+    },
+    {
+      "route": "/지점안내/경기/하남풍산점/",
+      "name": "하남풍산점",
+      "region": "경기",
+      "district": "하남시",
+      "address": "경기 하남시 덕풍동로 119 하남프라자 501호 와와학습코칭학원",
+      "addressPending": false,
+      "areas": [
+        "덕풍동"
+      ]
+    },
+    {
+      "route": "/지점안내/경기/동탄목동점/",
+      "name": "동탄목동점",
+      "region": "경기",
+      "district": "화성시",
+      "address": "경기 화성시 동탄신리천로 408 M메디칼 212호",
+      "addressPending": false,
+      "areas": [
+        "동탄목동"
+      ]
+    },
+    {
+      "route": "/지점안내/경기/동탄호수점/",
+      "name": "동탄호수점",
+      "region": "경기",
+      "district": "화성시",
+      "address": "경기 화성시 동탄순환대로 127-19 에스비타운 907호",
+      "addressPending": false,
+      "areas": [
+        "산척동",
+        "송동",
+        "장지동"
+      ]
+    },
+    {
+      "route": "/지점안내/경기/반송점/",
+      "name": "반송점",
+      "region": "경기",
+      "district": "화성시",
+      "address": "경기도 화성시 반송동 동탄원천로 163 503호",
+      "addressPending": false,
+      "areas": [
+        "반송동",
+        "석우동"
+      ]
+    },
+    {
+      "route": "/지점안내/경기/병점점/",
+      "name": "병점점",
+      "region": "경기",
+      "district": "화성시",
+      "address": "경기 화성시 병점1로 221 화인메디컬프라자 2층 203호",
+      "addressPending": false,
+      "areas": [
+        "병점",
+        "병점동",
+        "진안동"
+      ]
+    },
+    {
+      "route": "/지점안내/경기/봉담점/",
+      "name": "봉담점",
+      "region": "경기",
+      "district": "화성시",
+      "address": "경기 화성시 봉담읍 상리중심상가길 28-8 713호 와와학습코칭학원",
+      "addressPending": false,
+      "areas": [
+        "봉담2지구",
+        "봉담읍"
+      ]
+    },
+    {
+      "route": "/지점안내/경기/영천점/",
+      "name": "영천점",
+      "region": "경기",
+      "district": "화성시",
+      "address": "경기 화성시 동탄순환대로 704 성산에이타워 제4층 제 403호 와와학습코칭학원",
+      "addressPending": false,
+      "areas": [
+        "영천동",
+        "청계동"
+      ]
+    },
+    {
+      "route": "/지점안내/경기/향남점/",
+      "name": "향남점",
+      "region": "경기",
+      "district": "화성시",
+      "address": "경기 화성시 향남읍 발안로 103-6 J&H빌딩 402호",
+      "addressPending": false,
+      "areas": [
+        "향남읍"
+      ]
+    },
+    {
+      "route": "/지점안내/경기/화성태안점/",
+      "name": "화성태안점",
+      "region": "경기",
+      "district": "화성시",
+      "address": "경기 화성시 병점중앙로 87 408호 와와학습코칭학원",
+      "addressPending": false,
+      "areas": [
+        "화성태안"
+      ]
+    },
+    {
+      "route": "/지점안내/경남/거제수월점/",
+      "name": "거제수월점",
+      "region": "경남",
+      "district": "거제시",
+      "address": "경남 거제시 수양로 462 3층",
+      "addressPending": false,
+      "areas": [
+        "고현동",
+        "수월동",
+        "양정동"
+      ]
+    },
+    {
+      "route": "/지점안내/경남/상남점/",
+      "name": "상남점",
+      "region": "경남",
+      "district": "창원시",
+      "address": "경남 창원시 성산구 마디미동로 25 비전빌딩 302호",
+      "addressPending": false,
+      "areas": [
+        "사파동",
+        "상남동",
+        "신월동"
+      ]
+    },
+    {
+      "route": "/지점안내/경남/석동점/",
+      "name": "석동점",
+      "region": "경남",
+      "district": "창원시",
+      "address": "경남 창원시 진해구 석동로 51 세븐코아 504호",
+      "addressPending": false,
+      "areas": [
+        "경화동",
+        "석동",
+        "자은동"
+      ]
+    },
+    {
+      "route": "/지점안내/경북/사동점/",
+      "name": "사동점",
+      "region": "경북",
+      "district": "경산시",
+      "address": "경북 경산시 백자로10길 1 402호 와와학습코칭학원",
+      "addressPending": false,
+      "areas": [
+        "경산사동"
+      ]
+    },
+    {
+      "route": "/지점안내/경북/정평점/",
+      "name": "정평점",
+      "region": "경북",
+      "district": "경산시",
+      "address": "경북 경산시 대학로 23 월드스퀘어 302",
+      "addressPending": false,
+      "areas": [
+        "옥산동",
+        "정평동"
+      ]
+    },
+    {
+      "route": "/지점안내/경북/옥계점/",
+      "name": "옥계점",
+      "region": "경북",
+      "district": "구미시",
+      "address": "경북 구미시 산호대로31길 16 2",
+      "addressPending": false,
+      "areas": [
+        "옥계동"
+      ]
+    },
+    {
+      "route": "/지점안내/경북/두호점/",
+      "name": "두호점",
+      "region": "경북",
+      "district": "포항시",
+      "address": "경상북도 포항시 북구 용두산길 32 3층",
+      "addressPending": false,
+      "areas": [
+        "두호동",
+        "장성동"
+      ]
+    },
+    {
+      "route": "/지점안내/경북/양덕점/",
+      "name": "양덕점",
+      "region": "경북",
+      "district": "포항시",
+      "address": "경북 포항시 북구 천마로 66 환호빌딩 402호",
+      "addressPending": false,
+      "areas": [
+        "양덕동",
+        "장량동"
+      ]
+    },
+    {
+      "route": "/지점안내/광주/선운점/",
+      "name": "선운점",
+      "region": "광주",
+      "district": "광산구",
+      "address": "광주 광산구 선운로20번길 55-1 402호 와와학습코칭학원",
+      "addressPending": false,
+      "areas": [
+        "선암동"
+      ]
+    },
+    {
+      "route": "/지점안내/광주/수완점/",
+      "name": "수완점",
+      "region": "광주",
+      "district": "광산구",
+      "address": "광주 광산구 임방울대로 310 아이비타워 406",
+      "addressPending": false,
+      "areas": [
+        "수완동",
+        "수완지구",
+        "신가동"
+      ]
+    },
+    {
+      "route": "/지점안내/광주/신창점/",
+      "name": "신창점",
+      "region": "광주",
+      "district": "광산구",
+      "address": "광주 광산구 신창로 129 상민빌딩 302",
+      "addressPending": false,
+      "areas": [
+        "신창동",
+        "신창지구"
+      ]
+    },
+    {
+      "route": "/지점안내/광주/첨단점/",
+      "name": "첨단점",
+      "region": "광주",
+      "district": "광산구",
+      "address": "광주 광산구 월계로 191 404호",
+      "addressPending": false,
+      "areas": [
+        "산월동",
+        "쌍암동",
+        "월계동",
+        "첨단",
+        "첨단지구"
+      ]
+    },
+    {
+      "route": "/지점안내/광주/진월점/",
+      "name": "진월점",
+      "region": "광주",
+      "district": "남구",
+      "address": "광주 남구 광복마을길 47 4층",
+      "addressPending": false,
+      "areas": [
+        "주월동",
+        "진월동"
+      ]
+    },
+    {
+      "route": "/지점안내/광주/치평점/",
+      "name": "치평점",
+      "region": "광주",
+      "district": "서구",
+      "address": "광주 서구 치평로 76 대한빌딩 403호",
+      "addressPending": false,
+      "areas": [
+        "상무지구",
+        "치평동"
+      ]
+    },
+    {
+      "route": "/지점안내/대구/대구장기점/",
+      "name": "대구장기점",
+      "region": "대구",
+      "district": "달서구",
+      "address": "대구 달서구 장기로 252 장기협성휴포레 2층 209,210",
+      "addressPending": false,
+      "areas": [
+        "감삼동",
+        "대구장기동",
+        "본리동",
+        "죽전동"
+      ]
+    },
+    {
+      "route": "/지점안내/대구/신월성점/",
+      "name": "신월성점",
+      "region": "대구",
+      "district": "달서구",
+      "address": "대구 달서구 월성동 1848번지 그루타워 702호",
+      "addressPending": false,
+      "areas": [
+        "상인동",
+        "신월성",
+        "월성동"
+      ]
+    },
+    {
+      "route": "/지점안내/대구/이곡점/",
+      "name": "이곡점",
+      "region": "대구",
+      "district": "달서구",
+      "address": "대구광역시 달서구 이곡동 달구벌대로259길 33 제일빌딩 5층",
+      "addressPending": false,
+      "areas": [
+        "성서",
+        "신당동",
+        "용산동",
+        "이곡동"
+      ]
+    },
+    {
+      "route": "/지점안내/대구/진천점/",
+      "name": "진천점",
+      "region": "대구",
+      "district": "달서구",
+      "address": "대구광역시 달서구 조암남로 158,301호(유천동)",
+      "addressPending": false,
+      "areas": [
+        "대구유천동",
+        "진천동"
+      ]
+    },
+    {
+      "route": "/지점안내/대구/율하점/",
+      "name": "율하점",
+      "region": "대구",
+      "district": "동구",
+      "address": "대구 동구 율하동로 32 4층 와와학습코칭센터",
+      "addressPending": false,
+      "areas": [
+        "신기동",
+        "율하동"
+      ]
+    },
+    {
+      "route": "/지점안내/대구/이시아폴리스점/",
+      "name": "이시아폴리스점",
+      "region": "대구",
+      "district": "동구",
+      "address": "대구 동구 팔공로51길 33 A-503호 와와학습코칭학원",
+      "addressPending": false,
+      "areas": [
+        "봉무동",
+        "이시아폴리스"
+      ]
+    },
+    {
+      "route": "/지점안내/대구/대구도남점/",
+      "name": "대구도남점",
+      "region": "대구",
+      "district": "북구",
+      "address": "대구 북구 도남중앙로7길 20-3 위너프라자 402호 와와학습코칭학원",
+      "addressPending": false,
+      "areas": [
+        "국우동",
+        "도남동",
+        "도남지구"
+      ]
+    },
+    {
+      "route": "/지점안내/대구/복현점/",
+      "name": "복현점",
+      "region": "대구",
+      "district": "북구",
+      "address": "대구 북구 동북로 247 이편한세상복현 상가동 305호 와와학습코칭학원",
+      "addressPending": false,
+      "areas": [
+        "복현동",
+        "산격동"
+      ]
+    },
+    {
+      "route": "/지점안내/대구/칠곡점/",
+      "name": "칠곡점",
+      "region": "대구",
+      "district": "북구",
+      "address": "대구 북구 구암로 149 6층",
+      "addressPending": false,
+      "areas": [
+        "구암동",
+        "동천동",
+        "칠곡"
+      ]
+    },
+    {
+      "route": "/지점안내/대구/침산점/",
+      "name": "침산점",
+      "region": "대구",
+      "district": "북구",
+      "address": "대구 북구 침산남로 140 엠비프라자 901",
+      "addressPending": false,
+      "areas": [
+        "고성동",
+        "칠성동",
+        "침산동"
+      ]
+    },
+    {
+      "route": "/지점안내/대구/수성2가점/",
+      "name": "수성2가점",
+      "region": "대구",
+      "district": "수성구",
+      "address": "대구 수성구 명덕로 404 1동 404호 와와학습코칭학원",
+      "addressPending": false,
+      "areas": [
+        "수성동"
+      ]
+    },
+    {
+      "route": "/지점안내/대구/수성만촌점/",
+      "name": "수성만촌점",
+      "region": "대구",
+      "district": "수성구",
+      "address": "대구 수성구 화랑로8길 11-11 7층",
+      "addressPending": false,
+      "areas": [
+        "만촌동",
+        "범어동",
+        "신천동"
+      ]
+    },
+    {
+      "route": "/지점안내/대구/알파시티점/",
+      "name": "알파시티점",
+      "region": "대구",
+      "district": "수성구",
+      "address": "대구 수성구 알파시티2로 19 알파N시티 2층 201호 와와학습코칭학원",
+      "addressPending": false,
+      "areas": [
+        "노변동",
+        "시지동"
+      ]
+    },
+    {
+      "route": "/지점안내/대구/대구역점/",
+      "name": "대구역점",
+      "region": "대구",
+      "district": "중구",
+      "address": "대구 중구 서성로 99 대구역센트럴자이 상가 302호 와와학습코칭학원",
+      "addressPending": false,
+      "areas": [
+        "수창동"
+      ]
+    },
+    {
+      "route": "/지점안내/대구/반월당점/",
+      "name": "반월당점",
+      "region": "대구",
+      "district": "중구",
+      "address": "대구 중구 대봉로 253 3층 와와학습코칭학원",
+      "addressPending": false,
+      "areas": [
+        "대봉동",
+        "봉산동"
+      ]
+    },
+    {
+      "route": "/지점안내/대전/송촌점/",
+      "name": "송촌점",
+      "region": "대전",
+      "district": "대덕구",
+      "address": "대전 대덕구 동춘당로94번길 11-7 4층 402",
+      "addressPending": false,
+      "areas": [
+        "법동",
+        "비래동",
+        "송촌동"
+      ]
+    },
+    {
+      "route": "/지점안내/대전/관저점/",
+      "name": "관저점",
+      "region": "대전",
+      "district": "서구",
+      "address": "대전 서구 구봉로 133 1542번지 205호",
+      "addressPending": false,
+      "areas": [
+        "관저동",
+        "원내동"
+      ]
+    },
+    {
+      "route": "/지점안내/대전/도안점/",
+      "name": "도안점",
+      "region": "대전",
+      "district": "서구",
+      "address": "대전 서구 동서대로 692 에프엠프라임 1차 501",
+      "addressPending": false,
+      "areas": [
+        "도안동",
+        "도안신도시",
+        "원신흥동"
+      ]
+    },
+    {
+      "route": "/지점안내/대전/둔산점/",
+      "name": "둔산점",
+      "region": "대전",
+      "district": "서구",
+      "address": "대전광역시 서구 둔산동 둔산로 142 신화빌딩 401호",
+      "addressPending": false,
+      "areas": [
+        "둔산동",
+        "탄방동"
+      ]
+    },
+    {
+      "route": "/지점안내/대전/관평점/",
+      "name": "관평점",
+      "region": "대전",
+      "district": "유성구",
+      "address": "대전 유성구 관평2로 46 밸리타운 501",
+      "addressPending": false,
+      "areas": [
+        "관평동",
+        "송강동"
+      ]
+    },
+    {
+      "route": "/지점안내/대전/반석점/",
+      "name": "반석점",
+      "region": "대전",
+      "district": "유성구",
+      "address": "대전 유성구 지족로 282 코오롱타워2 303,304",
+      "addressPending": false,
+      "areas": [
+        "반석동"
+      ]
+    },
+    {
+      "route": "/지점안내/대전/지족점/",
+      "name": "지족점",
+      "region": "대전",
+      "district": "유성구",
+      "address": "대전 유성구 지족동 910-7번지 401",
+      "addressPending": false,
+      "areas": [
+        "노은동",
+        "지족동"
+      ]
+    },
+    {
+      "route": "/지점안내/대전/태평점/",
+      "name": "태평점",
+      "region": "대전",
+      "district": "중구",
+      "address": "대전 중구 태평로 15 버드내마을아파트 상가 308",
+      "addressPending": false,
+      "areas": [
+        "도마동",
+        "유천동",
+        "태평동"
+      ]
+    },
+    {
+      "route": "/지점안내/부산/동래점/",
+      "name": "동래점",
+      "region": "부산",
+      "district": "동래구",
+      "address": "부산광역시 동래구 온천동 충렬대로 129-1 한야빌딩 3",
+      "addressPending": false,
+      "areas": [
+        "온천동"
+      ]
+    },
+    {
+      "route": "/지점안내/부산/사직점/",
+      "name": "사직점",
+      "region": "부산",
+      "district": "동래구",
+      "address": "부산 동래구 사직로 80 222동 311호 (사직쌍용예가아파트 상가)",
+      "addressPending": false,
+      "areas": [
+        "거제동",
+        "사직동"
+      ]
+    },
+    {
+      "route": "/지점안내/부산/화명점/",
+      "name": "화명점",
+      "region": "부산",
+      "district": "북구",
+      "address": "부산 북구 금곡대로285번길 19 리버사이드빌딩 504",
+      "addressPending": false,
+      "areas": [
+        "화명동",
+        "화명신도시"
+      ]
+    },
+    {
+      "route": "/지점안내/부산/반여점/",
+      "name": "반여점",
+      "region": "부산",
+      "district": "해운대구",
+      "address": "부산 해운대구 반여로 102 경성빌딩 501호",
+      "addressPending": false,
+      "areas": [
+        "반여동",
+        "재송동"
+      ]
+    },
+    {
+      "route": "/지점안내/부산/좌동점/",
+      "name": "좌동점",
+      "region": "부산",
+      "district": "해운대구",
+      "address": "부산광역시 해운대구 좌동 좌동로 88 울트라타워 5층 508호",
+      "addressPending": false,
+      "areas": [
+        "좌동",
+        "해운대중동"
+      ]
+    },
+    {
+      "route": "/지점안내/서울/명일점/",
+      "name": "명일점",
+      "region": "서울",
+      "district": "강동구",
+      "address": "서울 강동구 양재대로 1606 3층",
+      "addressPending": false,
+      "areas": [
+        "명일동",
+        "천호동"
+      ]
+    },
+    {
+      "route": "/지점안내/서울/삼각산점/",
+      "name": "삼각산점",
+      "region": "서울",
+      "district": "강북구",
+      "address": "서울 강북구 미아동 811-9 두산위브테라스파크 상가 402/403호",
+      "addressPending": false,
+      "areas": [
+        "미아동",
+        "삼각산동"
+      ]
+    },
+    {
+      "route": "/지점안내/서울/내발산점/",
+      "name": "내발산점",
+      "region": "서울",
+      "district": "강서구",
+      "address": "서울 강서구 마곡중앙4로 74 이웰메디파크 제4층 401,402호",
+      "addressPending": false,
+      "areas": [
+        "내발산동",
+        "화곡동"
+      ]
+    },
+    {
+      "route": "/지점안내/서울/신방화점/",
+      "name": "신방화점",
+      "region": "서울",
+      "district": "강서구",
+      "address": "서울 강서구 방화대로 294 마곡더블유타워 505",
+      "addressPending": false,
+      "areas": [
+        "마곡동",
+        "방화동",
+        "신방화"
+      ]
+    },
+    {
+      "route": "/지점안내/서울/염창점/",
+      "name": "염창점",
+      "region": "서울",
+      "district": "강서구",
+      "address": "서울 강서구 양천로67길 15 한희빌딩 2층 202호 와와학습코칭학원",
+      "addressPending": false,
+      "areas": [
+        "등촌동",
+        "염창동"
+      ]
+    },
+    {
+      "route": "/지점안내/서울/광장점/",
+      "name": "광장점",
+      "region": "서울",
+      "district": "광진구",
+      "address": "서울 광진구 광나루로 584 동서울빌딩 5",
+      "addressPending": false,
+      "areas": [
+        "광장동",
+        "구의동"
+      ]
+    },
+    {
+      "route": "/지점안내/서울/신도림점/",
+      "name": "신도림점",
+      "region": "서울",
+      "district": "구로구",
+      "address": "서울특별시 구로구 신도림동 신도림로 20 397-2 해동빌딩 402호",
+      "addressPending": false,
+      "areas": [
+        "신도림동"
+      ]
+    },
+    {
+      "route": "/지점안내/서울/금천점/",
+      "name": "금천점",
+      "region": "서울",
+      "district": "금천구",
+      "address": "서울 금천구 금하로 763 벽산아파트 제중심상가동 3층 306-2,307,308",
+      "addressPending": false,
+      "areas": [
+        "시흥동"
+      ]
+    },
+    {
+      "route": "/지점안내/서울/하계점/",
+      "name": "하계점",
+      "region": "서울",
+      "district": "노원구",
+      "address": "서울 노원구 노원로 257 401호",
+      "addressPending": false,
+      "areas": [
+        "중계동",
+        "하계동"
+      ]
+    },
+    {
+      "route": "/지점안내/서울/제기점/",
+      "name": "제기점",
+      "region": "서울",
+      "district": "동대문구",
+      "address": "서울 동대문구 왕산로 61 302호 와와학습코칭학원",
+      "addressPending": false,
+      "areas": [
+        "용두동",
+        "제기동"
+      ]
+    },
+    {
+      "route": "/지점안내/서울/마포2호점/",
+      "name": "마포2호점",
+      "region": "서울",
+      "district": "마포구",
+      "address": "서울 마포구 토정로 252 승지빌딩 3층",
+      "addressPending": false,
+      "areas": [
+        "신수동",
+        "염리동"
+      ]
+    },
+    {
+      "route": "/지점안내/서울/마포점/",
+      "name": "마포점",
+      "region": "서울",
+      "district": "마포구",
+      "address": "서울특별시 마포구 염리동 독막로42길 7 173-3 2층",
+      "addressPending": false,
+      "areas": [
+        "공덕동",
+        "용강동"
+      ]
+    },
+    {
+      "route": "/지점안내/서울/상암점/",
+      "name": "상암점",
+      "region": "서울",
+      "district": "마포구",
+      "address": "서울특별시 마포구 상암동 상암산로1길 73 202호",
+      "addressPending": false,
+      "areas": [
+        "상암동"
+      ]
+    },
+    {
+      "route": "/지점안내/서울/가좌점/",
+      "name": "가좌점",
+      "region": "서울",
+      "district": "서대문구",
+      "address": "서울 서대문구 가재울로 52 승우빌딩 301호",
+      "addressPending": false,
+      "areas": [
+        "남가좌동",
+        "북가좌동"
+      ]
+    },
+    {
+      "route": "/지점안내/서울/돈암점/",
+      "name": "돈암점",
+      "region": "서울",
+      "district": "성북구",
+      "address": "서울특별시 성북구 돈암동 동소문로 190 중앙빌딩 201호",
+      "addressPending": false,
+      "areas": [
+        "돈암동"
+      ]
+    },
+    {
+      "route": "/지점안내/서울/동소문점/",
+      "name": "동소문점",
+      "region": "서울",
+      "district": "성북구",
+      "address": "서울 성북구 아리랑로7길 5 4층 와와학습코칭학원",
+      "addressPending": false,
+      "areas": [
+        "동소문동"
+      ]
+    },
+    {
+      "route": "/지점안내/서울/종암점/",
+      "name": "종암점",
+      "region": "서울",
+      "district": "성북구",
+      "address": "서울 성북구 종암로27길 13 도원프라자 501",
+      "addressPending": false,
+      "areas": [
+        "길음동",
+        "종암동"
+      ]
+    },
+    {
+      "route": "/지점안내/서울/목동점/",
+      "name": "목동점",
+      "region": "서울",
+      "district": "양천구",
+      "address": "서울 양천구 목동동로8길 23 메리트윈 3층 305",
+      "addressPending": false,
+      "areas": [
+        "목동",
+        "신정동"
+      ]
+    },
+    {
+      "route": "/지점안내/서울/당산점/",
+      "name": "당산점",
+      "region": "서울",
+      "district": "영등포구",
+      "address": "서울 영등포구 당산로44길 3 삼성타운 504",
+      "addressPending": false,
+      "areas": [
+        "당산동",
+        "양평동"
+      ]
+    },
+    {
+      "route": "/지점안내/서울/구산점/",
+      "name": "구산점",
+      "region": "서울",
+      "district": "은평구",
+      "address": "서울특별시 은평구 역촌동 연서로 130 4층",
+      "addressPending": false,
+      "areas": [
+        "구산동",
+        "역촌동"
+      ]
+    },
+    {
+      "route": "/지점안내/서울/은평점/",
+      "name": "은평점",
+      "region": "서울",
+      "district": "은평구",
+      "address": "서울특별시 은평구 진관동 진관2로 29-21 드림스퀘어 제 8층 804호 805호",
+      "addressPending": false,
+      "areas": [
+        "갈현동",
+        "구파발",
+        "진관동"
+      ]
+    },
+    {
+      "route": "/지점안내/세종/새롬점/",
+      "name": "새롬점",
+      "region": "세종",
+      "district": "세종시",
+      "address": "세종특별자치시 새롬중앙로 62-15 해피라움W 305호",
+      "addressPending": false,
+      "areas": [
+        "다정동",
+        "새롬동"
+      ]
+    },
+    {
+      "route": "/지점안내/울산/삼산점/",
+      "name": "삼산점",
+      "region": "울산",
+      "district": "남구",
+      "address": "울산광역시 남구 삼산동 돋질로 300 4층",
+      "addressPending": false,
+      "areas": [
+        "달동",
+        "울산삼산동"
+      ]
+    },
+    {
+      "route": "/지점안내/울산/송정점/",
+      "name": "송정점",
+      "region": "울산",
+      "district": "북구",
+      "address": "울산 북구 화산로 123 골드테라스 404호",
+      "addressPending": false,
+      "areas": [
+        "송정동",
+        "화봉동"
+      ]
+    },
+    {
+      "route": "/지점안내/울산/남외점/",
+      "name": "남외점",
+      "region": "울산",
+      "district": "중구",
+      "address": "울산 중구 남외3길 15 남외프라자 401호",
+      "addressPending": false,
+      "areas": [
+        "남외동",
+        "병영동"
+      ]
+    },
+    {
+      "route": "/지점안내/울산/복산점/",
+      "name": "복산점",
+      "region": "울산",
+      "district": "중구",
+      "address": "울산 중구 번영로 461 B2동 7",
+      "addressPending": false,
+      "areas": [
+        "반구동",
+        "복산동",
+        "약사동"
+      ]
+    },
+    {
+      "route": "/지점안내/인천/구월점/",
+      "name": "구월점",
+      "region": "인천",
+      "district": "남동구",
+      "address": "인천 남동구 선수촌공원로23번길 6-29 다복타워 401호 와와학습코칭학원",
+      "addressPending": false,
+      "areas": [
+        "관교동",
+        "구월동"
+      ]
+    },
+    {
+      "route": "/지점안내/인천/논현점/",
+      "name": "논현점",
+      "region": "인천",
+      "district": "남동구",
+      "address": "인천 남동구 청능대로 559 2",
+      "addressPending": false,
+      "areas": [
+        "논현동"
+      ]
+    },
+    {
+      "route": "/지점안내/인천/부평점/",
+      "name": "부평점",
+      "region": "인천",
+      "district": "부평구",
+      "address": "인천광역시 부평구 부평동 부흥로 264 5층 와와학습코칭센터",
+      "addressPending": false,
+      "areas": [
+        "부개동",
+        "부평동",
+        "산곡동"
+      ]
+    },
+    {
+      "route": "/지점안내/인천/인천삼산점/",
+      "name": "인천삼산점",
+      "region": "인천",
+      "district": "부평구",
+      "address": "인천 부평구 체육관로 32 하이존빌딩 8층 802",
+      "addressPending": false,
+      "areas": [
+        "삼산동",
+        "인천갈산동"
+      ]
+    },
+    {
+      "route": "/지점안내/인천/루원시티점/",
+      "name": "루원시티점",
+      "region": "인천",
+      "district": "서구",
+      "address": "인천 서구 새오개로111번안길 23 대릉빌딩 302호",
+      "addressPending": false,
+      "areas": [
+        "가정동",
+        "신현동"
+      ]
+    },
+    {
+      "route": "/지점안내/인천/청라점/",
+      "name": "청라점",
+      "region": "인천",
+      "district": "서구",
+      "address": "인천 서구 중봉대로 588 청라센트럴프라자 609",
+      "addressPending": false,
+      "areas": [
+        "청라"
+      ]
+    },
+    {
+      "route": "/지점안내/인천/동춘점/",
+      "name": "동춘점",
+      "region": "인천",
+      "district": "연수구",
+      "address": "인천 연수구 앵고개로264번길 40 남지빌딩 4층 와와학습코칭센터",
+      "addressPending": false,
+      "areas": [
+        "동춘동",
+        "연수동"
+      ]
+    },
+    {
+      "route": "/지점안내/인천/송도점/",
+      "name": "송도점",
+      "region": "인천",
+      "district": "연수구",
+      "address": "인천 연수구 해돋이로 165 차오름프라자 302",
+      "addressPending": false,
+      "areas": [
+        "송도"
+      ]
+    },
+    {
+      "route": "/지점안내/인천/웰카운티점/",
+      "name": "웰카운티점",
+      "region": "인천",
+      "district": "연수구",
+      "address": "인천 연수구 인천타워대로54번길 15-5 북일프라자 2층 와와학습코칭학원",
+      "addressPending": false,
+      "areas": [
+        "송도동"
+      ]
+    },
+    {
+      "route": "/지점안내/전북/전주혁신점/",
+      "name": "전주혁신점",
+      "region": "전북",
+      "district": "완주군",
+      "address": "전북특별자치도 완주군 이서면 출판로 42 제 4층 제 402호 와와학습코칭학원",
+      "addressPending": false,
+      "areas": [
+        "장동",
+        "전주혁신도시"
+      ]
+    },
+    {
+      "route": "/지점안내/전북/서신점/",
+      "name": "서신점",
+      "region": "전북",
+      "district": "전주시",
+      "address": "전북특별자치도 전주시 완산구 서신로 5 4층 와와학습코칭학원",
+      "addressPending": false,
+      "areas": [
+        "서신동",
+        "중화산동",
+        "효자동"
+      ]
+    },
+    {
+      "route": "/지점안내/전북/송천점/",
+      "name": "송천점",
+      "region": "전북",
+      "district": "전주시",
+      "address": "전북특별자치도 전주시 덕진구 솔내로 129 송천열방빌딩 501호 와와학습코칭학원",
+      "addressPending": false,
+      "areas": [
+        "송천동"
+      ]
+    },
+    {
+      "route": "/지점안내/제주/노형점/",
+      "name": "노형점",
+      "region": "제주",
+      "district": "제주시",
+      "address": "제주특별자치도 제주시 노형동 727-3 대안빌딩 3층",
+      "addressPending": true,
+      "areas": [
+        "노형동",
+        "연동"
+      ]
+    },
+    {
+      "route": "/지점안내/충남/당진중앙점/",
+      "name": "당진중앙점",
+      "region": "충남",
+      "district": "당진시",
+      "address": "충남 당진시 당진중앙2로 211-5 효명프라자 404호",
+      "addressPending": false,
+      "areas": [
+        "읍내동"
+      ]
+    },
+    {
+      "route": "/지점안내/충남/탕정점/",
+      "name": "탕정점",
+      "region": "충남",
+      "district": "아산시",
+      "address": "충남 아산시 탕정면 한들물빛5로 5 605호 모두오름학습코칭학원",
+      "addressPending": false,
+      "areas": [
+        "탕정"
+      ]
+    },
+    {
+      "route": "/지점안내/충남/두정점/",
+      "name": "두정점",
+      "region": "충남",
+      "district": "천안시",
+      "address": "충청남도 천안시 서북구 두정동 봉정로 382 성광빌딩 3층",
+      "addressPending": false,
+      "areas": [
+        "두정동",
+        "성정동"
+      ]
+    },
+    {
+      "route": "/지점안내/충남/불당점/",
+      "name": "불당점",
+      "region": "충남",
+      "district": "천안시",
+      "address": "충남 천안시 서북구 불당33길 22 고은타워 805호",
+      "addressPending": false,
+      "areas": [
+        "불당동",
+        "신불당",
+        "천안백석동"
+      ]
+    },
+    {
+      "route": "/지점안내/충남/신방점/",
+      "name": "신방점",
+      "region": "충남",
+      "district": "천안시",
+      "address": "충청남도 천안시 동남구 신방동 886 학산프라자 A동 3층 304호,305호",
+      "addressPending": false,
+      "areas": [
+        "신방동",
+        "용곡동"
+      ]
+    },
+    {
+      "route": "/지점안내/충남/쌍용점/",
+      "name": "쌍용점",
+      "region": "충남",
+      "district": "천안시",
+      "address": "충청남도 천안시 서북구 쌍용동 불당대로 260 319호 318호(1/2)",
+      "addressPending": false,
+      "areas": [
+        "봉명동",
+        "쌍용동"
+      ]
+    },
+    {
+      "route": "/지점안내/충북/가경점/",
+      "name": "가경점",
+      "region": "충북",
+      "district": "청주시",
+      "address": "충북 청주시 흥덕구 서현북로 18 2층 와와학습코칭학원",
+      "addressPending": false,
+      "areas": [
+        "가경동"
+      ]
+    },
+    {
+      "route": "/지점안내/충북/개신점/",
+      "name": "개신점",
+      "region": "충북",
+      "district": "청주시",
+      "address": "충청북도 청주시 서원구 개신동 경신로 31-1 402호",
+      "addressPending": false,
+      "areas": [
+        "개신동",
+        "성화동"
+      ]
+    },
+    {
+      "route": "/지점안내/충북/복대점/",
+      "name": "복대점",
+      "region": "충북",
+      "district": "청주시",
+      "address": "충북 청주시 흥덕구 진재로 37 3",
+      "addressPending": false,
+      "areas": [
+        "강서동",
+        "복대동",
+        "비하동"
+      ]
+    },
+    {
+      "route": "/지점안내/충북/산남점/",
+      "name": "산남점",
+      "region": "충북",
+      "district": "청주시",
+      "address": "충청북도 청주시 서원구 산남동 산남로 18 이화빌딩 5층",
+      "addressPending": false,
+      "areas": [
+        "산남동",
+        "수곡동"
+      ]
+    },
+    {
+      "route": "/지점안내/충북/충주용산점/",
+      "name": "충주용산점",
+      "region": "충북",
+      "district": "충주시",
+      "address": "충북 충주시 형설로 54-10,2층 (용산동)",
+      "addressPending": false,
+      "areas": [
+        "충주용산동",
+        "호암동"
+      ]
+    },
+    {
+      "route": "/지점안내/충북/칠금점/",
+      "name": "칠금점",
+      "region": "충북",
+      "district": "충주시",
+      "address": "충청북도 충주시 칠금동 계명대로 29 3층",
+      "addressPending": false,
+      "areas": [
+        "봉방동",
+        "칠금동"
+      ]
+    }
+  ]
+}
