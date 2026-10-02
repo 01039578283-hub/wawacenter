@@ -69,4 +69,4 @@ body[data-site-shell] .footer small{color:#d1deeb}
 @media(prefers-reduced-motion:reduce){body[data-site-shell] .site-header[data-site-header] .nav a::after{transition:none}}
 
 .tf-context{margin:24px 0;padding:19px 22px}.tf-context h2{font-size:20px;line-height:1.5;margin:0 0 8px;color:#103f67}.tf-context p{margin:0;font-size:14px;line-height:1.8}.tf-context .pg-links{margin-top:13px}
-@media(max-width:740px){body[data-site-shell] .site-header[data-site-header] .nav{display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:2px}body[data-site-shell] .site-header[data-site-header] .nav a:nth-child(n){font-size:12px;padding:5px 3px}}
+@media(max-width:740px){body[data-site-shell] .site-header[data-site-header] .nav{display:grid!important;grid-template-columns:repeat(4,minmax(0,1fr))!important;gap:2px}body[data-site-shell] .site-header[data-site-header] .nav a:nth-child(n){font-size:12px;padding:5px 3px}body[data-site-shell] .site-header[data-site-header] .nav a:nth-last-child(-n+2){grid-column:span 2!important}}
