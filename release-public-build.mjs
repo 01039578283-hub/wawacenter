@@ -15,6 +15,7 @@ import {assertBookLibrary} from './book-library-check.mjs';
 import {assertContextualLinks} from './contextual-links-check.mjs';
 import {assertSiteShell} from './site-shell-check.mjs';
 import {assertTeacherDirectory} from './teacher-directory-check.mjs';
+import {assertBranchMap} from './branch-map-check.mjs';
 const root=path.dirname(fileURLToPath(import.meta.url));
 const output=path.join(root,'.public-release');
 const manifest=JSON.parse(fs.readFileSync(path.join(root,'release-public-manifest.json'),'utf8'));
@@ -64,6 +65,7 @@ await Promise.all(Array.from({length:12},async()=>{
       assertContextualLinks(html,name);
       assertSiteShell(html,name);
       assertTeacherDirectory(html,name);
+      assertBranchMap(html,name);
     }
     await fs.promises.mkdir(path.dirname(dest),{recursive:true});
     await fs.promises.writeFile(dest,bytes);

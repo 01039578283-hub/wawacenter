@@ -21,6 +21,16 @@ digest = lambda raw: hashlib.sha256(raw).hexdigest()
 
 
 def rearrange(text, name, area, subjects, level, grade_text):
+    from branch_maps import DATA, START, END, insert_map
+    entry = DATA['areas'][area['slug']]
+    branches = json.loads((ROOT / 'branch-directory-data.json').read_text(encoding='utf-8'))['branches']
+    branch = next(b for b in branches if b['route'] == entry['branch'])
+    # Keep teacher/resource sections added after the compact layout was reviewed.
+    if 'class="image-first-nav"' in text and '<p class="image-first-brief">' in text and 'id="lesson-image"' in text and 'image-first-location' in text:
+        return insert_map(text, branch, area['slug'])
+    # Restore the generated map after the original reading-order transformation.
+    text = re.sub(re.escape(START) + r'[\s\S]*?' + re.escape(END), '', text)
+    text = re.sub(r'<!-- branch-map:jump:start -->[\s\S]*?<!-- branch-map:jump:end -->', '', text)
     hero = HERO.search(text)
     facts = FACTS.search(text)
     media = list(MEDIA.finditer(text))
@@ -92,7 +102,7 @@ def rearrange(text, name, area, subjects, level, grade_text):
     if 'assets/image-first.css' not in text:
         depth = len(name.split('/')) - 1
         text = text.replace('</head>', f'<link rel="stylesheet" href="{"../" * depth}assets/image-first.css">\n</head>')
-    return text
+    return insert_map(text, branch, area['slug'])
 
 
 def main():

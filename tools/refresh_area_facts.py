@@ -167,8 +167,7 @@ def repair(text,name,r):
     text=re.sub(r'(<dt>페이지 반영일</dt>\s*<dd>)\d{4}-\d{2}-\d{2}',lambda m:m[1]+DATE,text)
     if r['branch'].endswith('위례점'):
         text=text.replace('경기 성남시 수정구 위례광장로 320 315호',esc(r['address']))
-        # The old collage includes multiple branches and cannot verify the new address.
-        text=re.sub(r'<img\b[^>]*src="[^"]*assets/maps/[^"]*"[^>]*>',lambda m:'<p class="area-map-replacement">'+esc(r['address'])+'</p><p>상단의 ‘주소로 네이버 지도 검색’에서 현재 주소를 확인해 주세요.</p>',text)
+        # The owner reconfirmed the supplied neighborhood maps on 2026-10-02.
     def schema(m):
         obj=json.loads(m[2])
         oldids={o['@id'] for o in walk(obj) if '@id' in o and 'address' in o and 'EducationalOrganization' in str(o.get('@type'))}

@@ -9,7 +9,8 @@ export function assertImageFlow(html, name) {
   const hero = html.match(/<section\b[^>]*class="[^"]*local-hero[^"]*"[^>]*>[\s\S]*?<\/section>/)?.[0];
   if (!hero || hero.includes('hero-points') || !hero.includes('image-first-brief')) fail('Compact introduction missing');
   const nav = hero.match(/<nav class="image-first-nav"[\s\S]*?<\/nav>/)?.[0];
-  if (!nav || [...nav.matchAll(/<a\b/g)].length !== 2) fail('Quick links missing');
+  const mapAdded = html.includes('<!-- branch-map:start -->');
+  if (!nav || [...nav.matchAll(/<a\b/g)].length !== (mapAdded ? 3 : 2)) fail('Quick links missing');
   const images = [...html.matchAll(/<img\b[^>]*src="[^"]*assets\/centers\/common\/(?:seoul|local)6839\.webp"[^>]*>/g)];
   if (images.length !== 1) fail('Expected one complete lesson image');
   const image = images[0];

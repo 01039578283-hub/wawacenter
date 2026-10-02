@@ -7,6 +7,7 @@ from urllib.parse import quote,unquote,urlsplit
 from lxml import etree,html
 import build_branch_upgrade as shared
 from grade_editorial import TOPICS,STAGE_GUIDES
+from branch_maps import insert_map
 ROOT=shared.ROOT
 DAY='2026-10-02'
 DATA=json.loads((ROOT/'grade-directory-data.json').read_text(encoding='utf-8'))
@@ -80,6 +81,7 @@ def details(p):
     body+=section('next-stage',p['name']+'의 다른 학년 안내','<div class="bd-grid">'+''.join(stage_card(x) for x in PAGES if x['area']==p['area'] and x['prefix']!=p['prefix'])+'</div><p>'+link(p['branch']+'#grade-guide',b['name']+'에 연결된 다른 동네·학년 안내')+'</p>')
     body+='<p class="bd-source">자료 반영일: '+DAY+'. 개설 학년과 교육비는 제공 센터 자료를 기준으로 정리했으며 현재 모집 상태의 확인일과 다릅니다.</p>'
     crumbs=[('지점안내','/지점안내/'),(b['region'],f'/지점안내/{b["region"]}/'),(b['name'],p['branch']),(p['name']+' '+p['category'],p['route'])]
+    body=insert_map(body,b,p['area'])
     shared.shell(p['route'],title,desc,body,crumbs,faq,branch=True)
     decorate(p['route'],f'data-grade-branch="{p["branch"]}" data-stage="{p["prefix"]}" data-neighborhood="{p["area"]}"')
 

@@ -2,6 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import {assertAreaFacts} from '../area-facts-check.mjs';
+import {assertBranchMap} from '../branch-map-check.mjs';
 const math='과목별학원/수학학원/명일동/index.html';
 const high='과목별학원/고등영수학원/명일동/index.html';
 const wirye='전국센터/위례/index.html';
@@ -13,5 +14,5 @@ test('copying English grades into math is rejected',()=>{assert.throws(()=>asser
 test('old body claims cannot contradict the reviewed facts',()=>{assert.throws(()=>assertAreaFacts(read(math).replace('</main>','<p>수학 가능 학년은 고1·고2·고3입니다.</p></main>'),math),/Outdated body/);});
 test('wrong actual branch is rejected',()=>{assert.throws(()=>assertAreaFacts(read(math).replaceAll('와와학습코칭센터 명일점','와와학습코칭센터 천호점'),math),/Branch identity/);});
 test('old Wirye address is rejected',()=>{assert.throws(()=>assertAreaFacts(read(wirye).replaceAll('위례광장로 300','위례광장로 320'),wirye),/address differs/);});
-test('old Wirye map collage is rejected',()=>{assert.throws(()=>assertAreaFacts(read(wirye).replace('</body>','<img src="/assets/maps/wirye.jpg"></body>'),wirye),/unverified map/);});
+test('owner-confirmed Wirye map passes; a different neighborhood map is rejected',()=>{assertAreaFacts(read(wirye),wirye);assertBranchMap(read(wirye),wirye);assert.throws(()=>assertBranchMap(read(wirye).replace('/assets/maps/wirye.jpg','/assets/maps/cheonhodong.jpg'),wirye),/matching single center map/);});
 test('missing math data stays visibly unconfirmed',()=>{const file='과목별학원/수학학원/갈현동/index.html';const html=read(file);assertAreaFacts(html,file);assert.ok(html.includes('학년 안내 없음 · 상담 확인'));assert.ok(!html.includes('수업 불가'));});

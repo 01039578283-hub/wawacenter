@@ -8,6 +8,7 @@ from lxml import etree
 import build_branch_upgrade as ui
 from grade_editorial import STAGE_GUIDES
 from subject_editorial import BY_ID,UNITS,SUMMARY_TOPICS
+from branch_maps import insert_map
 ROOT=ui.ROOT
 DATA=json.loads((ROOT/'subject-directory-data.json').read_text(encoding='utf-8'))
 PAGES=DATA['pages'];BRANCHES={b['route']:b for b in ui.BRANCHES}
@@ -84,6 +85,7 @@ def child(p):
  rendered=[];saved_write=ui.write
  try:
   ui.write=lambda path,value:rendered.append((path,value))
+  body=insert_map(body,b,p['area'])
   ui.shell(p['route'],title,desc,body,crumbs,faq,nodes=nodes,branch=True)
  finally:ui.write=saved_write
  assert len(rendered)==1

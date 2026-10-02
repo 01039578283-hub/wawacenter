@@ -52,5 +52,7 @@ export function assertAreaFacts(html,name) {
   if(branch['@id']!==id||branch.name!==area.branch||branch.address.streetAddress!==area.address)fail('Branch identity or address differs');
   if(branch.makesOffer)fail('Unverified blanket branch offers');
   if(!section.includes(area.branch)||!section.includes(area.address.replaceAll('&','&amp;')))fail('Branch details not visible');
-  if(area.branch.endsWith('위례점')&&(/위례광장로\s*320/.test(html)||/<img\b[^>]*assets\/maps\//.test(html)))fail('Outdated Wirye address or unverified map');
+  // The owner reconfirmed the supplied Wirye images on 2026-10-02.
+  // Keep rejecting the old address; CSV-backed map placement is checked separately.
+  if(area.branch.endsWith('위례점')&&/위례광장로\s*320/.test(html))fail('Outdated Wirye address');
 }

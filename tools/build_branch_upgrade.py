@@ -11,6 +11,7 @@ from html import escape
 from pathlib import Path
 from urllib.parse import quote, unquote, urlsplit
 from lxml import etree, html
+from branch_maps import insert_map
 
 ROOT=Path(__file__).resolve().parents[1]
 DOMAIN='https://xn--3e0bz50bxucwzc.com'
@@ -159,6 +160,7 @@ def branch_page(b):
     entity={'@type':'EducationalOrganization','@id':orgid,'name':b['displayName'],'url':url(route),'address':{'@type':'PostalAddress','streetAddress':b['address'],'addressCountry':'KR'},'identifier':{'@type':'PropertyValue','propertyID':'교육지원청 등록번호','value':b['registration']},'contactPoint':{'@type':'ContactPoint','telephone':'+82-10-6839-8283','contactType':'학습 상담 접수','availableLanguage':'Korean'},'areaServed':[{'@type':'Place','name':a['name']} for a in b['areas']]}
     if b['addressPending']:entity.pop('address')
     if b['photos']:entity['image']=[url(p['large']['src']) for p in b['photos']]
+    body=insert_map(body,b)
     shell(route,b['displayName']+' 지점안내',desc,body,[('지점안내','/지점안내/'),(b['region'],f'/지점안내/{b["region"]}/'),(name,route)],faq,[entity],branch=True)
 
 GUIDES=[('와와학습코칭','와와 학습코칭은 어떤 수업인가요?','진단부터 계획, 실행과 점검까지 학습코칭의 흐름을 공식 영상과 함께 살펴봅니다.'),('개별맞춤관리','진도와 공부 습관을 함께 점검하는 방법','플래너와 오답 기록이 실제 수업에서 어떤 역할을 하는지, 상담 때 무엇을 물어볼지 정리합니다.'),('AI학습','AI 학습, 아이에게 어떻게 활용할까요?','영어·수학·국어·독서 프로그램의 역할과 학년 범위, 지점에서 확인할 조건을 구분합니다.')]
