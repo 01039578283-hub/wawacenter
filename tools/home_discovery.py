@@ -52,3 +52,6 @@ def enhance(root):
  ui.write(file,source)
  data=json.loads((root/'home-library-data.json').read_text(encoding='utf-8'))
  ui.save(root/'home-library-data.json',{**data,'featuredGuides':featured,'search':{'branches':len(rows),'areas':sum(len(b['areas']) for b in rows),'regions':regions}})
+ # Keep the reviewed coaching explanations when regenerating search/guide blocks.
+ import home_coaching
+ home_coaching.enhance(root)
