@@ -25,7 +25,7 @@ SECTION_NAMES=[('check','먼저 확인'),('steps','실행 순서'),('example','�
 
 def card(p,filterable=False):
     attrs=f' data-guide-card data-category="{p["group"]}" data-levels="{" ".join(p["levels"])}" data-search="{E(" ".join([p["title"],p["description"],p["audience"],p["tags"]]))}"' if filterable else ''
-    badge='<span class="lg-new">새 가이드</span>' if p.get('isNew') else ''
+    badge='<span class="lg-new">학습가이드</span>' if p.get('isNew') else ''
     return f'<article class="bd-card lg-guide-card"{attrs}>{badge}<p class="lg-card-audience">{E(p["audience"])}</p><h3>{ui.link(p["route"],p["title"])}</h3><p class="lg-card-desc">{E(p["description"])}</p>'+f'<a class="lg-card-link" href="{ui.href(p["route"])}" aria-label="{E(p["title"])} 자세히 읽기">가이드 읽기 <span aria-hidden="true">→</span></a></article>'
 
 def shell(route,title,description,body,crumbs,nodes,faqs=(),article=False):

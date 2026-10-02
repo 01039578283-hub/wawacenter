@@ -368,7 +368,7 @@ def guide_page(guide: dict) -> str:
     <article class="section info-article">{''.join(sections)}</article>
     <section class="section info-step-section"><div class="section-head"><p class="eyebrow">Action Flow</p><h2>실행 순서로 다시 정리하기</h2></div><ol class="info-steps">{steps}</ol></section>
     <section class="section"><div class="section-head center"><p class="eyebrow">FAQ</p><h2>{escape(guide['title'])} 자주 묻는 질문</h2></div><div class="faq" id="faq">{faqs}</div></section>
-    <section class="section evidence-wrap"><div class="evidence-note"><div><p class="eyebrow">작성·검토 기준</p><h2>실제 학습 기록을 확인하는 기준으로 정리했습니다</h2></div><dl><div><dt>작성 주체</dt><dd>{SERVICE_NAME}</dd></div><div><dt>정보 기준</dt><dd>학습 진단·플래너·오답 재학습 상담 항목</dd></div><div><dt>최근 검토</dt><dd>2026년 7월 22일</dd></div></dl></div></section>
+    <section class="section evidence-wrap"><div class="evidence-note"><div><p class="eyebrow">작성·검토 기준</p><h2>실제 학습 기록을 확인하는 기준으로 정리했습니다</h2></div><dl><div><dt>작성 주체</dt><dd>{SERVICE_NAME}</dd></div><div><dt>정보 기준</dt><dd>학습 진단·플래너·오답 재학습 상담 항목</dd></div></dl></div></section>
     <section class="section"><div class="section-head"><p class="eyebrow">Related Guides</p><h2>함께 보면 좋은 학습가이드</h2></div><div class="related-guide-grid">{related}</div></section>
     <section class="section"><div class="cta-box"><p class="eyebrow">Consulting</p><h2>학생의 현재 기록을 기준으로 상담을 시작해보세요</h2><p class="lead">최근 시험지, 어려운 단원과 실제 공부 시간을 준비하면 필요한 관리 순서를 더 구체적으로 확인할 수 있습니다.</p><div class="actions" style="justify-content:center"><a class="btn btn-primary" href="../../상담문의/">상담 준비 확인</a><a class="btn btn-soft" href="tel:{PHONE_LINK}">전화 문의</a></div></div></section>
   </main>
@@ -506,7 +506,7 @@ def replace_brand_and_footer(html: str, prefix: str) -> str:
 
 def evidence_block() -> str:
     return f'''    <section class="section evidence-wrap">
-      <div class="evidence-note"><div><p class="eyebrow">작성·검토 기준</p><h2>학습 진단과 실행 기록을 기준으로 안내합니다</h2></div><dl><div><dt>작성 주체</dt><dd>{SERVICE_NAME}</dd></div><div><dt>정보 기준</dt><dd>상담·플래너·오답 재학습 관리 항목</dd></div><div><dt>최근 검토</dt><dd>2026년 7월 22일</dd></div></dl></div>
+      <div class="evidence-note"><div><p class="eyebrow">작성·검토 기준</p><h2>학습 진단과 실행 기록을 기준으로 안내합니다</h2></div><dl><div><dt>작성 주체</dt><dd>{SERVICE_NAME}</dd></div><div><dt>정보 기준</dt><dd>상담·플래너·오답 재학습 관리 항목</dd></div></dl></div>
     </section>
 
 '''
