@@ -35,19 +35,19 @@ def enhance(root):
  by_slug={p['slug']:p for p in guides['pages']};groups={key:title for key,title,_ in guides['groups']}
  featured=[];cards=[]
  for slug in FEATURED:
-  p=by_slug[slug];assert p['isNew'],slug
+  p=by_slug[slug]
   card={'route':p['route'],'title':p['title'],'description':p['description'],'group':groups[p['group']],'audience':p['audience']}
   featured.append(card)
-  cards.append('<a class="hd-guide-card" data-home-featured href="'+ui.href(p['route'])+'"><span class="hd-guide-label">새 가이드 · '+ui.e(card['group'])+'</span><h3>'+ui.e(p['title'])+'</h3><p>'+ui.e(p['description'])+'</p><span class="hd-guide-action">실천 예시·기록 양식 보기 <span aria-hidden="true">→</span></span></a>')
+  cards.append('<a class="hd-guide-card" data-home-featured href="'+ui.href(p['route'])+'"><span class="hd-guide-label">'+ui.e(card['group'])+'</span><h3>'+ui.e(p['title'])+'</h3><p>'+ui.e(p['description'])+'</p><span class="hd-guide-action">실천 예시·기록 양식 보기 <span aria-hidden="true">→</span></span></a>')
  levels=''.join('<a href="'+ui.href('/학습가이드/')+'?level='+key+'">'+ui.e(title+' 가이드')+'</a>' for key,title in guides['levels'])
- featured_section='<section class="hd-section hd-guides" id="home-new-guides" aria-labelledby="home-new-guides-title"><div class="hd-heading"><p class="eyebrow">학생과 학부모를 위한 교육 정보</p><h2 id="home-new-guides-title">새로 추가한 학습가이드</h2><p>지금의 고민에 맞는 글을 읽고, 실천 예시를 자신의 과제에 적용해 보세요.</p></div><nav class="hd-guide-levels" aria-label="대상별 학습가이드">'+levels+'</nav><div class="hd-guide-grid">'+''.join(cards)+'</div><p class="hd-all-guides">'+ui.link('/학습가이드/',f'전체 {len(guides["pages"])}편 학습가이드 보기 →')+'</p></section>'
+ featured_section='<section class="hd-section hd-guides" id="home-new-guides" aria-labelledby="home-new-guides-title"><div class="hd-heading"><p class="eyebrow">시험 준비부터 공부 습관까지</p><h2 id="home-new-guides-title">학생·학부모를 위한 학습가이드</h2><p>시험 준비, 과목별 공부, 교재 선택에서 필요한 방법을 찾아보고 자신의 과제에 적용해 보세요.</p></div><nav class="hd-guide-levels" aria-label="대상별 학습가이드">'+levels+'</nav><div class="hd-guide-grid">'+''.join(cards)+'</div><p class="hd-all-guides">'+ui.link('/학습가이드/',f'전체 {len(guides["pages"])}편 학습가이드 보기 →')+'</p></section>'
  marker='<!-- home-library:content:start -->';assert source.count(marker)==1
  source=source.replace(marker,marked('content',search+featured_section)+marker)
  source=source.replace('<nav class="hl-topic-grid"',jump[0]+'<nav class="hl-topic-grid"',1)
  # The shared stylesheet remains last; homepage rules do not alter navigation.
  head='<link rel="stylesheet" href="/assets/home-discovery.css"><script type="module" src="/assets/home-branch-search.js"></script>'
  source=source.replace('<link rel="stylesheet" href="/assets/site-shell.css">',marked('head',head)+'<link rel="stylesheet" href="/assets/site-shell.css">',1)
- node={'@context':'https://schema.org','@type':'ItemList','@id':ui.url('/')+'#new-learning-guides','name':'새로 추가한 학습가이드','numberOfItems':len(featured),'itemListElement':[{'@type':'ListItem','position':i,'name':p['title'],'url':ui.url(p['route'])} for i,p in enumerate(featured,1)]}
+ node={'@context':'https://schema.org','@type':'ItemList','@id':ui.url('/')+'#new-learning-guides','name':'학생·학부모를 위한 학습가이드','numberOfItems':len(featured),'itemListElement':[{'@type':'ListItem','position':i,'name':p['title'],'url':ui.url(p['route'])} for i,p in enumerate(featured,1)]}
  source=source.replace('</head>',marked('schema','<script type="application/ld+json">'+ui.j(node)+'</script>')+'</head>',1)
  ui.write(file,source)
  data=json.loads((root/'home-library-data.json').read_text(encoding='utf-8'))
