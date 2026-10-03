@@ -3,11 +3,14 @@
  const form=document.querySelector('[data-education-filter]');
  if(form){
   const cards=[...document.querySelectorAll('[data-education-card]')],status=document.querySelector('[data-education-status]'),empty=document.querySelector('[data-education-empty]');
-  function filter(){const q=form.elements.q.value.trim().toLocaleLowerCase(),group=form.elements.group.value,stage=form.elements.stage.value;let count=0;
-   for(const card of cards){const match=(!q||card.dataset.search.toLocaleLowerCase().includes(q))&&(!group||card.dataset.group===group)&&(!stage||card.dataset.stages.includes(stage));card.hidden=!match;if(match)count++;}
+  function filter(updateUrl=true){const q=form.elements.q.value.trim().toLocaleLowerCase(),terms=q.split(/\s+/).filter(Boolean),group=form.elements.group.value,stage=form.elements.stage.value;let count=0;
+   for(const card of cards){const text=card.dataset.search.toLocaleLowerCase(),match=terms.every(term=>text.includes(term))&&(!group||card.dataset.group===group)&&(!stage||card.dataset.stages.includes(stage));card.hidden=!match;if(match)count++;}
    status.textContent=count+'개 교육정보 글이 있습니다.';empty.hidden=count!==0;
+   document.querySelectorAll('[data-education-group]').forEach(a=>{if(a.dataset.educationGroup===group)a.setAttribute('aria-current','true');else a.removeAttribute('aria-current');});
+   if(updateUrl){const url=new URL(location.href);for(const key of ['q','group','stage']){const value=form.elements[key].value.trim();if(value)url.searchParams.set(key,value);else url.searchParams.delete(key);}history.replaceState(null,'',url);}
   }
-  form.addEventListener('input',filter);form.addEventListener('change',filter);form.addEventListener('submit',e=>e.preventDefault());form.addEventListener('reset',()=>setTimeout(filter,0));
+  function restore(){const params=new URLSearchParams(location.search);for(const key of ['q','group','stage'])form.elements[key].value=params.get(key)||'';filter(false);}
+  form.addEventListener('input',()=>filter());form.addEventListener('change',()=>filter());form.addEventListener('submit',e=>e.preventDefault());form.addEventListener('reset',()=>setTimeout(()=>filter(),0));window.addEventListener('popstate',restore);restore();
   document.querySelectorAll('[data-education-group]').forEach(a=>a.addEventListener('click',()=>{form.elements.group.value=a.dataset.educationGroup;filter();}));
  }
  const finder=document.querySelector('[data-education-finder]');

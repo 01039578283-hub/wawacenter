@@ -20,3 +20,6 @@
 @media(max-width:900px){.ei-list{grid-template-columns:repeat(2,minmax(0,1fr))}.ei-related-grid{grid-template-columns:1fr}.ei-toc ol{columns:1}.ei-finder-fields{grid-template-columns:1fr}}
 @media(max-width:540px){.ei-hero{padding:24px 20px}.ei-list{grid-template-columns:1fr}.ei-filter{padding:18px;gap:12px}.ei-filter label{flex-basis:100%}.ei-card{padding:20px}.ei-section h2,.ei-related h2,.ei-home h2{font-size:23px}.ei-section p{font-size:15px;line-height:1.95}.ei-related,.ei-home,.ei-task,.ei-finder{padding:20px}.ei-home{width:calc(100% - 28px)}.ei-toc{padding:15px 18px}.ei-actions a{flex:1 1 auto;text-align:center}.ei-photo img{max-height:none}.ei-tags{font-size:12px}}
 @media(prefers-reduced-motion:reduce){.ei-card,.ei-actions a{transition:none}}
+/* Topic selection and keyboard focus share the existing orange accent. */
+.ei-groups a[aria-current="true"]{background:#fff1e7;border-color:#f06423;color:#9b370c}
+.ei-page a:focus-visible,.ei-filter input:focus-visible,.ei-filter select:focus-visible,.ei-filter button:focus-visible,.ei-finder select:focus-visible{outline:3px solid #f06423;outline-offset:3px}
