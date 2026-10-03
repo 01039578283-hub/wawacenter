@@ -109,8 +109,8 @@ def detail(row, overview, plans):
     if sub in ['영어','수학']:related.append(('/교재안내/'+STAGES[stage]+sub+'/',STAGES[stage]+' '+sub+' 교재 후보'))
     if stage=='고' and g!='고3':related.append((BASE+'고등선택과목/#subject-'+sub,'고등 '+sub+' 과목 선택과 준비 개념'))
     body+=section('next-reading','공부 방법과 자료를 이어서 찾아보세요',actions(related))
-    faq=[(g+' '+sub+'는 어디부터 시작하면 좋을까요?','이 자료의 공부 순서는 “'+row['sequence']+'”입니다. 현재 교과서와 진도를 먼저 확인하고, 혼자 설명하기 어려운 단계부터 조정해 보세요.'),('이 커리큘럼이 우리 지점의 실제 수업인가요?','학생과 학부모를 위한 공부 계획 참고 자료입니다. 지점의 실제 운영 과목·학년·교재·시간표는 지점 안내와 상담에서 따로 확인하세요.')]
-    if special:faq.insert(1,(sub+'가 초1·2의 독립 정규 교과인가요?','영어는 정규 교과 밖의 선택 활동이며, 사회·과학 연계 내용은 슬기로운 생활과 연결한 활동입니다. 학교의 실제 편제를 기준으로 확인하세요.'))
+    faq=[(g+' '+sub+' 공부는 어디부터 시작하면 좋을까요?','이 자료의 공부 순서는 “'+row['sequence']+'”입니다. 현재 교과서와 진도를 먼저 확인하고, 혼자 설명하기 어려운 단계부터 조정해 보세요.'),('이 커리큘럼이 우리 지점의 실제 수업인가요?','학생과 학부모를 위한 공부 계획 참고 자료입니다. 지점의 실제 운영 과목·학년·교재·시간표는 지점 안내와 상담에서 따로 확인하세요.')]
+    if special:faq.insert(1,('초1·2에서 이 활동을 정규 교과로 배우나요?','영어는 정규 교과 밖의 선택 활동이며, 사회·과학 연계 내용은 슬기로운 생활과 연결한 활동입니다. 학교의 실제 편제를 기준으로 확인하세요.'))
     body+=section('questions','자주 묻는 질문',ui.faqs_markup(faq))+refs(row['url'],row['sourceRange'])+finder(ui.REGIONS)+'</div>'
     crumbs=[('학습커리큘럼',BASE),(STAGES[stage],sr(stage)),(sub,pr(stage,sub)),(g+' '+sub,gr(row))]
     node={'@type':'Article','headline':title,'description':description,'inLanguage':'ko-KR','author':{'@type':'Organization','name':'전국수업.com'},'datePublished':DAY,'dateModified':DAY,'mainEntityOfPage':{'@id':ui.url(gr(row))+'#webpage'},'citation':[row['url']]}
