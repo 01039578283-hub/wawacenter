@@ -10,10 +10,24 @@ import build_branch_upgrade as ui
 import build_site_shell as common
 
 ROOT=Path(__file__).resolve().parents[1]
-DAY='2026-10-02'
+DAY='2026-10-03'
 ui.DAY=DAY
 HUB='/선생님찾기/'
 PHOTO_NOTE='사진은 소개용 이미지이며 실제 선생님 사진이 아닙니다.'
+NEEDS={
+ 'understanding':('개념·이해 점검',['개념 사이 연결','기초 개념 재확인','스스로 이해 점검','교재 없이 확인','익숙한 예시 활용','배운 내용 분류하기','내용 분류하기','핵심 내용 요약','핵심 문장 만들기','핵심 표현 정리','표와 그림 정리','낯선 표현 표시']),
+ 'questions':('질문·설명 연습',['자기 언어로 설명','질문을 구체화','설명 전후 비교','다음 질문 남기기','질문 순서 정하기','확인 질문 직접 쓰기','다른 사람에게 설명','선택 근거 말하기','설명 순서 바꾸기','짧은 설명 녹여 쓰기','중간 점검 질문']),
+ 'review':('오답·풀이 점검',['오답 원인 구분','재도전 전 확인','실수 점검표 만들기','마지막 풀이 검토','문제 조건 읽기','풀이 과정 기록','두 풀이 비교하기','과정에 표시하기','피드백 한 가지 적용','수정 과정 익히기']),
+ 'records':('복습·학습 기록',['복습 간격 조절','짧은 회상 활동','진행 과정 기록','어려움의 변화 기록','이전 기록 다시 읽기','학습 전후 비교','자기 평가 기준','다음 학습 연결']),
+ 'habits':('계획·공부 습관',['학습 시간 배분','작은 목표 설정','학습 순서 설계','과제 분량 조절','학습 분량 되돌아보기','학습 목표 대화','공부 시작 습관','단계별 시간 살피기','완료 기준 정하기','자료 정돈하기','작은 과제 선택','짧은 집중 구간','학습 시작 기록']),
+ 'application':('문제 적용·사고 확장',['과제 난도 조절','과제 선택 이유','변형 문제 살피기','비교 기준 먼저 정하기','비슷한 내용 비교','스스로 문제 만들기','예시 두 가지 비교','작은 예외 찾기','유사 과제 연결','조건 바꾸어 보기']),
+}
+
+def teacher_needs(t):
+    return [key for key,(_,focus) in NEEDS.items() if set(t['focus']) & set(focus)]
+
+def need_select(keys=None):
+    return '<label>필요한 학습 도움<select name="need"><option value="">학습 도움 전체</option>'+''.join('<option value="'+key+'">'+escape(label)+'</option>' for key,(label,_) in NEEDS.items() if keys is None or key in keys)+'</select></label>'
 GUIDES={
  '오답 원인 구분':'수학오답관리','재도전 전 확인':'수학오답관리','실수 점검표 만들기':'계산실수줄이기','마지막 풀이 검토':'계산실수줄이기',
  '질문을 구체화':'학습질문만들기','다음 질문 남기기':'학습질문만들기','질문 순서 정하기':'학습질문만들기','확인 질문 직접 쓰기':'학습질문만들기',
@@ -94,18 +108,22 @@ def render_page(route,title,desc,body,crumbs,faqs=(),nodes=()):
 
 def hub(groups):
     count=sum(len(g['teachers']) for g in groups)
-    desc=f'{len(groups)}개 지점의 선생님 소개 {count:,}건을 지점명·이름·지도 키워드로 찾고, 학습 방향과 상담할 내용을 살펴봅니다.'
+    desc=f'{len(groups)}개 지점의 선생님 소개 {count:,}건을 동네·지점·학습 도움으로 찾고, 지도 방향과 상담 준비 자료를 확인합니다.'
     hero='<section class="bd-hero"><p class="bd-kicker">TEACHERS</p><h1>우리 아이의 공부를<br>함께할 선생님 찾기</h1><p>선생님마다 중요하게 보는 공부 과정이 다릅니다.<br>지점과 지도 키워드를 살펴보고, 아이에게 필요한 도움을 찾아보세요.</p><div class="bd-summary"><div><strong>'+str(len(groups))+'</strong><span>지점별 소개</span></div><div><strong>'+f'{count:,}'+'</strong><span>선생님 소개</span></div><div><strong>지도 방향</strong><span>질문·설명·학습 기록</span></div></div></section>'
     regions=list(dict.fromkeys(b['region'] for b in ui.BRANCHES))
-    form='<form class="bd-search" role="search" data-teacher-search><label>지점·선생님·지도 키워드<input type="search" name="q" placeholder="예: 명일점, 오답, 질문" autocomplete="off"></label><label>지역<select name="region"><option value="">전국 전체</option>'+''.join('<option value="'+escape(r)+'">'+escape(r)+'</option>' for r in regions)+'<option value="other">그 외 지점</option></select></label><button class="bd-btn" type="reset">검색 초기화</button></form><p class="bd-result" data-teacher-status role="status" aria-live="polite">'+str(len(groups))+'개 지점 · 선생님 소개 '+str(count)+'건</p><noscript><p>아래 전체 목록에서 지점별 선생님 소개를 확인할 수 있습니다.</p></noscript><div data-teacher-empty hidden><h2>검색 결과가 없습니다.</h2><p>지점 이름을 짧게 입력하거나 지역 조건을 바꿔 보세요.</p></div>'
+    form='<form class="bd-search tf-search" role="search" data-teacher-search hidden><label>동네·지점·선생님·지도 키워드<input type="search" name="q" placeholder="예: 장항동, 명일점 질문" autocomplete="off"></label><label>지역<select name="region"><option value="">전국 전체</option>'+''.join('<option value="'+escape(r)+'">'+escape(r)+'</option>' for r in regions)+'<option value="other">그 외 지점</option></select></label>'+need_select()+'<button class="bd-btn" type="reset">검색 초기화</button></form><p class="tf-filter-help">동네와 선생님의 지도 방향을 함께 살펴보세요. 이름을 누르면 해당 선생님의 소개로 바로 이동합니다.</p><p class="bd-result" data-teacher-status role="status" aria-live="polite">'+str(len(groups))+'개 지점 · 선생님 소개 '+str(count)+'건</p><noscript><p>아래 전체 목록에서 지점별 선생님 소개를 확인할 수 있습니다.</p></noscript><div class="pg-panel" data-teacher-empty hidden><h3>검색 결과가 없습니다.</h3><p>동네·지점 이름을 짧게 입력하거나 학습 도움과 지역 조건을 바꿔 보세요.</p>'+actions([('/지점안내/','동네별 지점 안내 보기')])+'</div>'
     cards=''
     for g in groups:
         focus=list(dict.fromkeys(t for p in g['teachers'] for t in p['focus']))[:3]
         search=' '.join([g['sourceName'],g['name'],g['region'],g['district'],g['address'],*[a['name'] for a in g['areas']],*[t['name']+' '+' '.join(t['focus']) for t in g['teachers']]])
-        cards+='<article class="bd-card tf-directory-card" data-teacher-card data-region="'+(escape(g['region']) or 'other')+'" data-count="'+str(len(g['teachers']))+'" data-search="'+escape(search,quote=True)+'"><p class="bd-card-meta">'+escape(' · '.join(x for x in [g['region'],g['district']] if x) or '지점명으로 찾기')+'</p><h3>'+link(g['route'],g['sourceName'])+'</h3><p><span class="tf-count">선생님 소개 '+str(len(g['teachers']))+'건</span></p><div class="tf-tags">'+''.join('<span>'+escape(x)+'</span>' for x in focus)+'</div><p class="tf-name-list">'+escape(' · '.join(t['name'] for t in g['teachers']))+'</p>'+actions([(g['route'],'선생님 소개 보기')])+('</article>')
+        local=' '.join([g['sourceName'],g['name'],g['region'],g['district'],g['address'],*[a['name'] for a in g['areas']]])
+        people='<ul class="tf-name-list" aria-label="'+escape(g['sourceName'])+' 선생님 바로가기">'+''.join('<li data-teacher-option data-needs="'+' '.join(teacher_needs(t))+'" data-search="'+escape(t['name']+' '+' '.join(t['focus']),quote=True)+'">'+link(g['route']+'#'+t['id'],t['name']+' 선생님')+'</li>' for t in g['teachers'])+'</ul>'
+        nearby='<p class="tf-nearby">연결 동네 · '+escape(' · '.join(a['name'] for a in g['areas']))+'</p>' if g['areas'] else ''
+        destinations=[(g['route'],'선생님 소개 보기')]+([(g['branchRoute'],'수업·교육비·위치')] if g['branchRoute'] else [])
+        cards+='<article class="bd-card tf-directory-card" data-teacher-card data-region="'+(escape(g['region']) or 'other')+'" data-count="'+str(len(g['teachers']))+'" data-local-search="'+escape(local,quote=True)+'" data-search="'+escape(search,quote=True)+'"><p class="bd-card-meta">'+escape(' · '.join(x for x in [g['region'],g['district']] if x) or '지점명으로 찾기')+'</p><h3>'+link(g['route'],g['sourceName'])+'</h3>'+nearby+'<p><span class="tf-count" data-card-count>선생님 소개 '+str(len(g['teachers']))+'건</span></p><div class="tf-tags">'+''.join('<span>'+escape(x)+'</span>' for x in focus)+'</div>'+people+actions(destinations)+('</article>')
     faq=[('선생님의 담당 과목과 학년은 어디에서 확인하나요?','소개 글은 선생님의 지도 방향을 설명합니다. 현재 담당 과목·학년·수업 시간과 배정은 희망 지점 상담에서 확인해 주세요.'),('프로필 사진은 실제 선생님 사진인가요?',PHOTO_NOTE),('상담 전에 무엇을 준비하면 좋을까요?','최근 풀이와 학교 자료, 학생이 궁금한 질문을 준비해 보세요. 혼자 해결한 부분과 도움이 필요한 부분을 나누면 필요한 지도를 이야기하기 좋습니다.')]
     body=hero+ui.section('teacher-search','지점과 지도 키워드로 찾아보세요',form+'<div class="tf-directory-grid">'+cards+'</div>')
-    body+=ui.section('before-consultation','선생님과 이야기하기 전에 준비할 세 가지','<div class="pg-grid">'+''.join('<article class="pg-card"><h3>'+h+'</h3><p>'+p+'</p></article>' for h,p in [('최근의 공부 기록','정답뿐 아니라 학생이 쓴 풀이와 질문을 함께 준비해 보세요.'),('필요한 도움의 종류','개념 설명, 질문 정리, 오답 복습 등 필요한 과정을 나누어 이야기해 보세요.'),('실제 수업 조건','담당 과목·학년·시간표와 선생님 배정은 지점 상담에서 확인해 주세요.')])+'</div>'+actions([('/학습가이드/학부모상담체크리스트/','학부모 상담 준비'),('/지점안내/','지점 수업·교육비 확인')]))
+    body+=consultation_guides()
     body+=ui.section('faq','선생님 소개를 볼 때 궁금한 점',ui.faqs_markup(faq))
     node={'@type':'ItemList','@id':ui.url(HUB)+'#branches','numberOfItems':len(groups),'itemListElement':[{'@type':'ListItem','position':i,'name':g['sourceName'],'url':ui.url(g['route'])} for i,g in enumerate(groups,1)]}
     render_page(HUB,'선생님찾기 · 지점별 학습코칭 선생님 소개',desc,body,[('선생님찾기',HUB)],faq,[node])
@@ -113,7 +131,11 @@ def hub(groups):
 
 def profile(t,g):
     body='<article class="tf-profile" id="'+t['id']+'" data-teacher-profile="'+t['id']+'"><figure><img src="'+ui.href(t['image'])+'" width="'+str(t['imageWidth'])+'" height="'+str(t['imageHeight'])+'" alt="선생님 소개용 이미지" loading="lazy" decoding="async"><figcaption>소개용 이미지</figcaption></figure><div><p class="tf-profile-meta">'+escape(g['sourceName'])+'</p><h3>'+escape(t['name'])+' 선생님</h3><div class="tf-tags">'+''.join('<span>'+escape(x)+'</span>' for x in t['focus'])+'</div></div><div class="tf-bio"><p>'+escape(' '.join(t['sentences'][:2]))+'</p><details><summary>'+escape(t['name'])+' 선생님의 지도 방향 더 보기</summary>'+''.join('<p>'+escape(s)+'</p>' for s in t['sentences'][2:])+'</details></div></article>'
-    return body
+    return body.replace(' data-teacher-profile="'+t['id']+'"',' data-teacher-profile="'+t['id']+'" data-needs="'+' '.join(teacher_needs(t))+'" data-search="'+escape(t['name']+' '+' '.join(t['focus']),quote=True)+'"',1)
+
+def consultation_guides():
+    rows=[('상담 전: 필요한 도움 정리','학생이 막힌 풀이와 최근 과제를 준비하고, 다음 수업에서 확인할 질문을 골라 보세요.','선생님상담질문','선생님 상담 질문 정리'),('상담 때: 첫 목표 함께 정하기','점수만 이야기하기보다 학생이 오늘 해 볼 행동과 다시 확인할 자료를 정해 보세요.','학생과학습목표정하기','학생과 학습 목표 정하기'),('수업 뒤: 설명과 과제 점검','진도와 함께 학생이 설명할 수 있는 내용, 남은 질문과 다음 과제를 살펴보세요.','첫수업후점검','첫 수업 뒤 확인할 것')]
+    return ui.section('before-consultation','선생님과 만나는 순서에 맞춘 학습가이드','<div class="pg-grid">'+''.join('<article class="pg-card"><h3>'+h+'</h3><p>'+p+'</p>'+actions([('/학습가이드/'+slug+'/',label)])+'</article>' for h,p,slug,label in rows)+'</div>')
 
 def branch_page(g):
     route=g['route'];title=g['sourceName']+' 선생님 소개';topics=list(dict.fromkeys(x for t in g['teachers'] for x in t['focus']))
@@ -122,11 +144,16 @@ def branch_page(g):
     hero='<section class="bd-hero"><p class="bd-kicker">'+escape(' · '.join(x for x in [g['region'],g['district']] if x) or 'TEACHERS')+'</p><h1>'+escape(g['sourceName'])+'<br>선생님 소개</h1><p>학생의 생각을 듣고 공부 과정을 함께 살펴보는 선생님들의 소개입니다. 지도 키워드와 글을 읽으며 아이에게 필요한 도움을 정리해 보세요.</p>'+('<p class="bd-address">'+escape(g['address'])+'</p>' if g['address'] else '')+actions([(HUB,'전체 지점 선생님 찾기'),('#teacher-profiles','선생님 '+str(len(g['teachers']))+'명 살펴보기')])+ '</section>'
     if g['branchRoute']:hero+=ui.section('center-information','수업·학년·교육비도 함께 확인하세요','<div class="pg-panel"><p>'+escape(g['name'])+'의 방문 주소와 과목별 안내 학년, 교육비 자료를 함께 살펴보세요. 담당 과목·시간표와 선생님 배정은 상담에서 확인해 주세요.</p>'+actions([(g['branchRoute'],g['name']+' 수업과 방문 안내')])+'</div>')
     else:hero+='<p class="pg-scope">담당 과목·학년·시간표와 방문 주소는 지점 상담에서 확인해 주세요.</p>'
-    body=hero+ui.section('teacher-profiles',g['sourceName']+'에서 만나는 선생님','<p class="tf-photo-note">'+PHOTO_NOTE+'</p><div class="tf-grid">'+''.join(profile(t,g) for t in g['teachers'])+'</div>')
+    keys=set(key for t in g['teachers'] for key in teacher_needs(t))
+    controls='<form class="bd-search tf-search tf-branch-search" role="search" data-profile-search hidden><label>선생님 이름·지도 키워드<input type="search" name="q" placeholder="예: 질문, 풀이, 학습 기록" autocomplete="off"></label>'+need_select(keys)+'<button class="bd-btn" type="reset">검색 초기화</button></form><div class="tf-profile-tools" data-profile-tools hidden><button class="bd-btn" type="button" data-profile-details="open">소개 글 모두 펼치기</button><button class="bd-btn" type="button" data-profile-details="close">소개 글 모두 접기</button></div><p class="bd-result" data-profile-status role="status" aria-live="polite">선생님 소개 '+str(len(g['teachers']))+'건</p><p class="pg-panel" data-profile-empty hidden>검색 결과가 없습니다. 이름이나 지도 키워드를 짧게 입력하거나 학습 도움 조건을 바꿔 보세요.</p>'
+    body=hero+ui.section('teacher-profiles',g['sourceName']+'에서 만나는 선생님','<p class="tf-photo-note">'+PHOTO_NOTE+'</p>'+controls+'<div class="tf-grid">'+''.join(profile(t,g) for t in g['teachers'])+'</div>')
     guide_ids=list(dict.fromkeys(GUIDES[x] for x in topics if x in GUIDES))[:3]
     guides=json.loads((ROOT/'learning-guide-data.json').read_text(encoding='utf-8'))['pages'];labels={p['route']:p['title'] for p in guides}
     related=[('/학습가이드/'+s+'/',labels['/학습가이드/'+s+'/']) for s in guide_ids]
     body+=ui.section('prepare-learning','소개 글과 함께 살펴볼 학습 자료','<div class="pg-panel"><p>'+escape(g['sourceName'])+' 소개 글의 지도 키워드와 관련된 자료입니다. 최근 공부 기록에서 적용해 볼 부분을 골라 보세요.</p>'+actions(related+[('/학습가이드/학부모상담체크리스트/','상담 준비 체크리스트')])+'</div>')
+    body+=consultation_guides()
+    if g['areas']:
+        body+=ui.section('nearby-learning','연결 동네의 수업 안내도 살펴보세요','<div class="pg-panel"><p>통학할 동네의 수업 안내에서 학년·과목 정보를 확인하고, 실제 방문 주소와 교육비는 지점 안내에서 함께 살펴보세요.</p>'+actions([('/전국센터/'+a['slug']+'/',a['name']+' 학원·수업 안내') for a in g['areas']])+'</div>')
     faq=[(g['sourceName']+' 선생님의 담당 과목은 어떻게 확인하나요?','소개 글에는 지도 방향이 담겨 있습니다. 현재 담당 과목·학년·수업 시간과 선생님 배정은 지점 상담에서 확인해 주세요.'),('사진은 실제 선생님의 모습인가요?',PHOTO_NOTE)]
     body+=ui.section('faq',g['sourceName']+' 선생님 소개 질문',ui.faqs_markup(faq))+ui.section('consultation','학생의 질문을 가지고 상담해 보세요','<div class="pg-panel"><p>최근 풀이와 학교 자료를 준비하고, 설명을 듣고 싶은 부분을 표시해 주세요. 선생님의 지도 방향과 필요한 도움을 함께 이야기할 수 있습니다.</p>'+ui.actions([(ui.FORM,'학습 상담 신청',True,True),('tel:01068398283','전화 상담')])+'</div>')
     persons=[{'@type':'Person','@id':ui.url(route)+'#'+t['id'],'name':t['name']+' 선생님','description':' '.join(t['sentences']),'jobTitle':'선생님','url':ui.url(route)+'#'+t['id'],'worksFor':{'@type':'EducationalOrganization','name':g['sourceName'],**({'url':ui.url(g['branchRoute'])} if g['branchRoute'] else {})}} for t in g['teachers']]
@@ -200,7 +227,7 @@ def main():
         b=(ROOT/name).read_bytes();files[name]=hashlib.sha256(b).hexdigest()
         if re.search(r'\.(html|css|js|json|xml|txt|svg|webmanifest)$',name):text[name]=hashlib.sha256(b.decode('utf-8').replace('\r\n','\n').encode()).hexdigest()
     save(ROOT/'release-public-manifest.json',{**before,'createdAt':'2026-10-02T12:00:00+09:00','files':files,'textSha256':text,'sitemapPages':len(tree)})
-    data={'version':1,'reviewed':DAY,'photoNote':PHOTO_NOTE,'source':source,'photos':photos,'branches':groups,'pages':pages,'linkedPages':linked}
+    data={'version':2,'reviewed':DAY,'photoNote':PHOTO_NOTE,'source':source,'photos':photos,'branches':groups,'pages':pages,'linkedPages':linked,'needs':[{'id':key,'label':label,'focus':focus} for key,(label,focus) in NEEDS.items()]}
     save(ROOT/'teacher-directory-data.json',data)
     report={'teachers':sum(len(g['teachers']) for g in groups),'teacherBranches':len(groups),'connectedExistingBranches':len(by_branch),'separateBranchNames':[g['sourceName'] for g in groups if not g['branchRoute']],'newPages':len(pages),'linkedPages':len(linked),'directBranchLinks':sum(bool(p['branch']) for p in linked),'htmlPages':len(all_html),'sitemapPages':len(tree),'publicFiles':len(files),'photos':len(photos),'deployed':False}
     save(args.audit/'generation-summary.json',report);print(json.dumps(report,ensure_ascii=False))

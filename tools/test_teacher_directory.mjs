@@ -44,3 +44,21 @@ test('illustrative photos cannot become factual Person portraits',()=>{
 test('a branch contextual link cannot point to another teacher group',()=>{
   const e=data.linkedPages.find(p=>p.branch);assert.throws(()=>assertTeacherDirectory(read(e.file).replace('data-teacher-route="'+e.target+'"','data-teacher-route="/선생님찾기/다른점/"'),e.file));
 });
+test('the learning-help category covers every supplied keyword exactly once',()=>{
+  const supplied=new Set(data.branches.flatMap(g=>g.teachers.flatMap(t=>t.focus)));
+  const covered=data.needs.flatMap(n=>n.focus);
+  assert.equal(covered.length,new Set(covered).size);
+  assert.deepEqual(new Set(covered),supplied);
+});
+test('learning-help filters cannot mislabel a teacher',()=>{
+  const key=data.needs.filter(n=>n.focus.some(f=>group.teachers[0].focus.includes(f))).map(n=>n.id).join(' ');
+  assert.throws(()=>assertTeacherDirectory(read(name).replace('data-needs="'+key+'"','data-needs="unrelated"'),name));
+});
+test('a parent consultation guide must remain available',()=>{
+  assert.throws(()=>assertTeacherDirectory(read(name).replaceAll(encodeURI('/학습가이드/선생님상담질문/'),'/학습가이드/'),name));
+});
+test('teacher pages link back to their mapped neighborhoods',()=>{
+  const page=data.branches.find(g=>g.areas.length);
+  const route='/전국센터/'+page.areas[0].slug+'/';
+  assert.throws(()=>assertTeacherDirectory(read(page.route.slice(1)+'index.html').replaceAll(encodeURI(route),'/전국센터/'),page.route.slice(1)+'index.html'));
+});

@@ -11,5 +11,17 @@
 .tf-directory-card h3{margin:0 0 10px}.tf-directory-card p{font-size:14px;line-height:1.8}.tf-count{font-weight:800;color:#904100}.tf-directory-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
 .tf-name-list{font-size:13px;color:#617789;line-height:1.8;margin:12px 0}.tf-context{margin:24px 0;padding:19px 22px}.tf-context h2{font-size:20px;margin:0 0 8px;line-height:1.5}.tf-context p{margin:0;font-size:14px;line-height:1.8}.tf-context .pg-links{margin-top:13px}
 .tf-profile:target{scroll-margin-top:24px;outline:2px solid #a94300;outline-offset:3px}
+.tf-search{grid-template-columns:minmax(0,2fr) minmax(120px,1fr) minmax(170px,1fr) auto}
+.tf-branch-search{grid-template-columns:minmax(0,2fr) minmax(170px,1fr) auto}
+.tf-filter-help{font-size:14px;line-height:1.85;color:#415e73;margin:16px 0}
+.tf-name-list{list-style:none;padding:0;display:flex;flex-wrap:wrap;gap:8px;margin:16px 0}
+.tf-name-list a{display:inline-flex;align-items:center;min-height:44px;padding:6px 10px;border:1px solid #e4d7ca;border-radius:9px;background:#fffaf4;color:#103f67;font-size:13px;text-decoration:none}
+.tf-name-list a:hover{background:#fff0df;border-color:#904100}
+.tf-nearby{color:#415e73;margin:8px 0 14px;overflow-wrap:anywhere}
+.tf-profile-tools{display:flex;flex-wrap:wrap;gap:10px;margin:16px 0}
+.tf-name-list a:focus-visible,.tf-profile-tools button:focus-visible,.tf-search :is(input,select,button):focus-visible{outline:3px solid #103f67;outline-offset:3px}
+[data-teacher-card][hidden],[data-teacher-option][hidden],[data-teacher-search][hidden],[data-profile-search][hidden],[data-teacher-profile][hidden],[data-profile-tools][hidden],[data-teacher-empty][hidden],[data-profile-empty][hidden]{display:none!important}
+@media(max-width:900px){.tf-search{grid-template-columns:repeat(2,minmax(0,1fr))}.tf-search label:first-child{grid-column:1/-1}.tf-search button{justify-self:start}}
+@media(max-width:540px){.tf-search{grid-template-columns:1fr}.tf-search label:first-child{grid-column:auto}.tf-search button{justify-self:stretch}.tf-profile-tools button{flex:1 1 130px;white-space:normal}.tf-directory-card .pg-links{flex-direction:column;align-items:stretch}.tf-directory-card .pg-links a{text-align:center}}
 @media(max-width:900px){.tf-directory-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:680px){.tf-grid,.tf-directory-grid{grid-template-columns:1fr}.tf-profile{padding:20px;grid-template-columns:100px minmax(0,1fr);gap:15px}.tf-profile figure{width:100px}.tf-profile img{width:100px;height:164px}.tf-profile h3{font-size:22px}.tf-bio p{font-size:14px}.tf-context{padding:18px}.tf-tags span{font-size:12px;padding:5px 7px}}
