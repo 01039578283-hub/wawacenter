@@ -40,3 +40,5 @@ def enhance(root):
  ui.write(file,source);ui.save(root/'home-library-data.json',{'updated':ui.DAY,'guideCount':guide_count,'topics':[{'route':r,'title':t,'description':d,'action':a,'label':l} for r,t,d,a,l in topics],'readingGroups':GROUPS,'listedPages':listed})
  import home_discovery
  home_discovery.enhance(root)
+ import home_access
+ home_access.enhance(root)

@@ -19,6 +19,7 @@ import {assertBranchMap} from './branch-map-check.mjs';
 import {assertEducationInfo} from './education-info-check.mjs';
 import {assertHomeCoaching} from './home-coaching-check.mjs';
 import {assertCurriculum} from './curriculum-check.mjs';
+import {assertHomeAccess} from './home-access-check.mjs';
 const root=path.dirname(fileURLToPath(import.meta.url));
 const output=path.join(root,'.public-release');
 const manifest=JSON.parse(fs.readFileSync(path.join(root,'release-public-manifest.json'),'utf8'));
@@ -72,6 +73,7 @@ await Promise.all(Array.from({length:12},async()=>{
       assertEducationInfo(html,name);
       assertHomeCoaching(html,name);
       assertCurriculum(html,name);
+      assertHomeAccess(html,name);
     }
     await fs.promises.mkdir(path.dirname(dest),{recursive:true});
     await fs.promises.writeFile(dest,bytes);

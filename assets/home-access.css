@@ -1,0 +1,34 @@
+/* Homepage-only discovery; shared navigation and article layouts retain their styles. */
+.home-page .ha-quick{margin:20px 0;padding:17px 18px;background:#fff9f2;border:1px solid #ead7c5;border-radius:14px}
+.home-page .ha-quick>p{margin:0 0 10px;color:#65492f;font-size:14px;font-weight:700;line-height:1.65}
+.home-page .ha-quick>div{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.home-page .ha-quick a{display:flex;align-items:center;justify-content:space-between;gap:6px;min-height:44px;padding:10px 12px;border:1px solid #dfc3ac;border-radius:8px;background:#fff;color:#904100;font-size:14px;font-weight:750;line-height:1.5;text-decoration:none;overflow-wrap:anywhere}
+.home-page .ha-quick .ha-quick-all{padding:10px 0 0;margin-top:3px;border:0;background:none;min-height:44px;font-size:13px;justify-content:flex-start}
+.home-page .ha-library{background:linear-gradient(140deg,#fff,#fff8ee);border-color:#e4d5c8}
+.home-page .ha-library .eyebrow,.home-page .ha-library .hl-card-action{color:#904100}
+.home-page .ha-library .hl-jump a{border-color:#dfc3ac;color:#904100}
+.home-page .ha-topic-groups{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:28px}
+.home-page .ha-topic-group{min-width:0}
+.home-page .ha-topic-group>h3{font-size:23px;color:#103f67;line-height:1.5;margin:0 0 8px}
+.home-page .ha-topic-group>p{font-size:14px;line-height:1.8;color:#55677e;margin:0 0 14px}
+.home-page .ha-topic-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.home-page .ha-topic{padding:19px 16px;border-color:#e4d5c8;box-shadow:none}
+.home-page .ha-topic h4{margin:0 0 9px;font-size:19px;line-height:1.5;letter-spacing:-.03em;color:#103f67;overflow-wrap:anywhere}
+.home-page .ha-topic p{font-size:14px;line-height:1.75;margin-bottom:12px}
+.home-page .ha-topic:hover{border-color:#a94300;transform:none;box-shadow:0 6px 16px #67360b0a}
+.home-page .ha-library .hl-reading{border-color:#e4d5c8}
+.home-page .ha-library .hl-group{border-color:#e4d5c8}
+.home-page .ha-library .hl-group h3{font-size:19px;color:#103f67}
+.home-page .ha-library .hl-reading-heading>a{color:#904100}
+.home-page .ha-consult{margin-top:24px;padding:20px;display:flex;align-items:center;justify-content:space-between;gap:20px;border:1px solid #e4d5c8;border-radius:14px;background:#fff}
+.home-page .ha-consult h3{margin:0 0 6px;font-size:19px;color:#103f67;line-height:1.5}
+.home-page .ha-consult p{margin:0;font-size:14px;line-height:1.8;color:#55677e}
+.home-page .ha-consult>a,.home-page .ha-answer-link{display:inline-flex;align-items:center;justify-content:center;gap:6px;min-height:44px;padding:10px 14px;border:1px solid #dfc3ac;border-radius:9px;color:#904100;background:#fff9f2;font-size:14px;font-weight:750;line-height:1.6;text-decoration:none;overflow-wrap:anywhere}
+.home-page .ha-consult>a{flex-shrink:0}
+.home-page .ha-answer-link{margin:4px 0 10px}
+.home-page .ha-quick a:hover,.home-page .ha-consult>a:hover,.home-page .ha-answer-link:hover{background:#fff0df}
+.home-page .ha-quick a:focus-visible,.home-page .ha-library a:focus-visible,.home-page .ha-answer-link:focus-visible{outline:3px solid #103f67;outline-offset:3px}
+.home-page #home-academy-title,.home-page #home-study-title{scroll-margin-top:110px}
+@media(max-width:1000px){.home-page .ha-topic-groups{grid-template-columns:1fr;gap:28px}.home-page .ha-topic h4{font-size:20px}}
+@media(max-width:540px){.home-page .ha-quick{padding:14px 12px}.home-page .ha-quick a{font-size:13px;padding:10px}.home-page .ha-topic-grid{gap:10px}.home-page .ha-topic{padding:16px 12px}.home-page .ha-topic h4{font-size:16px}.home-page .ha-topic p{font-size:13px;line-height:1.7}.home-page .ha-topic .hl-card-action{font-size:12px}.home-page .ha-topic-group>h3{font-size:21px}.home-page .ha-consult{display:block;padding:18px}.home-page .ha-consult>a{margin-top:14px;width:100%}.home-page #home-academy-title,.home-page #home-study-title{scroll-margin-top:24px}}
+@media(max-width:340px){.home-page .ha-topic-grid{grid-template-columns:1fr}}
