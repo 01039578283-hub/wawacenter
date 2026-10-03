@@ -10,16 +10,34 @@ BASE = 'https://xn--3e0bz50bxucwzc.com/'
 DESCRIPTION = '전국수업의 개별맞춤 수업과 4C 학습코칭, 플래너·오답 관리를 살펴보고 지역별 지점과 학습 자료를 확인하세요.'
 
 COMPARISON = [
-    ('수업의 출발점', '학년·학교 진도·시험 범위를 중심으로 내용을 정합니다.', '학교 진도와 함께 학생의 현재 이해도와 부족한 개념을 확인합니다.'),
-    ('설명과 과제', '함께 듣는 설명과 공통 과제를 중심으로 배웁니다.', '필요한 설명을 듣고, 이해 수준에 맞춰 서로 다른 과제를 수행합니다.'),
-    ('진도와 속도', '반의 계획에 맞춰 같은 순서와 속도로 이동합니다.', '막힌 단원을 보완하거나 준비된 내용은 확장하며 진도를 조정합니다.'),
-    ('학년의 의미', '같은 학년의 교육과정을 묶어 수업하기 쉽습니다.', '학습 출발점은 실력으로 정하되 학교 학년과 시험 일정도 고려합니다.'),
-    ('활용하기 좋은 점', '공통 내용을 체계적으로 설명하고 시험 범위를 함께 정리하기 좋습니다.', '학생마다 다른 빈틈과 질문에 맞춰 학습 순서와 분량을 조정하기 좋습니다.'),
-    ('선택 전 확인할 점', '설명 속도와 과제 난도가 아이에게 맞는지 살펴보세요.', '진단 후 과제 조정과 오답 피드백이 실제로 이어지는지 살펴보세요.'),
-    ('학생에게 물어볼 질문', '“설명을 듣고 혼자 풀 때도 같은 방법을 적용할 수 있니?”', '“어디서 막혔고, 다음에는 무엇을 다시 확인하면 될까?”'),
-    ('선생님의 역할', '내용을 설명하고 공통 진도와 과제 수행을 확인합니다.', '이해 수준을 살피고, 설명·질문·피드백으로 다음 과제를 설계합니다.'),
-    ('이해도 확인', '시험·숙제 점검 등을 통해 배운 내용을 확인합니다.', '단원별 수행과 풀이 이유, 오답 재확인으로 계획을 조정합니다.'),
-    ('수업 선택의 기준', '공통 진도를 따라가며 설명을 활용할 수 있는지 확인합니다.', '기초 보완·학습 습관·개인별 속도 중 어떤 관리가 필요한지 확인합니다.'),
+    ('수업의 출발점', '학년·학교 진도·시험 범위를 기준으로 배울 내용을 묶습니다.', '학교 진도를 확인하면서 학생이 막힌 개념부터 학습 순서를 정합니다.'),
+    ('설명과 과제', '같은 설명을 듣고 공통 과제를 풀며 배운 내용을 연습합니다.', '필요한 설명을 듣고 학생별 이해도에 맞는 과제를 수행합니다.'),
+    ('진도와 속도', '반의 계획에 맞춰 같은 순서와 속도로 진도를 나갑니다.', '이전 개념을 보완하거나 연결 문제로 확장하며 속도와 분량을 조정합니다.'),
+    ('학년과 학교 일정', '같은 학년의 교육과정을 함께 다루기 쉽습니다.', '학습 출발점은 실력으로 정하되 학교 학년과 시험 일정도 고려합니다.'),
+    ('활용하기 좋은 점', '공통 개념을 체계적으로 듣고 시험 범위를 함께 정리하기 좋습니다.', '서로 다른 개념의 빈틈과 질문에 맞춰 연습을 조정하기 좋습니다.'),
+    ('선택 전 확인할 점', '설명 속도·과제 난도와 수업 후 질문 기회가 아이에게 맞는지 확인하세요.', '진단 결과가 과제 조정·오답 피드백·재확인으로 이어지는지 확인하세요.'),
+    ('잘 맞는 학습 상황', '공통 진도를 따라가고 설명을 바탕으로 혼자 연습할 수 있을 때 검토해 보세요.', '기초 개념 보완이나 학습량 조정, 준비된 내용의 확장이 필요할 때 검토해 보세요.'),
+    ('선생님의 역할', '핵심 내용을 설명하고 공통 진도와 과제 수행을 확인합니다.', '풀이 이유를 묻고 막힌 단계를 설명하며 다음 과제와 복습을 설계합니다.'),
+    ('평가와 재확인', '시험과 숙제로 배운 내용을 확인합니다. 이후 오답 처리 방식도 확인하세요.', '정답뿐 아니라 설명 가능한 내용과 다시 틀린 문제를 보고 계획을 조정합니다.'),
+    ('수업 후 다음 과제', '공통 숙제와 다음 진도를 확인합니다. 개인별 보강 여부는 따로 물어보세요.', '남은 개념·재풀이할 문제·복습 날짜를 정합니다. 기록 공유 방식은 지점에서 확인하세요.'),
+]
+PLANNER_SUPPORT = [
+    ('할 일을 실행 가능한 과제로', '과목·단원·분량·완료 기준', '“수학 공부하기”를 “개념을 설명하고 관련 문제 3개 풀기”처럼 바꿔 보세요. 끝났는지 확인할 기준이 있어야 다음 과제를 조정할 수 있습니다.', '/학습가이드/학습플래너작성법/', '플래너 작성 방법'),
+    ('시간과 복습 습관 살피기', '계획한 시간과 실제 수행 비교', '오래 앉아 있었는지보다 어느 과제에 시간이 걸렸는지 남겨 보세요. 자꾸 미루는 과목과 빠지는 복습을 찾아 분량·순서·휴식 계획을 조정합니다.', '/교육정보/공부계획실천점검/', '공부 계획 실천 점검'),
+    ('스스로 다음 계획 고르기', '오늘의 선택과 다음 확인', '학생이 먼저 오늘 할 일과 어려웠던 부분을 말하게 해 보세요. 처음에는 선택지를 함께 정하고, 익숙해지면 학생이 분량과 우선순위를 정해 보는 방식입니다.', '/교육정보/학부모자기주도대화/', '자기주도학습을 돕는 대화'),
+    ('과목에 맞는 공부법 조정', '풀이 이유·읽기 근거·재풀이', '수학은 처음 틀린 단계, 영어는 문장 구조와 답의 근거, 국어는 지문의 연결을 확인하세요. 채점 뒤에는 같은 문제를 다시 확인할 방법과 날짜를 정합니다.', '/학습가이드/수학오답관리/', '오답 원인과 재풀이 방법'),
+    ('부모도 학습 과정 확인', '완료한 과제와 필요한 도움', '완료한 내용, 스스로 설명할 수 있는 부분, 남은 오답과 다음 계획을 함께 보세요. 실제 상담 주기와 기록 공유 방식은 해당 지점에 확인할 항목입니다.', '/학습가이드/학부모상담체크리스트/', '학부모 상담 준비'),
+    ('시험일까지 거꾸로 계획', '시험 범위·남은 날짜·복습', '시험 날짜와 학교 자료를 먼저 확인하고 개념 정리·문제 연습·재확인 시간을 나누세요. 부족한 과목을 먼저 배치하되 밀린 분량을 한날에 몰지 않습니다.', '/학습가이드/시험2주준비/', '시험이 2주 남았을 때의 계획'),
+    ('완료와 미완료 이유 정리', '해낸 일과 다음 수정 사항', '계획을 지키지 못했다면 분량이 많았는지, 개념이 어려웠는지, 시작을 못 했는지 나눠 보세요. 실제로 해낸 일을 기준으로 다음 계획의 분량과 도움을 조정합니다.', '/학습가이드/학습플래너작성법/', '계획과 실행 기록 연결하기'),
+]
+QUESTION_CYCLE = [
+    ('학생이 풀이를 설명', '내가 사용한 조건과 풀이 순서를 말하며 어디까지 이해했는지 확인합니다.'),
+    ('코치와 막힌 단계 확인', '혼동한 개념을 질문과 필요한 설명으로 짚고, 다음에 적용할 기준을 정합니다.'),
+    ('혼자 다시 적용', '비슷한 문제를 같은 기준으로 풀어 보고 남은 오답과 다음 질문을 기록합니다.'),
+]
+EXTRA_IMAGES = [
+    {'source':'https://www.wawacenter.com/assets/img/nest_2.png', 'file':'assets/home-coaching/student-question.webp', 'width':125, 'height':110, 'alt':'학생이 질문하고 학습 내용을 점검하는 와와 학습코칭 소개 그림'},
+    {'source':'https://www.wawacenter.com/assets/img/c01.png', 'file':'assets/home-coaching/study-plan.webp', 'width':83, 'height':84, 'alt':'구체적인 공부 계획을 나타내는 와와 학습코칭 소개 그림'},
 ]
 STEPS = [
     ('Check', '맞춤진단', '점수와 공부 행동을 함께 보기', '최근 시험지, 풀이 과정, 숙제 수행을 살펴봅니다. 개념이 부족한지, 조건을 놓치는지, 시작과 복습이 어려운지 구분합니다.', '남길 기록: 지금 막히는 단원과 원인'),
@@ -37,6 +55,20 @@ def block(key, content):
 def remove(text, key):
     return re.sub(r'<!-- home-coaching:'+key+r':start -->[\s\S]*?<!-- home-coaching:'+key+r':end -->', '', text)
 
+def support_image(index):
+    im=EXTRA_IMAGES[index]
+    return f'<img class="hc-support-icon" src="/{im["file"]}" width="{im["width"]}" height="{im["height"]}" loading="lazy" decoding="async" alt="{escape(im["alt"],quote=True)}">'
+
+def question_support():
+    steps=''.join(f'<li><span class="hc-number">0{i}</span><div><h4>{escape(title)}</h4><p>{escape(copy)}</p></div></li>' for i,(title,copy) in enumerate(QUESTION_CYCLE,1))
+    return '<section class="hc-question" id="question-learning" aria-labelledby="question-learning-title"><div class="hc-support-heading">'+support_image(0)+'<div><p class="hc-kicker">둥지학습 · 질문과 설명으로 확인하기</p><h3 id="question-learning-title">풀이 이유를 말하고, 다시 적용해 봅니다.</h3><p>선생님 가까이에서 질문을 주고받으며 학생이 자신의 생각을 설명하는 학습 방향입니다. 설명을 들은 뒤 혼자 풀어 보는 과정까지 연결합니다.</p></div></div><ol class="hc-question-cycle">'+steps+'</ol><div class="hc-actions">'+link('/학습시스템/와와학습코칭/#individual-study','둥지학습과 개별 수업 알아보기')+'</div></section>'
+
+def planner_support():
+    cards=''
+    for i,(title,record,copy,route,label) in enumerate(PLANNER_SUPPORT,1):
+        cards+=f'<details class="hc-plan-detail" data-planner-point="{i}"><summary><span class="hc-number">0{i}</span><span><strong>{escape(title)}</strong><small>{escape(record)}</small></span><span class="hc-expand" aria-hidden="true">+</span></summary><p>{escape(copy)}</p>'+link(route,label)+'</details>'
+    return '<section class="hc-plan-support" id="planner-support" aria-labelledby="planner-support-title"><div class="hc-support-heading">'+support_image(1)+'<div><h3 id="planner-support-title">플래너에서 확인할 7가지</h3><p>계획·실천·복습을 이어 보는 방법입니다. 궁금한 항목을 펼쳐 확인해 보세요.</p></div></div><div class="hc-plan-grid">'+cards+'</div></section>'
+
 def intro():
     nav = '<nav class="hc-jump" aria-label="메인 학습코칭 바로가기">'+''.join(link(route,label) for route,label in [('#home-coaching','수업의 특징'),('#lesson-comparison','수업 방식 비교'),('#coaching-process','4C 관리 과정'),('#home-library','학습 자료 찾기')])+'</nav>'
     content = '''<section class="hc-section hc-intro" id="home-coaching" aria-labelledby="home-coaching-title">
@@ -47,14 +79,15 @@ def intro():
 <article class="hc-feature"><span class="hc-number">02</span><h3>할 일을 작게 나누는 플래너</h3><p>“수학 공부” 대신 단원·분량·완료 기준을 정합니다. 못 끝낸 과제는 이유를 살피고, 다음 계획에서 분량과 방법을 조정합니다.</p></article>
 <article class="hc-feature"><span class="hc-number">03</span><h3>현재 이해도에 맞추는 진도</h3><p>학년만으로 출발점을 정하지 않습니다. 이전 개념의 빈틈을 보완하고, 설명할 수 있는 내용은 연결 문제로 확장하는 방향입니다.</p></article>
 <article class="hc-feature"><span class="hc-number">04</span><h3>과목마다 다른 복습과 질문</h3><p>영어는 문장 이해, 수학은 풀이의 이유, 국어는 지문의 근거를 살펴봅니다. 오답노트·백지노트 등은 필요한 공부에 맞춰 활용합니다.</p></article>
-</div></div><div class="hc-bottom"><p>수업 환경·개설 과목·등록 학년·관리 방식은 지점 안내와 상담에서 확인하세요.</p>'''+link('/학습시스템/개별맞춤관리/','개별맞춤 관리 자세히 보기')+'''</div></section>'''
+</div></div>'''+question_support()+'''<div class="hc-bottom"><p>수업 환경·개설 과목·등록 학년·관리 방식은 지점 안내와 상담에서 확인하세요.</p>'''+link('/학습시스템/개별맞춤관리/','개별맞춤 관리 자세히 보기')+'''</div></section>'''
     return block('intro', nav+content)
 
 def comparison():
-    rows=''.join(f'<div class="hc-compare-row" data-comparison="{i}"><h3>{escape(label)}</h3><div class="hc-lecture"><span class="hc-cell-label">강의 중심 수업</span><p>{escape(lecture)}</p></div><div class="hc-individual"><span class="hc-cell-label">개별맞춤형 수업</span><p>{escape(individual)}</p></div></div>' for i,(label,lecture,individual) in enumerate(COMPARISON,1))
+    rows=''.join(f'<tr class="hc-compare-row" data-comparison="{i}"><th scope="row" id="compare-row-{i}">{escape(label)}</th><td class="hc-lecture" headers="compare-lecture compare-row-{i}"><span class="hc-cell-label" aria-hidden="true">강의 중심 수업</span><p>{escape(lecture)}</p></td><td class="hc-individual" headers="compare-individual compare-row-{i}"><span class="hc-cell-label" aria-hidden="true">개별맞춤형 수업</span><p>{escape(individual)}</p></td></tr>' for i,(label,lecture,individual) in enumerate(COMPARISON,1))
     return block('comparison','''<section class="hc-section hc-comparison" id="lesson-comparison" aria-labelledby="lesson-comparison-title"><div class="hc-heading"><p class="hc-kicker">우리 아이에게 맞는 수업 고르기</p><h2 id="lesson-comparison-title">강의 중심 수업과<br>개별맞춤형 무학년 수업</h2><p>함께 듣는 설명이 잘 맞는 학생도, 개념과 속도를 따로 조정해야 하는 학생도 있습니다. 수업 이름보다 아이에게 필요한 설명·과제·피드백이 어떻게 이어지는지 비교해 보세요.</p></div>
-<div class="hc-compare-head" aria-hidden="true"><span>비교 기준</span><strong>강의 중심 수업</strong><strong>개별맞춤형 무학년 수업</strong></div><div class="hc-compare-body">'''+rows+'''</div>
+<table class="hc-compare-table"><caption>수업을 선택할 때 살펴볼 10가지 기준</caption><thead><tr><th scope="col">비교 기준</th><th scope="col" id="compare-lecture">강의 중심 수업</th><th scope="col" id="compare-individual">개별맞춤형 무학년 수업</th></tr></thead><tbody>'''+rows+'''</tbody></table>
 <aside class="hc-note"><h3>‘무학년’은 학교 학년을 무시한다는 뜻일까요?</h3><p>학습의 출발점을 실제 이해 수준으로 정한다는 의미입니다. 학교 진도와 시험 범위도 함께 고려합니다. 서로 다른 문제집을 풀게 하는 것만으로 끝나지 않으며, 진단·과제 설계·질문·재확인이 연결되어야 합니다.</p><p>위 비교는 수업 선택을 위한 일반적인 운영 방향입니다. 실제 수업은 두 방식을 함께 활용할 수 있고, 효과는 학생과 운영 조건에 따라 달라집니다.</p></aside>
+<aside class="hc-comparison-check"><h3>상담에서 확인할 세 가지</h3><ul><li>설명을 들은 뒤 혼자 풀 때 막히는 단계를 어떻게 찾나요?</li><li>진단 결과에 따라 과제의 난도와 분량은 어떻게 바꾸나요?</li><li>지난 오답의 재풀이와 다음 복습 계획은 어떤 기록으로 확인하나요?</li></ul></aside>
 <div class="hc-actions">'''+link('/학습가이드/학원수업비교/','학원 수업 비교 체크리스트')+link('/지점안내/','우리 동네 수업 조건 확인',True)+'''</div></section>''')
 
 def process():
@@ -63,7 +96,7 @@ def process():
 
 def planner():
     return block('planner','''<section class="hc-section hc-planner" id="learning-record" aria-labelledby="learning-record-title"><div class="hc-heading"><p class="hc-kicker">학생에게는 다음 할 일, 학부모에게는 확인할 과정</p><h2 id="learning-record-title">“공부했니?” 다음에<br>물어볼 수 있는 기록</h2><p>시간과 페이지 수만 적기보다 무엇을 설명할 수 있게 됐는지, 어디에서 막혔는지 남겨 보세요. 기록은 아이를 비교하는 점수가 아니라 다음 과제를 정하는 자료가 됩니다.</p></div>
-<div class="hc-record-grid"><article class="hc-record"><span class="hc-example">학습 기록 예시 · 수학</span><h3>맞힌 문제도 풀이 이유까지</h3><dl><div><dt>오늘 과제</dt><dd>분수 덧셈 3문제 풀고 풀이 설명하기</dd></div><div><dt>완료 기준</dt><dd>통분이 필요한 이유를 말할 수 있기</dd></div><div><dt>막힌 부분</dt><dd>분모가 다를 때 더하는 순서를 혼동함</dd></div><div><dt>다음 과제</dt><dd>그림으로 크기를 비교한 뒤 같은 문제 다시 풀기</dd></div></dl>'''+link('/학습가이드/수학오답관리/','수학 오답 기록 방법')+'''</article>
+'''+planner_support()+'''<div class="hc-record-grid"><article class="hc-record"><span class="hc-example">학습 기록 예시 · 수학</span><h3>맞힌 문제도 풀이 이유까지</h3><dl><div><dt>오늘 과제</dt><dd>분수 덧셈 3문제 풀고 풀이 설명하기</dd></div><div><dt>완료 기준</dt><dd>통분이 필요한 이유를 말할 수 있기</dd></div><div><dt>막힌 부분</dt><dd>분모가 다를 때 더하는 순서를 혼동함</dd></div><div><dt>다음 과제</dt><dd>그림으로 크기를 비교한 뒤 같은 문제 다시 풀기</dd></div></dl>'''+link('/학습가이드/수학오답관리/','수학 오답 기록 방법')+'''</article>
 <article class="hc-record"><span class="hc-example">학습 기록 예시 · 영어</span><h3>해석한 문장의 근거 찾기</h3><dl><div><dt>오늘 과제</dt><dd>짧은 지문에서 주어·동사와 근거 문장 표시하기</dd></div><div><dt>완료 기준</dt><dd>답을 고른 이유를 본문에서 찾을 수 있기</dd></div><div><dt>막힌 부분</dt><dd>대명사가 가리키는 대상을 놓침</dd></div><div><dt>다음 과제</dt><dd>앞 문장과 연결해 대명사의 대상을 다시 표시하기</dd></div></dl>'''+link('/학습가이드/영어문장구조읽기/','영어 문장 이해 방법')+'''</article>
 <article class="hc-record"><span class="hc-example">가정에서 함께 확인할 질문</span><h3>결과와 다음 계획을 연결하기</h3><ul><li>오늘 혼자 설명할 수 있게 된 것은 무엇인가요?</li><li>못 끝낸 과제는 분량 때문인가요, 이해가 어려워서인가요?</li><li>다음 수업에서 선생님께 물어볼 질문은 무엇인가요?</li><li>지난번 오답을 다시 풀었을 때 달라진 부분은 무엇인가요?</li></ul><p class="hc-small">위 기록은 작성 방법을 보여주는 예시입니다. 실제 학생의 성적·후기나 모든 지점의 공통 양식을 뜻하지 않습니다.</p>'''+link('/학습가이드/학습플래너작성법/','플래너 작성 방법')+'''</article></div>
 <div class="hc-actions">'''+link('/학습가이드/학부모상담체크리스트/','학부모 상담 준비하기')+link('/학습시스템/AI학습/','AI학습의 구성과 대상 확인')+'''</div></section>''')
@@ -109,7 +142,7 @@ def enhance(root=ROOT):
         if '@graph' not in data: return m[0]
         for n in data['@graph']:
             if n.get('@type') in ['WebPage','Article']:
-                n['description']=DESCRIPTION;n['dateModified']='2026-10-02'
+                n['description']=DESCRIPTION;n['dateModified']='2026-10-04'
             if n.get('@type')=='WebPage':
                 owned={'#coaching-process','#lesson-comparison','#learning-record'}
                 n['hasPart']=[item for item in n.get('hasPart',[]) if '#'+item.get('@id','').split('#')[-1] not in owned]+[{'@id':BASE+'#coaching-process'},{'@id':BASE+'#lesson-comparison'},{'@id':BASE+'#learning-record'}]
@@ -125,8 +158,11 @@ def enhance(root=ROOT):
     config_path=root/'seo-descriptions.json';config=json.loads(config_path.read_text(encoding='utf-8-sig'))
     entry=config['pages']['/'];entry['sources']=list(dict.fromkeys(entry['sources']+[entry['description'],DESCRIPTION]));entry['description']=DESCRIPTION
     config_path.write_text(json.dumps(config,ensure_ascii=False,indent=2)+'\n',encoding='utf-8',newline='\n')
-    data={'version':1,'date':'2026-10-02','description':DESCRIPTION,'comparison':COMPARISON,'steps':STEPS,'faq':questions,'officialSources':['https://www.wawacenter.com/','https://www.wawacenter.com/brand/wawacenter','https://www.wawacenter.com/intro/coachingSystem','https://www.wawacenter.com/intro/AISystem'],'photo':{'source':'https://www.wawacenter.com/assets/img/brand_info_coach.png','file':'assets/home-coaching/wawa-classroom.png','width':626,'height':417,'role':'brand introduction; not a specific branch photo'},'preserve':['shared header','hero image and consultation','branch search','learning guides','home library','education articles','tuition','branch and neighborhood pages']}
+    data={'version':2,'date':'2026-10-04','description':DESCRIPTION,'comparison':COMPARISON,'steps':STEPS,'faq':questions,'questionCycle':QUESTION_CYCLE,'plannerSupport':PLANNER_SUPPORT,'additionalImages':EXTRA_IMAGES,'officialSources':['https://www.wawacenter.com/','https://www.wawacenter.com/brand/wawacenter','https://www.wawacenter.com/intro/coachingSystem','https://www.wawacenter.com/intro/AISystem'],'photo':{'source':'https://www.wawacenter.com/assets/img/brand_info_coach.png','file':'assets/home-coaching/wawa-classroom.png','width':626,'height':417,'role':'brand introduction; not a specific branch photo'},'preserve':['shared header','hero image and consultation','branch search','learning guides','home library','education articles','tuition','branch and neighborhood pages']}
     (root/'home-coaching-data.json').write_text(json.dumps(data,ensure_ascii=False,indent=2)+'\n',encoding='utf-8',newline='\n')
+    # Preserve the current homepage hub shortcuts and all six contextual FAQ links.
+    import home_access
+    home_access.enhance(root)
     print(json.dumps({'homeUpdated':True,'comparisonRows':len(COMPARISON),'coachingSteps':len(STEPS),'faq':len(questions),'descriptionChars':len(DESCRIPTION)},ensure_ascii=False))
 
 if __name__=='__main__': enhance()
