@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {matchesGuide, recordText} from '../assets/learning-guide-tools.mjs';
-const sample={category:'math',levels:['middle','high'],search:'수학 풀이 비교 — 등식 AI 전략'};
+const sample={category:'math',levels:['middle','high'],needs:['basics','review'],search:'수학 풀이 비교 — 등식 AI 전략'};
 test('reader, subject and all search terms narrow the same guide set',()=>{
  assert.equal(matchesGuide(sample,{level:'middle',category:'math',query:'풀이 전략'}),true);
  assert.equal(matchesGuide(sample,{level:'elementary',category:'math'}),false);
@@ -25,4 +25,11 @@ test('blank fields and missing date remain blank in a draft rather than examples
  const result=recordText({title:'실천',url:'/가이드/',date:'',fields:[{label:'목표',value:''}]});
  assert.ok(result.includes('작성 날짜: 미작성'));
  assert.ok(result.includes('목표:\r\n\r\n'));
+});
+test('need filtering intersects with reader, subject and every search term',()=>{
+ assert.equal(matchesGuide(sample,{level:'middle',category:'math',need:'review',query:'수학 전략'}),true);
+ assert.equal(matchesGuide(sample,{level:'middle',category:'math',need:'exam'}),false);
+ assert.equal(matchesGuide({...sample,needs:'basics review'},{need:'basics'}),true);
+ assert.equal(matchesGuide({...sample,needs:undefined},{need:'basics'}),false);
+ assert.equal(matchesGuide(sample,{need:'not-a-need'}),false);
 });

@@ -21,10 +21,15 @@ export function assertLearningGuide(html,name){
   for(const page of data.pages)if(!html.includes(`href="${encodeURI(page.route)}"`))fail('Static guide link missing');
   if((html.match(/data-guide-card /g)||[]).length!==data.pages.length)fail('Static guide card missing');
   for(const [key,label] of data.levels)if(!html.includes(`<option value="${key}">${label}</option>`))fail('Reader filter missing');
+  for(const [key,label] of data.needs)if(!html.includes(`<option value="${key}">${label}</option>`))fail('Need filter missing');
+  for(const page of data.pages)if(!html.includes(`data-needs="${page.needs.join(' ')}"`))fail('Need tags missing');
   return;
  }
  for(const id of ['check','steps','example','record','mistakes','next','faq','sources','related',...(p.legacy?['section-1','section-2','section-3','section-4']:[])])if(!html.includes(`id="${id}"`))fail('Learning section or legacy anchor missing');
  if(!html.includes(esc(p.answer)))fail('Direct answer missing');
+ if(p.parentHelp&&(!html.includes('id="parent-help"')||!html.includes(esc(p.parentHelp))))fail('Parent support missing');
+ for(const need of p.needs)if(!html.includes(`href="${encodeURI('/학습가이드/?need='+need+'#guide-results')}"`))fail('Contextual need link missing');
+ if(!html.includes('id="learning-support"')||!html.includes(`href="${encodeURI('/지점안내/')}"`))fail('Learning support link missing');
  if(!html.includes(`href="${encodeURI(p.record)}" download=`))fail('Blank record download missing');
  if(!html.includes('연습 예시'))fail('Worked example label missing');
  if(!html.includes('data-guide-record')||!html.includes('data-record-download')||!html.includes('data-record-print'))fail('Local record editor missing');

@@ -18,22 +18,27 @@ SOURCES={
  'fees':('NEIS','학원·교습소 정보 서비스','현재 정보 조회','https://hakwon.neis.go.kr/nxui/index.html','등록 학원 정보와 교습비를 확인할 때 이용하는 공식 조회 서비스입니다.'),
  'digital':('EEF','학습 목표에 맞는 디지털 도구 활용','2019','https://educationendowmentfoundation.org.uk/education-evidence/guidance-reports/digital','디지털 도구를 설명·연습·평가·피드백의 목표와 연결하는 교육 자료입니다.'),
  'media':('UNESCO','미디어·정보 리터러시','접속 확인 2026-10-02','https://www.unesco.org/en/media-information-literacy','정보를 찾고 비판적으로 평가하며 책임 있게 활용하는 역량을 안내합니다.'),
+ 'earlyreading':('IES','읽기 정확도·유창성·이해의 기초 지도','2016, 개정 2019','https://ies.ed.gov/ncee/wwc/PracticeGuide/21','영어권 초기 읽기 지도 자료입니다. 읽기 정확도와 의미 확인을 연결하는 활동 원리를 참고합니다.'),
+ 'grammar':('British Council','수준별 영어 문법 설명과 연습','자료별 내용 확인','https://learnenglish.britishcouncil.org/free-resources/grammar','문법 설명·예문·이해 확인 연습을 연결하는 공식 학습 자료입니다.'),
+ 'speaking':('British Council','상황별 영어 말하기 연습','자료별 내용 확인','https://learnenglish.britishcouncil.org/free-resources/speaking','대화 상황의 표현을 듣고 직접 사용하는 공식 연습 자료입니다. 자료의 상황과 수준은 학생에게 맞게 고릅니다.'),
 }
 PAGES=[]
-def add(slug,group,title,description,audience,answer,checks,steps,example,record,avoid,next_check,faq,sources,related,tags=''):
+def add(slug,group,title,description,audience,answer,checks,steps,example,record,avoid,next_check,faq,sources,related,tags='',needs=None,levels=None,parent_help=None):
  assert group in {g[0] for g in GROUPS} and len(description)<=80 and description.endswith('.'),slug
  assert len(steps)>=4 and len(checks)>=2 and len(record)>=4 and len(faq)==3,slug
  assert all(s in SOURCES for s in sources) and len(sources)>=1,slug
- PAGES.append(dict(slug=slug,route='/학습가이드/'+slug+'/',group=group,title=title,description=description,audience=audience,answer=answer,checks=checks,steps=steps,example=example,record=record,avoid=avoid,nextCheck=next_check,faq=faq,sources=sources,related=related,tags=tags))
+ PAGES.append(dict(slug=slug,route='/학습가이드/'+slug+'/',group=group,title=title,description=description,audience=audience,answer=answer,checks=checks,steps=steps,example=example,record=record,avoid=avoid,nextCheck=next_check,faq=faq,sources=sources,related=related,tags=tags,needs=needs,levels=levels,parentHelp=parent_help))
 for module in ['learning_grade_guides','learning_math_guides','learning_english_guides','learning_literacy_guides','learning_habit_guides','learning_parent_guides']:
  __import__(module).extend(add)
 __import__('learning_additional_guides').extend(add)
-assert len(PAGES)==53 and len({p['slug'] for p in PAGES})==53
+__import__('learning_expansion_guides').extend(add)
+assert len(PAGES)==77 and len({p['slug'] for p in PAGES})==77
 assert all(k in {p['slug'] for p in PAGES} for p in PAGES for k in p['related'])
 
 LEVELS=[('elementary','초등학생'),('middle','중학생'),('high','고등학생'),('parent','학부모')]
 # Reading relevance, not a statement of branch availability or a student's ability.
 for p in PAGES:
+ if p.get('levels'):continue
  if p['group']=='parents':
   levels=['elementary','middle','high','parent']
  elif p['slug'] in ['초등학생공부습관']:
@@ -52,3 +57,14 @@ for p in PAGES:
   levels=['middle','high']
  if '보호자' in p['audience'] and 'parent' not in levels:levels.append('parent')
  p['levels']=levels
+
+NEEDS=[('exam','시험 준비'),('basics','기초 이해'),('review','오답·복습'),('expression','과제·표현'),('routine','계획·습관'),('consultation','수업 선택·상담')]
+for p in PAGES:
+ if p.get('needs'):continue
+ group=p['group'];slug=p['slug']
+ p['needs']={'grade':['exam','routine'],'math':['basics','review'],'english':['basics','review'],'literacy':['expression','review'],'habits':['routine','review'],'parents':['consultation','routine']}[group].copy()
+ if slug in ['초등학생공부습관','방학복습계획','초등중등학년전환','중등고등학년전환']:p['needs']=['basics','routine']
+ if slug in ['수행평가준비','국어서술형답안','영어서술형쓰기','영어쓰기수정기록']:p['needs']=['expression','exam']
+ if slug in ['수학서술형풀이','고등수학모의고사분석','영어내신준비']:p['needs']=['exam','review']
+ if slug in ['학습변화기록','교재선택복습','온라인학습점검']:p['needs']=['consultation','review']
+assert all(p['needs'] and set(p['needs'])<={key for key,_ in NEEDS} for p in PAGES)

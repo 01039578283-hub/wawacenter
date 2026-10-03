@@ -3,10 +3,12 @@ export function normalize(value) {
   return String(value ?? '').normalize('NFKC').toLocaleLowerCase('ko-KR').replace(/\s+/g, ' ').trim();
 }
 
-export function matchesGuide(guide, {query = '', category = '', level = ''} = {}) {
+export function matchesGuide(guide, {query = '', category = '', level = '', need = ''} = {}) {
   const levels = Array.isArray(guide.levels) ? guide.levels : String(guide.levels || '').split(' ');
+  const needs = Array.isArray(guide.needs) ? guide.needs : String(guide.needs || '').split(' ');
   return (!category || guide.category === category)
     && (!level || levels.includes(level))
+    && (!need || needs.includes(need))
     && normalize(query).split(' ').filter(Boolean).every(term => normalize(guide.search).includes(term));
 }
 

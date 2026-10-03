@@ -1,8 +1,8 @@
 # Learning guide library
 
-The 53 original articles live in `learning_*_guides.py`, including the 13
-extensions in `learning_additional_guides.py`. `learning_guides.py` keeps their
-catalog, reader relevance and primary source register. All 40 prior article
+The 77 original articles live in `learning_*_guides.py`, including 13 extensions in `learning_additional_guides.py` and 24 in
+`learning_expansion_guides.py`. `learning_guides.py` keeps their
+catalog, reader relevance and primary source register. All 53 prior article
 URLs and publication dates remain; the eight legacy articles also preserve
 their four original section anchors. Reader relevance is not branch availability.
 
@@ -19,15 +19,15 @@ node wawa-analytics-build.mjs wawa-07 .public-release
 node seo-descriptions.mjs --root=.public-release
 ```
 
-The generator updates the guide collection, individual articles, 53 blank TXT
+The generator updates the guide collection, individual articles, 77 blank TXT
 records, descriptions, shared navigation inventory, sitemap, RSS and the bounded
 guide catalog in llms.txt. It preserves the guide hub's book discovery block
 and the unrelated book and neighborhood catalogs. It selects
 only reviewed public files for the release manifest. Authoring data, source
 registers, tools and audit reports are excluded from the public output.
 
-After generation, confirm all 54 pages at 320, 390, 768 and 1280 pixels,
-reader and topic filtering together, query filtering, URL restoration, empty
+After generation, confirm all 78 pages at 320, 390, 768 and 1280 pixels,
+reader, need and topic filtering together, query filtering, URL restoration, empty
 results, reset, FAQ expansion and record downloads. Fill a real example in the
 local record editor and inspect its saved UTF-8 BOM/CRLF file. The editor does
 not transmit or persist entries; blank records and all static links remain

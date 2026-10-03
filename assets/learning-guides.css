@@ -52,3 +52,22 @@
 @media(max-width:560px){.lg-page main{padding:0 16px 44px}.lg-page .bd-hero{padding:24px 20px;border-radius:22px}.lg-page .bd-hero h1{font-size:28px}.lg-page .bd-hero p{font-size:16px}.lg-answer{padding:18px}.lg-answer p{font-size:16px}.lg-checks,.lg-cards,.lg-start{grid-template-columns:1fr}.lg-start a{min-height:92px;padding:18px}.lg-toc{padding:12px;gap:6px}.lg-toc a{font-size:13px;padding:9px 10px}.lg-page .bd-section h2{font-size:23px}.lg-step{padding:20px 16px;grid-template-columns:32px 1fr;gap:10px}.lg-step-number{width:30px;height:30px;font-size:12px}.lg-page .bd-section h3{font-size:18px}.lg-example,.lg-record{padding:20px}.lg-record dl>div{grid-template-columns:1fr;gap:6px;padding:15px 0}.lg-search{padding:18px}.lg-search-row{align-items:stretch;flex-direction:column}.lg-search-row button{align-self:flex-start}.lg-guide-card{padding:22px}.lg-mistakes{padding:16px 18px}.lg-next{padding:18px}.lg-sources{padding-left:20px}}
 @media(prefers-reduced-motion:reduce){.lg-page{scroll-behavior:auto}}
 @media print{.lg-page .site-header,.lg-page .footer,.lg-toc,.lg-bottom,.lg-record .bd-actions,.lg-related{display:none}.lg-page{background:#fff;color:#111}.lg-page main{max-width:none;padding:0}.lg-page .bd-hero{background:#fff;border:0;padding:0}.lg-page .bd-section{margin-top:24px}.lg-step,.lg-example,.lg-record,.lg-checks .bd-card{break-inside:avoid}.lg-page details>div{display:block}.lg-page .lg-sources a:after{content:' (' attr(href) ')';font-size:10px;overflow-wrap:anywhere}}
+/* Match the shared orange and navy identity; keep reading controls generous. */
+.lg-page .lg-new,.lg-page .lg-step-number{background:#fff1e3;border-color:#efd6bf;color:#a94300}
+.lg-page .lg-answer{background:#fff7ef;border-left-color:#a94300}
+.lg-page .lg-answer strong,.lg-page .lg-start a,.lg-page .lg-paths a,.lg-page .lg-sources a,.lg-page .lg-bottom a{color:#a94300}
+.lg-page .lg-next,.lg-page .lg-toc a{background:#fff7ef;border-color:#eadfd4;color:#103f67}
+.lg-page .lg-example h3,.lg-page .lg-record dt,.lg-page .lg-editor label,.lg-page .lg-editor legend{color:#103f67}
+.lg-page .lg-search input,.lg-page .lg-search select,.lg-page .lg-editor input,.lg-page .lg-editor textarea{background:#fffcf8;border-color:#cfbdae;color:#19354d}
+.lg-page .lg-filters button{border-color:#eadfd4;color:#103f67}
+.lg-page .lg-filters button[aria-pressed=true]{background:#a94300;border-color:#a94300;color:#fff}
+.lg-page .lg-guide-card h3 a{display:block;min-height:44px;color:#103f67;text-decoration:none;overflow-wrap:anywhere}
+.lg-page .lg-guide-card h3 a:hover{color:#a94300;text-decoration:underline;text-underline-offset:4px}
+.lg-page .lg-paths li{padding:0}.lg-page .lg-paths a{display:flex;align-items:center;min-height:44px;padding:8px 0;line-height:1.65}
+.lg-page .lg-search-row{display:grid;grid-template-columns:150px 190px minmax(0,1fr) auto;gap:12px}
+.lg-page .lg-search-row input,.lg-page .lg-search-row select{box-sizing:border-box}
+.lg-parent-help{padding:20px 24px;border:1px solid #eadfd4;border-left:4px solid #a94300;border-radius:0 16px 16px 0;background:#fffaf5}
+.lg-parent-help p{margin:0}.lg-need-links{margin-top:24px}
+.lg-page a:focus-visible,.lg-page button:focus-visible,.lg-page select:focus-visible,.lg-page input:focus-visible,.lg-page textarea:focus-visible{outline:3px solid #a94300;outline-offset:3px}
+@media(max-width:860px){.lg-page .lg-search-row{grid-template-columns:repeat(2,minmax(0,1fr))}.lg-page .lg-search-row button{justify-self:start}}
+@media(max-width:560px){.lg-page .lg-search-row{grid-template-columns:1fr}.lg-parent-help{padding:18px}}

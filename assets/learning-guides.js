@@ -5,17 +5,19 @@ const form = document.querySelector('[data-guide-search]');
 if (form) {
   const input = form.querySelector('input[type="search"]');
   const level = form.querySelector('select[name="level"]');
+  const need = form.querySelector('select[name="need"]');
   const buttons = [...form.querySelectorAll('[data-guide-filter]')];
   const cards = [...document.querySelectorAll('[data-guide-card]')];
   const groups = [...document.querySelectorAll('[data-guide-group]')];
+  const groupLinks = [...document.querySelectorAll('nav[aria-label="주제별 가이드 바로가기"] a')];
   const status = document.querySelector('[data-guide-status]');
   const empty = document.querySelector('[data-guide-empty]');
   let category = '';
   function render(updateUrl = true) {
     let count = 0;
-    const filters = {query: input.value, category, level: level.value};
+    const filters = {query: input.value, category, level: level.value, need: need.value};
     for (const card of cards) {
-      const match = matchesGuide({category: card.dataset.category, levels: card.dataset.levels, search: card.dataset.search}, filters);
+      const match = matchesGuide({category: card.dataset.category, levels: card.dataset.levels, needs: card.dataset.needs, search: card.dataset.search}, filters);
       card.hidden = !match;
       if (match) count++;
     }
@@ -24,12 +26,16 @@ if (form) {
       group.hidden = !count;
       group.querySelector('[data-group-count]').textContent = count + '개';
     }
+    for (const link of groupLinks) {
+      const group = groups.find(group => '#' + group.id === link.getAttribute('href'));
+      link.hidden = !group || group.hidden;
+    }
     buttons.forEach(button => button.setAttribute('aria-pressed', String(button.dataset.guideFilter === category)));
     status.textContent = count + '개 가이드를 볼 수 있습니다.';
     empty.hidden = count !== 0;
     if (updateUrl) {
       const url = new URL(window.location.href);
-      for (const [key, value] of Object.entries({q: input.value.trim(), category, level: level.value})) {
+      for (const [key, value] of Object.entries({q: input.value.trim(), category, level: level.value, need: need.value})) {
         if (value) url.searchParams.set(key, value); else url.searchParams.delete(key);
       }
       window.history.replaceState(null, '', url);
@@ -40,13 +46,15 @@ if (form) {
     input.value = (params.get('q') || '').slice(0, 100);
     category = buttons.some(button => button.dataset.guideFilter === params.get('category')) ? params.get('category') : '';
     level.value = [...level.options].some(option => option.value === params.get('level')) ? params.get('level') : '';
+    need.value = [...need.options].some(option => option.value === params.get('need')) ? params.get('need') : '';
     render(false);
   }
   form.addEventListener('submit', event => { event.preventDefault(); render(); });
   input.addEventListener('input', () => render());
   level.addEventListener('change', () => render());
+  need.addEventListener('change', () => render());
   buttons.forEach(button => button.addEventListener('click', () => { category = button.dataset.guideFilter; render(); }));
-  form.addEventListener('reset', event => { event.preventDefault(); category = ''; input.value = ''; level.value = ''; render(); });
+  form.addEventListener('reset', event => { event.preventDefault(); category = ''; input.value = ''; level.value = ''; need.value = ''; render(); });
   window.addEventListener('popstate', restore);
   restore();
 }

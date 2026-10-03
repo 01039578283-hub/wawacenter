@@ -18,7 +18,7 @@ def main():
  previous=json.loads((args.audit/'before-guides.json').read_text(encoding='utf-8'))
  old_pages={p['route']:p for p in previous['pages']};count=len(data['pages'])
  guide_pages={p['route'].lstrip('/')+'index.html':p for p in data['pages']};hub='학습가이드/index.html'
- allowed={hub,*guide_pages,'sitemap.xml','rss.xml','llms.txt','assets/learning-guides.css','assets/learning-guides.js'}
+ allowed={hub,*guide_pages,'index.html','sitemap.xml','rss.xml','llms.txt','assets/learning-guides.css','assets/learning-guides.js','assets/learning-guide-tools.mjs'}
  protected={n:h for n,h in before['files'].items() if n not in allowed}
  selected=set(manifest['files']);errors=[];ids={};links=[];canonicals={};descriptions=[];bodies=[]
  if set(before['files'])-selected:errors.append(['public files removed',sorted(set(before['files'])-selected)])
@@ -92,6 +92,8 @@ def main():
  for name in [hub,*guide_pages]:
   if canonicals[name] not in locs:errors.append([name,'absent from sitemap'])
  with zipfile.ZipFile(args.audit/'before-source.zip') as archive:
+  expected_home=archive.read('index.html').decode('utf-8').replace(str(len(old_pages))+'편',str(count)+'편').replace('\r\n','\n')
+  if (ROOT/'index.html').read_text(encoding='utf-8').replace('\r\n','\n')!=expected_home:errors.append(['homepage changed beyond guide count'])
   old_sitemap=etree.fromstring(archive.read('sitemap.xml'));old_locs=old_sitemap.xpath('//s:loc/text()',namespaces=NS)
   if not set(old_locs)<=set(locs):errors.append(['existing canonical removed from sitemap'])
   current=etree.parse(str(ROOT/'sitemap.xml'));by_loc={entry.find('s:loc',NS).text:entry for entry in current.getroot()}

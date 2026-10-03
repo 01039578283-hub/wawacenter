@@ -7,7 +7,7 @@ const read=n=>fs.readFileSync(new URL('../'+n,import.meta.url),'utf8');
 const p=data.pages.find(p=>p.slug==='수학오답관리'),name=p.route.slice(1)+'index.html',source=read(name);
 const hubName='학습가이드/index.html',hub=read(hubName);
 test('all guides preserve publication dates, sections, citations and FAQ',()=>{
- assert.equal(data.pages.length,53);assert.equal(data.pages.filter(p=>p.legacy).length,8);assert.equal(data.pages.filter(p=>p.isNew).length,13);
+ assert.equal(data.pages.length,77);assert.equal(data.pages.filter(p=>p.legacy).length,8);assert.equal(data.pages.filter(p=>p.isNew).length,24);
  for(const p of data.pages){const n=p.route.slice(1)+'index.html';assertLearningGuide(read(n),n);}
  assertLearningGuide(hub,hubName);
 });
@@ -23,4 +23,10 @@ test('guide URLs stay canonical',()=>assert.throws(()=>assertLearningGuide(sourc
 test('JavaScript cannot become the only way to find an article',()=>assert.throws(()=>assertLearningGuide(hub.replaceAll(encodeURI(p.route),'/missing/'),hubName),/Static guide link/));
 test('editorial policy and unsupported outcomes cannot enter the public copy',()=>{
  for(const text of ['편집 원칙','성적 보장'])assert.throws(()=>assertLearningGuide(source.replace('</main>',`<p>${text}</p></main>`),name),/policy or unverified/);
+});
+test('need filters and parent support remain present in the rendered content',()=>{
+ assert.throws(()=>assertLearningGuide(hub.replace('<option value="basics">기초 이해</option>',''),hubName),/Need filter missing/);
+ const p=data.pages.find(p=>p.slug==='첫수업후점검'),n=p.route.slice(1)+'index.html';
+ assert.throws(()=>assertLearningGuide(read(n).replace('id="parent-help"','id="missing-parent"'),n),/Parent support missing/);
+ assert.throws(()=>assertLearningGuide(read(n).replaceAll(encodeURI('/학습가이드/?need=consultation#guide-results'),'/missing/'),n),/Contextual need link missing/);
 });

@@ -11,11 +11,12 @@ from urllib.parse import unquote, urlsplit
 from lxml import etree
 import build_branch_upgrade as ui
 import build_site_shell as common
-from learning_guides import PAGES, GROUPS, SOURCES, LEVELS
+from learning_guides import PAGES, GROUPS, SOURCES, LEVELS, NEEDS
 
 ROOT=ui.ROOT
 E=ui.e
 GROUP_NAMES={g:n for g,n,_ in GROUPS}
+NEED_NAMES=dict(NEEDS)
 BY_SLUG={p['slug']:p for p in PAGES}
 HUB='/학습가이드/'
 HUB_TITLE='학생·학부모를 위한 학습가이드'
@@ -24,7 +25,7 @@ HUB_DESCRIPTION=f'학생·학부모를 위한 {COUNT}개 학습가이드에서 �
 SECTION_NAMES=[('check','먼저 확인'),('steps','실행 순서'),('example','연습 예시'),('record','기록 양식'),('mistakes','주의할 점'),('next','다음 점검'),('faq','자주 묻는 질문'),('sources','참고 자료'),('related','함께 볼 가이드')]
 
 def card(p,filterable=False):
-    attrs=f' data-guide-card data-category="{p["group"]}" data-levels="{" ".join(p["levels"])}" data-search="{E(" ".join([p["title"],p["description"],p["audience"],p["tags"]]))}"' if filterable else ''
+    attrs=f' data-guide-card data-category="{p["group"]}" data-levels="{" ".join(p["levels"])}" data-needs="{" ".join(p["needs"])}" data-search="{E(" ".join([p["title"],p["description"],p["audience"],p["tags"]]))}"' if filterable else ''
     badge='<span class="lg-new">학습가이드</span>' if p.get('isNew') else ''
     return f'<article class="bd-card lg-guide-card"{attrs}>{badge}<p class="lg-card-audience">{E(p["audience"])}</p><h3>{ui.link(p["route"],p["title"])}</h3><p class="lg-card-desc">{E(p["description"])}</p>'+f'<a class="lg-card-link" href="{ui.href(p["route"])}" aria-label="{E(p["title"])} 자세히 읽기">가이드 읽기 <span aria-hidden="true">→</span></a></article>'
 
@@ -48,7 +49,9 @@ def render_article(p,legacy,published):
     route=p['route']
     body=f'<article data-learning-guide="{E(p["slug"])}"><header class="bd-hero"><p class="bd-kicker">학습가이드 / {E(GROUP_NAMES[p["group"]])}</p><h1>{E(p["title"])}</h1><p class="lg-audience">{E(p["audience"])}</p><div class="lg-dates"><span>처음 게시 <time datetime="{published}">{published}</time></span><span>내용 업데이트 <time datetime="{ui.DAY}">{ui.DAY}</time></span></div></header>'
     body+=f'<div class="lg-answer" data-guide-answer><strong>먼저 알아둘 답</strong><p>{E(p["answer"])}</p></div>'
-    body+='<nav class="lg-toc" aria-label="가이드 목차">'+''.join(ui.link('#'+k,n) for k,n in SECTION_NAMES)+'</nav>'
+    sections=SECTION_NAMES.copy()
+    if p.get('parentHelp'):sections.insert(6,('parent-help','학부모가 도울 때'))
+    body+='<nav class="lg-toc" aria-label="가이드 목차">'+''.join(ui.link('#'+k,n) for k,n in sections)+'</nav>'
     def section(id,title,content,lead='',alias=None):
         return (f'<span class="lg-legacy" id="section-{alias}" aria-hidden="true"></span>' if legacy and alias else '')+ui.section(id,title,content,lead)
     body+=section('check','지금 상황을 먼저 확인하세요','<div class="lg-checks">'+''.join(f'<div class="bd-card"><h3>{E(h)}</h3><p>{E(t)}</p></div>' for h,t in p['checks'])+'</div>',alias=1)
@@ -60,6 +63,8 @@ def render_article(p,legacy,published):
     body+='<section class="lg-print-record" hidden aria-label="인쇄할 실천 기록"><h2>작성한 실천 기록</h2><pre data-record-output></pre></section>'
     body+=section('mistakes','이 점은 구분해서 보세요','<div class="lg-mistakes"><ul>'+''.join(f'<li>{E(t)}</li>' for t in p['avoid'])+'</ul></div>')
     body+=section('next','다음 자료에서 다시 점검하세요','<div class="lg-next"><p>'+E(p['nextCheck'])+'</p></div>')
+    if p.get('parentHelp'):
+        body+=section('parent-help','학부모가 함께 도울 때','<div class="lg-parent-help"><p>'+E(p['parentHelp'])+'</p></div>')
     body+=section('faq','자주 묻는 질문',ui.faqs_markup(p['faq']))
     bibliography=''
     for key in p['sources']:
@@ -67,7 +72,11 @@ def render_article(p,legacy,published):
         bibliography+='<li>'+ui.link(url,org+' · '+title,True)+f'<small>{E(year)} · {E(note)}</small></li>'
     body+=section('sources','더 살펴볼 참고 자료','<p class="lg-reference-note">아래 자료의 학습 원리를 참고해 실행 순서와 연습 예시를 구성했습니다. 예시의 일정·문장·문제는 적용 연습용이며 학교 평가 기준이나 특정 학생의 실제 결과가 아닙니다.</p><ul class="lg-sources">'+bibliography+'</ul>')
     extra=ui.link('/교재안내/','학년·영역별 교재 선택 자료')+' · '+ui.link('/교재안내/교재선택/','교재 선택 기준') if p['slug']=='교재선택복습' else ui.link('/교재안내/','교재 선택 자료')
-    body+=section('related','다음 질문도 함께 살펴보세요','<div class="lg-related">'+''.join(card(BY_SLUG[slug]) for slug in p['related'])+'</div><p class="lg-bottom">'+ui.link(HUB+'#group-'+p['group'],GROUP_NAMES[p['group']]+' 가이드 전체')+' · '+ui.link(HUB,f'전체 {COUNT}개 가이드')+' · '+extra+'</p>')+'</article>'
+    need_links=''.join(f'<a class="bd-btn" href="{ui.href(HUB)}?need={key}#guide-results">{E(NEED_NAMES[key])} 가이드</a>' for key in p['needs'])
+    destination=ui.button('/지점안내/','우리 동네 수업 안내 확인')
+    if p['group']=='parents':destination+=ui.button('/선생님찾기/','지점별 선생님 소개 보기')
+    body+=section('related','다음 질문도 함께 살펴보세요','<div class="lg-related">'+''.join(card(BY_SLUG[slug]) for slug in p['related'])+'</div><nav class="bd-actions lg-need-links" aria-label="같은 고민의 학습 자료">'+need_links+'</nav><p class="lg-bottom">'+ui.link(HUB+'#group-'+p['group'],GROUP_NAMES[p['group']]+' 가이드 전체')+' · '+ui.link(HUB,f'전체 {COUNT}개 가이드')+' · '+extra+'</p>')
+    body+=section('learning-support','실제 수업에서 확인하고 싶은 내용이 있다면','<p>이 글의 기록에서 혼자 한 부분과 남은 질문을 정리해 보세요. 수업의 대상·과목·일정은 해당 지점 안내에서 확인하고, 상담할 때 실제 과제와 질문을 함께 준비하세요.</p><div class="bd-actions">'+destination+'</div>')+'</article>'
     organization={'@type':'Organization','name':'와와센터 학습코칭','url':ui.url('/')}
     resource={'@type':['Article','LearningResource'],'@id':ui.url(route)+'#article','url':ui.url(route),'headline':p['title'],'description':p['description'],'inLanguage':'ko-KR','datePublished':published,'dateModified':ui.DAY,'author':organization,'publisher':organization,'mainEntityOfPage':{'@id':ui.url(route)+'#webpage'},'learningResourceType':'학습 가이드','audience':{'@type':'EducationalAudience','audienceType':p['audience']},'articleSection':GROUP_NAMES[p['group']],'citation':[SOURCES[k][3] for k in p['sources']]}
     shell(route,p['title'],p['description'],body,[('학습가이드',HUB),(p['title'],route)],[resource],p['faq'],True)
@@ -80,14 +89,16 @@ def render_article(p,legacy,published):
     return record.lstrip('/')
 
 def render_hub(book_entry):
-    body=f'<section class="bd-hero"><p class="bd-kicker">LEARNING GUIDES</p><h1>학생과 학부모의 질문에서<br>시작하는 학습가이드</h1><p>학생의 지금 상황에 맞는 글을 찾고, 오늘 할 일을 정해 보세요.<br>과목별 연습·시험 준비·학부모 상담을 다루는 {COUNT}개 가이드와 실천 기록을 모았습니다.</p><div class="bd-tags"><span>6개 주제</span><span>{COUNT}개 가이드</span><span>실천 기록 작성·저장</span></div><div class="bd-actions">'+ui.button('#guide-results','대상·주제로 가이드 찾기',True)+ui.button('#reading-paths','어떤 순서로 읽을까요?')+'</div></section>'
+    body=f'<section class="bd-hero"><p class="bd-kicker">LEARNING GUIDES</p><h1>학생과 학부모의 질문에서<br>시작하는 학습가이드</h1><p>학생의 지금 상황에 맞는 글을 찾고, 오늘 할 일을 정해 보세요.<br>과목별 연습·시험 준비·학부모 상담을 다루는 {COUNT}개 가이드와 실천 기록을 모았습니다.</p><div class="bd-tags"><span>6개 주제</span><span>{COUNT}개 가이드</span><span>실천 기록 작성·저장</span></div><div class="bd-actions">'+ui.button('#guide-results','대상·고민으로 가이드 찾기',True)+ui.button('#reading-paths','어떤 순서로 읽을까요?')+'</div></section>'
     starts=[('시험이 2주 남았어요','시험2주준비','남은 범위와 우선순위'),('고등학교 준비가 막막해요','중등고등학년전환','현재 수행과 학교 안내'),('수학 해설을 봐야 풀려요','해설의존줄이기','막힌 줄과 필요한 도움'),('영어 글을 고쳐도 반복해서 틀려요','영어쓰기수정기록','초안과 수정 이유'),('방학에 무엇부터 복습할까요?','방학복습계획','한 가지 목표와 재확인'),('학원 상담 전에 볼 것은요?','학부모상담체크리스트','자료와 확인할 질문')]
+    starts += [('시험에서 시간이 부족해요','시험시간배분연습','읽기·풀이·답안 시간 구분'),('분수와 소수 크기가 헷갈려요','분수소수비교','같은 전체와 그림·수 표현'),('영어 단어를 읽기 어려워요','영어읽기소리연결','글자·소리와 문장 뜻'),('글을 읽어도 뜻 설명이 어려워요','초등읽기유창성','읽기 정확도와 의미 확인'),('여러 과목의 과제가 밀렸어요','여러과목우선순위','마감과 도움 받을 기회'),('첫 수업 뒤 무엇을 볼까요?','첫수업후점검','학생 반응과 실제 학습 기록')]
     body+=ui.section('start','지금 필요한 질문부터 골라 보세요','<div class="lg-start">'+''.join(f'<a href="{ui.href(BY_SLUG[slug]["route"])}"><strong>{E(question)}</strong><span>{E(label)} <span aria-hidden="true">→</span></span></a>' for question,slug,label in starts)+'</div>')
-    body+='<form id="guide-results" class="lg-search" data-guide-search role="search"><h2>지금 필요한 가이드 찾기</h2><div class="lg-search-row"><label for="guide-level">읽는 대상<select id="guide-level" name="level"><option value="">전체 대상</option>'+''.join(f'<option value="{key}">{name}</option>' for key,name in LEVELS)+'</select></label><label for="guide-query">찾고 싶은 내용<input id="guide-query" name="q" type="search" maxlength="100" placeholder="예: 단어, 수행평가, 숙제, 상담" autocomplete="off"></label><button class="bd-btn" type="reset">검색 초기화</button></div><div class="lg-filters" role="group" aria-label="가이드 주제 필터"><button type="button" data-guide-filter="" aria-pressed="true">전체 '+str(COUNT)+'</button>'+''.join(f'<button type="button" data-guide-filter="{key}" aria-pressed="false">{E(name)}</button>' for key,name,_ in GROUPS)+'</div></form><p class="lg-result" data-guide-status role="status" aria-live="polite">'+str(COUNT)+'개 가이드를 볼 수 있습니다.</p><noscript><p>검색 필터와 페이지 내 기록 작성은 자바스크립트를 켜면 사용할 수 있습니다. 아래 전체 목록과 빈 기록 양식은 그대로 이용할 수 있습니다.</p></noscript><nav class="bd-region-links" aria-label="주제별 가이드 바로가기">'+''.join(ui.link('#group-'+key,name) for key,name,_ in GROUPS)+'</nav><div class="lg-empty" data-guide-empty hidden><h2>검색 결과가 없습니다.</h2><p>검색어를 짧게 입력하거나 대상을 바꿔 보세요. 검색 초기화를 누르면 전체 가이드를 다시 볼 수 있습니다.</p></div>'
+    body+='<form id="guide-results" class="lg-search" data-guide-search role="search"><h2>지금 필요한 가이드 찾기</h2><div class="lg-search-row"><label for="guide-level">읽는 대상<select id="guide-level" name="level"><option value="">전체 대상</option>'+''.join(f'<option value="{key}">{name}</option>' for key,name in LEVELS)+'</select></label><label for="guide-need">지금 고민<select id="guide-need" name="need"><option value="">전체 고민</option>'+''.join(f'<option value="{key}">{name}</option>' for key,name in NEEDS)+'</select></label><label for="guide-query">찾고 싶은 내용<input id="guide-query" name="q" type="search" maxlength="100" placeholder="예: 단어, 수행평가, 숙제, 상담" autocomplete="off"></label><button class="bd-btn" type="reset">검색 초기화</button></div><div class="lg-filters" role="group" aria-label="가이드 주제 필터"><button type="button" data-guide-filter="" aria-pressed="true">전체 '+str(COUNT)+'</button>'+''.join(f'<button type="button" data-guide-filter="{key}" aria-pressed="false">{E(name)}</button>' for key,name,_ in GROUPS)+'</div></form><p class="lg-result" data-guide-status role="status" aria-live="polite">'+str(COUNT)+'개 가이드를 볼 수 있습니다.</p><noscript><p>검색 필터와 페이지 내 기록 작성은 자바스크립트를 켜면 사용할 수 있습니다. 아래 전체 목록과 빈 기록 양식은 그대로 이용할 수 있습니다.</p></noscript><nav class="bd-region-links" aria-label="주제별 가이드 바로가기">'+''.join(ui.link('#group-'+key,name) for key,name,_ in GROUPS)+'</nav><div class="lg-empty" data-guide-empty hidden><h2>검색 결과가 없습니다.</h2><p>검색어를 짧게 입력하거나 대상을 바꿔 보세요. 검색 초기화를 누르면 전체 가이드를 다시 볼 수 있습니다.</p></div>'
     for key,name,lead in GROUPS:
         pages=sorted([p for p in PAGES if p['group']==key],key=lambda p:not p.get('isNew'))
         body+=f'<section class="bd-section" id="group-{key}" data-guide-group aria-labelledby="group-{key}-title"><div class="lg-group-heading"><h2 id="group-{key}-title">{E(name)}</h2><span data-group-count>{len(pages)}개</span></div><p class="bd-lead">{E(lead)}</p><div class="lg-cards">'+''.join(card(p,True) for p in pages)+'</div></section>'
     paths=[('초등학생의 기초와 습관',['초등학생공부습관','수학문장제읽기','방학복습계획'],'작은 과제 한 가지를 혼자 끝낸 범위부터 확인합니다.'),('중학생의 시험 준비',['중학생내신공부법','시험2주준비','시험후학습점검'],'학교 범위·현재 수행·시험 뒤 수정할 행동을 연결합니다.'),('고등학생의 학습 계획',['중등고등학년전환','고등학생과목별공부법','고등수학모의고사분석'],'학교 안내와 과목별 어려움을 다른 목록으로 봅니다.'),('수학 풀이가 막힐 때',['수학기초점검','수학풀이비교','해설의존줄이기'],'필요한 개념·전략·도움의 범위를 구분합니다.'),('영어를 읽고 쓸 때',['영어문장구조읽기','영어지시어연결어','영어쓰기수정기록'],'문장 구조와 연결 관계를 수정 기록까지 이어갑니다.'),('보호자가 함께 도울 때',['학습대화방법','온라인학습점검','교재선택복습'],'관찰한 수행과 필요한 도움을 학생과 함께 정합니다.')]
+    paths += [('영어 읽기에서 표현까지',['영어읽기소리연결','영어문법적용','영어말하기연습'],'학생이 이미 가능한 읽기를 확인한 뒤 표현과 실제 사용으로 연결합니다.'),('학교 과제와 일정 정리',['학교평가계획읽기','중1과제제출관리','여러과목우선순위'],'학교의 실제 안내와 마감을 확인하고 오늘 할 단위를 정합니다.'),('수학 개념을 말로 설명하기',['분수소수비교','문자식등호이해','수학문제만들기'],'현재 배운 범위에 맞는 글을 골라 관계와 조건을 설명합니다.'),('수업을 시작하거나 조정할 때',['첫수업후점검','선생님상담질문','학원변경판단'],'느낌·실제 기록·확인한 운영 조건을 나누어 판단합니다.')]
     body+=ui.section('reading-paths','같은 고민의 가이드를 순서대로 읽어 보세요','<div class="lg-paths">'+''.join('<article class="bd-card"><h3>'+E(title)+'</h3><p>'+E(lead)+'</p><ol>'+''.join('<li>'+ui.link(BY_SLUG[s]['route'],BY_SLUG[s]['title'])+'</li>' for s in slugs)+'</ol></article>' for title,slugs,lead in paths)+'</div>')
     body+=book_entry
     body+=ui.section('use','가이드를 읽고 실제 자료에 적용해 보세요','<div class="lg-next"><p>글 하나를 고르고 실제 과제에 적용하세요. 글의 기록 항목에 혼자 한 부분과 남은 질문을 적고 TXT로 저장할 수 있습니다. 빈 양식은 입력 없이 내려받아 사용할 수 있습니다.</p><p>학교 평가의 범위·일정·답안 조건은 현재 학교 안내를 먼저 확인하세요. 수업의 학년·과목·시간·교육비는 '+ui.link('/지점안내/','실제 지점안내')+'와 해당 지점의 안내 조건을 함께 살펴보세요.</p></div>')
@@ -140,9 +151,9 @@ def update_feeds(audit,legacy):
     return len(root)
 
 def main():
-    ap=argparse.ArgumentParser();ap.add_argument('--audit',type=Path,required=True);args=ap.parse_args();audit=args.audit
+    ap=argparse.ArgumentParser();ap.add_argument('--audit',type=Path,required=True);ap.add_argument('--date',default='2026-10-03');args=ap.parse_args();audit=args.audit
     baseline=json.loads((audit/'before-manifest.json').read_text(encoding='utf-8-sig'))
-    ui.DAY='2026-10-02';ui.NEW.clear()
+    ui.DAY=args.date;ui.NEW.clear()
     previous=json.loads((audit/'before-guides.json').read_text(encoding='utf-8'))
     old={p['route']:p for p in previous['pages']}
     legacy={p['route'] for p in previous['pages'] if p['legacy']}
@@ -154,8 +165,17 @@ def main():
     records=[render_article(p,p['route'] in legacy,dates[p['route']]) for p in PAGES];render_hub(book_entry)
     sitemap_count=update_feeds(audit,legacy)
     ui.save(ROOT/'seo-descriptions.json',ui.DESCRIPTIONS)
-    data={'updated':ui.DAY,'hub':{'route':HUB,'title':HUB_TITLE,'description':HUB_DESCRIPTION},'groups':GROUPS,'levels':LEVELS,'sources':SOURCES,'pages':[{**p,'recordFields':p['record'],'datePublished':dates[p['route']],'record':'/assets/learning-records/'+p['slug']+'.txt','legacy':p['route'] in legacy} for p in PAGES]}
+    data={'updated':ui.DAY,'hub':{'route':HUB,'title':HUB_TITLE,'description':HUB_DESCRIPTION},'groups':GROUPS,'levels':LEVELS,'needs':NEEDS,'sources':SOURCES,'pages':[{**p,'recordFields':p['record'],'datePublished':dates[p['route']],'record':'/assets/learning-records/'+p['slug']+'.txt','legacy':p['route'] in legacy} for p in PAGES]}
     ui.save(ROOT/'learning-guide-data.json',data)
+    # Preserve the reviewed homepage exactly except its library count.
+    with zipfile.ZipFile(audit/'before-source.zip') as archive:
+        homepage=archive.read('index.html').decode('utf-8')
+    ui.write(ROOT/'index.html',homepage.replace(f'{len(old)}편',f'{COUNT}편'))
+    library=json.loads((ROOT/'home-library-data.json').read_text(encoding='utf-8'))
+    library['guideCount']=COUNT
+    for topic in library['topics']:
+        if topic['route']==HUB:topic['action']=topic['action'].replace(f'{len(old)}편',f'{COUNT}편')
+    ui.save(ROOT/'home-library-data.json',library)
     selected=set(baseline['files'])|set(ui.NEW)|set(records)|{'assets/learning-guides.css','assets/learning-guides.js','assets/learning-guide-tools.mjs'}
     shell_data=json.loads((ROOT/'site-shell-data.json').read_text(encoding='utf-8'))
     ui.save(ROOT/'site-shell-data.json',{**shell_data,'pages':sorted(n for n in selected if n.endswith('.html'))})

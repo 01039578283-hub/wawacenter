@@ -101,82 +101,6 @@
 각 동네의 원고와 학교 자료를 구분하고, 실제 연결 지점의 안내 학년·교육비·등원 주소를 확인합니다.
 학교명은 제휴·재원·전용반을 뜻하지 않으며 공통 교습비는 지점 확정 금액과 구분합니다.
 
-## 학습가이드 전체 목록
-
-학생·학부모를 위한 53개 학습가이드에서 과목별 공부 방법과 시험 준비 순서를 찾고 실천 기록을 작성합니다.
-
-### 학년·시험
-
-- 초등학생 공부 습관, 시작과 마무리를 함께 정하기: https://xn--3e0bz50bxucwzc.com/%ED%95%99%EC%8A%B5%EA%B0%80%EC%9D%B4%EB%93%9C/%EC%B4%88%EB%93%B1%ED%95%99%EC%83%9D%EA%B3%B5%EB%B6%80%EC%8A%B5%EA%B4%80/
-- 중학생 내신 공부법, 학교 범위와 복습을 연결하기: https://xn--3e0bz50bxucwzc.com/%ED%95%99%EC%8A%B5%EA%B0%80%EC%9D%B4%EB%93%9C/%EC%A4%91%ED%95%99%EC%83%9D%EB%82%B4%EC%8B%A0%EA%B3%B5%EB%B6%80%EB%B2%95/
-- 고등학생 공부 계획, 과목마다 막힌 단계를 찾기: https://xn--3e0bz50bxucwzc.com/%ED%95%99%EC%8A%B5%EA%B0%80%EC%9D%B4%EB%93%9C/%EA%B3%A0%EB%93%B1%ED%95%99%EC%83%9D%EA%B3%BC%EB%AA%A9%EB%B3%84%EA%B3%B5%EB%B6%80%EB%B2%95/
-- 시험 4주 계획, 범위 확인부터 재풀이까지: https://xn--3e0bz50bxucwzc.com/%ED%95%99%EC%8A%B5%EA%B0%80%EC%9D%B4%EB%93%9C/%EC%8B%9C%ED%97%984%EC%A3%BC%ED%95%99%EC%8A%B5%EA%B3%84%ED%9A%8D/
-- 초등에서 중등으로, 선행 전에 연결할 것: https://xn--3e0bz50bxucwzc.com/%ED%95%99%EC%8A%B5%EA%B0%80%EC%9D%B4%EB%93%9C/%EC%B4%88%EB%93%B1%EC%A4%91%EB%93%B1%ED%95%99%EB%85%84%EC%A0%84%ED%99%98/
-- 수행평가 준비, 안내 조건을 작업 목록으로 바꾸기: https://xn--3e0bz50bxucwzc.com/%ED%95%99%EC%8A%B5%EA%B0%80%EC%9D%B4%EB%93%9C/%EC%88%98%ED%96%89%ED%8F%89%EA%B0%80%EC%A4%80%EB%B9%84/
-- 시험 후 점검, 다음 공부로 이어지는 시험지 읽기: https://xn--3e0bz50bxucwzc.com/%ED%95%99%EC%8A%B5%EA%B0%80%EC%9D%B4%EB%93%9C/%EC%8B%9C%ED%97%98%ED%9B%84%ED%95%99%EC%8A%B5%EC%A0%90%EA%B2%80/
-- 시험이 2주 남았을 때, 남은 범위와 재확인을 나누기: https://xn--3e0bz50bxucwzc.com/%ED%95%99%EC%8A%B5%EA%B0%80%EC%9D%B4%EB%93%9C/%EC%8B%9C%ED%97%982%EC%A3%BC%EC%A4%80%EB%B9%84/
-- 중등에서 고등으로, 과목별 준비와 학교 안내 확인하기: https://xn--3e0bz50bxucwzc.com/%ED%95%99%EC%8A%B5%EA%B0%80%EC%9D%B4%EB%93%9C/%EC%A4%91%EB%93%B1%EA%B3%A0%EB%93%B1%ED%95%99%EB%85%84%EC%A0%84%ED%99%98/
-- 방학 복습, 한 가지 빈틈을 끝까지 확인하는 계획: https://xn--3e0bz50bxucwzc.com/%ED%95%99%EC%8A%B5%EA%B0%80%EC%9D%B4%EB%93%9C/%EB%B0%A9%ED%95%99%EB%B3%B5%EC%8A%B5%EA%B3%84%ED%9A%8D/
-
-### 수학
-
-- 수학 오답 관리, 첫 오류와 재풀이를 연결하기: https://xn--3e0bz50bxucwzc.com/%ED%95%99%EC%8A%B5%EA%B0%80%EC%9D%B4%EB%93%9C/%EC%88%98%ED%95%99%EC%98%A4%EB%8B%B5%EA%B4%80%EB%A6%AC/
-- 수학 기초 점검, 현재 단원에 필요한 개념 찾기: https://xn--3e0bz50bxucwzc.com/%ED%95%99%EC%8A%B5%EA%B0%80%EC%9D%B4%EB%93%9C/%EC%88%98%ED%95%99%EA%B8%B0%EC%B4%88%EC%A0%90%EA%B2%80/
-- 계산 실수가 반복될 때, 틀린 줄부터 확인하기: https://xn--3e0bz50bxucwzc.com/%ED%95%99%EC%8A%B5%EA%B0%80%EC%9D%B4%EB%93%9C/%EA%B3%84%EC%82%B0%EC%8B%A4%EC%88%98%EC%A4%84%EC%9D%B4%EA%B8%B0/
-- 수학 문장제, 숫자보다 관계를 먼저 읽기: https://xn--3e0bz50bxucwzc.com/%ED%95%99%EC%8A%B5%EA%B0%80%EC%9D%B4%EB%93%9C/%EC%88%98%ED%95%99%EB%AC%B8%EC%9E%A5%EC%A0%9C%EC%9D%BD%EA%B8%B0/
-- 수학 서술형 풀이, 식마다 이유를 남기기: https://xn--3e0bz50bxucwzc.com/%ED%95%99%EC%8A%B5%EA%B0%80%EC%9D%B4%EB%93%9C/%EC%88%98%ED%95%99%EC%84%9C%EC%88%A0%ED%98%95%ED%92%80%EC%9D%B4/
-- 고등 수학 모의고사, 점수와 문항 시간을 나누어 보기: https://xn--3e0bz50bxucwzc.com/%ED%95%99%EC%8A%B5%EA%B0%80%EC%9D%B4%EB%93%9C/%EA%B3%A0%EB%93%B1%EC%88%98%ED%95%99%EB%AA%A8%EC%9D%98%EA%B3%A0%EC%82%AC%EB%B6%84%EC%84%9D/
-- 수학 선행학습, 진도보다 확인할 수행 기준: https://xn--3e0bz50bxucwzc.com/%ED%95%99%EC%8A%B5%EA%B0%80%EC%9D%B4%EB%93%9C/%EC%88%98%ED%95%99%EC%84%A0%ED%96%89%ED%95%99%EC%8A%B5%EC%A0%90%EA%B2%80/
-- 수학 풀이 두 가지, 같은 이유와 다른 선택 비교하기: https://xn--3e0bz50bxucwzc.com/%ED%95%99%EC%8A%B5%EA%B0%80%EC%9D%B4%EB%93%9C/%EC%88%98%ED%95%99%ED%92%80%EC%9D%B4%EB%B9%84%EA%B5%90/
-- 수학 그래프와 식, 표의 값과 말로 연결하기: https://xn--3e0bz50bxucwzc.com/%ED%95%99%EC%8A%B5%EA%B0%80%EC%9D%B4%EB%93%9C/%EC%88%98%ED%95%99%EA%B7%B8%EB%9E%98%ED%94%84%EC%8B%9D%EC%97%B0%EA%B2%B0/
-
-### 영어
-
-- 영어 학습관리, 어휘·문장·독해를 따로 확인하기: https://xn--3e0bz50bxucwzc.com/%ED%95%99%EC%8A%B5%EA%B0%80%EC%9D%B4%EB%93%9C/%EC%98%81%EC%96%B4%ED%95%99%EC%8A%B5%EA%B4%80%EB%A6%AC/
-- 영어 단어 복습, 알아보는 것과 꺼내 쓰는 것 나누기: https://xn--3e0bz50bxucwzc.com/%ED%95%99%EC%8A%B5%EA%B0%80%EC%9D%B4%EB%93%9C/%EC%98%81%EC%96%B4%EB%8B%A8%EC%96%B4%EB%B3%B5%EC%8A%B5%EB%B2%95/
-- 영어 문장 구조, 긴 수식어 속 핵심 찾기: https://xn--3e0bz50bxucwzc.com/%ED%95%99%EC%8A%B5%EA%B0%80%EC%9D%B4%EB%93%9C/%EC%98%81%EC%96%B4%EB%AC%B8%EC%9E%A5%EA%B5%AC%EC%A1%B0%EC%9D%BD%EA%B8%B0/
-- 영어 독해 근거, 선택지와 지문을 대조하기: https://xn--3e0bz50bxucwzc.com/%ED%95%99%EC%8A%B5%EA%B0%80%EC%9D%B4%EB%93%9C/%EC%98%81%EC%96%B4%EB%8F%85%ED%95%B4%EA%B7%BC%EA%B1%B0%EC%B0%BE%EA%B8%B0/
-- 영어 듣기 복습, 못 들은 소리와 놓친 뜻 구분하기: https://xn--3e0bz50bxucwzc.com/%ED%95%99%EC%8A%B5%EA%B0%80%EC%9D%B4%EB%93%9C/%EC%98%81%EC%96%B4%EB%93%A3%EA%B8%B0%EB%B3%B5%EC%8A%B5%EB%B2%95/
-- 영어 내신 준비, 학교 자료별 수행을 나누기: https://xn--3e0bz50bxucwzc.com/%ED%95%99%EC%8A%B5%EA%B0%80%EC%9D%B4%EB%93%9C/%EC%98%81%EC%96%B4%EB%82%B4%EC%8B%A0%EC%A4%80%EB%B9%84/
-- 영어 서술형 쓰기, 조건과 문장을 한 줄씩 대조하기: https://xn--3e0bz50bxucwzc.com/%ED%95%99%EC%8A%B5%EA%B0%80%EC%9D%B4%EB%93%9C/%EC%98%81%EC%96%B4%EC%84%9C%EC%88%A0%ED%98%95%EC%93%B0%EA%B8%B0/
-- 영어 지시어와 연결어, 가리키는 내용과 관계 찾기: https://xn--3e0bz50bxucwzc.com/%ED%95%99%EC%8A%B5%EA%B0%80%EC%9D%B4%EB%93%9C/%EC%98%81%EC%96%B4%EC%A7%80%EC%8B%9C%EC%96%B4%EC%97%B0%EA%B2%B0%EC%96%B4/
-- 영어 글 수정, 고친 문장보다 수정 이유 남기기: https://xn--3e0bz50bxucwzc.com/%ED%95%99%EC%8A%B5%EA%B0%80%EC%9D%B4%EB%93%9C/%EC%98%81%EC%96%B4%EC%93%B0%EA%B8%B0%EC%88%98%EC%A0%95%EA%B8%B0%EB%A1%9D/
-
-### 국어·사회·과학
-
-- 국어 비문학, 문단의 역할과 선택지 근거 찾기: https://xn--3e0bz50bxucwzc.com/%ED%95%99%EC%8A%B5%EA%B0%80%EC%9D%B4%EB%93%9C/%EA%B5%AD%EC%96%B4%EB%B9%84%EB%AC%B8%ED%95%99%EC%9D%BD%EA%B8%B0/
-- 국어 문학 읽기, 감상과 작품의 근거 나누기: https://xn--3e0bz50bxucwzc.com/%ED%95%99%EC%8A%B5%EA%B0%80%EC%9D%B4%EB%93%9C/%EA%B5%AD%EC%96%B4%EB%AC%B8%ED%95%99%EC%9D%BD%EA%B8%B0/
-- 국어 서술형, 요구한 내용과 근거를 문장으로 묶기: https://xn--3e0bz50bxucwzc.com/%ED%95%99%EC%8A%B5%EA%B0%80%EC%9D%B4%EB%93%9C/%EA%B5%AD%EC%96%B4%EC%84%9C%EC%88%A0%ED%98%95%EB%8B%B5%EC%95%88/
-- 독서 내용 요약, 핵심과 예시를 나누어 설명하기: https://xn--3e0bz50bxucwzc.com/%ED%95%99%EC%8A%B5%EA%B0%80%EC%9D%B4%EB%93%9C/%EB%8F%85%EC%84%9C%EB%82%B4%EC%9A%A9%EC%9A%94%EC%95%BD/
-- 과학 개념 적용, 외운 정의를 현상과 연결하기: https://xn--3e0bz50bxucwzc.com/%ED%95%99%EC%8A%B5%EA%B0%80%EC%9D%B4%EB%93%9C/%EA%B3%BC%ED%95%99%EA%B0%9C%EB%85%90%EC%A0%81%EC%9A%A9/
-- 과학 그래프·실험 자료, 축과 변인을 먼저 확인하기: https://xn--3e0bz50bxucwzc.com/%ED%95%99%EC%8A%B5%EA%B0%80%EC%9D%B4%EB%93%9C/%EA%B3%BC%ED%95%99%EA%B7%B8%EB%9E%98%ED%94%84%EC%8B%A4%ED%97%98%EC%9E%90%EB%A3%8C/
-- 사회·역사 자료 읽기, 시대·범위·주장 근거 구분하기: https://xn--3e0bz50bxucwzc.com/%ED%95%99%EC%8A%B5%EA%B0%80%EC%9D%B4%EB%93%9C/%EC%82%AC%ED%9A%8C%EC%97%AD%EC%82%AC%EC%9E%90%EB%A3%8C%EC%9D%BD%EA%B8%B0/
-- 과제 자료의 출처, 작성자·날짜·원문까지 확인하기: https://xn--3e0bz50bxucwzc.com/%ED%95%99%EC%8A%B5%EA%B0%80%EC%9D%B4%EB%93%9C/%EC%9E%90%EB%A3%8C%EC%B6%9C%EC%B2%98%ED%99%95%EC%9D%B8/
-
-### 계획·습관
-
-- 학습 플래너, 분량보다 완료 기준을 먼저 적기: https://xn--3e0bz50bxucwzc.com/%ED%95%99%EC%8A%B5%EA%B0%80%EC%9D%B4%EB%93%9C/%ED%95%99%EC%8A%B5%ED%94%8C%EB%9E%98%EB%84%88%EC%9E%91%EC%84%B1%EB%B2%95/
-- 인출 연습과 간격 복습, 책을 닫고 다시 확인하기: https://xn--3e0bz50bxucwzc.com/%ED%95%99%EC%8A%B5%EA%B0%80%EC%9D%B4%EB%93%9C/%EC%9D%B8%EC%B6%9C%EC%97%B0%EC%8A%B5%EA%B3%BC%EA%B0%84%EA%B2%A9%EB%B3%B5%EC%8A%B5/
-- 공부 미루기, 시작을 막는 조건부터 바꾸기: https://xn--3e0bz50bxucwzc.com/%ED%95%99%EC%8A%B5%EA%B0%80%EC%9D%B4%EB%93%9C/%EA%B3%B5%EB%B6%80%EB%AF%B8%EB%A3%A8%EA%B8%B0%EC%A4%84%EC%9D%B4%EA%B8%B0/
-- 숙제량 조절, 분량·난도·회수 방법 함께 보기: https://xn--3e0bz50bxucwzc.com/%ED%95%99%EC%8A%B5%EA%B0%80%EC%9D%B4%EB%93%9C/%EC%88%99%EC%A0%9C%EB%9F%89%EC%A1%B0%EC%A0%88/
-- 공부 시간 기록, 오래 앉은 시간과 실제 수행 나누기: https://xn--3e0bz50bxucwzc.com/%ED%95%99%EC%8A%B5%EA%B0%80%EC%9D%B4%EB%93%9C/%EA%B3%B5%EB%B6%80%EC%8B%9C%EA%B0%84%EA%B8%B0%EB%A1%9D/
-- 학습 질문 만들기, 이해한 줄과 막힌 줄 이어 쓰기: https://xn--3e0bz50bxucwzc.com/%ED%95%99%EC%8A%B5%EA%B0%80%EC%9D%B4%EB%93%9C/%ED%95%99%EC%8A%B5%EC%A7%88%EB%AC%B8%EB%A7%8C%EB%93%A4%EA%B8%B0/
-- 학습 피드백, 받은 설명을 다음 행동으로 바꾸기: https://xn--3e0bz50bxucwzc.com/%ED%95%99%EC%8A%B5%EA%B0%80%EC%9D%B4%EB%93%9C/%ED%94%BC%EB%93%9C%EB%B0%B1%ED%99%9C%EC%9A%A9%EB%B2%95/
-- 해설을 봐야 풀릴 때, 필요한 도움만 골라 줄이기: https://xn--3e0bz50bxucwzc.com/%ED%95%99%EC%8A%B5%EA%B0%80%EC%9D%B4%EB%93%9C/%ED%95%B4%EC%84%A4%EC%9D%98%EC%A1%B4%EC%A4%84%EC%9D%B4%EA%B8%B0/
-- 스마트폰과 공부 환경, 필요한 사용과 끼어든 행동 나누기: https://xn--3e0bz50bxucwzc.com/%ED%95%99%EC%8A%B5%EA%B0%80%EC%9D%B4%EB%93%9C/%EC%8A%A4%EB%A7%88%ED%8A%B8%ED%8F%B0%EA%B3%B5%EB%B6%80%ED%99%98%EA%B2%BD/
-
-### 학부모·상담
-
-- 학부모 상담, 현재 자료와 다음 확인을 연결하기: https://xn--3e0bz50bxucwzc.com/%ED%95%99%EC%8A%B5%EA%B0%80%EC%9D%B4%EB%93%9C/%ED%95%99%EB%B6%80%EB%AA%A8%EC%83%81%EB%8B%B4%EC%B2%B4%ED%81%AC%EB%A6%AC%EC%8A%A4%ED%8A%B8/
-- 공부 대화, 관찰한 사실과 학생의 말을 나누기: https://xn--3e0bz50bxucwzc.com/%ED%95%99%EC%8A%B5%EA%B0%80%EC%9D%B4%EB%93%9C/%ED%95%99%EC%8A%B5%EB%8C%80%ED%99%94%EB%B0%A9%EB%B2%95/
-- 학원 수업 비교, 설명보다 실제 확인 방법 묻기: https://xn--3e0bz50bxucwzc.com/%ED%95%99%EC%8A%B5%EA%B0%80%EC%9D%B4%EB%93%9C/%ED%95%99%EC%9B%90%EC%88%98%EC%97%85%EB%B9%84%EA%B5%90/
-- 교육비 확인, 과목·시간·별도 비용을 같은 기준으로 보기: https://xn--3e0bz50bxucwzc.com/%ED%95%99%EC%8A%B5%EA%B0%80%EC%9D%B4%EB%93%9C/%EA%B5%90%EC%9C%A1%EB%B9%84%ED%99%95%EC%9D%B8/
-- 학습 변화 기록, 점수와 독립 수행을 함께 보기: https://xn--3e0bz50bxucwzc.com/%ED%95%99%EC%8A%B5%EA%B0%80%EC%9D%B4%EB%93%9C/%ED%95%99%EC%8A%B5%EB%B3%80%ED%99%94%EA%B8%B0%EB%A1%9D/
-- 학습 부담 점검, 실제 일정과 과제의 어려움 나누기: https://xn--3e0bz50bxucwzc.com/%ED%95%99%EC%8A%B5%EA%B0%80%EC%9D%B4%EB%93%9C/%ED%95%99%EC%8A%B5%EB%B6%80%EB%8B%B4%EC%A0%90%EA%B2%80/
-- 온라인 학습, 시청 완료와 혼자 해 낸 결과 구분하기: https://xn--3e0bz50bxucwzc.com/%ED%95%99%EC%8A%B5%EA%B0%80%EC%9D%B4%EB%93%9C/%EC%98%A8%EB%9D%BC%EC%9D%B8%ED%95%99%EC%8A%B5%EC%A0%90%EA%B2%80/
-- 교재 복습 계획, 새 책보다 남은 역할 먼저 확인하기: https://xn--3e0bz50bxucwzc.com/%ED%95%99%EC%8A%B5%EA%B0%80%EC%9D%B4%EB%93%9C/%EA%B5%90%EC%9E%AC%EC%84%A0%ED%83%9D%EB%B3%B5%EC%8A%B5/
-
-
 ## 교육정보
 
 - 학생과 학부모를 위한 교육정보: https://xn--3e0bz50bxucwzc.com/교육정보/
@@ -210,3 +134,102 @@
 - 학습코칭 방법 비교, 질문·자료·플래너 활용 살펴보기: https://xn--3e0bz50bxucwzc.com/교육정보/학습코칭도구비교/
 - 중간고사 결과가 아쉬울 때, 오류를 분류하고 다음 계획 세우기: https://xn--3e0bz50bxucwzc.com/교육정보/중간고사오류분석/
 - 새학기 학부모 준비, 기초·생활·도움 요청 함께 점검하기: https://xn--3e0bz50bxucwzc.com/교육정보/새학기학부모준비/
+
+## 학습가이드 전체 목록
+
+학생·학부모를 위한 77개 학습가이드에서 과목별 공부 방법과 시험 준비 순서를 찾고 실천 기록을 작성합니다.
+
+### 학년·시험
+
+- 초등학생 공부 습관, 시작과 마무리를 함께 정하기: https://xn--3e0bz50bxucwzc.com/%ED%95%99%EC%8A%B5%EA%B0%80%EC%9D%B4%EB%93%9C/%EC%B4%88%EB%93%B1%ED%95%99%EC%83%9D%EA%B3%B5%EB%B6%80%EC%8A%B5%EA%B4%80/
+- 중학생 내신 공부법, 학교 범위와 복습을 연결하기: https://xn--3e0bz50bxucwzc.com/%ED%95%99%EC%8A%B5%EA%B0%80%EC%9D%B4%EB%93%9C/%EC%A4%91%ED%95%99%EC%83%9D%EB%82%B4%EC%8B%A0%EA%B3%B5%EB%B6%80%EB%B2%95/
+- 고등학생 공부 계획, 과목마다 막힌 단계를 찾기: https://xn--3e0bz50bxucwzc.com/%ED%95%99%EC%8A%B5%EA%B0%80%EC%9D%B4%EB%93%9C/%EA%B3%A0%EB%93%B1%ED%95%99%EC%83%9D%EA%B3%BC%EB%AA%A9%EB%B3%84%EA%B3%B5%EB%B6%80%EB%B2%95/
+- 시험 4주 계획, 범위 확인부터 재풀이까지: https://xn--3e0bz50bxucwzc.com/%ED%95%99%EC%8A%B5%EA%B0%80%EC%9D%B4%EB%93%9C/%EC%8B%9C%ED%97%984%EC%A3%BC%ED%95%99%EC%8A%B5%EA%B3%84%ED%9A%8D/
+- 초등에서 중등으로, 선행 전에 연결할 것: https://xn--3e0bz50bxucwzc.com/%ED%95%99%EC%8A%B5%EA%B0%80%EC%9D%B4%EB%93%9C/%EC%B4%88%EB%93%B1%EC%A4%91%EB%93%B1%ED%95%99%EB%85%84%EC%A0%84%ED%99%98/
+- 수행평가 준비, 안내 조건을 작업 목록으로 바꾸기: https://xn--3e0bz50bxucwzc.com/%ED%95%99%EC%8A%B5%EA%B0%80%EC%9D%B4%EB%93%9C/%EC%88%98%ED%96%89%ED%8F%89%EA%B0%80%EC%A4%80%EB%B9%84/
+- 시험 후 점검, 다음 공부로 이어지는 시험지 읽기: https://xn--3e0bz50bxucwzc.com/%ED%95%99%EC%8A%B5%EA%B0%80%EC%9D%B4%EB%93%9C/%EC%8B%9C%ED%97%98%ED%9B%84%ED%95%99%EC%8A%B5%EC%A0%90%EA%B2%80/
+- 시험이 2주 남았을 때, 남은 범위와 재확인을 나누기: https://xn--3e0bz50bxucwzc.com/%ED%95%99%EC%8A%B5%EA%B0%80%EC%9D%B4%EB%93%9C/%EC%8B%9C%ED%97%982%EC%A3%BC%EC%A4%80%EB%B9%84/
+- 중등에서 고등으로, 과목별 준비와 학교 안내 확인하기: https://xn--3e0bz50bxucwzc.com/%ED%95%99%EC%8A%B5%EA%B0%80%EC%9D%B4%EB%93%9C/%EC%A4%91%EB%93%B1%EA%B3%A0%EB%93%B1%ED%95%99%EB%85%84%EC%A0%84%ED%99%98/
+- 방학 복습, 한 가지 빈틈을 끝까지 확인하는 계획: https://xn--3e0bz50bxucwzc.com/%ED%95%99%EC%8A%B5%EA%B0%80%EC%9D%B4%EB%93%9C/%EB%B0%A9%ED%95%99%EB%B3%B5%EC%8A%B5%EA%B3%84%ED%9A%8D/
+- 중1 과제와 준비물, 과목별 안내를 한 장으로 모으기: https://xn--3e0bz50bxucwzc.com/%ED%95%99%EC%8A%B5%EA%B0%80%EC%9D%B4%EB%93%9C/%EC%A4%911%EA%B3%BC%EC%A0%9C%EC%A0%9C%EC%B6%9C%EA%B4%80%EB%A6%AC/
+- 시험 시간 배분, 읽기·풀이·검토에서 멈춘 곳 찾기: https://xn--3e0bz50bxucwzc.com/%ED%95%99%EC%8A%B5%EA%B0%80%EC%9D%B4%EB%93%9C/%EC%8B%9C%ED%97%98%EC%8B%9C%EA%B0%84%EB%B0%B0%EB%B6%84%EC%97%B0%EC%8A%B5/
+- 시험 전날, 남은 질문과 준비물을 좁혀 확인하기: https://xn--3e0bz50bxucwzc.com/%ED%95%99%EC%8A%B5%EA%B0%80%EC%9D%B4%EB%93%9C/%EC%8B%9C%ED%97%98%EC%A0%84%EB%82%A0%EC%A4%80%EB%B9%84/
+- 학교 평가 안내, 범위·배점·제출 조건을 구분해 읽기: https://xn--3e0bz50bxucwzc.com/%ED%95%99%EC%8A%B5%EA%B0%80%EC%9D%B4%EB%93%9C/%ED%95%99%EA%B5%90%ED%8F%89%EA%B0%80%EA%B3%84%ED%9A%8D%EC%9D%BD%EA%B8%B0/
+
+### 수학
+
+- 수학 오답 관리, 첫 오류와 재풀이를 연결하기: https://xn--3e0bz50bxucwzc.com/%ED%95%99%EC%8A%B5%EA%B0%80%EC%9D%B4%EB%93%9C/%EC%88%98%ED%95%99%EC%98%A4%EB%8B%B5%EA%B4%80%EB%A6%AC/
+- 수학 기초 점검, 현재 단원에 필요한 개념 찾기: https://xn--3e0bz50bxucwzc.com/%ED%95%99%EC%8A%B5%EA%B0%80%EC%9D%B4%EB%93%9C/%EC%88%98%ED%95%99%EA%B8%B0%EC%B4%88%EC%A0%90%EA%B2%80/
+- 계산 실수가 반복될 때, 틀린 줄부터 확인하기: https://xn--3e0bz50bxucwzc.com/%ED%95%99%EC%8A%B5%EA%B0%80%EC%9D%B4%EB%93%9C/%EA%B3%84%EC%82%B0%EC%8B%A4%EC%88%98%EC%A4%84%EC%9D%B4%EA%B8%B0/
+- 수학 문장제, 숫자보다 관계를 먼저 읽기: https://xn--3e0bz50bxucwzc.com/%ED%95%99%EC%8A%B5%EA%B0%80%EC%9D%B4%EB%93%9C/%EC%88%98%ED%95%99%EB%AC%B8%EC%9E%A5%EC%A0%9C%EC%9D%BD%EA%B8%B0/
+- 수학 서술형 풀이, 식마다 이유를 남기기: https://xn--3e0bz50bxucwzc.com/%ED%95%99%EC%8A%B5%EA%B0%80%EC%9D%B4%EB%93%9C/%EC%88%98%ED%95%99%EC%84%9C%EC%88%A0%ED%98%95%ED%92%80%EC%9D%B4/
+- 고등 수학 모의고사, 점수와 문항 시간을 나누어 보기: https://xn--3e0bz50bxucwzc.com/%ED%95%99%EC%8A%B5%EA%B0%80%EC%9D%B4%EB%93%9C/%EA%B3%A0%EB%93%B1%EC%88%98%ED%95%99%EB%AA%A8%EC%9D%98%EA%B3%A0%EC%82%AC%EB%B6%84%EC%84%9D/
+- 수학 선행학습, 진도보다 확인할 수행 기준: https://xn--3e0bz50bxucwzc.com/%ED%95%99%EC%8A%B5%EA%B0%80%EC%9D%B4%EB%93%9C/%EC%88%98%ED%95%99%EC%84%A0%ED%96%89%ED%95%99%EC%8A%B5%EC%A0%90%EA%B2%80/
+- 수학 풀이 두 가지, 같은 이유와 다른 선택 비교하기: https://xn--3e0bz50bxucwzc.com/%ED%95%99%EC%8A%B5%EA%B0%80%EC%9D%B4%EB%93%9C/%EC%88%98%ED%95%99%ED%92%80%EC%9D%B4%EB%B9%84%EA%B5%90/
+- 수학 그래프와 식, 표의 값과 말로 연결하기: https://xn--3e0bz50bxucwzc.com/%ED%95%99%EC%8A%B5%EA%B0%80%EC%9D%B4%EB%93%9C/%EC%88%98%ED%95%99%EA%B7%B8%EB%9E%98%ED%94%84%EC%8B%9D%EC%97%B0%EA%B2%B0/
+- 분수와 소수의 크기, 같은 단위와 수직선으로 비교하기: https://xn--3e0bz50bxucwzc.com/%ED%95%99%EC%8A%B5%EA%B0%80%EC%9D%B4%EB%93%9C/%EB%B6%84%EC%88%98%EC%86%8C%EC%88%98%EB%B9%84%EA%B5%90/
+- 문자식과 등호, 양쪽의 값과 변형 이유 확인하기: https://xn--3e0bz50bxucwzc.com/%ED%95%99%EC%8A%B5%EA%B0%80%EC%9D%B4%EB%93%9C/%EB%AC%B8%EC%9E%90%EC%8B%9D%EB%93%B1%ED%98%B8%EC%9D%B4%ED%95%B4/
+- 수학 유형을 섞어 풀 때, 풀이 방법을 고른 이유 남기기: https://xn--3e0bz50bxucwzc.com/%ED%95%99%EC%8A%B5%EA%B0%80%EC%9D%B4%EB%93%9C/%EC%88%98%ED%95%99%EB%AC%B8%EC%A0%9C%EC%84%9E%EC%96%B4%ED%92%80%EA%B8%B0/
+- 수학 문제의 조건을 바꾸며, 답이 달라지는 이유 설명하기: https://xn--3e0bz50bxucwzc.com/%ED%95%99%EC%8A%B5%EA%B0%80%EC%9D%B4%EB%93%9C/%EC%88%98%ED%95%99%EB%AC%B8%EC%A0%9C%EB%A7%8C%EB%93%A4%EA%B8%B0/
+
+### 영어
+
+- 영어 학습관리, 어휘·문장·독해를 따로 확인하기: https://xn--3e0bz50bxucwzc.com/%ED%95%99%EC%8A%B5%EA%B0%80%EC%9D%B4%EB%93%9C/%EC%98%81%EC%96%B4%ED%95%99%EC%8A%B5%EA%B4%80%EB%A6%AC/
+- 영어 단어 복습, 알아보는 것과 꺼내 쓰는 것 나누기: https://xn--3e0bz50bxucwzc.com/%ED%95%99%EC%8A%B5%EA%B0%80%EC%9D%B4%EB%93%9C/%EC%98%81%EC%96%B4%EB%8B%A8%EC%96%B4%EB%B3%B5%EC%8A%B5%EB%B2%95/
+- 영어 문장 구조, 긴 수식어 속 핵심 찾기: https://xn--3e0bz50bxucwzc.com/%ED%95%99%EC%8A%B5%EA%B0%80%EC%9D%B4%EB%93%9C/%EC%98%81%EC%96%B4%EB%AC%B8%EC%9E%A5%EA%B5%AC%EC%A1%B0%EC%9D%BD%EA%B8%B0/
+- 영어 독해 근거, 선택지와 지문을 대조하기: https://xn--3e0bz50bxucwzc.com/%ED%95%99%EC%8A%B5%EA%B0%80%EC%9D%B4%EB%93%9C/%EC%98%81%EC%96%B4%EB%8F%85%ED%95%B4%EA%B7%BC%EA%B1%B0%EC%B0%BE%EA%B8%B0/
+- 영어 듣기 복습, 못 들은 소리와 놓친 뜻 구분하기: https://xn--3e0bz50bxucwzc.com/%ED%95%99%EC%8A%B5%EA%B0%80%EC%9D%B4%EB%93%9C/%EC%98%81%EC%96%B4%EB%93%A3%EA%B8%B0%EB%B3%B5%EC%8A%B5%EB%B2%95/
+- 영어 내신 준비, 학교 자료별 수행을 나누기: https://xn--3e0bz50bxucwzc.com/%ED%95%99%EC%8A%B5%EA%B0%80%EC%9D%B4%EB%93%9C/%EC%98%81%EC%96%B4%EB%82%B4%EC%8B%A0%EC%A4%80%EB%B9%84/
+- 영어 서술형 쓰기, 조건과 문장을 한 줄씩 대조하기: https://xn--3e0bz50bxucwzc.com/%ED%95%99%EC%8A%B5%EA%B0%80%EC%9D%B4%EB%93%9C/%EC%98%81%EC%96%B4%EC%84%9C%EC%88%A0%ED%98%95%EC%93%B0%EA%B8%B0/
+- 영어 지시어와 연결어, 가리키는 내용과 관계 찾기: https://xn--3e0bz50bxucwzc.com/%ED%95%99%EC%8A%B5%EA%B0%80%EC%9D%B4%EB%93%9C/%EC%98%81%EC%96%B4%EC%A7%80%EC%8B%9C%EC%96%B4%EC%97%B0%EA%B2%B0%EC%96%B4/
+- 영어 글 수정, 고친 문장보다 수정 이유 남기기: https://xn--3e0bz50bxucwzc.com/%ED%95%99%EC%8A%B5%EA%B0%80%EC%9D%B4%EB%93%9C/%EC%98%81%EC%96%B4%EC%93%B0%EA%B8%B0%EC%88%98%EC%A0%95%EA%B8%B0%EB%A1%9D/
+- 영어 단어를 읽기 어려울 때, 글자·소리·뜻 함께 확인하기: https://xn--3e0bz50bxucwzc.com/%ED%95%99%EC%8A%B5%EA%B0%80%EC%9D%B4%EB%93%9C/%EC%98%81%EC%96%B4%EC%9D%BD%EA%B8%B0%EC%86%8C%EB%A6%AC%EC%97%B0%EA%B2%B0/
+- 영어 문법을 배운 뒤, 문장의 뜻과 사용 조건 확인하기: https://xn--3e0bz50bxucwzc.com/%ED%95%99%EC%8A%B5%EA%B0%80%EC%9D%B4%EB%93%9C/%EC%98%81%EC%96%B4%EB%AC%B8%EB%B2%95%EC%A0%81%EC%9A%A9/
+- 영어로 말이 막힐 때, 짧은 생각부터 연결하는 연습: https://xn--3e0bz50bxucwzc.com/%ED%95%99%EC%8A%B5%EA%B0%80%EC%9D%B4%EB%93%9C/%EC%98%81%EC%96%B4%EB%A7%90%ED%95%98%EA%B8%B0%EC%97%B0%EC%8A%B5/
+- 영어 지문을 읽은 뒤, 중심 내용과 근거를 짧게 요약하기: https://xn--3e0bz50bxucwzc.com/%ED%95%99%EC%8A%B5%EA%B0%80%EC%9D%B4%EB%93%9C/%EC%98%81%EC%96%B4%EC%A7%80%EB%AC%B8%EC%9A%94%EC%95%BD/
+
+### 국어·사회·과학
+
+- 국어 비문학, 문단의 역할과 선택지 근거 찾기: https://xn--3e0bz50bxucwzc.com/%ED%95%99%EC%8A%B5%EA%B0%80%EC%9D%B4%EB%93%9C/%EA%B5%AD%EC%96%B4%EB%B9%84%EB%AC%B8%ED%95%99%EC%9D%BD%EA%B8%B0/
+- 국어 문학 읽기, 감상과 작품의 근거 나누기: https://xn--3e0bz50bxucwzc.com/%ED%95%99%EC%8A%B5%EA%B0%80%EC%9D%B4%EB%93%9C/%EA%B5%AD%EC%96%B4%EB%AC%B8%ED%95%99%EC%9D%BD%EA%B8%B0/
+- 국어 서술형, 요구한 내용과 근거를 문장으로 묶기: https://xn--3e0bz50bxucwzc.com/%ED%95%99%EC%8A%B5%EA%B0%80%EC%9D%B4%EB%93%9C/%EA%B5%AD%EC%96%B4%EC%84%9C%EC%88%A0%ED%98%95%EB%8B%B5%EC%95%88/
+- 독서 내용 요약, 핵심과 예시를 나누어 설명하기: https://xn--3e0bz50bxucwzc.com/%ED%95%99%EC%8A%B5%EA%B0%80%EC%9D%B4%EB%93%9C/%EB%8F%85%EC%84%9C%EB%82%B4%EC%9A%A9%EC%9A%94%EC%95%BD/
+- 과학 개념 적용, 외운 정의를 현상과 연결하기: https://xn--3e0bz50bxucwzc.com/%ED%95%99%EC%8A%B5%EA%B0%80%EC%9D%B4%EB%93%9C/%EA%B3%BC%ED%95%99%EA%B0%9C%EB%85%90%EC%A0%81%EC%9A%A9/
+- 과학 그래프·실험 자료, 축과 변인을 먼저 확인하기: https://xn--3e0bz50bxucwzc.com/%ED%95%99%EC%8A%B5%EA%B0%80%EC%9D%B4%EB%93%9C/%EA%B3%BC%ED%95%99%EA%B7%B8%EB%9E%98%ED%94%84%EC%8B%A4%ED%97%98%EC%9E%90%EB%A3%8C/
+- 사회·역사 자료 읽기, 시대·범위·주장 근거 구분하기: https://xn--3e0bz50bxucwzc.com/%ED%95%99%EC%8A%B5%EA%B0%80%EC%9D%B4%EB%93%9C/%EC%82%AC%ED%9A%8C%EC%97%AD%EC%82%AC%EC%9E%90%EB%A3%8C%EC%9D%BD%EA%B8%B0/
+- 과제 자료의 출처, 작성자·날짜·원문까지 확인하기: https://xn--3e0bz50bxucwzc.com/%ED%95%99%EC%8A%B5%EA%B0%80%EC%9D%B4%EB%93%9C/%EC%9E%90%EB%A3%8C%EC%B6%9C%EC%B2%98%ED%99%95%EC%9D%B8/
+- 초등 읽기가 자주 끊길 때, 정확도와 문장 뜻 함께 보기: https://xn--3e0bz50bxucwzc.com/%ED%95%99%EC%8A%B5%EA%B0%80%EC%9D%B4%EB%93%9C/%EC%B4%88%EB%93%B1%EC%9D%BD%EA%B8%B0%EC%9C%A0%EC%B0%BD%EC%84%B1/
+- 낯선 낱말을 만났을 때, 문맥의 단서와 사전 뜻 비교하기: https://xn--3e0bz50bxucwzc.com/%ED%95%99%EC%8A%B5%EA%B0%80%EC%9D%B4%EB%93%9C/%EA%B5%AD%EC%96%B4%EC%96%B4%ED%9C%98%EB%AC%B8%EB%A7%A5/
+- 사회 개념이 헷갈릴 때, 같은 기준으로 공통점과 차이 정리하기: https://xn--3e0bz50bxucwzc.com/%ED%95%99%EC%8A%B5%EA%B0%80%EC%9D%B4%EB%93%9C/%EC%82%AC%ED%9A%8C%EA%B0%9C%EB%85%90%EB%B9%84%EA%B5%90/
+- 과학 실험 보고서, 관찰한 사실과 해석을 구분해 쓰기: https://xn--3e0bz50bxucwzc.com/%ED%95%99%EC%8A%B5%EA%B0%80%EC%9D%B4%EB%93%9C/%EA%B3%BC%ED%95%99%EC%8B%A4%ED%97%98%EB%B3%B4%EA%B3%A0%EC%84%9C/
+
+### 계획·습관
+
+- 학습 플래너, 분량보다 완료 기준을 먼저 적기: https://xn--3e0bz50bxucwzc.com/%ED%95%99%EC%8A%B5%EA%B0%80%EC%9D%B4%EB%93%9C/%ED%95%99%EC%8A%B5%ED%94%8C%EB%9E%98%EB%84%88%EC%9E%91%EC%84%B1%EB%B2%95/
+- 인출 연습과 간격 복습, 책을 닫고 다시 확인하기: https://xn--3e0bz50bxucwzc.com/%ED%95%99%EC%8A%B5%EA%B0%80%EC%9D%B4%EB%93%9C/%EC%9D%B8%EC%B6%9C%EC%97%B0%EC%8A%B5%EA%B3%BC%EA%B0%84%EA%B2%A9%EB%B3%B5%EC%8A%B5/
+- 공부 미루기, 시작을 막는 조건부터 바꾸기: https://xn--3e0bz50bxucwzc.com/%ED%95%99%EC%8A%B5%EA%B0%80%EC%9D%B4%EB%93%9C/%EA%B3%B5%EB%B6%80%EB%AF%B8%EB%A3%A8%EA%B8%B0%EC%A4%84%EC%9D%B4%EA%B8%B0/
+- 숙제량 조절, 분량·난도·회수 방법 함께 보기: https://xn--3e0bz50bxucwzc.com/%ED%95%99%EC%8A%B5%EA%B0%80%EC%9D%B4%EB%93%9C/%EC%88%99%EC%A0%9C%EB%9F%89%EC%A1%B0%EC%A0%88/
+- 공부 시간 기록, 오래 앉은 시간과 실제 수행 나누기: https://xn--3e0bz50bxucwzc.com/%ED%95%99%EC%8A%B5%EA%B0%80%EC%9D%B4%EB%93%9C/%EA%B3%B5%EB%B6%80%EC%8B%9C%EA%B0%84%EA%B8%B0%EB%A1%9D/
+- 학습 질문 만들기, 이해한 줄과 막힌 줄 이어 쓰기: https://xn--3e0bz50bxucwzc.com/%ED%95%99%EC%8A%B5%EA%B0%80%EC%9D%B4%EB%93%9C/%ED%95%99%EC%8A%B5%EC%A7%88%EB%AC%B8%EB%A7%8C%EB%93%A4%EA%B8%B0/
+- 학습 피드백, 받은 설명을 다음 행동으로 바꾸기: https://xn--3e0bz50bxucwzc.com/%ED%95%99%EC%8A%B5%EA%B0%80%EC%9D%B4%EB%93%9C/%ED%94%BC%EB%93%9C%EB%B0%B1%ED%99%9C%EC%9A%A9%EB%B2%95/
+- 해설을 봐야 풀릴 때, 필요한 도움만 골라 줄이기: https://xn--3e0bz50bxucwzc.com/%ED%95%99%EC%8A%B5%EA%B0%80%EC%9D%B4%EB%93%9C/%ED%95%B4%EC%84%A4%EC%9D%98%EC%A1%B4%EC%A4%84%EC%9D%B4%EA%B8%B0/
+- 스마트폰과 공부 환경, 필요한 사용과 끼어든 행동 나누기: https://xn--3e0bz50bxucwzc.com/%ED%95%99%EC%8A%B5%EA%B0%80%EC%9D%B4%EB%93%9C/%EC%8A%A4%EB%A7%88%ED%8A%B8%ED%8F%B0%EA%B3%B5%EB%B6%80%ED%99%98%EA%B2%BD/
+- 백지에 공부한 내용을 적을 때, 기억과 빈칸을 구분하기: https://xn--3e0bz50bxucwzc.com/%ED%95%99%EC%8A%B5%EA%B0%80%EC%9D%B4%EB%93%9C/%EB%B0%B1%EC%A7%80%EB%85%B8%ED%8A%B8%ED%99%9C%EC%9A%A9/
+- 예습과 복습, 수업 전 질문과 수업 후 확인을 다르게 정하기: https://xn--3e0bz50bxucwzc.com/%ED%95%99%EC%8A%B5%EA%B0%80%EC%9D%B4%EB%93%9C/%EC%98%88%EC%8A%B5%EB%B3%B5%EC%8A%B5%EC%97%AD%ED%95%A0/
+- 여러 과목이 밀렸을 때, 마감·막힌 내용·가용 시간으로 순서 정하기: https://xn--3e0bz50bxucwzc.com/%ED%95%99%EC%8A%B5%EA%B0%80%EC%9D%B4%EB%93%9C/%EC%97%AC%EB%9F%AC%EA%B3%BC%EB%AA%A9%EC%9A%B0%EC%84%A0%EC%88%9C%EC%9C%84/
+- 친구와 공부할 때, 서로 설명하고 각자 확인하는 질문 만들기: https://xn--3e0bz50bxucwzc.com/%ED%95%99%EC%8A%B5%EA%B0%80%EC%9D%B4%EB%93%9C/%ED%98%91%EB%8F%99%ED%95%99%EC%8A%B5%EC%A7%88%EB%AC%B8/
+
+### 학부모·상담
+
+- 학부모 상담, 현재 자료와 다음 확인을 연결하기: https://xn--3e0bz50bxucwzc.com/%ED%95%99%EC%8A%B5%EA%B0%80%EC%9D%B4%EB%93%9C/%ED%95%99%EB%B6%80%EB%AA%A8%EC%83%81%EB%8B%B4%EC%B2%B4%ED%81%AC%EB%A6%AC%EC%8A%A4%ED%8A%B8/
+- 공부 대화, 관찰한 사실과 학생의 말을 나누기: https://xn--3e0bz50bxucwzc.com/%ED%95%99%EC%8A%B5%EA%B0%80%EC%9D%B4%EB%93%9C/%ED%95%99%EC%8A%B5%EB%8C%80%ED%99%94%EB%B0%A9%EB%B2%95/
+- 학원 수업 비교, 설명보다 실제 확인 방법 묻기: https://xn--3e0bz50bxucwzc.com/%ED%95%99%EC%8A%B5%EA%B0%80%EC%9D%B4%EB%93%9C/%ED%95%99%EC%9B%90%EC%88%98%EC%97%85%EB%B9%84%EA%B5%90/
+- 교육비 확인, 과목·시간·별도 비용을 같은 기준으로 보기: https://xn--3e0bz50bxucwzc.com/%ED%95%99%EC%8A%B5%EA%B0%80%EC%9D%B4%EB%93%9C/%EA%B5%90%EC%9C%A1%EB%B9%84%ED%99%95%EC%9D%B8/
+- 학습 변화 기록, 점수와 독립 수행을 함께 보기: https://xn--3e0bz50bxucwzc.com/%ED%95%99%EC%8A%B5%EA%B0%80%EC%9D%B4%EB%93%9C/%ED%95%99%EC%8A%B5%EB%B3%80%ED%99%94%EA%B8%B0%EB%A1%9D/
+- 학습 부담 점검, 실제 일정과 과제의 어려움 나누기: https://xn--3e0bz50bxucwzc.com/%ED%95%99%EC%8A%B5%EA%B0%80%EC%9D%B4%EB%93%9C/%ED%95%99%EC%8A%B5%EB%B6%80%EB%8B%B4%EC%A0%90%EA%B2%80/
+- 온라인 학습, 시청 완료와 혼자 해 낸 결과 구분하기: https://xn--3e0bz50bxucwzc.com/%ED%95%99%EC%8A%B5%EA%B0%80%EC%9D%B4%EB%93%9C/%EC%98%A8%EB%9D%BC%EC%9D%B8%ED%95%99%EC%8A%B5%EC%A0%90%EA%B2%80/
+- 교재 복습 계획, 새 책보다 남은 역할 먼저 확인하기: https://xn--3e0bz50bxucwzc.com/%ED%95%99%EC%8A%B5%EA%B0%80%EC%9D%B4%EB%93%9C/%EA%B5%90%EC%9E%AC%EC%84%A0%ED%83%9D%EB%B3%B5%EC%8A%B5/
+- 첫 수업 뒤 확인할 것, 진도보다 학생의 설명과 다음 과제 보기: https://xn--3e0bz50bxucwzc.com/%ED%95%99%EC%8A%B5%EA%B0%80%EC%9D%B4%EB%93%9C/%EC%B2%AB%EC%88%98%EC%97%85%ED%9B%84%EC%A0%90%EA%B2%80/
+- 학원을 바꿀지 고민할 때, 목표·실제 수업·학생 부담 비교하기: https://xn--3e0bz50bxucwzc.com/%ED%95%99%EC%8A%B5%EA%B0%80%EC%9D%B4%EB%93%9C/%ED%95%99%EC%9B%90%EB%B3%80%EA%B2%BD%ED%8C%90%EB%8B%A8/
+- 선생님 상담 질문, 학생의 막힌 장면에서 다음 도움 찾기: https://xn--3e0bz50bxucwzc.com/%ED%95%99%EC%8A%B5%EA%B0%80%EC%9D%B4%EB%93%9C/%EC%84%A0%EC%83%9D%EB%8B%98%EC%83%81%EB%8B%B4%EC%A7%88%EB%AC%B8/
+- 학생과 학습 목표 정하기, 점수 기대를 오늘 할 행동으로 바꾸기: https://xn--3e0bz50bxucwzc.com/%ED%95%99%EC%8A%B5%EA%B0%80%EC%9D%B4%EB%93%9C/%ED%95%99%EC%83%9D%EA%B3%BC%ED%95%99%EC%8A%B5%EB%AA%A9%ED%91%9C%EC%A0%95%ED%95%98%EA%B8%B0/
