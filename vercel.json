@@ -3,6 +3,46 @@
   "outputDirectory": ".public-release",
   "redirects": [
     {
+      "source": "/%EC%84%A0%EC%83%9D%EB%8B%98%EC%B0%BE%EA%B8%B0/:legacy(%ED%99%94%EC%A0%95%EC%A0%90\\(W\\+\\))(/)?",
+      "destination": "/%EC%84%A0%EC%83%9D%EB%8B%98%EC%B0%BE%EA%B8%B0/%ED%99%94%EC%A0%95%EC%A0%90%28W%2B%29/",
+      "statusCode": 301
+    },
+    {
+      "source": "/%EC%84%A0%EC%83%9D%EB%8B%98%EC%B0%BE%EA%B8%B0/:legacy(%ED%9B%84%EA%B3%A1%EC%A0%90\\(W\\+\\))(/)?",
+      "destination": "/%EC%84%A0%EC%83%9D%EB%8B%98%EC%B0%BE%EA%B8%B0/%ED%9B%84%EA%B3%A1%EC%A0%90%28W%2B%29/",
+      "statusCode": 301
+    },
+    {
+      "source": "/%EC%84%A0%EC%83%9D%EB%8B%98%EC%B0%BE%EA%B8%B0/:legacy(%EB%8B%A4%EC%82%B0%EC%A0%90\\(W\\+\\))(/)?",
+      "destination": "/%EC%84%A0%EC%83%9D%EB%8B%98%EC%B0%BE%EA%B8%B0/%EB%8B%A4%EC%82%B0%EC%A0%90%28W%2B%29/",
+      "statusCode": 301
+    },
+    {
+      "source": "/%EC%84%A0%EC%83%9D%EB%8B%98%EC%B0%BE%EA%B8%B0/:legacy(%EC%A4%91%EB%8F%99%EC%A0%90\\(W\\+\\))(/)?",
+      "destination": "/%EC%84%A0%EC%83%9D%EB%8B%98%EC%B0%BE%EA%B8%B0/%EC%A4%91%EB%8F%99%EC%A0%90%28W%2B%29/",
+      "statusCode": 301
+    },
+    {
+      "source": "/%EC%84%A0%EC%83%9D%EB%8B%98%EC%B0%BE%EA%B8%B0/:legacy(%EC%88%98%EC%A7%80%EC%A0%90\\(W\\+\\))(/)?",
+      "destination": "/%EC%84%A0%EC%83%9D%EB%8B%98%EC%B0%BE%EA%B8%B0/%EC%88%98%EC%A7%80%EC%A0%90%28W%2B%29/",
+      "statusCode": 301
+    },
+    {
+      "source": "/%EC%84%A0%EC%83%9D%EB%8B%98%EC%B0%BE%EA%B8%B0/:legacy(%EB%91%94%EC%82%B0%EC%A0%90\\(W\\+\\))(/)?",
+      "destination": "/%EC%84%A0%EC%83%9D%EB%8B%98%EC%B0%BE%EA%B8%B0/%EB%91%94%EC%82%B0%EC%A0%90%28W%2B%29/",
+      "statusCode": 301
+    },
+    {
+      "source": "/%EC%84%A0%EC%83%9D%EB%8B%98%EC%B0%BE%EA%B8%B0/:legacy(%EC%9D%80%ED%8F%89%EC%A0%90\\(W\\+\\))(/)?",
+      "destination": "/%EC%84%A0%EC%83%9D%EB%8B%98%EC%B0%BE%EA%B8%B0/%EC%9D%80%ED%8F%89%EC%A0%90%28W%2B%29/",
+      "statusCode": 301
+    },
+    {
+      "source": "/%EC%84%A0%EC%83%9D%EB%8B%98%EC%B0%BE%EA%B8%B0/:legacy(%EC%86%A1%EB%8F%84%EC%A0%90\\(W\\+\\))(/)?",
+      "destination": "/%EC%84%A0%EC%83%9D%EB%8B%98%EC%B0%BE%EA%B8%B0/%EC%86%A1%EB%8F%84%EC%A0%90%28W%2B%29/",
+      "statusCode": 301
+    },
+    {
       "source": "/%EC%A7%80%EC%A0%90%EC%95%88%EB%82%B4/%EA%B0%95%EC%9B%90/%EA%B0%95%EB%A6%89%EA%B5%90%EB%8F%99/%EA%B0%95%EB%A6%89%EA%B5%90%EB%8F%99:stage(%EC%B4%88%EB%93%B1%ED%95%99%EC%83%9D%ED%95%99%EC%9B%90|%EC%A4%91%ED%95%99%EC%83%9D%ED%95%99%EC%9B%90|%EA%B3%A0%EB%93%B1%ED%95%99%EC%83%9D%ED%95%99%EC%9B%90)(/)?",
       "destination": "/%EC%A7%80%EC%A0%90%EC%95%88%EB%82%B4/%EA%B0%95%EC%9B%90/%EA%B0%95%EB%A6%89%EA%B5%90%EB%8F%99%EC%A0%90/%EA%B0%95%EB%A6%89%EA%B5%90%EB%8F%99:stage/",
       "statusCode": 301
@@ -3736,6 +3776,30 @@
       "source": "/%EC%A7%80%EC%A0%90%EC%95%88%EB%82%B4/%EC%B6%A9%EB%B6%81/%EC%B9%A0%EA%B8%88%EC%A0%90/:stage(%EC%B4%88%EB%93%B1%ED%95%99%EC%83%9D%ED%95%99%EC%9B%90|%EC%A4%91%ED%95%99%EC%83%9D%ED%95%99%EC%9B%90|%EA%B3%A0%EB%93%B1%ED%95%99%EC%83%9D%ED%95%99%EC%9B%90)/:subject(%EC%88%98%ED%95%99|%EC%98%81%EC%96%B4)(/)?",
       "destination": "/%EC%A7%80%EC%A0%90%EC%95%88%EB%82%B4/%EC%B6%A9%EB%B6%81/%EC%B9%A0%EA%B8%88%EC%A0%90/#grade-guide",
       "statusCode": 301
+    }
+  ],
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=0, must-revalidate"
+        },
+        {
+          "key": "X-Content-Type-Options",
+          "value": "nosniff"
+        }
+      ]
+    },
+    {
+      "source": "/assets/:asset*",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=0, must-revalidate"
+        }
+      ]
     }
   ]
 }

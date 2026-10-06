@@ -1,5 +1,7 @@
 .git/
+.public-release
 .public-release/
+.public-release/**
 .env*
 node_modules/
 tools/
