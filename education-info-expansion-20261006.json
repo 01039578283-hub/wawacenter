@@ -1,0 +1,787 @@
+{
+  "date": "2026-10-06",
+  "seed": 4600137381974037422,
+  "eligibleUnusedFolders": 197,
+  "pages": [
+    {
+      "route": "/교육정보/지루한과목질문실험/",
+      "sourceTitle": "지루한 과목 재미 찾는 방법 공부가 재미없다는 건 이상한 일이 아닐 수도 있어요",
+      "sourceFingerprint": "d2a9ca95899ff5995b77f0996d5dd802ec95e20b9e46c0670c1ae5408824d2d1",
+      "sourceFiles": [
+        {
+          "name": "원고.txt",
+          "sha256": "d531a33f608f0c1a6b3fc4b077b96f0ffddb1b0d3d95894169b7b33894295739",
+          "encoding": "utf-8-sig"
+        }
+      ],
+      "images": [
+        {
+          "name": "이미지_0830.jpg",
+          "sha256": "bd7619857ff05d4f98792707240958b989f0a70a65da013810b6266bffdf430c"
+        },
+        {
+          "name": "이미지_0646.jpg",
+          "sha256": "c43a7c96930d4a8f732f369db2bbdee70d1c7202bdb3b0d22835f6b86e16c5a8"
+        },
+        {
+          "name": "이미지_0653.jpg",
+          "sha256": "1457e07f483c78b3f83893124618dd07140a0bf953401b3a736437b22f667725"
+        }
+      ]
+    },
+    {
+      "route": "/교육정보/개학후도움요청신호/",
+      "sourceTitle": "개학 후 학습 관리가 필요한 신호 알아보겠습니다",
+      "sourceFingerprint": "ac6e0083fd8b58f12db7920cb689e42e1ef88354701d3267b4c2abfd954e6b09",
+      "sourceFiles": [
+        {
+          "name": "원고.txt",
+          "sha256": "4dbb0623dc16904ed5377ca8005d1c69a32c4e42776727ef9da20eba8964a09d",
+          "encoding": "utf-8-sig"
+        }
+      ],
+      "images": [
+        {
+          "name": "이미지_1101.jpg",
+          "sha256": "63dc8813d3e21e581515d1d49b3d79d4df602d6539569254c59d2ccf83880c86"
+        },
+        {
+          "name": "이미지_0529.jpg",
+          "sha256": "75c49748fc31ff5b6590b804a24a59eb8ac585b5eb6eb7ccbc454f71a907e224"
+        },
+        {
+          "name": "이미지_0317.jpg",
+          "sha256": "bd4196ed3a94fd5bb8e3ba8ad4c0cbe3b7a8578ff5afcc0e75d9fe0c02b864b5"
+        }
+      ]
+    },
+    {
+      "route": "/교육정보/중간결과기말준비지도/",
+      "sourceTitle": "2학기 기말고사, 성적 뒤집는 현실 전략 3가지 핵심 정리",
+      "sourceFingerprint": "aa2fc92e5343a1081de6aa877ee32917201c3dabfc9a283867a70b8f817bf8e3",
+      "sourceFiles": [
+        {
+          "name": "원고.txt",
+          "sha256": "dcd898111593d0513d37820f4fdbabb560e88571cbeb275f9b9519b4d400780a",
+          "encoding": "utf-8-sig"
+        }
+      ],
+      "images": [
+        {
+          "name": "이미지_0797.jpg",
+          "sha256": "1f38780a35128047976b03149ab089ff8323d73c308dfd7ce40fea7d1302afd2"
+        },
+        {
+          "name": "이미지_0867.jpg",
+          "sha256": "9af2fabca180f901bbc41592d5e1a51a5972e12bd66e40c1163d9400388383f8"
+        },
+        {
+          "name": "이미지_0658.jpg",
+          "sha256": "6bc1cc7ba4dd1b4d4c3880fcdebb9ff683d9100118c7f520b0732f0d86a3853a"
+        }
+      ]
+    },
+    {
+      "route": "/교육정보/시험오답선별기록/",
+      "sourceTitle": "중간고사 오답 노트 정리법 약점 보완 이렇게 하세요",
+      "sourceFingerprint": "5053346d68964b8cb51f65d2a209dd87581c36ed155b814ad6c09838cdf156f0",
+      "sourceFiles": [
+        {
+          "name": "원고.txt",
+          "sha256": "f46bf9276b79dd450c3680a915bb0a25768ef90033ff222574f90c6a7bbd9413",
+          "encoding": "utf-8-sig"
+        }
+      ],
+      "images": [
+        {
+          "name": "이미지_0394.jpg",
+          "sha256": "1187fe6904e17c4e1bd0d4537a2c2e7c93813b78528d2b7a8a5b86eb1dc031d3"
+        },
+        {
+          "name": "이미지_0274.jpg",
+          "sha256": "ce09f0194d26cf8b2b50674f48c91d0614bb6ad37d74584d9bb39147904bcfd4"
+        },
+        {
+          "name": "이미지_0213.jpg",
+          "sha256": "1f536e4a4bd7850224723de677a0e4adf7869bebd7539d528d758357f706e5f3"
+        }
+      ]
+    },
+    {
+      "route": "/교육정보/학기목표확인문장/",
+      "sourceTitle": "2학기 공부 목표 설정 방법 효율적인 학습 전략 가이드",
+      "sourceFingerprint": "9a947c8d823be0a1e3cfcf01e0b74ea8e42119f6852d813f561f7bb93dda960c",
+      "sourceFiles": [
+        {
+          "name": "원고.txt",
+          "sha256": "b86b59b4e134ae1d6f0f7bd0e82a0909c3874ef5249870b41be7584d5d2deed4",
+          "encoding": "utf-8-sig"
+        }
+      ],
+      "images": [
+        {
+          "name": "이미지_0756.jpg",
+          "sha256": "9790357e89633d8885becaf7d5b933b7fe987b033eb2fdcf0f28b9d671b593f2"
+        },
+        {
+          "name": "이미지_0595.jpg",
+          "sha256": "cf4b6eb7a01feaa80a4594b601d46abec084e2b844c2ac9c23b827cc2706ca97"
+        },
+        {
+          "name": "이미지_0454.jpg",
+          "sha256": "d5ff71376b40faf4723a9b508d125af768902802219c4342345bae37ed949371"
+        }
+      ]
+    },
+    {
+      "route": "/교육정보/수행평가기준준비표/",
+      "sourceTitle": "2학기 수행평가 준비 팁 성적 향상의 비밀",
+      "sourceFingerprint": "265f541b47abd76108e64e68d240052995803811c991569e1d70315592a5fe06",
+      "sourceFiles": [
+        {
+          "name": "원고.txt",
+          "sha256": "4abc3ab75d0e834fda34de90383e5d17535e71e76759a6a26a07b9b51c3b16d2",
+          "encoding": "utf-8-sig"
+        }
+      ],
+      "images": [
+        {
+          "name": "이미지_0973.jpg",
+          "sha256": "e493df88c845b2b4b09fc91b34441cb42e5d4f2a3cdb2aeb8cb88c533de29bfe"
+        },
+        {
+          "name": "이미지_0937.jpg",
+          "sha256": "0f727252a770662327e85d47b9beef570380e24da72f387af1dea886db71747c"
+        },
+        {
+          "name": "이미지_0098.png",
+          "sha256": "4a7a3732cc53cfbb36b5ed5ea189eb1560370e29ce68fe1dab6133e7a4802d01"
+        }
+      ]
+    },
+    {
+      "route": "/교육정보/고등학교주간공부리듬/",
+      "sourceTitle": "고등학생 2학기, 지금 잡아야 할 공부 리듬",
+      "sourceFingerprint": "4abb0b8ecb613a34482212ad80965b8e7cbc20f05bb72e6a055a0174d9f60b70",
+      "sourceFiles": [
+        {
+          "name": "원고.txt",
+          "sha256": "a3f33d31bb9751765153f51de4d8f11c52a718035a8458577fd73aa388eb2f0e",
+          "encoding": "utf-8-sig"
+        }
+      ],
+      "images": [
+        {
+          "name": "이미지_1014.jpg",
+          "sha256": "55db1812b2ec8544b631a59de5d9ffafe57c8b2fc087af6a70a2efbf34a5223d"
+        },
+        {
+          "name": "이미지_0792.jpg",
+          "sha256": "47e54f7b9e9028a36660917feeb099342d461638e8c39d3b4d08d17a1170c833"
+        },
+        {
+          "name": "이미지_0778.jpg",
+          "sha256": "3f7f751c21b95781716518d52257fc2649bd1f188318762a77a1d0a2d9364ae2"
+        }
+      ]
+    },
+    {
+      "route": "/교육정보/공부실패말바꾸기/",
+      "sourceTitle": "학습에 대한 긍정적 태도 기르기 자기주도학습의 첫 걸음",
+      "sourceFingerprint": "0d00e1fe2ecbf577fb2b3b2e2a98b6b9dbcce85f2cee58f9bba5f794f638a821",
+      "sourceFiles": [
+        {
+          "name": "원고.txt",
+          "sha256": "7665bc43b3b916f567d18d279c23d30f411389bcce147ee7187f25328d4c5045",
+          "encoding": "utf-8-sig"
+        }
+      ],
+      "images": [
+        {
+          "name": "이미지_0583.jpg",
+          "sha256": "ebbabf1d85f6838623090a8f0914093ab00a6431d2ace0b08bb7778926c2302d"
+        },
+        {
+          "name": "이미지_0219.jpg",
+          "sha256": "479049c983df056da2ffba6f02fa2014b5b39054911b331e061748f176ac5393"
+        },
+        {
+          "name": "이미지_0543.jpg",
+          "sha256": "00ca7774c80ec38e9e01f0487abc7f204a3afa67b4b3343eec1da12a6e32becc"
+        }
+      ]
+    },
+    {
+      "route": "/교육정보/정기상담질문기록/",
+      "sourceTitle": "정기적인 상담과 피드백이 학생들에게 미치는 긍정적 영향 어떤 것들이 있을까요",
+      "sourceFingerprint": "956ddef8350e75c7e7b52b189d1bb33e207b0011a795c07d19a9c50493739484",
+      "sourceFiles": [
+        {
+          "name": "원고.txt",
+          "sha256": "fbba1842037bbb6810d7cdcaa15e1ebdbdaca82136228f36e255473fa8238984",
+          "encoding": "utf-8-sig"
+        }
+      ],
+      "images": [
+        {
+          "name": "이미지_0067.jpg",
+          "sha256": "af8f7303af1aea71b68bd6040aad0ef216d1f70d9b0481e7efda8a860e6548bf"
+        },
+        {
+          "name": "이미지_0889.jpg",
+          "sha256": "8656c1b0ade1e2dfdf26415142d3ad4df343260f3815e6fb33fc3a3a4b0885fa"
+        },
+        {
+          "name": "이미지_0834.jpg",
+          "sha256": "758c731387d29ce46e96e32c5f34e83dd31917a8c05209115bc19c83015b351d"
+        }
+      ]
+    },
+    {
+      "route": "/교육정보/고등겨울방학복습경계/",
+      "sourceTitle": "고등 겨울방학, 공부 방향을 먼저 정해야 하는 이유 골든 타임을 잡아라",
+      "sourceFingerprint": "a28ae587b3320bf42c6b16ead7fcd06689430e5db04745af69e9c3fe57c55ee0",
+      "sourceFiles": [
+        {
+          "name": "원고.txt",
+          "sha256": "ac9e2032e6eed70abb23281d0bb73f67b970ddd83705614617d90654eced4dfb",
+          "encoding": "utf-8-sig"
+        }
+      ],
+      "images": [
+        {
+          "name": "이미지_0196.jpg",
+          "sha256": "7abf7c0f8cdd79f603135c3ea3f5d0f29d5d813530a1b27aa4fb2abd1aab5437"
+        },
+        {
+          "name": "이미지_1049.jpg",
+          "sha256": "0e8eac402724dfca69b21f6d0ba13c64458fd34d3c4119fa5b520234cff7fc59"
+        },
+        {
+          "name": "이미지_0049.jpg",
+          "sha256": "160e2a2582419d2f43b86e127f26f208791f7051048ef8d2c1ddc6f74aa1213d"
+        }
+      ]
+    },
+    {
+      "route": "/교육정보/시험전날자료선별/",
+      "sourceTitle": "시험 직전에 복습하는 효과적인 방법과 전략 알아보세요",
+      "sourceFingerprint": "933f8cd8623a355e786371a39a4f273bd9994bb9ec0021191fc4c2b7d3fdb2e0",
+      "sourceFiles": [
+        {
+          "name": "원고.txt",
+          "sha256": "2b5af505fbb60bb82510606d8d3a48a692fd090d15fdddcc4486ef978432550e",
+          "encoding": "utf-8-sig"
+        }
+      ],
+      "images": [
+        {
+          "name": "이미지_0261.jpg",
+          "sha256": "0d65918561134c33a34092246431f5fb959e9c4ebe71bfffe59ac6ebb7212001"
+        },
+        {
+          "name": "이미지_0523.jpg",
+          "sha256": "7ebf6894916dd373abc62734837a6caf8c911e4266bf7786d76be747a09b304b"
+        },
+        {
+          "name": "이미지_0276.jpg",
+          "sha256": "8e692bd679cc92bba6c98660002b2c58ee65f349eeff8887a61b0703e839a68c"
+        }
+      ]
+    },
+    {
+      "route": "/교육정보/수학막힘단계보완/",
+      "sourceTitle": "학습 부진 극복 사례 어떻게 극복할 수 있을까",
+      "sourceFingerprint": "139ecf562f89c26f84e1e8818fe690b00104486c3a0f1e3eea302b71ed5040bf",
+      "sourceFiles": [
+        {
+          "name": "원고.txt",
+          "sha256": "7b41af835cf8794fcf203029ddb3d5f7ed686fedc9b3ebafd7cf19a18d3407f1",
+          "encoding": "utf-8-sig"
+        }
+      ],
+      "images": [
+        {
+          "name": "이미지_0450.jpg",
+          "sha256": "74cb8d8b85fc5f72476ade36016c6bacad795f29171093ebd2f33b7059a003cd"
+        },
+        {
+          "name": "이미지_0139.jpg",
+          "sha256": "8bcf5e4ff297d1548f06ea3da846a7d0996b6bbb0a6ffc8389f411fccba9a06e"
+        },
+        {
+          "name": "이미지_0949.jpg",
+          "sha256": "e91aff54dedaaedf3f11c60f448e4e5e45915caae838072045058354237b939d"
+        }
+      ]
+    },
+    {
+      "route": "/교육정보/수능후일정과생활/",
+      "sourceTitle": "수능 직후, 학습 격차가 가장 크게 벌어지는 때 누군가는 도약하고 누군가는 정체합니다",
+      "sourceFingerprint": "df34ae1787839bd159baa9fc0783eeb5cf339b421bfa17f1ffd849788a343ccc",
+      "sourceFiles": [
+        {
+          "name": "원고.txt",
+          "sha256": "867cb78f8dd54cd35343a2679ebfcea7f61394fc2ddcee7b06259f109fd46dd0",
+          "encoding": "utf-8-sig"
+        }
+      ],
+      "images": [
+        {
+          "name": "이미지_0999.jpg",
+          "sha256": "8c2b75f334b44d689899e8390fead2fc5e1745a983b3bd742852332fb95b40b2"
+        },
+        {
+          "name": "이미지_0689.jpg",
+          "sha256": "c6341e1167f3395877068084d3d0569f106c1321d4950ebf73f46bfb5a1fa4f3"
+        },
+        {
+          "name": "이미지_0721.jpg",
+          "sha256": "76fd0c20e6fa748e01951d63bbf6505536e6a00f3f83eb2cf6600562c52b6374"
+        }
+      ]
+    },
+    {
+      "route": "/교육정보/시험주간날짜별교대표/",
+      "sourceTitle": "기말고사 시간 관리 전략 지금부터 관리하세요",
+      "sourceFingerprint": "83cbc568f9740f8950802d80fa31211eb9d8d3762b0bbd61d5117c754da88870",
+      "sourceFiles": [
+        {
+          "name": "원고.txt",
+          "sha256": "b7d7bd73d4201bb303d9b24da4cf943acf0e0d8f9b518883b41cf8fcaf383368",
+          "encoding": "utf-8-sig"
+        }
+      ],
+      "images": [
+        {
+          "name": "이미지_0253.png",
+          "sha256": "39d3e9fb5ee09bfcfdfa58319a6a3073eb250fe309f45be10826dfcdbacb5fd8"
+        },
+        {
+          "name": "이미지_1038.jpg",
+          "sha256": "229103109be80430d5ab24e172a0ee090d02fe9dace472102bbef512da5c45f2"
+        },
+        {
+          "name": "이미지_0099.png",
+          "sha256": "960dcd644e482d01240dd83fa36406bd7aac37beef994aff9daaa6dce6e72968"
+        }
+      ]
+    },
+    {
+      "route": "/교육정보/방학수업등록질문표/",
+      "sourceTitle": "여름방학 학원 등록 전 체크리스트 미리 확인해요",
+      "sourceFingerprint": "6369e6691b9db82f4546432ac0ef231e3a60eb442a8d639c0005ca2577cecb60",
+      "sourceFiles": [
+        {
+          "name": "원고.txt",
+          "sha256": "0c0c94da20d15e378c66542b917b4cd9faf4ec24ff55faa811c7e5c720c045a9",
+          "encoding": "utf-8-sig"
+        }
+      ],
+      "images": [
+        {
+          "name": "이미지_0339.jpg",
+          "sha256": "1692194f5c19677680761349615422a7eb894f292d85444ad665e40e2f0d6d9d"
+        },
+        {
+          "name": "이미지_0879.jpg",
+          "sha256": "b78becb9cd180389a6f416c15fdd26b37ee0802efbe8e3c23299da68aca293e7"
+        },
+        {
+          "name": "이미지_0089.jpg",
+          "sha256": "b913cceb55542a7aa63303f5f0e5d8e6240a1ca1bdb78f7d3421656815a68d60"
+        }
+      ]
+    },
+    {
+      "route": "/교육정보/학습계획난도조정/",
+      "sourceTitle": "개인별 맞춤 학습 플랜 관리 효율적인 학습 가능해요",
+      "sourceFingerprint": "0b10b129d81e0bfa4892489414be6ea226a350b9bbae06854994bb9f67396027",
+      "sourceFiles": [
+        {
+          "name": "원고.txt",
+          "sha256": "237be108c308ed31f89320d7eade835028eb802be10b50a8a7863059e9b401fc",
+          "encoding": "utf-8-sig"
+        }
+      ],
+      "images": [
+        {
+          "name": "이미지_0246.jpg",
+          "sha256": "6659213582e5d30e9d3be4c3c277fd0c9affab06a66fe661b43bf1d2f6fd4aaa"
+        },
+        {
+          "name": "이미지_0431.jpg",
+          "sha256": "f953cc4ca4ce8bbf78f3c56eb9d4a8f38908a32ac45317b9a5cfbd87b69386a4"
+        },
+        {
+          "name": "이미지_1147.jpg",
+          "sha256": "03e590316c8c688dcdf73d9d9399ecb4ebb4fc74b3304a431e574fcba5788159"
+        }
+      ]
+    },
+    {
+      "route": "/교육정보/기말준비완료기준/",
+      "sourceTitle": "기말고사 성적 향상 비법 어렵지 않습니다",
+      "sourceFingerprint": "a7ebba7ac4cb929e15603c810695c85353e83b442f8401434fe97e75780b9896",
+      "sourceFiles": [
+        {
+          "name": "원고.txt",
+          "sha256": "7363d9a65598d70c699af646c0b82b6ab9fe535e3d49f12b0d33510c9e6ec15c",
+          "encoding": "utf-8-sig"
+        }
+      ],
+      "images": [
+        {
+          "name": "이미지_0926.jpg",
+          "sha256": "5918b1ff7f84d0a9b2ea137559f332d88b56c5b7cc5d75f576481cea57ccd600"
+        },
+        {
+          "name": "이미지_0064.jpg",
+          "sha256": "f39aaa14bde14b9642c235d2e9068994e87f7e441518ee49dfc78c7e0ada9842"
+        },
+        {
+          "name": "이미지_0455.jpg",
+          "sha256": "d22fa3a4091b5d3e1b57217f6e77626eccbf7b22200d79a95db44b9e07bf5c73"
+        }
+      ]
+    },
+    {
+      "route": "/교육정보/고등영어기출근거표/",
+      "sourceTitle": "고등 영어 독해 기출 문제 분석 유형을 알아야 정답이 보인다",
+      "sourceFingerprint": "c05277e1ed985c904cc0bf0b973b014a18c90636d06cf943c0d0e330d4f8e1ca",
+      "sourceFiles": [
+        {
+          "name": "원고.txt",
+          "sha256": "8b93970b9240e13fb9ca65ae96435185dc18139c484c9aeac76d0b80e0258456",
+          "encoding": "utf-8-sig"
+        }
+      ],
+      "images": [
+        {
+          "name": "이미지_0958.jpg",
+          "sha256": "731d41e5413124c05e7b894ea76ddc746b5c50c7198ca9cada9b5723ea9ff19a"
+        },
+        {
+          "name": "이미지_0506.jpg",
+          "sha256": "51b34562a3c0daf62ceebef4d7e4a6aad1992096f9d8898521c9e9e43d156a3f"
+        },
+        {
+          "name": "이미지_0041.jpg",
+          "sha256": "c28b79b439adf6eb99574315bd3f6e483a3c1d1c1f65ba71c2114ed165af81ba"
+        }
+      ]
+    },
+    {
+      "route": "/교육정보/국어내신자료연결/",
+      "sourceTitle": "국어 내신 대비 방법 어떻게 하고 계신가요",
+      "sourceFingerprint": "22c585834280c9edd194d05b5083dfc9522a9d8ec5db127b6ea3dcc7c0cf5aaa",
+      "sourceFiles": [
+        {
+          "name": "원고.txt",
+          "sha256": "91127ae0b8affc1ece25bb656df70c83c2324603b2454eea6834c3b27cdee745",
+          "encoding": "utf-8-sig"
+        }
+      ],
+      "images": [
+        {
+          "name": "이미지_0650.jpg",
+          "sha256": "5f794a6b250d211209a51bf52b65b41cedfcdc25e866e8b55a5feadbfde6e3a8"
+        },
+        {
+          "name": "이미지_0330.jpg",
+          "sha256": "4a4c3f36a997c79a7e1d0339618d3571936c1282172e4a198ac37945d5be3d42"
+        },
+        {
+          "name": "이미지_1033.jpg",
+          "sha256": "5e8d676b0a11644d7a0dc6790cae1595f7304b31552871fcd96e7fa55b7d7b92"
+        }
+      ]
+    },
+    {
+      "route": "/교육정보/새학년예습범위종료/",
+      "sourceTitle": "신학기 전 초-중-고 연계학습 어디까지 해야 할까 고민 해결하기",
+      "sourceFingerprint": "865853fbe4fb6eca5ccaef0a17e8d82a91d81e5c11ba7de9a57678f33fcfbeed",
+      "sourceFiles": [
+        {
+          "name": "원고.txt",
+          "sha256": "64b56426f45d231b70a3394c5ec0dcca8d822fd40206abd0aedd8b0f6580f18f",
+          "encoding": "utf-8-sig"
+        }
+      ],
+      "images": [
+        {
+          "name": "이미지_0929.jpg",
+          "sha256": "26e8c757cbb8aa62469b0ee1fbc32c4d307b67002d91b0740f09579e4d81b199"
+        },
+        {
+          "name": "이미지_1047.jpg",
+          "sha256": "41cc7ff291c33552cfdfeac0411e2d51f242a9fddf3b1ffe5bb38c0ece42c688"
+        },
+        {
+          "name": "이미지_0515.jpg",
+          "sha256": "fafc8c2e2ef0f33c856db2a520aa532dc87a1396f3b090f0dc0ede0be6982b65"
+        }
+      ]
+    },
+    {
+      "route": "/교육정보/바쁜날최소플래너/",
+      "sourceTitle": "학생 맞춤형 플래너 작성법 자세히 알아봐요",
+      "sourceFingerprint": "5200a096b5cbb861b060e22f15947e6bdcef139d17c2cddbd406b6c58a59b058",
+      "sourceFiles": [
+        {
+          "name": "원고.txt",
+          "sha256": "a9d3190cfe9ffb55d97266cd6c92f685911937efe04ca644102b3255fb66bbf5",
+          "encoding": "utf-8-sig"
+        }
+      ],
+      "images": [
+        {
+          "name": "이미지_1023.jpg",
+          "sha256": "5246fcb2e27094a9360e13a5def70375eef798bfcd8a4075ef35bf223990353e"
+        },
+        {
+          "name": "이미지_0305.jpg",
+          "sha256": "6011816aae051701e42ff7cb68235c2174022639772ca8ef06f7e4bd46da50bd"
+        },
+        {
+          "name": "이미지_0920.jpg",
+          "sha256": "5917d6f82cd70f6b7415788abbb70b3c45c0f57612d760d3fcd82da624b21a29"
+        }
+      ]
+    },
+    {
+      "route": "/교육정보/영어어휘문장사용/",
+      "sourceTitle": "영어 과목을 위한 어휘 학습 및 사용법 자연스럽게 활용해요",
+      "sourceFingerprint": "b637422c407a867714cbb4f61d67126659ba1c0fe065efff20b1a84e952970d8",
+      "sourceFiles": [
+        {
+          "name": "원고.txt",
+          "sha256": "d1cec836e805b44920a9b2497e477b4d849aa687abea4855a74233f85da8d067",
+          "encoding": "utf-8-sig"
+        }
+      ],
+      "images": [
+        {
+          "name": "이미지_0551.jpg",
+          "sha256": "efdd9d43b9badff7629dec4b832a4de1001e865fd95506fc22482deb1edf60ca"
+        },
+        {
+          "name": "이미지_0990.jpg",
+          "sha256": "d212d6a89ab85b431fdce0a6eb34aece4a33b605a89489e1bb4dfd986483d8f8"
+        },
+        {
+          "name": "이미지_0036.jpg",
+          "sha256": "ecaec61d108d22d49f1196299a4907063764f74ac41d86e9f0a87b530a00a4f9"
+        }
+      ]
+    },
+    {
+      "route": "/교육정보/국어기말후근거보관/",
+      "sourceTitle": "고등학교 국어 기말고사 후 핵심 정리 효과적인 복습 방법 추천",
+      "sourceFingerprint": "cc5d32c651730e69380aa85db02216eb77870032d2a0686191fc96376cf955b0",
+      "sourceFiles": [
+        {
+          "name": "원고.txt",
+          "sha256": "e2fe3aa8d75de308eec6a29a9f7e1365b7f8f52657f720c4931c9b03677e1af4",
+          "encoding": "utf-8-sig"
+        }
+      ],
+      "images": [
+        {
+          "name": "이미지_0558.jpg",
+          "sha256": "25e13d58fd144ce1ec7c6f099501cec8e0859ba8e61b0404685339aecf81e7cf"
+        },
+        {
+          "name": "이미지_1117.jpg",
+          "sha256": "20af002ad60de4cf83d46a9925441044d231f69e7a913ab35f693c50d7e0d998"
+        },
+        {
+          "name": "이미지_0389.jpg",
+          "sha256": "b875ec573db58e4b90a4856e6e557785d862ab37fa88042ec6ac74703a109145"
+        }
+      ]
+    },
+    {
+      "route": "/교육정보/개학전준비물과첫과제/",
+      "sourceTitle": "방학 동안 공부 흐트러진 아이 개학 전 점검법 이렇게 해보세요",
+      "sourceFingerprint": "96c617170ad5313ddc7044f8424b0f22897db44c1745ee2195a133b50e5f9846",
+      "sourceFiles": [
+        {
+          "name": "원고.txt",
+          "sha256": "a52395429382ca95d8721bf324f5fe8119c7d84669859c10943659b837db9084",
+          "encoding": "utf-8-sig"
+        }
+      ],
+      "images": [
+        {
+          "name": "이미지_0635.jpg",
+          "sha256": "f31bd56c843a010a7337bdffa7664260247182df3863f6245080d233bd0b7b9e"
+        },
+        {
+          "name": "이미지_0346.jpg",
+          "sha256": "df5e0445fdc958c95b90a1112f2cb41acce0a4389264f49cf12ce00bb4881979"
+        },
+        {
+          "name": "이미지_0209.jpg",
+          "sha256": "57b30d54a3932418ebd74c30d6863a8f7a18fe577f005c90a5195a9ed70592eb"
+        }
+      ]
+    },
+    {
+      "route": "/교육정보/집중끊기는과제환경/",
+      "sourceTitle": "2학기 공부 집중력 향상 비법 미리 알아봐요",
+      "sourceFingerprint": "a034753ffdcefd55c70949c416ceadb4f6912609ab6c247f9d6e6c5004deeb4f",
+      "sourceFiles": [
+        {
+          "name": "원고.txt",
+          "sha256": "a2934691b8d56b8114a033e0d695b9af4e81e94d558dc38f2d20f2d4eeb64099",
+          "encoding": "utf-8-sig"
+        }
+      ],
+      "images": [
+        {
+          "name": "이미지_0640.jpg",
+          "sha256": "0adc007c166f1070c34403986c0af939adff420aad58246e94285fb8ccf19bb9"
+        },
+        {
+          "name": "이미지_0144.jpg",
+          "sha256": "5b5979b899c2fed964a4f63a95a6e82cd444631470bed60cee2ab2df2639fabc"
+        },
+        {
+          "name": "이미지_0002.jpg",
+          "sha256": "7ffeac9e1ae6aae2e2908a8fc321c21bd5895e9611563aa0fec0faab2e6d8ab3"
+        }
+      ]
+    },
+    {
+      "route": "/교육정보/중간고사시작역산질문/",
+      "sourceTitle": "중간고사 준비 언제부터 시작해야 할까 막막하다면 참고하세요",
+      "sourceFingerprint": "1daa81c67774927a734a896f96d42c0fe455eae5a47d4a1d1e1bc3b63f1ac041",
+      "sourceFiles": [
+        {
+          "name": "원고.txt",
+          "sha256": "ef66337b77f5854de8cb9456d58c5e64d5559f5b32c570958ed6b227ff7e0a7a",
+          "encoding": "utf-8-sig"
+        }
+      ],
+      "images": [
+        {
+          "name": "이미지_0569.jpg",
+          "sha256": "b42c1e89142c26aedeceede56bd1802b8daadd4a249ba85bf304675417665d83"
+        },
+        {
+          "name": "이미지_0707.jpg",
+          "sha256": "cb39ab2557ce40f442178ec4401d835ea73b2ec32ad7fc9e597e29485fe8478b"
+        },
+        {
+          "name": "이미지_0097.png",
+          "sha256": "4fec715f54018103b5fe99dbb616239a5c07033c77b7e36b73cb8fa4730f6092"
+        }
+      ]
+    },
+    {
+      "route": "/교육정보/과목연결한장탐구/",
+      "sourceTitle": "과목 간 연계학습 방법 과목별로 알아보자",
+      "sourceFingerprint": "8dbcf7ea440e6dfc059ecc5e0da60cfe1876d91d325b9de4465babd1b0ca50a5",
+      "sourceFiles": [
+        {
+          "name": "원고.txt",
+          "sha256": "2bd37d7eb3c1840a81eb5fcfdf53e2f6b523ef001268592fc8888787636d7764",
+          "encoding": "utf-8-sig"
+        }
+      ],
+      "images": [
+        {
+          "name": "이미지_0902.jpg",
+          "sha256": "7b06860d97b16250f6e481fb4a1c8b432d38bb16ea47257235a18a2f0c8ed29f"
+        },
+        {
+          "name": "이미지_0220.jpg",
+          "sha256": "6635970099118f9c0f8a8cd9e020b020e7183540e0356213f30e22c2e70f9363"
+        },
+        {
+          "name": "이미지_1136.jpg",
+          "sha256": "9db021cd8d8f4a21d4ba9695b4b00f61d1feb4568583a4468775fd36c579d948"
+        }
+      ]
+    },
+    {
+      "route": "/교육정보/개학후점수비교조건/",
+      "sourceTitle": "개학하자마자 성적 떨어지는 이유 무엇일까요",
+      "sourceFingerprint": "695a4384b34655de807f12b75feee64d2aa8b6309c2a1115e08cb8189e3171c5",
+      "sourceFiles": [
+        {
+          "name": "원고.txt",
+          "sha256": "19987b04e3a7caece2bada57f81fa6009e59997ef78242363537961909bc524b",
+          "encoding": "utf-8-sig"
+        }
+      ],
+      "images": [
+        {
+          "name": "이미지_0114.jpg",
+          "sha256": "9f325931e21127bff5dd3bbe1c8300dd1ee3c054d94e6b79b53ab711bb038dab"
+        },
+        {
+          "name": "이미지_0172.jpg",
+          "sha256": "4b838bb9d9a48f2d2440c05162639b83fa9d9545679d400554dc3c4b08a33181"
+        },
+        {
+          "name": "이미지_0271.jpg",
+          "sha256": "fe706f82fe83a4c84beaa5ec83b038e7e6b3176a7d71f8b3475fc85c55ab8794"
+        }
+      ]
+    },
+    {
+      "route": "/교육정보/공부사이움직임휴식/",
+      "sourceTitle": "공부 후 스트레칭 중요성 습관이 중요합니다",
+      "sourceFingerprint": "ce0719c9f9e7f3c5a9d29dd7538d627812d243a1366258e9bb5cf1fe0de56b4c",
+      "sourceFiles": [
+        {
+          "name": "원고.txt",
+          "sha256": "d875448f967bb494285ea29e288af98b623a3f0a1d559ea02e0ca4fb6303b062",
+          "encoding": "utf-8-sig"
+        }
+      ],
+      "images": [
+        {
+          "name": "이미지_0498.jpg",
+          "sha256": "10ede7336e926f0f2cbb9be87feacf54a2cd901c4ff5adc88f58559beab48ea1"
+        },
+        {
+          "name": "이미지_1091.jpg",
+          "sha256": "ea53144163ea47b4aacff0b74075b3ee6b79ecd75c35e17ba7f25d3b45cd0b70"
+        },
+        {
+          "name": "이미지_0546.jpg",
+          "sha256": "bfc199d57ab2ea2ab09381d4d81f73de8911eba877b9b3a09887ad62274bb507"
+        }
+      ]
+    },
+    {
+      "route": "/교육정보/숙제와복습연결순서/",
+      "sourceTitle": "학원에서 배운 내용 복습 방법 구체적인 팁을 알려드릴게요",
+      "sourceFingerprint": "09eb2aa24e74a5fa7c11ff86e33d712646cb874af73edd061b29b03b5c28c9a3",
+      "sourceFiles": [
+        {
+          "name": "원고.txt",
+          "sha256": "af6cd09608332cc8a1cbbebe8718c14d3cecb99e9d8b1ffa992c9bc1288e4064",
+          "encoding": "utf-8-sig"
+        }
+      ],
+      "images": [
+        {
+          "name": "이미지_0900.jpg",
+          "sha256": "777325351ef3e5c98873b3b8b209c4ba2e7f85eabd92734043f1b5a1e53bf07b"
+        },
+        {
+          "name": "이미지_0340.jpg",
+          "sha256": "63b407ad0dc029818dac693b1fb3568231b77c8774c9a7a7a9153581676f6f68"
+        },
+        {
+          "name": "이미지_0266.jpg",
+          "sha256": "ee1f59d92dc4cee263a0e2e1b47be9c11668d923b3ebb9ae064cb00e2efcf3a3"
+        }
+      ]
+    }
+  ]
+}

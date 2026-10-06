@@ -10,9 +10,10 @@ import build_education_info as view
 def main():
  ap=argparse.ArgumentParser();ap.add_argument('--audit',type=Path,required=True);a=ap.parse_args();out=a.audit;root=view.ROOT
  load=view.load;data=load(root/'education-info-data.json');audit=load(out/'upgrade-audit.json');baseline=load(out/'before-release-public-manifest.json');old=load(out/'before-education-info-data.json');selection=load(out/'source-selection.json')
- fresh=[x for x in data['articles'] if x.get('expansionIndex')];assert len(fresh)==30 and len(data['articles'])==60
- assert len(set(x['route'] for x in data['articles']))==60
- assert [x for x in data['articles'] if not x.get('expansionIndex')]==old['articles'],'Previously published article records changed'
+ routes=set(audit['newRoutes']);fresh=[x for x in data['articles'] if x['route'] in routes]
+ assert len(fresh)==30 and len(data['articles'])==len(old['articles'])+30
+ assert len(set(x['route'] for x in data['articles']))==len(data['articles'])
+ assert [x for x in data['articles'] if x['route'] not in routes]==old['articles'],'Previously published article records changed'
  descendants={n for n in baseline['files'] if n.startswith(('지점안내/','전국센터/','과목별학원/')) and n.endswith('.html')}
  linked={x['file'] for x in data['existingPages'] if x['module']}
  assert descendants<=linked, sorted(descendants-linked)[:5]
@@ -64,11 +65,12 @@ def main():
    else:destination(href)
    links_checked+=1
   own=' '.join(p for _,p in article['sections']);new_text.append(own)
-  manuscript=selection['pages'][article['expansionIndex']-1]['text'];source=re.sub(r'\s+','',manuscript);rewrite=re.sub(r'\s+','',own)
+  selected=next(p for p in selection['pages'] if p['sourceTitle']==article['sourceTitle'])
+  manuscript=selected['text'];source=re.sub(r'\s+','',manuscript);rewrite=re.sub(r'\s+','',own)
   match=SequenceMatcher(None,source,rewrite,autojunk=False).find_longest_match();assert match.size<100,(article['title'],'long unrewritten source passage',match.size)
   assert article['title']!=article['sourceTitle']
  assert len(set(descs))==30
- hub=html.fromstring((root/'교육정보/index.html').read_text(encoding='utf-8'));assert len(hub.xpath('//*[@data-education-card]'))==60
+ hub=html.fromstring((root/'교육정보/index.html').read_text(encoding='utf-8'));assert len(hub.xpath('//*[@data-education-card]'))==len(data['articles'])
  ns={'s':'http://www.sitemaps.org/schemas/sitemap/0.9'};tree=etree.parse(str(root/'sitemap.xml'));locations=tree.xpath('//s:loc/text()',namespaces=ns);assert len(locations)==len(set(locations))==baseline['sitemapPages']+30
  for article in data['articles']:assert view.ui.url(article['route']) in locations
  rss=etree.parse(str(root/'rss.xml'));rsslinks=rss.xpath('//item/link/text()');assert len(rsslinks)==len(set(rsslinks))
@@ -94,6 +96,6 @@ def main():
    if ratio>.12:duplicate_pairs.append([article['slug'],label,ratio])
   comparison.append((article['slug'],new_text[index]))
  assert not duplicate_pairs,duplicate_pairs
- result={'articles':60,'newArticles':30,'protectedFilesUnchanged':preserved,'boundedHtmlUpdates':bounded,'localDestinationsCovered':len(descendants),'newArticleLinksChecked':links_checked,'newImageBytes':total_bytes,'articleDescriptionsUnique':True,'sitemapPages':len(locations),'allNewArticlesHaveContextLinks':True,'nearDuplicatePairs':duplicate_pairs}
+ result={'articles':len(data['articles']),'newArticles':30,'protectedFilesUnchanged':preserved,'boundedHtmlUpdates':bounded,'localDestinationsCovered':len(descendants),'newArticleLinksChecked':links_checked,'newImageBytes':total_bytes,'articleDescriptionsUnique':True,'sitemapPages':len(locations),'allNewArticlesHaveContextLinks':True,'nearDuplicatePairs':duplicate_pairs}
  view.save(out/'validation.json',result);print(json.dumps(result,ensure_ascii=False))
 if __name__=='__main__':main()
