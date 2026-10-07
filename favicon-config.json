@@ -1,0 +1,9 @@
+{
+  "domain": "전국수업.com",
+  "outputDirectory": ".public-release",
+  "previousBuildCommand": "node release-public-build.mjs && node wawa-analytics-build.mjs wawa-07 .public-release && node seo-descriptions.mjs --root=.public-release",
+  "assets": {
+    "assets/site-favicon.png": "9df0dd6dce41538a437ea0a927696c1d6d1067825256b470ca2a0b9c53916bac",
+    "assets/site-apple-touch-icon.png": "db59c59f5ef1708b52da976d76b947cea3f6b70d92234c98747088691acef607"
+  }
+}

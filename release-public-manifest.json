@@ -3,6 +3,8 @@
   "createdAt": "2026-10-06T20:37:53.281516+00:00",
   "sitemapPages": 7390,
   "files": {
+    "assets/site-favicon.png": "9df0dd6dce41538a437ea0a927696c1d6d1067825256b470ca2a0b9c53916bac",
+    "assets/site-apple-touch-icon.png": "db59c59f5ef1708b52da976d76b947cea3f6b70d92234c98747088691acef607",
     "assets/area-facts.css": "529ec1e7b0a3258f2b04a4dcd66f8624278174c8aa165f62fa921ba68462aefb",
     "assets/book-library.css": "30800384f67fca8821999185351a9a661ff854b487ed463f1f728d0fefa811e8",
     "assets/book-library.js": "c99156a37a8e442cd895b888c3037d16aeaef0ec4d4f9b9333b4f0713dfc684a",

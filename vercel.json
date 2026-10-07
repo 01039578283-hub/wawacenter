@@ -1,5 +1,5 @@
 {
-  "buildCommand": "node release-public-build.mjs && node wawa-analytics-build.mjs wawa-07 .public-release && node seo-descriptions.mjs --root=.public-release",
+  "buildCommand": "node favicon-build.mjs",
   "outputDirectory": ".public-release",
   "redirects": [
     {
