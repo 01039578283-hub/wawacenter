@@ -1,0 +1,6 @@
+/* Only branch detail photographs; preserve the complete photo without cropping. */
+.branch-representative-section{max-width:1120px;margin:48px auto;padding:24px 20px;background:#fff;border:1px solid #e3e8ee;border-radius:18px;color:#203348}
+.branch-representative-section h2{font-size:clamp(1.25rem,3.5vw,1.7rem);margin:0 0 12px}.branch-representative-section p{line-height:1.8}
+.branch-representative-section figure{margin:20px 0 0;max-width:900px}.branch-representative-section a{display:block}.branch-representative-section figcaption{font-size:.9rem;line-height:1.7;margin-top:10px;color:#58677a}
+img[data-branch-representative]{display:block!important;max-width:100%;width:100%;height:auto!important;aspect-ratio:auto;object-fit:contain!important;border-radius:12px}
+@media(max-width:600px){.branch-representative-section{margin:32px 16px;padding:20px 16px}}
