@@ -1,0 +1,16 @@
+/* Reading groups use existing site colours; original media is untouched. */
+.sc-topic-group{margin-top:32px}
+.sc-topic-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px;align-items:start}
+.sc-topic-grid>.sd-editorial{margin:0;padding:24px;background:#fff;border:1px solid #dbe4e9;border-radius:16px;min-width:0}
+.sc-topic-grid h3{font-size:20px;line-height:1.55;margin:0 0 14px;color:#263e51}
+.sc-topic-grid h4{font-size:16px;line-height:1.65;margin:0 0 8px;color:#304d61}
+.sc-topic-grid p,.sc-record-list dd,.sc-branch-prep li{font-size:16px;line-height:1.85;overflow-wrap:anywhere}
+.sc-topic-grid [id]{scroll-margin-top:130px}
+.sc-record-list{margin:16px 0}
+.sc-record-list>div{padding:16px 0;border-top:1px solid #dbe4e9}
+.sc-record-list dt{font-weight:700;color:#304d61;margin-bottom:6px}
+.sc-record-list dd{margin:0}
+.sc-course-note,.sc-branch-prep{margin-top:22px;padding:22px;border-radius:14px;background:#f2f6f8;color:#30465a}
+.sc-course-note p:last-child,.sc-branch-prep p:last-child{margin-bottom:0}
+.sc-branch-prep a{text-decoration:underline;text-underline-offset:4px}
+@media(max-width:700px){.sc-topic-grid{grid-template-columns:1fr;gap:14px}.sc-topic-grid>.sd-editorial{padding:20px}.sc-course-note,.sc-branch-prep{padding:20px}.sc-topic-grid h3{font-size:19px}}

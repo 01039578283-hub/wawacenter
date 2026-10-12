@@ -22,6 +22,7 @@ import {assertCurriculum} from './curriculum-check.mjs';
 import {assertHomeAccess} from './home-access-check.mjs';
 import {assertCrawlReadability} from './crawl-readability-check.mjs';
 import {assertBranchRepresentative} from './branch-representative-check.mjs';
+import {assertSearchContent} from './search-content-check.mjs';
 const root=path.dirname(fileURLToPath(import.meta.url));
 const output=path.join(root,'.public-release');
 const manifest=JSON.parse(fs.readFileSync(path.join(root,'release-public-manifest.json'),'utf8'));
@@ -78,6 +79,7 @@ await Promise.all(Array.from({length:12},async()=>{
       assertHomeAccess(html,name);
       assertCrawlReadability(html,name);
       assertBranchRepresentative(html,name);
+      assertSearchContent(html,name);
     }
     await fs.promises.mkdir(path.dirname(dest),{recursive:true});
     await fs.promises.writeFile(dest,bytes);

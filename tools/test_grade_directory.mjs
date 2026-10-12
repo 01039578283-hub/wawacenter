@@ -23,8 +23,11 @@ test('rejects losing a branch child page',()=>{
 test('every moved grade URL redirects once to an existing actual branch child',()=>{
  const data=JSON.parse(fs.readFileSync(new URL('../grade-directory-data.json',import.meta.url),'utf8'));
  const config=JSON.parse(fs.readFileSync(new URL('../vercel.json',import.meta.url),'utf8'));
- assert.equal(config.redirects.length,747);
- const compiled=config.redirects.map(rule=>({rule,re:new RegExp('^'+rule.source.replace(/:([a-z]+)\(([^()]*)\)/g,'(?<$1>$2)')+'$')}));
+ // Teacher and favicon redirects have independent responsibilities. Count only
+ // the branch/grade migration rules, then still resolve every historical URL.
+ const gradeRules=config.redirects.filter(rule=>decodeURIComponent(rule.source).startsWith('/지점안내/'));
+ assert.equal(gradeRules.length,747);
+ const compiled=gradeRules.map(rule=>({rule,re:new RegExp('^'+rule.source.replace(/:([a-z]+)\(([^()]*)\)/g,'(?<$1>$2)')+'$')}));
  const resolve=route=>{
    const found=compiled.filter(c=>c.re.test(encodeURI(route)));
    assert.equal(found.length,1,route);
