@@ -2102,8 +2102,8 @@
       "name": "노형점",
       "region": "제주",
       "district": "제주시",
-      "address": "제주특별자치도 제주시 노형동 727-3 대안빌딩 3층",
-      "addressPending": true,
+      "address": "제주특별자치도 제주시 과원북4길 27 2층",
+      "addressPending": false,
       "areas": [
         "노형동",
         "연동"

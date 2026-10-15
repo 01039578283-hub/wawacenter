@@ -38,6 +38,7 @@ export function assertKakaoDirections(html,name){
  if(!before.endsWith('<!-- branch-map:end -->')&&!/<section\b[^>]*\bimage-first-location\b[^>]*>[\s\S]*?<\/section>$/.test(before))fail('must follow existing map section');
  const end='<!-- kakao-directions:end -->';
  const block=html.slice(start,html.indexOf(end)+end.length);
+ if(!block.includes('<strong>'+esc(b.name)+' 방문 주소</strong>'+esc(b.address)))fail('confirmed visiting address differs');
  for(const token of ['id="directions"','id="directions-title"','data-kakao-branch="'+esc(b.name)+'"','src="'+b.frame+'"','loading="lazy"','height="400"','sandbox="allow-scripts"'])if(count(block,token)!==1)fail('missing or duplicated '+token);
  if(/<a\b|<button\b|<input\b|전화|tel:|로드뷰|길찾기|지도 크게/.test(block))fail('map section has forbidden action or phone');
  if(/\bhidden\b|display\s*:\s*none|visibility\s*:\s*hidden/.test(block))fail('directions must remain visible');

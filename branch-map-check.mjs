@@ -11,13 +11,13 @@ for (const p of [...gradeData.pages, ...subjectData.pages]) expected.set(p.route
 export function assertBranchMap(html, name) {
   const fail = reason => { throw Error(`${reason}: ${name}`); };
   let page = expected.get(name);
+  let legacyImageFirst = false;
   if (!page) {
     const parts = name.split('/');
     const legacy = (parts[0] === '과목별학원' && parts.length === 4) || (parts[0] === '전국센터' && [3, 4].includes(parts.length));
     if (!legacy || !name.endsWith('index.html')) return;
     if (!html.includes('<!-- branch-map:start -->')) {
-      if (!/<img\b[^>]*src="[^"]*assets\/maps\//.test(html)) fail('Legacy lesson page lacks its center map');
-      return;
+      legacyImageFirst = true;
     }
     const area = parts[parts[0] === '과목별학원' ? 2 : 1];
     page = {area, branch: maps.areas[area]?.branch};
@@ -25,10 +25,12 @@ export function assertBranchMap(html, name) {
   const entry = maps.areas[page.area];
   if (!entry || entry.branch !== page.branch) fail('Map neighborhood and branch disagree');
   const mapImages = [...html.matchAll(/<img\b[^>]*src="([^"]*assets\/maps\/[^\"]+)"[^>]*>/g)];
-  if (mapImages.length !== 1 || mapImages[0][1] !== entry.image.src) fail('Expected the matching single center map');
-  const section = html.match(/<section\b[^>]*id="lesson-image"[^>]*>[\s\S]*?<\/section>/);
-  if (!section || !html.slice(section.index + section[0].length).startsWith('<!-- branch-map:start -->')) fail('Map must immediately follow the full lesson image');
+  const resolved = mapImages.length === 1 ? decodeURIComponent(new URL(mapImages[0][1], 'https://example.invalid/'+name).pathname) : '';
+  if (mapImages.length !== 1 || resolved !== entry.image.src) fail('Expected the matching single center map');
   const tag = mapImages[0][0];
   if (!tag.includes(`width="${entry.image.width}" height="${entry.image.height}"`) || !tag.includes('loading="lazy"') || !tag.includes('alt="')) fail('Map dimensions, loading or text alternative missing');
+  if (legacyImageFirst) return;
+  const section = html.match(/<section\b[^>]*id="lesson-image"[^>]*>[\s\S]*?<\/section>/);
+  if (!section || !html.slice(section.index + section[0].length).startsWith('<!-- branch-map:start -->')) fail('Map must immediately follow the full lesson image');
   if (!html.includes('href="#center-map"') || !html.includes('id="center-map"')) fail('Map shortcut missing');
 }

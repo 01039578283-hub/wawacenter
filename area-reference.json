@@ -9,10 +9,7 @@
     "missingSourceAreas": [
       "화성태안"
     ],
-    "pendingAddresses": [
-      "노형동",
-      "연동"
-    ],
+    "pendingAddresses": [],
     "blankSubjectAreaCounts": {
       "국어": 69,
       "영어": 8,
@@ -35878,9 +35875,9 @@
       "region": "제주",
       "district": "제주시",
       "branch": "와와학습코칭센터 노형점",
-      "address": "제주특별자치도 제주시 노형동 727-3 대안빌딩 3층",
-      "latestAddress": "제주시 과원북4길 27, 2층(노형동)",
-      "addressStatus": "주소 재확인 필요",
+      "address": "제주특별자치도 제주시 과원북4길 27 2층",
+      "latestAddress": "제주특별자치도 제주시 과원북4길 27 2층",
+      "addressStatus": "사용자 확인",
       "registration": "제주시교육지원청 등록 제2163호",
       "feeUrl": "https://drive.google.com/file/d/1MeZkzMvXXa1Pe1Pi-U8_CtXgbKphECL1/view?usp=sharing",
       "grades": {
@@ -35944,7 +35941,8 @@
       "branchAreas": [
         "노형동",
         "연동"
-      ]
+      ],
+      "addressConfirmedAt": "2026-10-16"
     },
     {
       "slug": "연동",
@@ -35952,9 +35950,9 @@
       "region": "제주",
       "district": "제주시",
       "branch": "와와학습코칭센터 노형점",
-      "address": "제주특별자치도 제주시 노형동 727-3 대안빌딩 3층",
-      "latestAddress": "제주시 과원북4길 27, 2층(노형동)",
-      "addressStatus": "주소 재확인 필요",
+      "address": "제주특별자치도 제주시 과원북4길 27 2층",
+      "latestAddress": "제주특별자치도 제주시 과원북4길 27 2층",
+      "addressStatus": "사용자 확인",
       "registration": "제주시교육지원청 등록 제2163호",
       "feeUrl": "https://drive.google.com/file/d/1MeZkzMvXXa1Pe1Pi-U8_CtXgbKphECL1/view?usp=sharing",
       "grades": {
@@ -36014,7 +36012,8 @@
       "branchAreas": [
         "노형동",
         "연동"
-      ]
+      ],
+      "addressConfirmedAt": "2026-10-16"
     }
   ]
 }
