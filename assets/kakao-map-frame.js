@@ -5,6 +5,7 @@
   if(!root)return;
   const status=document.querySelector('[data-map-status]');
   let lander,lastWidth=0,configured=false;
+  const canDrag=()=>innerWidth>600&&!matchMedia('(pointer:coarse)').matches;
   // These maps are read in place. Marker actions must not open another site.
   window.open=()=>null;
   function tidy(){
@@ -16,7 +17,7 @@
       }
     });
     if(lander?.jsMap && root.querySelector('.roughmap_maker_label')){
-      if(!configured){lander.jsMap.setZoomable(false);lander.jsMap.setDraggable(innerWidth>600);configured=true;}
+      if(!configured){lander.jsMap.setZoomable(false);lander.jsMap.setDraggable(canDrag());configured=true;}
       if([...root.querySelectorAll('.map img')].some(i=>/\/tile\//.test(i.src)&&i.complete&&i.naturalWidth>0))document.body.dataset.mapState='ready';
     }
   }
@@ -29,7 +30,7 @@
   function resize(){
     const width=Math.max(200,Math.floor(document.documentElement.clientWidth));
     if(width===lastWidth)return;lastWidth=width;
-    if(lander?.jsMap){lander.jsMap.relayout();lander.jsMap.setCenter(lander.getMapCenter());lander.jsMap.setDraggable(width>600);}
+    if(lander?.jsMap){lander.jsMap.relayout();lander.jsMap.setCenter(lander.getMapCenter());lander.jsMap.setDraggable(canDrag());}
   }
   function start(){
     if(!window.daum?.roughmap?.Lander){if(status)status.textContent='지도를 불러오지 못했습니다. 아래 주소와 교통정보를 확인해 주세요.';return;}
