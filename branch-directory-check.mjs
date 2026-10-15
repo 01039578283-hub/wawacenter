@@ -21,7 +21,9 @@ export function assertBranchDirectory(html,name){
   const schema=graph.find(n=>n['@type']==='FAQPage');
   if(JSON.stringify(visible)!==JSON.stringify((schema?.mainEntity||[]).map(n=>({q:n.name,a:n.acceptedAnswer.text}))))fail('Visible answers and FAQ schema disagree');
   if(/"@type"\s*:\s*"(?:Offer|Review|AggregateRating)"/.test(html))fail('Unverified pricing or review schema');
-  if(/<iframe\b/i.test(html))fail('Video must load only after a visitor requests playback');
+  for(const [frame] of html.matchAll(/<iframe\b[^>]*>/gi)){
+    if(!/class="kd-map"/.test(frame)||! /src="\/assets\/kakao-maps\/k-[a-z0-9]+\.htm"/.test(frame)||!frame.includes('loading="lazy"')||!frame.includes('sandbox="allow-scripts"'))fail('Video must load only after a visitor requests playback; only reviewed lazy map frames are allowed');
+  }
   const b=branches.get(name);if(!b)return;
   if(!html.includes(esc(b.address))||!html.includes(esc(b.registration)))fail('Branch address or registration missing');
   if(!html.includes(`href="${esc(b.feeUrl)}"`))fail('Branch tuition source missing');

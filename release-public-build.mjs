@@ -23,6 +23,7 @@ import {assertHomeAccess} from './home-access-check.mjs';
 import {assertCrawlReadability} from './crawl-readability-check.mjs';
 import {assertBranchRepresentative} from './branch-representative-check.mjs';
 import {assertSearchContent} from './search-content-check.mjs';
+import {assertKakaoDirections,assertKakaoMapFrame} from './kakao-directions-check.mjs';
 const root=path.dirname(fileURLToPath(import.meta.url));
 const output=path.join(root,'.public-release');
 const manifest=JSON.parse(fs.readFileSync(path.join(root,'release-public-manifest.json'),'utf8'));
@@ -33,7 +34,7 @@ function reviewedBytes(bytes,hash,name) {
   if(digest(bytes)===hash)return true;
   // Git converts working-tree CRLF to LF on Linux. Accept only that reversible
   // text-file representation change; binary assets still require exact bytes.
-  if(!/\.(?:html|css|js|mjs|json|xml|txt|svg|webmanifest)$/i.test(name))return false;
+  if(!/\.(?:html?|css|js|mjs|json|xml|txt|svg|webmanifest)$/i.test(name))return false;
   const lf=bytes.toString('utf8').replaceAll('\r\n','\n');
   if(manifest.textSha256?.[name] && digest(Buffer.from(lf))===manifest.textSha256[name])return true;
   return digest(Buffer.from(lf))===hash||digest(Buffer.from(lf.replaceAll('\n','\r\n')))===hash;
@@ -80,7 +81,9 @@ await Promise.all(Array.from({length:12},async()=>{
       assertCrawlReadability(html,name);
       assertBranchRepresentative(html,name);
       assertSearchContent(html,name);
+      assertKakaoDirections(html,name);
     }
+    if(name.startsWith('assets/kakao-maps/')&&name.endsWith('.htm'))assertKakaoMapFrame(bytes.toString('utf8'),name);
     await fs.promises.mkdir(path.dirname(dest),{recursive:true});
     await fs.promises.writeFile(dest,bytes);
   }
