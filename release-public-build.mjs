@@ -24,6 +24,7 @@ import {assertCrawlReadability} from './crawl-readability-check.mjs';
 import {assertBranchRepresentative} from './branch-representative-check.mjs';
 import {assertSearchContent} from './search-content-check.mjs';
 import {assertKakaoDirections,assertKakaoMapFrame} from './kakao-directions-check.mjs';
+import {assertEvidenceContent} from './evidence-content-check.mjs';
 const root=path.dirname(fileURLToPath(import.meta.url));
 const output=path.join(root,'.public-release');
 const manifest=JSON.parse(fs.readFileSync(path.join(root,'release-public-manifest.json'),'utf8'));
@@ -82,6 +83,7 @@ await Promise.all(Array.from({length:12},async()=>{
       assertBranchRepresentative(html,name);
       assertSearchContent(html,name);
       assertKakaoDirections(html,name);
+      assertEvidenceContent(html,name);
     }
     if(name.startsWith('assets/kakao-maps/')&&name.endsWith('.htm'))assertKakaoMapFrame(bytes.toString('utf8'),name);
     await fs.promises.mkdir(path.dirname(dest),{recursive:true});

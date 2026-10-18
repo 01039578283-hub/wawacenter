@@ -25,7 +25,7 @@ export function assertBookLibrary(html,name){
  const page=graph.find(n=>n['@id']===url(p.route)+'#webpage');
  if(!page||page.description!==p.description)fail('Page schema description mismatch');
  const article=graph.find(n=>[n['@type']].flat().includes('Article'));
- if(p.article){if(!article||article.headline!==p.title||article.description!==p.description||article.dateModified!==data.updated)fail('Article metadata mismatch');}
+ if(p.article){if(!article||article.headline!==p.title||article.description!==p.description||article.dateModified!==(p.dateModified||data.updated))fail('Article metadata mismatch');}
  else if(article)fail('Collection mistaken for article');
  const faq=graph.find(n=>n['@type']==='FAQPage');
  if(!faq||faq.mainEntity.length!==p.faqs.length)fail('FAQ inventory mismatch');
